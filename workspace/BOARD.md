@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-24T19:55:14Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-24T20:03:52Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -10,21 +10,22 @@ Nothing right now.
 
 | Game | Title | Stage | Status | Last gate |
 |---|---|---|---|---|
-| stormcatch | Stormcatch (working title) | pitch | active | - |
+| stormcatch | Stormcatch (working title) | pitch | active | pitch fail |
 
 ## Tasks
 
-### Working (1)
+### Working (0)
 
-| Task | Owner | Game | Title | Waiting on |
-|---|---|---|---|---|
-| T-0004 | gatekeeper | stormcatch | Run the Stormcatch pitch gate | - |
 
 ### Needs review (0)
 
 
-### Queued (0)
+### Queued (2)
 
+| Task | Owner | Game | Title | Waiting on |
+|---|---|---|---|---|
+| T-0005 | scout | stormcatch | Fix the two PITCH-01 failures in the pitch | - |
+| T-0006 | gatekeeper | stormcatch | Re-run the pitch gate after the PITCH-01 fix | T-0005 |
 
 ### Draft (needs a brief) (0)
 
@@ -35,6 +36,11 @@ Nothing right now.
 
 ## Recent activity
 
+- 2026-10-24T20:03:52Z director: added T-0006 'Re-run the pitch gate after the PITCH-01 fix' for gatekeeper (queued)
+- 2026-10-24T20:03:52Z director: added T-0005 'Fix the two PITCH-01 failures in the pitch' for scout (queued)
+- 2026-10-24T20:03:19Z director: T-0004 -> done: Gate review accepted: PITCH-01 fail confirmed by the Director (computer vs phone ranks re-read: Deep Fishing, Harpoon a Fish, Fish an Anime RNG, Roll a Fisherman lean computer).
+- 2026-10-24T20:02:29Z gatekeeper: submitted T-0004 for review
+- 2026-10-24T20:01:35Z gatekeeper: gate pitch for stormcatch: fail
 - 2026-10-24T19:55:14Z gatekeeper: started T-0004
 - 2026-10-24T19:54:57Z director: T-0003 -> done: Reviewed: one section per PITCH criterion with pointers, rubric 35/54 arithmetic checked, D1-D6 recorded as the human's, Ride Storm verified in the phone snapshot.
 - 2026-10-24T19:54:19Z scout: submitted T-0003 for review
@@ -45,8 +51,3 @@ Nothing right now.
 - 2026-10-24T19:34:08Z scout: submitted T-0001 for review
 - 2026-10-24T19:24:26Z scout: started T-0001
 - 2026-10-24T19:24:26Z designer: started T-0002
-- 2026-10-24T19:24:06Z director: added T-0004 'Run the Stormcatch pitch gate' for gatekeeper (queued)
-- 2026-10-24T19:24:06Z director: added T-0003 'Write the Stormcatch pitch with the greenlight rubric' for scout (queued)
-- 2026-10-24T19:23:59Z director: added T-0002 'Sketch the core loop and the weather twist' for designer (queued)
-- 2026-10-24T19:23:59Z director: added T-0001 'Scan the fishing and cozy market with fresh charts' for scout (queued)
-- 2026-10-24T19:22:30Z director: created game stormcatch (Stormcatch (working title))

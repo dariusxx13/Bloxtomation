@@ -7,8 +7,8 @@
   },
   "counters": {
     "escalation": 0,
-    "gate": 0,
-    "task": 4
+    "gate": 1,
+    "task": 6
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {},
@@ -29,7 +29,22 @@
       "title": "Stormcatch (working title)"
     }
   },
-  "gates": [],
+  "gates": [
+    {
+      "at": "2026-10-24T20:01:35Z",
+      "build": "",
+      "by": "gatekeeper",
+      "failed": [
+        "PITCH-01"
+      ],
+      "game": "stormcatch",
+      "id": "G-0001",
+      "path": "games/stormcatch/gates/pitch-01.json",
+      "stage": "pitch",
+      "verdict": "fail",
+      "waived": []
+    }
+  ],
   "leases": {},
   "log": [
     {
@@ -111,6 +126,31 @@
       "at": "2026-10-24T19:55:14Z",
       "by": "gatekeeper",
       "message": "started T-0004"
+    },
+    {
+      "at": "2026-10-24T20:01:35Z",
+      "by": "gatekeeper",
+      "message": "gate pitch for stormcatch: fail"
+    },
+    {
+      "at": "2026-10-24T20:02:29Z",
+      "by": "gatekeeper",
+      "message": "submitted T-0004 for review"
+    },
+    {
+      "at": "2026-10-24T20:03:19Z",
+      "by": "director",
+      "message": "T-0004 -> done: Gate review accepted: PITCH-01 fail confirmed by the Director (computer vs phone ranks re-read: Deep Fishing, Harpoon a Fish, Fish an Anime RNG, Roll a Fisherman lean computer)."
+    },
+    {
+      "at": "2026-10-24T20:03:52Z",
+      "by": "director",
+      "message": "added T-0005 'Fix the two PITCH-01 failures in the pitch' for scout (queued)"
+    },
+    {
+      "at": "2026-10-24T20:03:52Z",
+      "by": "director",
+      "message": "added T-0006 'Re-run the pitch gate after the PITCH-01 fix' for gatekeeper (queued)"
     }
   ],
   "tasks": {
@@ -209,15 +249,67 @@
         "PITCH-01",
         "PITCH-08"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0004.md",
       "id": "T-0004",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-24T20:03:19Z",
+          "by": "director",
+          "text": "Gate review accepted: PITCH-01 fail confirmed by the Director (computer vs phone ranks re-read: Deep Fishing, Harpoon a Fish, Fish an Anime RNG, Roll a Fisherman lean computer)."
+        }
+      ],
       "owner": "gatekeeper",
       "stage": "pitch",
       "started": "2026-10-24T19:55:14Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-24T20:02:29Z",
       "title": "Run the Stormcatch pitch gate",
-      "updated": "2026-10-24T19:55:14Z"
+      "updated": "2026-10-24T20:03:19Z"
+    },
+    "T-0005": {
+      "brief": "games/stormcatch/tasks/T-0005.md",
+      "created": "2026-10-24T20:03:52Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "PITCH-01",
+        "PITCH-02",
+        "PITCH-04"
+      ],
+      "handoff": null,
+      "id": "T-0005",
+      "notes": [],
+      "owner": "scout",
+      "stage": "pitch",
+      "status": "queued",
+      "title": "Fix the two PITCH-01 failures in the pitch",
+      "updated": "2026-10-24T20:03:52Z"
+    },
+    "T-0006": {
+      "brief": "games/stormcatch/tasks/T-0006.md",
+      "created": "2026-10-24T20:03:52Z",
+      "deps": [
+        "T-0005"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "PITCH-01",
+        "PITCH-02",
+        "PITCH-03",
+        "PITCH-04",
+        "PITCH-05",
+        "PITCH-06",
+        "PITCH-07",
+        "PITCH-08"
+      ],
+      "handoff": null,
+      "id": "T-0006",
+      "notes": [],
+      "owner": "gatekeeper",
+      "stage": "pitch",
+      "status": "queued",
+      "title": "Re-run the pitch gate after the PITCH-01 fix",
+      "updated": "2026-10-24T20:03:52Z"
     }
   },
   "version": 1
