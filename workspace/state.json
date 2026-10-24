@@ -81,6 +81,21 @@
       "at": "2026-10-24T19:34:54Z",
       "by": "director",
       "message": "T-0001 -> done"
+    },
+    {
+      "at": "2026-10-24T19:39:31Z",
+      "by": "designer",
+      "message": "submitted T-0002 for review"
+    },
+    {
+      "at": "2026-10-24T19:40:05Z",
+      "by": "director",
+      "message": "T-0002 -> done: Reviewed: loop, twist mapped to the scan's not-found column, first session, reuse map, hit sheet 17/20; template claims spot-checked (Upgrades baseCost 15, friend bonus 0.1/0.5, zone 2 pacing 8-16 min)."
+    },
+    {
+      "at": "2026-10-24T19:40:22Z",
+      "by": "scout",
+      "message": "started T-0003"
     }
   ],
   "tasks": {
@@ -116,15 +131,22 @@
         "PITCH-04",
         "PITCH-07"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0002.md",
       "id": "T-0002",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-24T19:40:05Z",
+          "by": "director",
+          "text": "Reviewed: loop, twist mapped to the scan's not-found column, first session, reuse map, hit sheet 17/20; template claims spot-checked (Upgrades baseCost 15, friend bonus 0.1/0.5, zone 2 pacing 8-16 min)."
+        }
+      ],
       "owner": "designer",
       "stage": "pitch",
       "started": "2026-10-24T19:24:26Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-24T19:39:31Z",
       "title": "Sketch the core loop and the weather twist",
-      "updated": "2026-10-24T19:24:26Z"
+      "updated": "2026-10-24T19:40:05Z"
     },
     "T-0003": {
       "brief": "games/stormcatch/tasks/T-0003.md",
@@ -149,9 +171,10 @@
       "notes": [],
       "owner": "scout",
       "stage": "pitch",
-      "status": "queued",
+      "started": "2026-10-24T19:40:22Z",
+      "status": "working",
       "title": "Write the Stormcatch pitch with the greenlight rubric",
-      "updated": "2026-10-24T19:24:06Z"
+      "updated": "2026-10-24T19:40:22Z"
     },
     "T-0004": {
       "brief": "games/stormcatch/tasks/T-0004.md",

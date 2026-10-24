@@ -2,7 +2,7 @@
 
 Task T-0002 · Designer · 2026-10-24 · Stage: pitch · Outcome served: **stay** (a loop worth repeating on a phone from the first minute), with **return** as the second outcome (weather schedules and overnight traps).
 
-**Inputs used.** The scout's market scan (`games/stormcatch/docs/market-scan.md`) did not exist yet when this was written. Comparable numbers come from the vault snapshot note (`vault/21-hits-and-trends/chart-snapshot-2026-10.md`, taken 2026-10-24 17:04 UTC) and from the scout's fresh tracker snapshot `charts/data/snapshots/2026/10/24/20261024T192440Z-computer-all.json.gz` (2026-10-24 19:24:40 UTC, device computer, country all). I read that file and ran `python3 charts/charts.py game "Fisch"` and `game "Fish It"`; neither changes it. Mechanics come from the vault's fishing playbook (`vault/14-genre-playbooks/fishing-and-collection.md`).
+**Inputs used.** The scout's market scan (`games/stormcatch/docs/market-scan.md`, T-0001) arrived while this sketch was being written. Section 4 is built on it, especially the scan's findings in "Does weather already change play in the top 3 fishing games?" and "What weather does in these games, and what nobody seems to do yet". Comparable numbers come from the scout's tracker snapshot `charts/data/snapshots/2026/10/24/20261024T192440Z-computer-all.json.gz` (2026-10-24 19:24:40 UTC, device computer, country all; committed copy in `games/stormcatch/docs/evidence/charts-2026-10-24/`). Genre mechanics come from the vault's fishing playbook (`vault/14-genre-playbooks/fishing-and-collection.md`).
 
 **Labels used below.** *Target (source)*: a design target and the vault note or comparable it came from. *First-pass estimate*: a number nobody has modelled yet. The Economist turns these into the economy sheet at the design stage. Nothing here is a measured fact unless it cites a snapshot.
 
@@ -10,18 +10,19 @@ Task T-0002 · Designer · 2026-10-24 · Stage: pitch · Outcome served: **stay*
 
 ## 1. The game in one breath
 
-You fish around a small, cozy archipelago where the weather moves. Rain showers, sea fog and gusts drift slowly from island to island on a forecast that everyone can read. Each kind of weather changes which fish bite, how the reel feels and what mark the catch carries. You decide where to stand and when to cast by reading the sky. Every quarter hour a Great Storm rolls over the harbour. Everyone gathers at the pier, and giant storm fish bite that are landed fastest when many players pull together.
+You fish around a small, cozy archipelago where **the weather changes how you fish**. In rain you reel quick, forgiving catches. In fog you fish by feel, watching the bobber dip and feeling the line. In wind your cast rides the gust out to far water while the reel target sways. In the Great Storm, giant fish are only landed when the players on the pier pull together. The weather moves from island to island on a short forecast everyone can read, so each minute you choose where to go and which way of fishing you want. Storms here are never a danger: they are the best part of the day.
 
-Working title: **Stormcatch**. The human decides the store title. A verb-first option to test is *Fish the Storm* (see open questions).
+Working title: **Stormcatch**. The human decides the store title. The scan found fishing titles converging on "Fish ___", "___ Fishing", "Catch a ___" and puns, so avoid those patterns. A verb-first option outside them is *Reel the Storm* (see open questions).
 
 ---
 
 ## 2. The loop (PITCH-02, DESIGN-01)
 
-**One sentence:** You **tap to cast and reel wherever the weather is passing** to get **fish stamped by that weather (coins plus new Sky Journal pages)** so you can **buy a better rod and boots, open the bridge to the next island and be at the pier when the Great Storm hits**.
+**One sentence:** You **tap to cast and reel, fishing a different way in each weather that drifts past** (quick in rain, by feel in fog, riding the wind in gusts, pulling together in the storm) to get **fish only that weather brings (coins plus new Sky Journal pages)** so you can **buy a better rod and boots, open the bridge to the next island and be at the pier when the Great Storm hits**.
 
 ```
-Moment loop:  tap Cast -> bobber lands, 2-5 s wait -> "!" bite -> tap the reel ring on green (1-3 taps)
+Moment loop:  tap Cast (the weather shapes the cast) -> bobber lands, 2-5 s wait -> bite
+              -> reel the way this weather demands (1-3 taps on the ring; see 4.2)
               -> fish leaps out: name, size (kg), rarity colour, weather mark -> coins fly to the counter
               (one catch every ~6-10 s in clear weather; first-pass estimate)
 Session loop: coins -> Rod (value), Lure (luck), Boots (walk speed, to reach fronts first), companion nests
@@ -29,8 +30,8 @@ Session loop: coins -> Rod (value), Lure (luck), Boots (walk speed, to reach fro
               (gap between upgrades 30 s - 2 min in the first session; target, core-loop-design.md)
 Long loop:    Sky Journal sets (island x weather), Stormborn giants, New Tide (rebirth), daily Almanac
               windows, Tide Pots set under tonight's forecast, a new weather front every Saturday
-One sentence: You tap to cast and reel wherever the weather is passing to get weather-marked fish
-              so you can upgrade, unlock islands and be at the pier for the Great Storm.
+One sentence: You tap to cast and reel, fishing a different way in each passing weather, to get fish
+              only that weather brings so you can upgrade, unlock islands and be at the pier for the Great Storm.
 Friend reason: the weather is shared, and Stormborn giants in the Great Storm are landed by everyone
               nearby pulling together; every helper gets a journal stamp and coins.
 ```
@@ -46,49 +47,59 @@ Why this is playable in Roblox terms: the moment loop needs a single tap button 
 | Unhurried pace | A front is announced on the Sky Dial at least 60 s before it reaches a spot and stays 90-120 s (first-pass estimate). Adjacent spots are at most about 15 s apart at base walk speed (first-pass estimate). A missed front costs nothing, and another arrives within minutes. |
 | No harsh fail states | A failed reel costs 0 coins and 0 items. The fish swims off and Cast is available again within 1 s. There is no death, drowning, damage, hunger, stamina, energy or durability, and no player can lose a caught fish. |
 | Nothing taken by others | No PvP, no stealing. Fishing spots are not exclusive: any number of players can fish the same ripple without lowering each other's catches, so nobody can block or "camp" a spot. |
+| Storms are a treat, never a threat | No weather can hurt, knock back, eliminate or slow a player, or cost them anything. The Great Storm is the most rewarding moment of the quarter hour. (A leader uses some storms as hazards, per the scan; we do the opposite.) |
 | Calm audio | A soft acoustic music bed with rain and wave ambience. Storm audio swells over 3 s or more and has no sudden stingers or jump scares. Thunder is a low rumble. All sounds use the template's volume settings. |
 | Calm visuals | A warm palette, rounded shapes, slow camera. Lightning flashes are short, soft and optional (the template's reduce-motion setting also disables them). Night and fog never get so dark that the water is unreadable. |
 | Social warmth | Helping someone land a giant pays the helper. Friends nearby raise luck. A one-tap Cheer emote plays on rare catches. Every server-wide banner celebrates; none shames. |
 | Honest time | Every countdown (front ETA, Great Storm, Almanac windows) shows the real schedule. It never restarts, and nothing sells skipping it (`vault/09-monetization/monetization-compliance.md`). |
 
-**Deliberately left out:** PvP, stealing and raids (the consequence layer of 2025-2026 hits; see risks), losing fish or progress, energy and stamina timers, pay-to-skip timers, jump scares, damaging lightning, timed reflex tests that gate rewards, text-heavy quests, trading at launch (argued in section 6), real-money weather control at launch (an open question).
+**Deliberately left out:** PvP, stealing and raids (the consequence layer of 2025-2026 hits; see risks), losing fish or progress, energy and stamina timers, pay-to-skip timers, jump scares, damaging lightning, timed reflex tests that gate rewards, text-heavy quests, trading at launch (argued in section 6), and buying or summoning weather at all at launch, for coins or Robux. That is already standard in both leaders (scan), and it would make the shared forecast untrue (section 4.3).
 
 ---
 
 ## 4. The weather twist (PITCH-04)
 
+**The twist in one line: each weather is a different way to fish, and it moves.** The scan shows that weather changing spawn odds, adding mutations, or being summoned or bought for the server is already standard (Fisch, Fish It!, Grow a Garden, Sol's RNG, Ride A Pet; `market-scan.md`). In Stormcatch those parts are the *familiar* layer. The twist is built from the four things the scan did **not** find in any comparable's public sources:
+
+1. **Weather changes the physical act of fishing:** how the cast flies, what you watch for, how the reel behaves.
+2. **A short forecast you plan the next minutes around:** fronts drift between islands with real ETAs.
+3. **Responding to weather together as the core social reason:** storm giants land fast only when a crowd pulls.
+4. **Cozy storms:** safe, never a hazard, the best part of the day.
+
 ### 4.1 How the weather works
 
 - The archipelago has four islands, each with 2-3 fishing spots: **Pebble Cove** (start, with Driftlight Harbor and the Open Pier), **Lantern Reef**, **Gustwhistle Bluffs** and **Thunderhead Point**.
-- At any moment 1-3 **fronts** (Showers, Sea Fog, Gusts) drift along paths across the islands. Each front covers about one spot's area and lingers 90-120 s per spot before moving on (first-pass estimate). Together, fronts cover about a quarter of the fishable water at any moment (first-pass estimate).
+- At any moment 1-3 **fronts** (Showers, Sea Fog, Gusts) drift along paths across the islands. Each front covers about one spot's area and lingers 90-120 s per spot before moving on (first-pass estimate). Together, fronts cover about a quarter of the fishable water at any moment (first-pass estimate). Weather is a *place* on the map: the island you are on can be foggy while the next one is in rain. In the scan's sources, weather applies to the whole server (Fish It!'s bought weather is explicitly server-wide, and Fisch's seasons are the same on every server); no source described fronts that move between areas. This is our inference from the scan, not a verified absence.
 - Each island has a **home weather** that visits it more often: Pebble Cove gets Showers, Lantern Reef gets Sea Fog, Gustwhistle Bluffs gets Gusts, and Thunderhead Point gets a mix.
-- The schedule is **deterministic from UTC time** and is the same in every server. That makes the forecast true for everyone, lets friends in different servers plan around it, and lets Tide Pots be computed offline. The Engineer confirms feasibility; it is plain math on server time and needs no cross-server messaging.
+- The schedule is **deterministic from UTC time** and is the same in every server. That makes the forecast true for everyone, lets friends in different servers plan around it, and lets Tide Pots be computed offline. The Engineer confirms feasibility; it is plain math on server time and needs no cross-server messaging. The weather is fictional: no real-world weather data or player location is used, which avoids the data-licensing and privacy questions the scan raises.
 - The **Great Storm** happens every 15 minutes, clock-aligned at :00, :15, :30 and :45 UTC (first-pass estimate; vault target: one peak per 10-20 minutes, `vault/02-core-loop/session-structure.md`). It lasts 3 minutes (first-pass estimate). The whole map darkens and rains, and its eye always sits over the **Open Pier** at the harbour, so new and veteran players meet there.
 - A **Rainbow** lands on one nearby spot for 60 s after a Showers front leaves a spot in clear sky (first-pass estimate).
 - **Aurora Night** is a scheduled weekly window on Saturday (two windows for time zones; see open questions). It is the first live-ops heartbeat.
 
-### 4.2 What each weather does to fish, spots, catches and the reel
+### 4.2 Each weather is a different way to fish
 
-All multipliers and chances are first-pass estimates for the Economist. One mark per fish at launch: marks do not stack (`vault/03-rarity-and-rng/collection-and-variants.md` requires a stacking rule).
+The first two columns are the twist: what changes in your hands. The fish and mark columns are the familiar, already-standard layer. All multipliers and chances are first-pass estimates for the Economist. One mark per fish at launch: marks do not stack (`vault/03-rarity-and-rng/collection-and-variants.md` requires a stacking rule).
 
-| Weather | Fish | Spots | Catch (mark) | Reel | Decision it creates |
+| Weather | How you cast and what you watch | How the reel behaves | Spots | Fish and mark (familiar layer) | Decision it creates |
 |---|---|---|---|---|---|
-| Clear | Island base table (8 species per island) | Standard ripples | No mark | Normal ring | Baseline; fine to stay put |
-| Showers | Bites about twice as fast; 3 rain-only species | Rock pools on the shore fill and become temporary extra spots (less crowding) | **Drizzled** (about x1.5 value, about 1 in 5 catches) | Ring closes faster with a wider green band | "Go where it's raining" for speed and coins |
-| Sea Fog | Bites about 40% slower; Rare-and-up weight about x2; 3 fog-only species | Hidden "lantern ripples" farther out appear only while the fog is there | **Misty** (about x2 value) | You only see a silhouette on the line until it lands (a mystery reveal) | Trade speed for rares and journal pages |
-| Gusts | Size roll pushed up about 25%; 3 gust-only species | Wind pushes ripples to far water; cast distance grows to reach them from the cliff edges | **Breezy** (about x1.5 value) | The green band drifts around the ring (the skill weather) | Skilled players chase size records here |
-| Rainbow (after Showers) | Same table as the spot | One spot, marked by the rainbow's foot, for 60 s | Catches pay about x2; rare **Prism** mark (about x5, about 1 in 20) | Normal | Predict where the shower ends; friendly race to the rainbow |
-| Great Storm (every 15 min) | 4 **Stormborn** giants bite only in the eye at the Open Pier | The eye is the Stormborn spot; everywhere else gets light rain | **Charged** (about x3) when the final tap lands on a lightning flash; missing the flash still lands the fish | Lightning flashes mark the perfect tap; giants need a shared **Pull** meter | Drop everything, gather, invite friends |
-| Aurora Night (weekly) | Event species | The whole map, for the window | **Auroral** (event mark) | Normal | Appointment to come back on Saturday |
+| Clear | Tap to cast straight out; watch for the "!" over the bobber | Standard ring: tap when it is on green (1-3 taps) | Standard ripples | Island base table (8 species per island); no mark | Baseline; fine to stay put |
+| **Showers: quick fishing** | Raindrops hide small ripples, so a big splash shows each bite. Bites come about twice as fast | The ring closes faster but its green band is much wider: many quick, forgiving catches | Rock pools on the shore fill and become temporary extra spots, which spreads players out | 3 rain-only species; **Drizzled** mark (about x1.5 value, about 1 in 5 catches) | "Go where it's raining" for a fast, easy run of coins |
+| **Sea Fog: fishing by feel** | You cast into grey. The ripples are hidden, so you follow a soft lantern glow to them. No "!" appears: the bite shows as the bobber dipping under (big and clear on screen) with a low chime, plus phone vibration where the device supports it | The ring is faint. You can't see what is on the line, only a silhouette that grows as you reel, and the fish is revealed only when it lands (a mystery catch) | Hidden "lantern ripples" farther out appear only in fog | Rare-and-up weight about x2, bites about 40% slower; 3 fog-only species; **Misty** mark (about x2) | Trade speed for rares, suspense and journal pages |
+| **Gusts: riding the wind** | A wind arrow shows the gust. A cast made *with* the wind flies about twice as far and reaches far water; a cast against it falls short. The line visibly bows | The green band sways back and forth around the ring with the gusts: the skill weather | Wind pushes ripples to far water, reachable only with a wind-assisted cast from the cliff edges | Size roll pushed up about 25%; 3 gust-only species; **Breezy** mark (about x1.5) | Skilled players chase size records; you aim with the wind |
+| Rainbow (after Showers) | Cast where the rainbow's foot touches the water | Standard ring | One spot for 60 s | Catches pay about x2; rare **Prism** mark (about x5, about 1 in 20) | Predict where the shower ends; friendly race to the rainbow |
+| **Great Storm: pulling together** (every 15 min) | The line hums and glows with static before a strike. Lightning flashes keep a slow beat | Tap on a lightning flash for a Charged catch (missing it still lands the fish). Giants need a shared **Pull** meter that every nearby player can fill (4.4) | The eye over the Open Pier is the only Stormborn spot; everywhere else gets light rain | 4 **Stormborn** giants; **Charged** mark (about x3) | Drop everything, gather at the pier, invite friends |
+| Aurora Night (weekly) | Calm night casting under the lights | Standard ring | The whole map, for the window | Event species; **Auroral** mark | Appointment to come back on Saturday |
+
+Accessibility and coziness: every weather's signal is visual first (sound and vibration are extras), all reel windows stay generous on touch (`fishing-and-collection.md`: "generous timing windows on mobile"), and a missed reel costs nothing. Gusts is the only weather that asks for more skill, and players choose to go there.
 
 ### 4.3 Forecast, chase, influence, share
 
 | Verb | Can players do it? | How |
 |---|---|---|
-| **Forecast** | Yes, for free | The **Sky Dial** on the HUD shows the current weather on each island and the next three fronts with real ETAs ("Fog → Lantern Reef in 1:10"). The daily **Almanac** page shows today's special windows, the **Fish of the Day** (bites only in one weather) and tomorrow's preview. The Storm Petrel companion extends the Sky Dial 5 minutes further ahead (first-pass estimate). |
+| **Forecast** | Yes, for free | The **Sky Dial** on the HUD shows the current weather on each island and the next three fronts with real ETAs ("Fog → Lantern Reef in 1:10"). That is a forecast for the next few minutes, so players plan a session around it. The daily **Almanac** page shows today's special windows, the **Fish of the Day** (bites only in one weather) and tomorrow's preview. The Storm Petrel companion extends the Sky Dial 5 minutes further ahead (first-pass estimate). The scan's closest comparable is Fisch's seasons: a fixed timer of about 9.6 hours that community wikis count down outside the game. |
 | **Chase** | Yes | Fronts move, so players walk (Boots upgrade) or ride the harbour ferry to reach them. Coziness comes from the 60 s warning and the long linger. |
-| **Influence** | Yes, cooperatively | The **Sky Bell** at the harbour has a server meter. Players offer duplicate fish (any copy past the first of a species and mark) to fill it. When it is full, everyone nearby votes among Showers, Fog and Gusts, and the winner arrives as a bonus front in this server for 3 minutes. The meter size scales with server population (first-pass target: it fills about every 10-20 minutes in a full server). This gives duplicates a use (`collection-and-variants.md`: "every duplicate has at least one use"). No Robux path at launch. |
-| **Share** | Yes, always | Weather is server-wide. Fronts and storms are moments everyone sees. Stormborn giants are landed together, rainbows are visible from every island, and Great Storm countdowns carry an invite prompt with launch data that spawns the friend at the Open Pier. |
+| **Influence** | Not the weather itself, deliberately; only how it affects you | Nobody can buy or summon weather at launch, for coins or Robux. Summoning is already standard in both leaders (Fisch's summoning items, Fish It!'s coin-bought weather; scan). Also, if one player could change the sky, the forecast would stop being true for everyone else. Players influence what weather does *for them*: companions with weather perks (Puddle Frog: faster bites in Showers; Lamp Moth: more rares in Fog; Kite Gull: steadier band in Gusts), Boots to reach fronts first, and where they place Tide Pots overnight. A cooperative "call a front" idea is parked as a post-launch candidate (open questions). |
+| **Share** | Yes, always | Weather is server-wide and visible to everyone. Fronts and storms are moments everyone sees. Stormborn giants are landed together, rainbows are visible from every island, and Great Storm countdowns carry an invite prompt with launch data that spawns the friend at the Open Pier. |
 
 ### 4.4 The Great Storm co-op pull (the social core)
 
@@ -97,31 +108,34 @@ All multipliers and chances are first-pass estimates for the Economist. One mark
 3. The fish always belongs to the angler. Each helper gets a **Witnessed** stamp for that Stormborn in their own Sky Journal (a collectible set) and a coin share minted on top, not taken from the angler. Friends among the helpers raise the chance of the Charged mark. Helper rewards are capped per storm, so pulling isn't worth farming with alt accounts (`vault/21-hits-and-trends/viral-and-social-mechanics.md`, abuse-resistant rewards).
 4. A server banner names everyone: "Mia and 4 anglers landed a CHARGED Rumblefin, 212 kg!" This is the clip moment (section 5.6).
 
-New players help from minute one: pulling needs no rod level. That gives a newcomer a meaningful part in a veteran's big moment, and a reason for veterans to welcome full servers.
+New players help from minute one: pulling needs no rod level. That gives a newcomer a meaningful part in a veteran's big moment, and a reason for veterans to welcome full servers. Compare Fish It!, the only fishing game in the top 40 of Fun with Friends: its public guides describe the social hook as groups taking turns *paying* for a shared weather buff (scan). In Stormcatch the social hook is *being there together* when the weather arrives.
 
 ### 4.5 Comparables and how play differs
 
-Player numbers are concurrent players. Like ratios are not in the tracker; the scout's market scan adds them.
+Source: `games/stormcatch/docs/market-scan.md` (snapshot 2026-10-24 19:24:40 UTC plus public guides). Nobody at the studio has played these games; the scan's verification labels are kept.
 
-| Game | Players (tracker, 2026-10-24 19:24:40 UTC) | Other data | What weather or conditions do there | Verified? |
-|---|---|---|---|---|
-| **Fisch** | 107.2K (vault snapshot at 17:04 UTC: about 157K) | 5.1B visits, servers of 20, Minimal, created 2024-03, updated 2026-10-24 | Vault: "fishing as a collection and conditions system"; time of day, weather and seasons change which fish appear. From general knowledge only: one weather state for the whole server at a time, and items bought with in-game currency that change server weather or time. | Vault part yes (`vault/22-references/reference-games-by-genre.md`, `fishing-and-collection.md`); the rest **unverified**. T-0001 requirement 3 checks it against public update logs. |
-| **Fish It!** | 76.4K | 4.8B visits, servers of 20, Minimal, created 2024-10, updated 2026-10-24 | Vault: very stable audience, within about 3% of its weekly average in August 2026 (StudioKrew). From general knowledge only: server-wide weather events that one player can trigger by spending in-game currency, raising luck or mutation chances for everyone. | Vault part yes; weather part **unverified** (scout to check). |
-| Grow a Garden (weather comparable, farming) | 32.5K (tracker) | 36.0B visits, servers of 4 | Weather events (rain, storms, special skies) trigger crop mutations and give the server a shared moment; server-wide weather triggers are sold | Vault (`vault/14-genre-playbooks/grow-and-farm.md`) |
-| Ride A Pet (weather comparable, eggs) | 23.5K (tracker) | Servers of 6 | Added weather mutations on 2026-09-19 | Vault (`vault/21-hits-and-trends/hits-2026.md`, citing StudioKrew) |
+| Game | Players, like ratio, server size | What weather does there (scan) | What Stormcatch does differently in play |
+|---|---|---|---|
+| **Fisch** | 107,205; 91%; 20 | Seasons on a global timer (about 576 min each) and day and night change spawn rates [2 sources]. Nine random weathers; fish that prefer the current weather spawn more [2 sources]. Players can summon weather or advance time with items bought in the game [2 sources]. Some events open spots, and a storm event can eliminate players [1 source]. Weather mutations [unverified]. | Weather changes *how* you cast and reel, not only what spawns. Several fronts drift across islands at once, so the decision is where to go. The forecast is minutes ahead, inside the game. Nothing can summon weather. Storms are never a hazard. |
+| **Fish It!** | 76,378; 83%; 20 | Random weather [1 source]. One player buys a server-wide weather with coins for about 10-15 minutes: faster rods, luck, shiny odds, a rare-shark event [2 sources]. Some catches need a given weather [1 source]. Groups take turns paying for it [1 source]. | Weather can't be bought, so it stays a shared, forecastable event rather than a buff someone pays for. "Faster rods" is a speed stat; our weather changes the action itself (blind fishing by feel in fog, wind-carried casts and a swaying band in gusts, a shared pull in the storm). |
+| **Deep Fishing** | 12,352; 97%; 12 | No weather in the guides read [unverified absence]. Its difference is a distinct verb: a distance cast that steers through several fish. | Lesson taken: a new *way of fishing* is what differentiated the most successful 2026 fishing entrant, not a new table. Our ways of fishing change with the weather. We copy nothing of its cast. |
+| Grow a Garden, Sol's RNG, Ride A Pet (weather outside fishing) | 33,150 / 31,911 / 23,670 | Weather adds mutations, multiplies luck or unlocks weather-only items (scan). | We keep marks and weather-only fish as the familiar layer players already understand ("familiar, then fresh", `anatomy-of-a-hit.md`). |
 
-Other fishing titles charting in the same tracker snapshot (name search, approximate): Deep Fishing 12.3K (created 2026-07), Heavyweight Fishing 9.9K, Harpoon a Fish 7.4K (created 2026-08), Fish an Anime RNG 3.5K, Roll a Fisherman 2.8K, Cage Fishing 0.1K. Counting Fisch and Fish It!, that is 8 fishing titles. The urgency read and trend phase belong to the scout (T-0001).
+The scan's market context: 9 fishing games chart with 219.7K players, and the two leaders hold 83.5%. The genre is in phase 5 ("genre"), and a fast follow would be late, so we can only win by being "better and different". Fish It! and the smaller fishing games lean toward phones.
 
-**What is different in play, not in looks:**
+**Twist check against the scan's table:**
 
-1. **Weather is a place, not a server state.** In the comparables (as we understand them; unverified), the whole server has one weather and you keep fishing where you are. In Stormcatch, several fronts cross the map at once, so the island you are on differs from the next one. The core decision each minute is *where* to stand, and moving is part of the loop (the Boots upgrade exists for it).
-2. **Weather changes the reel, not just the fish table.** Rain makes reeling quick and forgiving, fog hides what is on the line, wind moves the target, and the storm adds lightning timing. Changing weather changes the hands-on feel, which keeps the 100th cast fresh.
-3. **Weather is forecastable, so it creates timing decisions and appointments.** The Sky Dial (minutes ahead) and the Almanac (today and tomorrow) are free and true for everyone. Players time casts for the rainbow and plan sessions around Fish of the Day windows.
-4. **Influence is cooperative and costs duplicates, not money.** In the comparables (unverified), one player buys weather for the server. Here a whole server fills the Sky Bell together and votes.
-5. **The biggest weather moment needs other people.** Stormborn giants are landed by a crowd pulling together, and every helper is rewarded. Co-play is a mechanic, not only a bonus percentage.
-6. **Weather drives the overnight decision.** Before leaving, players place Tide Pots where tonight's forecast promises the weather they want (section 5.7).
-
-In Grow a Garden and Ride A Pet, weather marks are a familiar idea (familiar format); our fresh part is the *spatial, forecastable, chased and shared* weather around them.
+| Stormcatch element | Scan column | Role in the design |
+|---|---|---|
+| Weather changes which fish bite | Already standard | Familiar layer, not claimed as the twist |
+| Weather marks (mutations) | Already standard | Familiar layer (collection) |
+| Rare weather as a shared server moment | Already standard | Familiar layer; our version is safe, scheduled and needs a crowd |
+| Summoning or buying weather | Already standard | **Left out at launch**, on purpose |
+| Weather changes the cast and the reel | Not found | **Twist, part 1** (4.2) |
+| Short forecast you plan a session around | Not found | **Twist, part 2** (Sky Dial, Almanac) |
+| Responding together as the social reason | Not found | **Twist, part 3** (Great Storm pull, 4.4) |
+| Cozy, safe storms | Not found | **Twist, part 4** (section 3) |
+| Weather as moving fronts across islands (local, not server-wide) | Neither column (not mentioned) | Carries parts 1 and 2: it creates the "where do I go" decision |
 
 ---
 
@@ -143,7 +157,7 @@ In Grow a Garden and Ride A Pet, weather marks are a familiar idea (familiar for
 | Time | The player does | Target (source) |
 |---|---|---|
 | ~1:00 | Sees the **Sky Dial** pop onto the HUD with a cloud icon: "Rain → here in 0:30", and a beam to where the shower will arrive (10-15 s down the dock) | Progressive UI reveal (`onboarding-patterns.md`) |
-| ~1:30-2:30 | Walks into the rain and keeps fishing; bites come about twice as fast. The first catch in rain is **guaranteed** to be a new rain-only species with the **Drizzled** mark: a shimmer stamp, a bigger reveal and "NEW!" | Guaranteed early rare (`fishing-and-collection.md`, "seed a guaranteed early rare"); first weather catch by minute 4 (first-pass estimate, set by a Pebble Cove shower about every 3 minutes) |
+| ~1:30-2:30 | Walks into the rain and feels fishing change: bites splash and come about twice as fast, and the reel ring is quicker with a wider green band. The first catch in rain is **guaranteed** to be a new rain-only species with the **Drizzled** mark: a shimmer stamp, a bigger reveal and "NEW!" | Guaranteed early rare (`fishing-and-collection.md`, "seed a guaranteed early rare"); first weather catch by minute 4 (first-pass estimate, set by a Pebble Cove shower about every 3 minutes) |
 | ~3:00-4:00 | Sees the shower move on and a **rainbow** land on a nearby ripple; hurries over and casts inside the 60 s window | First taste of timing and chasing |
 | 4-6 min | Chooses the second upgrade: **Lure** (luck) or **Boots** (walk speed), a real choice | Two or three upgrade paths (`core-loop-design.md`) |
 | 5-8 min | Sees the **Driftwood Nest** glow when affordable, opens it, gets a companion (for example a Puddle Frog: faster bites in Showers), and it follows | First collection system at minute 5-20 (`progression-architecture.md`) |
@@ -159,9 +173,9 @@ The **first Great Storm** is due within 15 minutes of joining for every player, 
 
 ### 5.5 Minutes 10-30
 
-- Fish Lantern Reef's fog for Misty rares and the 3 fog-only species. Open the Reef Nest for a fog companion (Lamp Moth: more rares in fog).
+- Learn the second way of fishing: in Lantern Reef's fog, follow the lantern glow, watch for the bobber to dip and reel a silhouette into a mystery reveal, for Misty rares and the 3 fog-only species. Open the Reef Nest for a fog companion (Lamp Moth: more rares in fog).
 - Finish the **Pebble Cove set (8/8)** for a permanent small coin bonus and a visible title ("Cove Regular").
-- Fill the Sky Bell with duplicates and vote for a front together.
+- Meet the third way: a Gusts front drifts over from the Bluffs. Cast with the wind arrow to reach the far ripple, and keep up with the swaying band for a Breezy size record.
 - Work toward the next bridge, to **Gustwhistle Bluffs**. Target: 20-30 min cumulative. Sources disagree (`progression-architecture.md` puts zone 3 at 15-25 min; the template's economy comment puts it at 30-45 min), so the Economist decides.
 - A second Great Storm happens at the latest by minute 30.
 
@@ -207,7 +221,7 @@ Changes needed: three new `guide` kinds (`weather`, `pot`, `storm`) in `StepDef`
 
 **Social reason: co-play (primary), with presence and friendly competition. No trading at launch.**
 
-- *Co-play:* the weather is shared, the Great Storm's giants are landed by a crowd and every helper is paid, and the Sky Bell is a server goal. A friend bonus reuses the template's `Social` system (+10% per friend in the server, capped at +50%, `Config/Economy.luau`), applied to luck instead of coins (Economist). Invite prompts appear at the storm countdown, never on spawn (`social-systems.md`).
+- *Co-play:* the weather is shared and forecast for everyone, so players converge on the same fronts, and the Great Storm's giants are landed by a crowd with every helper paid. This is the scan's "responding to weather together" gap. A friend bonus reuses the template's `Social` system (+10% per friend in the server, capped at +50%, `Config/Economy.luau`), applied to luck instead of coins (Economist). Invite prompts appear at the storm countdown, never on spawn (`social-systems.md`).
 - *Presence:* companions follow you, Stormborn are held up in a catch pose, journal titles show above heads, and weather cosmetics (raincoats, umbrellas) are visible.
 - *Competition, friendly:* an in-world harbour board for the biggest fish today and the biggest catch of each storm, and a race to the rainbow.
 - *Why no trading at launch:* trading brings scams and duplication risk (`vault/21-hits-and-trends/why-games-die.md`), extra policy duties (`IsPaidItemTradingAllowed`) and moderation load for a young audience. The co-op storm already gives a reason to be with others. Revisit after launch with data.
@@ -227,7 +241,8 @@ Changes needed: three new `guide` kinds (`weather`, `pot`, `storm`) in `StepDef`
 | Companions | 12 across 4 nests (each with a weather perk) |
 | Sky Journal sets | 12 (4 island sets, 3 weather sets, Stormborn, Witnessed, Rainbow, Aurora, Records) |
 | Upgrade lines | Rod, Lure, Boots, Pal Pouch (companion slots) |
-| Systems | Sky Dial, Almanac, Sky Bell, Tide Pots (2 slots), New Tide (rebirth), daily calendar and streak, playtime gifts, codes, shop |
+| Ways of fishing | 4 weather reel modes (Showers quick, Fog by feel, Gusts wind cast and swaying band, Great Storm lightning beat and shared pull) |
+| Systems | Sky Dial, Almanac, Tide Pots (2 slots), New Tide (rebirth), daily calendar and streak, playtime gifts, codes, shop |
 
 **Weekly update unit: "a new front".** Every Saturday a new weather condition or a limited weekly front arrives. Each one brings 4-6 species, a mark or mark variant, a journal set and (every other week) a companion, plus a live arrival moment at a fixed time. A new island ships every 3-4 weeks. The update unit is the game's twist, so every update makes the weather richer (`hit-formula.md` #8; `anatomy-of-a-hit.md` #7).
 
@@ -245,8 +260,9 @@ Sizes are first-pass: **S** is config, reskin or about a day; **M** is about 2-4
 | Fish size (kg) and records | none | Size roll; harbour record board | **New** | S |
 | Weather marks | Collection index keys (`species:mark`), `Util/Odds` | Mark roll per weather; one mark per fish | **New** (small) | S |
 | Weather fronts, schedule, Sky Dial | `LiveConfig` for tuning and event overrides | New `Weather` system (deterministic UTC schedule, front paths, per-spot state), weather VFX within mobile budgets, Sky Dial HUD | **New** | L |
+| Weather ways of fishing (the twist) | none | `Reel` modes per weather: wind-carried cast and swaying band (Gusts), hidden ring with dip, chime and vibration signals and silhouette reveal (Fog), wide fast ring (Showers), lightning beat (Storm); the server validates each mode's timing | **New** | M |
 | Great Storm co-op pull | `Hatching` rare-pull announcements (server and cross-server) for banners | Shared pull meter, helper rewards and caps | **New** | M |
-| Sky Bell (cooperative weather call) | `Currency` sink pattern | Server meter fed by duplicates, vote, bonus front | **New** | M |
+| Sky Bell (cooperative "call a front") | `Currency` sink pattern | **Cut from launch**: summoning weather is already standard (scan), and it would make the shared forecast untrue. Parked as a post-launch candidate | **New** | M (deferred) |
 | Rod, Lure, Boots, Pal Pouch | `Upgrades` (power, luck, speed, storage) | Rename and retune; the rod model changes per tier | Reuse | S |
 | Islands and bridges | `Zones`, `ZoneGate` and `UnlockPrompt`, `Gates` controller | Gates become broken bridges with price signs | Reuse | S |
 | Companions | `Pets`, `PetInventory` (equip best, lock, delete), `PetFollow` | Reskin; weather perks active only in matching weather; "Equip best for this weather" | Reuse plus small change | S |
@@ -260,12 +276,12 @@ Sizes are first-pass: **S** is config, reskin or about a day; **M** is about 2-4
 | Shop, passes, products | `Purchases` (idempotent `ProcessReceipt`), `Shop`, `Config/Products` | Reskin (Auto Hit becomes Auto Reel, and so on); catalog at the design stage | Reuse | S |
 | Friend and group bonus | `Social` | Apply to luck and Charged chance | Reuse | S |
 | Onboarding | `Onboarding`, `Guide` (beam, outline) | New step list (section 5.8); guide kinds `weather`, `pot`, `storm` | Reuse plus small change | S |
-| Analytics | `Analytics`, `Config/Analytics` | Events: Cast, Catch (species, mark, weather), FrontEntered, StormJoined, StormLanded, PotPlaced, PotCollected, BellFed | Reuse | S |
+| Analytics | `Analytics`, `Config/Analytics` | Events: Cast, Catch (species, mark, weather), FrontEntered, ReelResult (weather mode, taps, misses), StormJoined, StormLanded, PotPlaced, PotCollected | Reuse | S |
 | QA tools | `QA`, `SettingsPanel` | Force weather, force storm, set schedule time, fill pot | Reuse | S |
 | Harbour ferry between islands | none | A moving platform on a fixed route (no driveable boats at launch) | **New** | S |
 | Driveable boats | none | Later update candidate, not launch | **New** | L (deferred) |
 
-Totals: 2 large (Fishing, Weather), 4 medium (Great Storm pull, Sky Bell, Sky Journal, Tide Pots), and the rest small reskins and config. The template already covers data safety, receipts, odds display, the paid-random-items policy, rate limits and analytics.
+Totals: 2 large (Fishing, Weather), 4 medium (weather ways of fishing, Great Storm pull, Sky Journal, Tide Pots), and the rest small reskins and config. Sky Bell and boats are deferred. The template already covers data safety, receipts, odds display, the paid-random-items policy, rate limits and analytics.
 
 ---
 
@@ -275,18 +291,23 @@ Totals: 2 large (Fishing, Weather), 4 medium (Great Storm pull, Sky Bell, Sky Jo
 
 **Expected content maturity (draft only; the human answers the questionnaire):** we expect **Minimal**, based on the content as designed:
 - Violence and blood: none. Fish leap out and are added to the journal; nothing is shown being hurt.
-- Fear: none intended. Thunder is a gentle rumble, there are no jump scares, and lightning flashes are optional.
+- Fear: none intended. Thunder is a gentle rumble, there are no jump scares, lightning flashes are optional, and storms are never hazards. The scan names hazard storms as one thing that could raise a fishing game's rating.
 - Crude humour, romance, alcohol, strong language: none.
 - Free-form user creation and AI interaction: none.
 - Paid random items: **a question for the human.** If coins can be bought with Robux (as in the template), companion nests count as paid random items. The template already shows odds and respects `ArePaidRandomItemsRestricted`, but the questionnaire answer is the human's.
-- Comparables in the tracker are all labelled Minimal (Fisch, Fish It!, Deep Fishing, Heavyweight Fishing, Harpoon a Fish; snapshot 2026-10-24 19:24:40 UTC). That supports the expectation but does not decide it.
+- All nine fishing comparables and the three weather comparables are labelled Minimal with minimum age 0 (scan, public games API, snapshot 2026-10-24 19:24:40 UTC). That supports the expectation but does not decide it.
+
+**Devices:** phone-first. In the scan's device read, Fish It! and the smaller fishing games rank higher on phone sorts while Fisch ranks higher on computer, so a phone-first fishing game fills the gap in device fit. Absolute device shares are unknown.
 
 **IP notes:**
 - Every name in this sketch is invented (islands, weathers, marks, species, companions, systems). Species are invented rather than real-world fish, so they are collectible and searchable.
 - Do not reuse the comparables' item names, fish designs, mutation names, UI layouts, title patterns or thumbnail compositions. The reel is our own ring design, not a copy of any comparable's bar layout. General mechanics (fishing, reel mini-games, weather mutations) are not protected; the specific expression is (`vault/17-policy-and-business/ip-and-licensing.md`).
 - Discovery demotes games whose metadata and files closely resemble existing ones (`trend-lifecycle.md`), so originality is also a discovery requirement.
 - Music and sound must be original or licensed, each with a source and licence recorded in the asset index.
-- **Open:** nobody has checked "Stormcatch" or "Fish the Storm" for collisions with existing games or trademarks. This is for the scout and the human.
+- Competitors' named weather tools, items and events are their own expression (scan, IP risk 2). Our design has no weather-summoning items at all, and our weather names are generic words with invented species and marks.
+- Fishing titles converge on "Fish ___", "___ Fishing", "Catch a ___" and pun spellings (scan, IP risk 1). The title and thumbnail must avoid those patterns.
+- The weather is fictional and scheduled. No real-world weather data or player location is used, so the data-licensing and privacy questions in scan IP risk 6 do not arise.
+- **Open:** the scout's single web search (2026-10-24) found no Roblox game named "Stormcatch"; "Storm Catcher" is an item name in a non-Roblox game. Nobody has run a trademark search for "Stormcatch" or "Reel the Storm". That is for the human.
 
 ---
 
@@ -294,8 +315,8 @@ Totals: 2 large (Fishing, Weather), 4 medium (Great Storm pull, Sky Bell, Sky Jo
 
 | # | Ingredient | Score | Justification |
 |---|---|---|---|
-| 1 | Title explains the loop | 1 | "Stormcatch" hints at catching in storms but has no verb a child reads at once; a verb-first store title such as "Fish the Storm" would score 2 (the human decides). |
-| 2 | Familiar format plus one fresh thing | 2 | Fishing is a proven, lasting genre (Fisch 107.2K, Fish It! 76.4K at 2026-10-24 19:24 UTC). The one fresh thing is moving, forecastable fronts that you chase, summon together and land giants under. Unproven until the prototype (risk 1). |
+| 1 | Title explains the loop | 1 | "Stormcatch" hints at catching in storms but has no verb a child reads at once. A verb-first store title outside the genre's converged patterns, such as "Reel the Storm", would score 2 (the human decides). |
+| 2 | Familiar format plus one fresh thing | 2 | Fishing is a proven genre in phase 5 (9 charting games, 219.7K players; scan, 2026-10-24 19:24 UTC). Weather tables, marks and summoning are already standard there, so they are the familiar part. The one fresh thing, "each weather is a different way to fish, and it moves on a forecast", sits entirely in the scan's "not found" column. Unproven until the prototype (risk 1). |
 | 3 | Consequence layer from other players (or a clear reason it is not needed) | 1 | Deliberately none: the cozy promise for a Kids and Select audience. The substitute tension is honest storm windows that close and a per-storm biggest-catch board. The vault's evidence favours consequence layers, so this is a real gap, not a free pass. |
 | 4 | Progress visible every few seconds | 2 | A catch every ~6-10 s (first-pass) with a size reveal, coin fly-up and journal tick; the next-upgrade bar is always on screen. |
 | 5 | Collectibles with rarity and surprise | 2 | 48 species × 6 marks × size rolls, 12 companions and 12 journal sets with silhouettes and hints. Fog's mystery reveal and Prism rainbows add surprise. |
@@ -320,8 +341,9 @@ Status for all: **untested** (no prototype yet). Proposed prototype scope: the m
 | 4 | Friend test | 3+ testers in one server during a Great Storm; measure Stormborn landing time solo vs group and where testers stand | Group landing at least 3x faster than solo; testers gather at the pier unprompted |
 | 5 | "One more" test | HUD screenshot at 10:00 | A goal 1-3 minutes away is visible (next front ETA, bridge %, set 7/8) |
 | 6 | Silent test | Muted, UI hidden, a 10-second storm clip shown to someone with no context | Viewer can say "it's storming and they caught a giant fish" |
-| 7 | One-sentence test | After 5 minutes, ask a newcomer to describe the game | They say some form of "you fish where the weather is" |
-| + | **Twist test (chase index)** | Analytics: share of catches made under a front after minute 5, against the share of water fronts cover | 45% or more of catches under fronts while fronts cover about 25% of the water (first-pass estimates). Under 30% means players ignore the weather: pivot (risk 1). |
+| 7 | One-sentence test | After 5 minutes, ask a newcomer to describe the game | They say some form of "you fish in the weather, and it changes how you fish" |
+| + | **Twist test A (feel)** | After 15 minutes, ask testers how fishing in rain, fog and wind differed. Count only answers about the action, not the looks | 4 of 5 testers describe at least two weathers by what their hands did ("in fog you watch the bobber sink", "in wind you aim with the arrow") |
+| + | **Twist test B (chase index)** | Analytics: share of catches made under a front after minute 5, against the share of water fronts cover | 45% or more of catches under fronts while fronts cover about 25% of the water (first-pass estimates). Under 30% means players ignore the weather: pivot (risk 1). |
 
 ---
 
@@ -329,14 +351,15 @@ Status for all: **untested** (no prototype yet). Proposed prototype scope: the m
 
 | # | Risk | Mitigation |
 |---|---|---|
-| 1 | **The twist reads as decoration.** Players don't move with the fronts, and Stormcatch becomes a third fishing game behind Fisch (107.2K) and Fish It! (76.4K). | Make weather matter in play: about 2x bite speed in rain, about 2x rare weight in fog, weather-only species and spots, changes to the reel (first-pass). Teach it at minute 2 (onboarding step 7). Measure the chase index in the prototype. Pivot option: fixed hourly weather per island (a simpler "where is it raining now" choice). |
-| 2 | **Crowded genre with entrenched leaders.** 8 fishing titles charting in the tracker snapshot (name search, approximate). | The thumbnail and title sell the storm, not the fishing (a giant fish breaching under lightning). The scout's urgency read decides whether we are late. |
+| 1 | **The twist reads as decoration.** The ways of fishing feel too alike, or players don't move with the fronts, and Stormcatch becomes "Fisch with moving clouds", a third fishing game behind Fisch (107,205) and Fish It! (76,378). The scan shows weather tables and mutations alone are already standard. | Make each weather's action clearly different (4.2): the wind-carried cast, fishing fog by feel, the swaying band, the shared storm pull. Teach the first one at minute 2 (onboarding step 7). Run twist tests A and B in the prototype. Pivot options: (a) if the feel lands but chasing doesn't, use fixed hourly weather per island; (b) if neither lands, stop or pick a different verb (Deep Fishing's lesson: the verb differentiates). |
+| 2 | **Two-leader genre, late for a fast follow.** 9 fishing games chart, the two leaders hold 83.5% of 219.7K players, and the five 2026 entrants total 26.2K (largest 12,352). Phase 5 "genre" (scan, PITCH-05). | Compete on "better and different", as the scan advises: phone-first feel (Fish It! and the small fishing games lean toward phones), the twist above, and a weekly update cadence. The thumbnail sells the storm (a giant fish breaching under lightning), not generic fishing. |
+| 2b | **Fiddly on touch.** Weather modes (swaying band, hidden ring) could frustrate young phone players. | Generous windows everywhere, visual-first signals, misses that cost nothing. Gusts, the only skill weather, is optional. Test on a phone in the Device Simulator and with a newcomer. |
 | 3 | **Weather VFX on low-end phones.** Moving rain, fog and lightning cells are costly. | Render only the front near the camera at full detail and show the others as sky icons. Prefer `Atmosphere` and lighting changes over particles. Budget per `vault/19-vfx/vfx-performance-budgets.md`. Test on low-end Android in the first prototype week. |
 | 4 | **Cozy vs chase.** Fronts that move too fast turn into a chore. | 60 s warnings, 90-120 s lingers, no penalty for missing a front, another front within minutes, Boots upgrade. Ask testers how relaxed they feel. |
 | 5 | **Economy inflation from marks** (a grow-and-farm trap). | One mark per fish; the Economist caps mark multipliers and Tide Pot efficiency. |
 | 6 | **A global schedule meets global time zones.** Some players always miss Aurora Night. | Two Saturday windows; storms every 15 minutes so everyone sees many. |
 
-**Biggest risk: number 1.** If the weather doesn't change where and when people fish, nothing else here matters.
+**Biggest risk: number 1.** If the weather doesn't change *how*, where and when people fish, this is a skin on a two-leader genre, and nothing else here matters.
 
 ---
 
@@ -345,23 +368,24 @@ Status for all: **untested** (no prototype yet). Proposed prototype scope: the m
 **For the human (policy and naming; drafts only, not answered here):**
 1. Maturity questionnaire answers. The draft expectation is Minimal (section 8); the human answers.
 2. Paid random items: if coins can be bought with Robux, companion nests are paid random items. How should the questionnaire be answered, and should Robux coin packs exist at all?
-3. Store title: "Stormcatch" (working) or a verb-first title such as "Fish the Storm". Neither has been checked for collisions or trademarks.
-4. Should a Robux "call a front for the server" product ever exist? It would be a server-wide probability modifier with disclosure duties. Recommendation: not at launch.
+3. Store title: "Stormcatch" (working) or a verb-first title outside the genre's converged patterns, such as "Reel the Storm". No trademark search has been done for either.
+4. Should weather ever be summoned or sold, for coins or Robux, after launch? Recommendation: no. It is already standard in both leaders, it would make the shared forecast untrue, and a Robux version would be a server-wide probability modifier with disclosure duties. A cooperative, non-paid "call a front" (the parked Sky Bell) could be tested after launch.
 
-**For the Economist (design stage):** catch values, bite waits, mark chances and multipliers, Tide Pot fill rate and cap, Sky Bell meter size, bridge prices, and New Tide timing. The goals: first upgrade at about 60 s, bridge 1 at 10-12 min, bridge 2 at 20-30 min, and New Tide within the template's tested 20-90 minute band.
+**For the Economist (design stage):** catch values, bite waits per weather, mark chances and multipliers, Tide Pot fill rate and cap, bridge prices, and New Tide timing. The goals: first upgrade at about 60 s, bridge 1 at 10-12 min, bridge 2 at 20-30 min, and New Tide within the template's tested 20-90 minute band.
 
 **For the Monetization Designer:** catalog direction (Auto Reel pass weaker than active play, Pal Pouch, extra Tide Pot slot as capacity rather than a skip, Lucky with disclosed odds effect, weather cosmetics such as raincoats and umbrellas). The forecast and storms stay free for everyone.
 
-**For the scout (T-0001 and T-0003):** verify how weather works in Fisch and Fish It! from public update logs (section 4.5 marks it unverified); add like ratios; give the urgency read and trend phase; run a title collision search.
+**For the scout (T-0003, pitch):** take a second snapshot at least 24 hours after 2026-10-24 19:24 UTC (36 hours for a measured phase) before the pitch gate, as the scan's limits section asks. Keep the scan's verification labels when quoting section 4.5 (Fisch weather mutations are still [unverified]). Carry the title convergence warning into the pitch.
 
 **For the Director and Engineer:** confirm the deterministic UTC weather schedule approach, prototype scope (section 10), and the sizes of the two large systems (Fishing, Weather). Driveable boats are deferred.
 
-**Design questions to settle in the prototype:** Great Storm every 15 vs 20 minutes; server size 8 vs 12; ring reel vs hold-to-reel on touch; whether Gusts' drifting band is cozy enough.
+**Design questions to settle in the prototype:** Great Storm every 15 vs 20 minutes; server size 8 vs 12; ring reel vs hold-to-reel on touch; whether Gusts' swaying band is cozy enough; whether fog's dip signal reads on a small phone screen without sound.
 
 ---
 
 ## Sources
 
 - Vault (all dated 2026-10-24): `00-start-here/hit-formula.md`, `01-first-five-minutes/first-session-blueprint.md`, `01-first-five-minutes/onboarding-patterns.md`, `01-first-five-minutes/first-session-killers.md`, `02-core-loop/core-loop-design.md`, `02-core-loop/session-structure.md`, `02-core-loop/game-feel-and-juice.md`, `02-core-loop/clip-moments-and-shareability.md`, `03-rarity-and-rng/collection-and-variants.md`, `04-progression-and-economy/progression-architecture.md`, `04-progression-and-economy/idle-and-offline-progression.md`, `10-retention-and-social/retention-systems.md`, `10-retention-and-social/social-systems.md`, `14-genre-playbooks/fishing-and-collection.md`, `14-genre-playbooks/grow-and-farm.md`, `15-market-research/pitch-and-greenlight.md`, `15-market-research/trend-lifecycle.md`, `17-policy-and-business/age-ratings-and-audience.md`, `17-policy-and-business/ip-and-licensing.md`, `09-monetization/monetization-compliance.md`, `21-hits-and-trends/anatomy-of-a-hit.md`, `21-hits-and-trends/afk-idle-and-short-session-games.md`, `21-hits-and-trends/chart-snapshot-2026-10.md`, `21-hits-and-trends/hits-2026.md`, `21-hits-and-trends/trend-waves.md`, `21-hits-and-trends/viral-and-social-mechanics.md`, `22-references/reference-games-by-genre.md`.
-- Chart tracker snapshot `charts/data/snapshots/2026/10/24/20261024T192440Z-computer-all.json.gz` (2026-10-24 19:24:40 UTC, computer, all countries; unofficial Roblox endpoints), read with `python3 charts/charts.py game "Fisch"`, `game "Fish It"` and a name search for fishing titles. Third-party and tracker numbers are approximate.
+- Market scan: `games/stormcatch/docs/market-scan.md` (T-0001, scout, 2026-10-24), sections "Comparables", "Does weather already change play in the top 3 fishing games?", "What weather does in these games, and what nobody seems to do yet", "Urgency read", "Audience" and "IP risks". The scan's third-party sources and verification labels apply to every comparable mechanic quoted here.
+- Chart tracker snapshot `charts/data/snapshots/2026/10/24/20261024T192440Z-computer-all.json.gz` (2026-10-24 19:24:40 UTC, computer, all countries; unofficial Roblox endpoints; committed copy in `games/stormcatch/docs/evidence/charts-2026-10-24/`), read with `python3 charts/charts.py game "Fisch"`, `game "Fish It"` and a name search for fishing titles. Third-party and tracker numbers are approximate.
 - Template: `template/README.md`; `games/stormcatch/project/src/shared/Config/` (`Onboarding.luau`, `Economy.luau`, `Upgrades.luau`, `Zones.luau`, `Eggs.luau`, `Rewards.luau`); `games/stormcatch/project/src/server/Systems/Social.luau`.
