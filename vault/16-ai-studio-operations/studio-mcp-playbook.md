@@ -50,9 +50,9 @@ Every call takes a `studio_id`. Call `list_roblox_studios` first and target the 
 
 1. `get_studio_state`; if playing, stop.
 2. `start_stop_play` to start a playtest.
-3. `execute_luau` (Server): reset the test player's data to a new-player state through the game's QA hooks.
+3. `execute_luau` (Client): reset the test player's data to a new-player state through the game's gated QA remote (in the template: `game.ReplicatedStorage.Remotes.QACommand:InvokeServer("wipeData")`). Go through a remote rather than requiring server modules: code run by `execute_luau`, like the command bar, can get its own copies of ModuleScripts that do not share the running game's state.
 4. `character_navigation` to the first resource; `user_mouse_input` or `user_keyboard_input` to perform the core action.
-5. `execute_luau` (Server): read the player's currency; assert it increased.
+5. `execute_luau` (Client): ask the server for the player's state through the QA remote (template: `QACommand:InvokeServer("state")`); assert the currency increased.
 6. Open the shop through input simulation; buy the first upgrade; assert the effect.
 7. `get_console_output`: assert no errors or warnings from game code.
 8. `screen_capture` at key moments (first reward, shop open) for the report.

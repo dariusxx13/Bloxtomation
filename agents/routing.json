@@ -1,0 +1,66 @@
+{
+  "note": "Keyword routing for `studioctl route` and `task add` without --owner. Each keyword match adds its weight; the highest score wins; ties go to the earlier role in this list. Edit freely: tests only check that every role exists.",
+  "default": "director",
+  "roles": [
+    {
+      "role": "security-reviewer",
+      "keywords": {"exploit": 3, "security": 3, "anti-cheat": 3, "cheat": 2, "receipt": 2, "compliance": 3, "policyservice": 3, "paid random": 3, "dupe": 3, "rate limit": 2, "audit": 2}
+    },
+    {
+      "role": "gatekeeper",
+      "keywords": {"gate": 3, "stage review": 3, "sign-off": 2, "signoff": 2, "approve stage": 3, "criteria": 1}
+    },
+    {
+      "role": "newcomer",
+      "keywords": {"newcomer": 4, "first-time": 3, "first time player": 3, "confusion": 2, "fresh eyes": 3, "new player test": 3}
+    },
+    {
+      "role": "qa-tester",
+      "keywords": {"playtest": 3, "regression": 3, "golden path": 3, "repro": 2, "reproduce": 2, "test plan": 2, "device check": 2, "multi-client": 3, "bug report": 2, "qa": 3}
+    },
+    {
+      "role": "scout",
+      "keywords": {"trend": 3, "chart": 3, "competitor": 3, "teardown": 3, "market": 2, "pitch": 2, "breakout": 3, "comparable": 2, "top games": 2, "genre research": 3}
+    },
+    {
+      "role": "economist",
+      "keywords": {"economy": 3, "pacing": 3, "drop table": 3, "odds": 2, "multiplier": 2, "price curve": 3, "cost curve": 3, "sink": 2, "inflation": 3, "balance": 2, "economy sheet": 4}
+    },
+    {
+      "role": "monetization-designer",
+      "keywords": {"monetization": 3, "gamepass": 3, "game pass": 3, "developer product": 3, "price": 2, "pricing": 3, "offer": 2, "starter pack": 3, "robux": 2, "catalog": 2, "subscription": 3, "private server": 2}
+    },
+    {
+      "role": "storefront",
+      "keywords": {"icon": 3, "thumbnail": 3, "store page": 3, "title": 2, "description": 1, "trailer": 3, "store video": 3, "ad creative": 3, "sponsor": 2, "seo": 2}
+    },
+    {
+      "role": "interface-designer",
+      "keywords": {"ui": 3, "hud": 3, "menu": 2, "button": 2, "screen": 1, "mobile layout": 3, "panel": 2, "toast": 2, "inventory ui": 3, "shop ui": 3, "ux": 2}
+    },
+    {
+      "role": "worldbuilder",
+      "keywords": {"map": 3, "zone": 2, "lobby": 3, "lighting": 3, "terrain": 3, "level": 2, "world": 2, "obby": 2, "build budget": 3, "spawn area": 2}
+    },
+    {
+      "role": "artist",
+      "keywords": {"model": 2, "mesh": 3, "vfx": 3, "particle": 3, "animation": 3, "sound": 2, "music": 3, "sfx": 3, "texture": 2, "asset": 2, "art": 2, "pet model": 3}
+    },
+    {
+      "role": "engineer",
+      "keywords": {"remote": 3, "datastore": 3, "server": 2, "script": 2, "code": 2, "bug": 2, "fix": 1, "system": 2, "luau": 3, "analytics event": 3, "rojo": 3, "data": 1, "implement": 2, "refactor": 2}
+    },
+    {
+      "role": "designer",
+      "keywords": {"gdd": 4, "design doc": 4, "core loop": 3, "loop": 2, "onboarding": 3, "progression": 3, "quest": 2, "rebirth": 2, "feature design": 3, "first session": 3, "spec": 2}
+    },
+    {
+      "role": "analyst",
+      "keywords": {"metrics": 3, "retention": 3, "experiment": 3, "a/b": 3, "postmortem": 4, "update plan": 3, "dashboard": 2, "funnel": 2, "kpi": 3, "live ops": 2}
+    },
+    {
+      "role": "director",
+      "keywords": {"plan": 2, "roadmap": 3, "schedule": 2, "priorit": 2, "coordinate": 3, "status": 2}
+    }
+  ]
+}

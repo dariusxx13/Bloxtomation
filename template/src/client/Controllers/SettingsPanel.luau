@@ -32,6 +32,7 @@ local OPTIONS: { { key: SettingKey, text: string } } = {
 }
 
 local QA_COMMANDS: { { name: string, text: string, arg: any } } = {
+	{ name = "state", text = "Show state" },
 	{ name = "addCoins", text = "+Coins", arg = 1e6 },
 	{ name = "addGems", text = "+Gems", arg = 1000 },
 	{ name = "unlockZones", text = "Unlock zones" },

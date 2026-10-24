@@ -2,7 +2,11 @@
 -- QA: test commands for playtests (vault: 13-building-it-right/testing-and-qa.md).
 -- Allowed in Studio for everyone, and in live servers ONLY for user ids in Config/Game.qaUserIds
 -- (empty by default, so live servers reject every command). Every use is logged.
+-- Automation (Studio MCP) calls these through the real remote from the Client data model, e.g.
+--   game.ReplicatedStorage.Remotes.QACommand:InvokeServer("addCoins", 1000000)
+-- because requiring server modules from execute_luau creates separate module instances.
 
+local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
@@ -42,6 +46,43 @@ local function amountArg(arg: unknown): number?
 end
 
 local Commands: { [string]: Command } = {
+	-- Read-only summary of the caller's server-side state, for automated playtest assertions.
+	state = {
+		studioOnly = false,
+		run = function(player)
+			local data = PlayerData.get(player)
+			local session = PlayerData.session(player)
+			local derived = PlayerData.derived(player)
+			if not data or not session or not derived then
+				return { ok = false, text = "not loaded" }
+			end
+			local zones = {}
+			for zoneId, unlocked in data.zonesUnlocked do
+				if unlocked then
+					table.insert(zones, zoneId)
+				end
+			end
+			table.sort(zones)
+			return {
+				ok = true,
+				text = HttpService:JSONEncode({
+					coins = data.coins,
+					gems = data.gems,
+					rebirths = data.rebirths,
+					zones = zones,
+					pets = #data.pets,
+					equipped = #data.equipped,
+					onboardingStep = data.onboardingStep,
+					upgrades = data.upgrades,
+					hits = data.stats.hits,
+					hatches = data.stats.hatches,
+					coinsPerHit = derived.coinsPerHit,
+					luck = derived.luck,
+					restricted = session.randomItemsRestricted,
+				}),
+			}
+		end,
+	},
 	addCoins = {
 		studioOnly = false,
 		run = function(player, arg)

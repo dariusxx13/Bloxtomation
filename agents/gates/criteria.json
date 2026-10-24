@@ -1,0 +1,320 @@
+{
+  "source": "vault/16-ai-studio-operations/quality-gates.md",
+  "note": "Machine-readable copy of the vault's gate criteria. agents/tests/test_vault_sync.py fails if the two drift. Ids never change meaning; retire instead of reusing.",
+  "stages": [
+    "pitch",
+    "design",
+    "prototype",
+    "build",
+    "polish",
+    "rc",
+    "live",
+    "review"
+  ],
+  "humanCheckpoints": {
+    "pitch": "Approve the pitch",
+    "prototype": "Decide: continue, pivot or stop",
+    "rc": "Publish the Saved version (a person does this in Studio or Creator Hub)"
+  },
+  "mechanical": {
+    "BUILD-01": "build",
+    "BUILD-02": "lint",
+    "BUILD-03": "tests"
+  },
+  "criteria": [
+    {
+      "id": "PITCH-01",
+      "stage": "pitch",
+      "text": "Every market claim cites a chart snapshot or source with date and numbers; trend data is no older than 7 days."
+    },
+    {
+      "id": "PITCH-02",
+      "stage": "pitch",
+      "text": "The one-sentence loop (\"You ___ to get ___ so you can ___\") is concrete and playable in Roblox terms."
+    },
+    {
+      "id": "PITCH-03",
+      "stage": "pitch",
+      "text": "First 60 seconds, goal at 10-15 minutes, and why-tomorrow are written as player actions."
+    },
+    {
+      "id": "PITCH-04",
+      "stage": "pitch",
+      "text": "The twist changes how the game plays compared with named comparables."
+    },
+    {
+      "id": "PITCH-05",
+      "stage": "pitch",
+      "text": "Urgency read (early or late) with comparable counts and trend phase."
+    },
+    {
+      "id": "PITCH-06",
+      "stage": "pitch",
+      "text": "Checked against our portfolio: not a duplicate of something we ship."
+    },
+    {
+      "id": "PITCH-07",
+      "stage": "pitch",
+      "text": "Audience tier, content rating expectation and IP risks are stated."
+    },
+    {
+      "id": "PITCH-08",
+      "stage": "pitch",
+      "text": "Rubric score with justifications (Pitch and greenlight).",
+      "vault": [
+        "vault/15-market-research/pitch-and-greenlight.md"
+      ]
+    },
+    {
+      "id": "DESIGN-01",
+      "stage": "design",
+      "text": "Moment, session and long loops written; seven loop tests planned (Core loop design).",
+      "vault": [
+        "vault/02-core-loop/core-loop-design.md"
+      ]
+    },
+    {
+      "id": "DESIGN-02",
+      "stage": "design",
+      "text": "First-session timeline with targets per phase (First session blueprint).",
+      "vault": [
+        "vault/01-first-five-minutes/first-session-blueprint.md"
+      ]
+    },
+    {
+      "id": "DESIGN-03",
+      "stage": "design",
+      "text": "Economy sheet for three player types; time-to-goal for the first five goals; first goal at 10-15 minutes for a casual free player."
+    },
+    {
+      "id": "DESIGN-04",
+      "stage": "design",
+      "text": "Drop tables with designed time-to-see per tier, luck stacking rule and caps (if randomness exists)."
+    },
+    {
+      "id": "DESIGN-05",
+      "stage": "design",
+      "text": "Return systems specified: daily reward, streak or equivalent, daily quests, at least one next-day timer; or an argued omission."
+    },
+    {
+      "id": "DESIGN-06",
+      "stage": "design",
+      "text": "Social reason specified (co-play bonus, co-op, competition) or an argued omission."
+    },
+    {
+      "id": "DESIGN-07",
+      "stage": "design",
+      "text": "Product catalog draft mapped to motivations and price tiers, passing the fairness table."
+    },
+    {
+      "id": "DESIGN-08",
+      "stage": "design",
+      "text": "Art direction one-pager with palette, shapes, references; icon concept."
+    },
+    {
+      "id": "DESIGN-09",
+      "stage": "design",
+      "text": "Build brief can be executed without further design decisions; open questions listed."
+    },
+    {
+      "id": "DESIGN-10",
+      "stage": "design",
+      "text": "Reused systems and assets from our library identified by id."
+    },
+    {
+      "id": "PROTO-01",
+      "stage": "prototype",
+      "text": "Core action playable with juice layers 1-4 (Game feel and juice).",
+      "vault": [
+        "vault/02-core-loop/game-feel-and-juice.md"
+      ]
+    },
+    {
+      "id": "PROTO-02",
+      "stage": "prototype",
+      "text": "Seven loop tests reported with evidence."
+    },
+    {
+      "id": "PROTO-03",
+      "stage": "prototype",
+      "text": "Newcomer playtest: core action performed within 30 seconds without reading."
+    },
+    {
+      "id": "PROTO-04",
+      "stage": "prototype",
+      "text": "Fun verdict and recommendation: continue, pivot or stop, with reasons."
+    },
+    {
+      "id": "BUILD-01",
+      "stage": "build",
+      "text": "The place builds from source (`rojo build` exits successfully)."
+    },
+    {
+      "id": "BUILD-02",
+      "stage": "build",
+      "text": "Format, lint and type checks clean (StyLua, Selene, luau-lsp analyze)."
+    },
+    {
+      "id": "BUILD-03",
+      "stage": "build",
+      "text": "Unit tests pass for economy math, drop tables, validators, migrations and receipts."
+    },
+    {
+      "id": "BUILD-04",
+      "stage": "build",
+      "text": "All remotes go through the Net module with validators and rate limits; no raw remotes elsewhere."
+    },
+    {
+      "id": "BUILD-05",
+      "stage": "build",
+      "text": "No currency, rewards, damage or prices decided on the client."
+    },
+    {
+      "id": "BUILD-06",
+      "stage": "build",
+      "text": "Data: session locking, `UpdateAsync`, autosave, leave and shutdown saves, failed-load kick, schema version."
+    },
+    {
+      "id": "BUILD-07",
+      "stage": "build",
+      "text": "`ProcessReceipt` idempotent with receipt history; saves before acknowledging."
+    },
+    {
+      "id": "BUILD-08",
+      "stage": "build",
+      "text": "Analytics: onboarding funnel, economy events and minimum event plan implemented."
+    },
+    {
+      "id": "BUILD-09",
+      "stage": "build",
+      "text": "All tunables and new features behind config with validated defaults."
+    },
+    {
+      "id": "BUILD-10",
+      "stage": "build",
+      "text": "Game identity set (name, config ids, theme) instead of template defaults."
+    },
+    {
+      "id": "BUILD-11",
+      "stage": "build",
+      "text": "Paid random items: odds displays, boosts reflected, `PolicyService` gates."
+    },
+    {
+      "id": "BUILD-12",
+      "stage": "build",
+      "text": "Every non-owned asset scanned and recorded in the asset index with source and license."
+    },
+    {
+      "id": "BUILD-13",
+      "stage": "build",
+      "text": "The build report matches reality: three sampled brief requirements verified in a playtest."
+    },
+    {
+      "id": "POLISH-01",
+      "stage": "polish",
+      "text": "Golden-path test passes in Studio, with screenshots."
+    },
+    {
+      "id": "POLISH-02",
+      "stage": "polish",
+      "text": "Device checks at phone, tablet and desktop; no overlap with platform controls."
+    },
+    {
+      "id": "POLISH-03",
+      "stage": "polish",
+      "text": "Low-end performance: no stutter at spawn; memory stable over 30 minutes."
+    },
+    {
+      "id": "POLISH-04",
+      "stage": "polish",
+      "text": "Juice pass done; rarest outcomes clearly more exciting than common ones."
+    },
+    {
+      "id": "POLISH-05",
+      "stage": "polish",
+      "text": "Economy balance pass: measured playtest times match the economy sheet within agreed tolerance, or the sheet is updated."
+    },
+    {
+      "id": "POLISH-06",
+      "stage": "polish",
+      "text": "Icon 512\u00d7512 and at least three distinct thumbnails at 1920\u00d71080, reviewed at phone size, honest to gameplay."
+    },
+    {
+      "id": "POLISH-07",
+      "stage": "polish",
+      "text": "Title, description and genre written per Titles and descriptions.",
+      "vault": [
+        "vault/11-store-page-and-discovery/titles-and-descriptions.md"
+      ]
+    },
+    {
+      "id": "RC-01",
+      "stage": "rc",
+      "text": "Nothing has been published by automation; the candidate is a Saved version."
+    },
+    {
+      "id": "RC-02",
+      "stage": "rc",
+      "text": "Security review complete (Security and anti-exploit checklist).",
+      "vault": [
+        "vault/13-building-it-right/security-and-anti-exploit.md"
+      ]
+    },
+    {
+      "id": "RC-03",
+      "stage": "rc",
+      "text": "Compliance review complete (Monetization compliance checklist); questionnaire answers drafted for the human.",
+      "vault": [
+        "vault/09-monetization/monetization-compliance.md"
+      ]
+    },
+    {
+      "id": "RC-04",
+      "stage": "rc",
+      "text": "All prior approvals refer to the exact build being shipped (version or hash)."
+    },
+    {
+      "id": "RC-05",
+      "stage": "rc",
+      "text": "No open waivers, or each listed for explicit human acceptance."
+    },
+    {
+      "id": "RC-06",
+      "stage": "rc",
+      "text": "Launch plan and rollback plan written (Launch playbook).",
+      "vault": [
+        "vault/12-live-ops-and-launch/launch-playbook.md"
+      ]
+    },
+    {
+      "id": "LIVE-01",
+      "stage": "live",
+      "text": "Each change in an experiment or update names one primary variable and a pre-registered hypothesis with expected direction."
+    },
+    {
+      "id": "LIVE-02",
+      "stage": "live",
+      "text": "Measurement window stated in UTC; confounders (ads, events, holidays) declared."
+    },
+    {
+      "id": "LIVE-03",
+      "stage": "live",
+      "text": "Fix attempts on a failing metric capped (for example two) before escalating to redesign."
+    },
+    {
+      "id": "REVIEW-01",
+      "stage": "review",
+      "text": "Every outcome number cites source and date range."
+    },
+    {
+      "id": "REVIEW-02",
+      "stage": "review",
+      "text": "Verdicts only on measured metrics; refuted and inconclusive results recorded fully."
+    },
+    {
+      "id": "REVIEW-03",
+      "stage": "review",
+      "text": "No lesson promoted to a house rule with fewer than three confirming cases."
+    }
+  ]
+}

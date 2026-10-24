@@ -9,7 +9,7 @@ audience: [human, agent]
 
 # Agent team workflow
 
-This note describes how this repository's agent team works. The agents live in `agents/` (definitions, prompts and the orchestrator). The vault is their shared brain: every agent reads the notes relevant to its role before acting.
+This note describes how this repository's agent team works. The role definitions live in `.claude/agents/studio/` (where Claude Code loads them), the shared rules in `CLAUDE.md` at the repository root, and the orchestration tool `studioctl` (task queue, Studio leases, gates, board), gate criteria and guard hook in `agents/` (see `agents/README.md`). Start the studio with `/studio <goal>` in Claude Code. The vault is the team's shared brain: every agent reads the notes relevant to its role before acting.
 
 ## Principles
 
@@ -60,6 +60,7 @@ Details of each gate: [Quality gates](quality-gates.md).
 - Each agent works one task at a time from its own queue, in order. New messages to a busy agent wait their turn.
 - A handoff note at the end of each task states: what was done, evidence, what is next and for whom, and open questions.
 - The Director creates and routes tasks; any agent can propose tasks to the Director.
+- In this repository all of the above is enforced by `python3 agents/studioctl.py`: briefs without acceptance criteria stay drafts, handoffs without evidence are refused, one task per agent at a time, and `studioctl.py route "<text>"` suggests an owner by keywords.
 
 ## Sharing Roblox Studio
 

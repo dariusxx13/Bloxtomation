@@ -6,7 +6,7 @@ An AI-assisted studio kit for making Roblox games: a deep knowledge vault, a pro
 |---|---|---|
 | Knowledge vault (Obsidian) | [`vault/`](vault/README.md) | Done: 132 notes across 20 sections |
 | Game template and Roblox tools | [`template/`](template/README.md) | Done: full simulator game (19 server systems, 13 client controllers), strict types, 47 unit tests, CI |
-| AI agent team, stage gates, orchestrator | `agents/` | Planned |
+| AI agent team, stage gates, orchestrator | [`agents/`](agents/README.md), [`.claude/agents/studio/`](.claude/agents/studio/) | Done: 15 role agents, `/studio` commands, `studioctl` task queue with gates, leases and human checkpoints, guard hook, 45 tests |
 | Chart tracking | `charts/` | Planned |
 
 ## The vault
@@ -20,5 +20,9 @@ Facts are dated 2026-10-24 and link to official Roblox documentation. Rules of t
 ## The template
 
 A complete Rojo project for a tap-to-earn simulator (zones, eggs and pets, upgrades, rebirths, daily and playtime rewards, codes, Robux shop, onboarding funnel, analytics, live configs) built to the vault's engineering and compliance rules. Run `bash template/scripts/install-tools.sh` and `bash template/scripts/check.sh` for the full quality gate (StyLua, Selene, strict luau-lsp, Lune tests, config gate, Rojo build). See [the template README](template/README.md).
+
+## The agent team
+
+Open the repository in Claude Code and type `/studio <your game idea>`. The Director plans the stages, briefs and dispatches fifteen specialist agents (Scout, Designer, Economist, Monetization Designer, Engineer, Interface Designer, Worldbuilder, Artist, Storefront, QA Tester, Newcomer, Security Reviewer, Gatekeeper, Analyst), reviews their evidence, runs the stage gates and brings you only the decisions that are yours: approving the pitch, the prototype verdict, spending, policy answers and publishing. Progress is on `workspace/BOARD.md`. With Roblox Studio's MCP server connected, the agents playtest, build and capture in Studio. See [the agents README](agents/README.md).
 
 Automation in this repo never publishes a game: `template/scripts/upload-place.luau` uploads Saved versions only, and a person publishes.
