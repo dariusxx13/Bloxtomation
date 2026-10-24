@@ -36,6 +36,8 @@ A complete, practical knowledge base for making Roblox games that people play, r
 | 16 | [AI studio operations](16-ai-studio-operations/INDEX.md) | Agent team, Studio MCP, gates, briefs, AI assets |
 | 17 | [Policy and business](17-policy-and-business/INDEX.md) | Rules, ratings, IP, money, privacy |
 | 18 | [Templates and checklists](18-templates-and-checklists/INDEX.md) | Pitch, GDD, economy sheet, playtest, postmortem, checklists |
+| 19 | [VFX](19-vfx/INDEX.md) | Effects in depth: particles, beams, meshes, flipbooks, timing, combat and reward effects, budgets, recipes |
+| 20 | [Anime games](20-anime-games/INDEX.md) | The anime category: sub-genres, gacha, IP and licensing, art, monetization, community, case studies |
 | 99 | [Reference](99-reference/INDEX.md) | Key numbers, API cheat sheet, glossary, sources |
 
 ## Conventions

@@ -41,6 +41,8 @@ The folders follow the life of a game, from the first idea to live operations:
 | [16 AI studio operations](../16-ai-studio-operations/INDEX.md) | Running an AI agent team that builds Roblox games. |
 | [17 Policy and business](../17-policy-and-business/INDEX.md) | Rules that get games removed, age ratings, IP, DevEx, teams. |
 | [18 Templates and checklists](../18-templates-and-checklists/INDEX.md) | Copy-paste documents for pitches, GDDs, playtests, launches. |
+| [19 VFX](../19-vfx/INDEX.md) | Building any visual effect, from a hit spark to an ultimate, within budget. |
+| [20 Anime games](../20-anime-games/INDEX.md) | Making an anime-style game: sub-genres, gacha, IP, art, monetization, community. |
 | [99 Reference](../99-reference/INDEX.md) | Key numbers, API cheat sheet, glossary, sources. |
 
 ## Three ways to read it
