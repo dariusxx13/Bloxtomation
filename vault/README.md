@@ -38,6 +38,7 @@ A complete, practical knowledge base for making Roblox games that people play, r
 | 18 | [Templates and checklists](18-templates-and-checklists/INDEX.md) | Pitch, GDD, economy sheet, playtest, postmortem, checklists |
 | 19 | [VFX](19-vfx/INDEX.md) | Effects in depth: particles, beams, meshes, flipbooks, timing, combat and reward effects, budgets, recipes |
 | 20 | [Anime games](20-anime-games/INDEX.md) | The anime category: sub-genres, gacha, IP and licensing, art, monetization, community, case studies |
+| 21 | [Hits and trends](21-hits-and-trends/INDEX.md) | What goes popular and why: hit anatomy, 2025-2026 case studies, waves, live events, chart snapshot, platform shifts |
 | 99 | [Reference](99-reference/INDEX.md) | Key numbers, API cheat sheet, glossary, sources |
 
 ## Conventions

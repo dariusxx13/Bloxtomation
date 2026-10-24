@@ -43,6 +43,7 @@ The folders follow the life of a game, from the first idea to live operations:
 | [18 Templates and checklists](../18-templates-and-checklists/INDEX.md) | Copy-paste documents for pitches, GDDs, playtests, launches. |
 | [19 VFX](../19-vfx/INDEX.md) | Building any visual effect, from a hit spark to an ultimate, within budget. |
 | [20 Anime games](../20-anime-games/INDEX.md) | Making an anime-style game: sub-genres, gacha, IP, art, monetization, community. |
+| [21 Hits and trends](../21-hits-and-trends/INDEX.md) | Choosing what to build: what went popular, why, and what the charts say now. |
 | [99 Reference](../99-reference/INDEX.md) | Key numbers, API cheat sheet, glossary, sources. |
 
 ## Three ways to read it
