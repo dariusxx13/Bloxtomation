@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-24T19:54:57Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-24T19:55:14Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,17 +14,17 @@ Nothing right now.
 
 ## Tasks
 
-### Working (0)
-
-
-### Needs review (0)
-
-
-### Queued (1)
+### Working (1)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0004 | gatekeeper | stormcatch | Run the Stormcatch pitch gate | - |
+
+### Needs review (0)
+
+
+### Queued (0)
+
 
 ### Draft (needs a brief) (0)
 
@@ -35,6 +35,7 @@ Nothing right now.
 
 ## Recent activity
 
+- 2026-10-24T19:55:14Z gatekeeper: started T-0004
 - 2026-10-24T19:54:57Z director: T-0003 -> done: Reviewed: one section per PITCH criterion with pointers, rubric 35/54 arithmetic checked, D1-D6 recorded as the human's, Ride Storm verified in the phone snapshot.
 - 2026-10-24T19:54:19Z scout: submitted T-0003 for review
 - 2026-10-24T19:40:22Z scout: started T-0003
@@ -49,4 +50,3 @@ Nothing right now.
 - 2026-10-24T19:23:59Z director: added T-0002 'Sketch the core loop and the weather twist' for designer (queued)
 - 2026-10-24T19:23:59Z director: added T-0001 'Scan the fishing and cozy market with fresh charts' for scout (queued)
 - 2026-10-24T19:22:30Z director: created game stormcatch (Stormcatch (working title))
-- 2026-10-24T19:22:17Z human: workspace initialised
