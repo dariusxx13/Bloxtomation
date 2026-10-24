@@ -64,7 +64,13 @@ local Passes: { PassDef } = {
 		description = "+50% luck on every egg (odds shown update)",
 		probabilityModifier = true,
 	},
-	{ key = "vip", id = 0, name = "VIP", description = "VIP tag and +10% coins", probabilityModifier = false },
+	{
+		key = "vip",
+		id = 0,
+		name = "VIP",
+		description = "VIP tag and +10% coins",
+		probabilityModifier = false,
+	},
 }
 
 local Products: { ProductDef } = {

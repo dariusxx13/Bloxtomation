@@ -1,0 +1,84 @@
+name: Template CI
+
+on:
+  push:
+    paths:
+      - "template/**"
+      - ".github/workflows/template-ci.yml"
+  pull_request:
+    paths:
+      - "template/**"
+      - ".github/workflows/template-ci.yml"
+  workflow_dispatch:
+    inputs:
+      upload_saved:
+        description: "Also upload the build as a SAVED (not published) place version"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: template
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache pinned tools
+        uses: actions/cache@v4
+        with:
+          path: template/.tools
+          key: template-tools-${{ hashFiles('template/rokit.toml', 'template/scripts/install-tools.sh') }}
+
+      - name: Install pinned tools
+        run: bash scripts/install-tools.sh
+
+      - name: Quality gate (format, lint, types, tests, config, build)
+        run: bash scripts/check.sh
+
+      - name: Economy sheet
+        run: .tools/bin/lune run scripts/economy-sheet economy-sheet.md > /dev/null
+
+      - name: Upload build and economy sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: template-build
+          path: |
+            template/build.rbxl
+            template/economy-sheet.md
+
+  upload-saved:
+    # Manual only, and only ever a Saved version: publishing stays a human decision.
+    if: github.event_name == 'workflow_dispatch' && inputs.upload_saved
+    needs: checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: template
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: template-build
+          path: template
+
+      - name: Cache pinned tools
+        uses: actions/cache@v4
+        with:
+          path: template/.tools
+          key: template-tools-${{ hashFiles('template/rokit.toml', 'template/scripts/install-tools.sh') }}
+
+      - name: Install pinned tools
+        run: bash scripts/install-tools.sh
+
+      - name: Upload Saved version
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: .tools/bin/lune run scripts/upload-place build.rbxl

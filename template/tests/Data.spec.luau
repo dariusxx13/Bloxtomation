@@ -18,7 +18,8 @@ return function(test: TestKit.Test)
 	end)
 
 	test("reconcile fills missing fields of old saves", function()
-		local old: any = { version = 1, coins = 50, gems = 0, rebirths = 0, onboardingStep = 3, pets = {}, equipped = {} }
+		local old: any =
+			{ version = 1, coins = 50, gems = 0, rebirths = 0, onboardingStep = 3, pets = {}, equipped = {} }
 		local migrated = Migrations.migrate(old)
 		TestKit.equal(migrated.coins, 50, "kept existing value")
 		TestKit.truthy(migrated.settings and migrated.settings.music == true, "settings filled")
@@ -38,7 +39,16 @@ return function(test: TestKit.Test)
 				return data
 			end,
 		}
-		local data: any = { version = 1, oldField = 7, coins = 0, gems = 0, rebirths = 0, onboardingStep = 0, pets = {}, equipped = {} }
+		local data: any = {
+			version = 1,
+			oldField = 7,
+			coins = 0,
+			gems = 0,
+			rebirths = 0,
+			onboardingStep = 0,
+			pets = {},
+			equipped = {},
+		}
 		local migrated = Migrations.migrate(data, steps, 3)
 		TestKit.equal(migrated.version, 3)
 		TestKit.equal(migrated.renamed, 7)
@@ -73,9 +83,10 @@ return function(test: TestKit.Test)
 		local session = {
 			passes = { x2Coins = true, petSlots = true, lucky = true },
 			serverLuckUntil = 0,
-			friendBonus = 0,
+			socialBonus = 0,
 			playtimeClaimed = {},
 			sessionStart = 0,
+			joinedAt = 0,
 			randomItemsRestricted = false,
 		}
 		local derived = Stats.derive(data, session, 0)
@@ -91,9 +102,10 @@ return function(test: TestKit.Test)
 		local session = {
 			passes = { lucky = true },
 			serverLuckUntil = 1000,
-			friendBonus = 0,
+			socialBonus = 0,
 			playtimeClaimed = {},
 			sessionStart = 0,
+			joinedAt = 0,
 			randomItemsRestricted = true,
 		}
 		TestKit.equal(Stats.derive(data, session, 10).luck, 1)

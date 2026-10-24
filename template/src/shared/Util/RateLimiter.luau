@@ -20,7 +20,13 @@ function RateLimiter.new(clock: () -> number): RateLimiter
 	return setmetatable({ clock = clock, buckets = {}, violations = {} }, RateLimiter)
 end
 
-function RateLimiter.allow(self: RateLimiter, owner: any, action: string, ratePerSecond: number, burst: number): boolean
+function RateLimiter.allow(
+	self: RateLimiter,
+	owner: any,
+	action: string,
+	ratePerSecond: number,
+	burst: number
+): boolean
 	local now = self.clock()
 	local ownerBuckets = self.buckets[owner]
 	if not ownerBuckets then

@@ -10,7 +10,10 @@ return function(test: TestKit.Test)
 	local typical = EconomyMath.simulatePacing(Economy.playerModels.typical.hitsPerSecond, 240)
 
 	test("first upgrade under one minute", function()
-		TestKit.truthy(casual.firstUpgradeSeconds > 0 and casual.firstUpgradeSeconds < 60, tostring(casual.firstUpgradeSeconds))
+		TestKit.truthy(
+			casual.firstUpgradeSeconds > 0 and casual.firstUpgradeSeconds < 60,
+			tostring(casual.firstUpgradeSeconds)
+		)
 	end)
 
 	test("zone 2 reached at 10-15 minutes by a casual free player (no pets)", function()

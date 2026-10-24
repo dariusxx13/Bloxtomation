@@ -28,7 +28,10 @@ function Odds.effective(egg: Eggs.EggDef, luck: number): { WeightedOutcome }
 			weight *= math.max(1, luck)
 		end
 		total += weight
-		table.insert(outcomes, { kind = entry.kind, weight = weight, probability = 0, rarity = pet.rarity })
+		table.insert(
+			outcomes,
+			{ kind = entry.kind, weight = weight, probability = 0, rarity = pet.rarity :: string }
+		)
 	end
 	for _, outcome in outcomes do
 		outcome.probability = outcome.weight / total

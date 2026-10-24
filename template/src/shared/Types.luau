@@ -71,9 +71,10 @@ export type DerivedStats = {
 export type SessionState = {
 	passes: { [string]: boolean },
 	serverLuckUntil: number,
-	friendBonus: number,
+	socialBonus: number,
 	playtimeClaimed: { [number]: boolean },
-	sessionStart: number,
+	sessionStart: number, -- start of the current play-time accounting window (moves on autosave)
+	joinedAt: number, -- unix time this session began (never moves; playtime gifts count from here)
 	randomItemsRestricted: boolean,
 }
 
@@ -84,9 +85,11 @@ export type HatchResult = {
 	isNew: boolean,
 }
 
+-- What every client -> server function remote returns. Extra fields (results, text, ...) are per remote.
 export type ActionResult = {
 	ok: boolean,
 	reason: string?,
+	[string]: any,
 }
 
 return nil

@@ -61,7 +61,7 @@ function Stats.zoneMultiplier(zoneId: string): number
 end
 
 function Stats.derive(data: Types.ProfileData, session: Types.SessionState?, now: number): Types.DerivedStats
-	local passes = if session then session.passes else {}
+	local passes: { [string]: boolean } = if session then session.passes else {}
 	local coinMultiplier = 1
 	if passes.x2Coins then
 		coinMultiplier *= Products.passEffects.x2CoinsMultiplier
@@ -69,13 +69,13 @@ function Stats.derive(data: Types.ProfileData, session: Types.SessionState?, now
 	if boostActive(data, "coins2x", now) then
 		coinMultiplier *= Products.boostEffects.coins2x.coins
 	end
-	-- Additive bonuses (VIP, friends, streak) share one category
+	-- Additive bonuses (VIP, friends, group) share one category
 	local additive = 0
 	if passes.vip then
 		additive += Products.passEffects.vipCoinBonus
 	end
 	if session then
-		additive += session.friendBonus
+		additive += session.socialBonus
 	end
 	coinMultiplier *= 1 + additive
 
@@ -84,7 +84,7 @@ function Stats.derive(data: Types.ProfileData, session: Types.SessionState?, now
 	local power = EconomyMath.powerMultiplier(upgradeLevel(data, "power"))
 	local coinsPerHit = Economy.baseCoinsPerHit * power * petMultiplier * rebirthMultiplier * coinMultiplier
 
-	-- Luck: additive inside the category, multiplied by boosts, capped (vault: rng-systems-and-pity)
+	-- Luck: additive inside the category, multiplied by boosts, capped (vault: 03-rarity-and-rng/rng-systems-and-pity.md)
 	local luck = 1 + upgradeLevel(data, "luck") * upgradeEffect("luck")
 	local restricted = session ~= nil and session.randomItemsRestricted
 	if passes.lucky and not restricted then
@@ -115,7 +115,12 @@ function Stats.derive(data: Types.ProfileData, session: Types.SessionState?, now
 end
 
 -- Converts "minutes of income" rewards into coins for the player's best unlocked zone.
-function Stats.coinsForMinutes(data: Types.ProfileData, derived: Types.DerivedStats, minutes: number, hitsPerMinute: number): number
+function Stats.coinsForMinutes(
+	data: Types.ProfileData,
+	derived: Types.DerivedStats,
+	minutes: number,
+	hitsPerMinute: number
+): number
 	local best = 1
 	for _, zone in Zones do
 		if data.zonesUnlocked[zone.id] then

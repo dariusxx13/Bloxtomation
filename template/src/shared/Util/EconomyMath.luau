@@ -72,7 +72,10 @@ function EconomyMath.simulatePacing(hitsPerSecond: number, maxMinutes: number): 
 	local rebirthCost = EconomyMath.rebirthCost(0)
 	while t < maxMinutes * 60 do
 		local zone = Zones[zoneIndex]
-		local income = hitsPerSecond * Economy.baseCoinsPerHit * EconomyMath.powerMultiplier(level) * zone.valueMultiplier
+		local income = hitsPerSecond
+			* Economy.baseCoinsPerHit
+			* EconomyMath.powerMultiplier(level)
+			* zone.valueMultiplier
 		coins += income
 		t += 1
 		if result.rebirthMinutes == nil and coins >= rebirthCost then
