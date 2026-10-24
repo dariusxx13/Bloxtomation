@@ -12,6 +12,7 @@ summary: How an AI agent team builds Roblox games: roles, stages, gates, briefs,
 - [Quality gates](quality-gates.md): criteria with stable ids for every stage from pitch to review.
 - [Build briefs](build-briefs.md): the brief template, good versus bad briefs, the evidence agents return.
 - [AI asset generation](ai-asset-generation.md): tools, workflow, prompting, thumbnails, legal safety.
+- [Reference image workflow](reference-image-workflow.md): collecting and annotating references, the reference sheet for briefs, inspiration versus copying.
 
 The runnable team (agent definitions, orchestrator, gate checks) lives in the repository's `agents/` folder.
 

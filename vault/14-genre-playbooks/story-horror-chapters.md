@@ -9,7 +9,7 @@ audience: [human, agent]
 
 # Story horror with chapters playbook
 
-Story games give players a beginning, middle and end: escape the house, survive the night, uncover what happened. On Roblox they usually arrive in **chapters**, each released as an update, so a finite game becomes a live one. Chapter horror was one of the platform's big waves around 2020, and story experiences remain on the charts in 2026: on 2026-10-24 a Roblox Presents title, The Hollow, led the up-and-coming sort, and "A Long Flight" (early access) was also rising (studio snapshot). For co-op survival horror with no story arc, see [Survival and horror co-op playbook](survival-horror-coop.md).
+Story games give players a beginning, middle and end: escape the house, survive the night, uncover what happened. On Roblox they usually arrive in **chapters**, each released as an update, so a finite game becomes a live one. Chapter horror was one of the platform's big waves around 2020, and story experiences remain on the charts in 2026: on 2026-10-24 Roblox's own Halloween survival event, The Hollow, which features monsters from nine horror games, led the up-and-coming sort, and "A Long Flight" (early access) was also rising (studio snapshot). For co-op survival horror with no story arc, see [Survival and horror co-op playbook](survival-horror-coop.md).
 
 Roblox genre: Survival (horror), Adventure or Entertainment (story).
 

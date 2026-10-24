@@ -16,6 +16,7 @@ summary: Engineering standards: architecture, networking, security, data, perfor
 - [Tooling and CI](tooling-and-ci.md): Script Sync vs Rojo, the toolchain, CI pipeline, Open Cloud saved uploads.
 - [Analytics instrumentation](analytics-instrumentation.md): event types and limits, naming, the minimum event plan, a wrapper module.
 - [Luau standards](luau-standards.md): strict typing, naming, module shape, error handling, review flags.
+- [Common Luau mistakes](common-luau-mistakes.md): fifteen recurring bugs in beginner and AI-generated code, with fixes and a review table.
 
 ## Deep dives
 

@@ -36,6 +36,7 @@ The largest player peaks on Roblox in 2025 and 2026 did not come from launches. 
 | 2026-08-09 | +1 Speed Keyboard Escape admin abuse events | A 24-hour peak of about 5.2M, against an all-time high of about 7.28M | StudioKrew board citing GGAID (August 2026) |
 | 2026-09-19 | Steal An Egg crossover with the creator of Steal a Brainrot | A peak of about 14.27M concurrent players | StudioKrew board citing RoVitals (September 2026) |
 | 2026-09-17 to 09-28 | The Hunt: Roblox 20 (platform event) | Older games such as Lumber Tycoon 2 and Jailbreak saw waves of returning players | Bloxodes September 2026 report |
+| 2026-10-22 to 11-02 | The Hollow (platform event) | A Roblox-run Halloween survival event for ages 9+, with a new monster each day from nine horror games (including 99 Nights in the Forest, DOORS and Animal Hospital), creator livestreams and a live finale on October 31 | Roblox newsroom, 2026-10-21 |
 
 Numbers are from press and third-party trackers, rounded and approximate.
 

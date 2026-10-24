@@ -44,7 +44,7 @@ Behind many hits is a deal: a small creator finds a loop, then a studio with liv
 | Concert | A major pop star performed inside Steal a Brainrot in January 2026 (about 12.8M concurrent players) | Wikipedia |
 | Branded collaboration award | "Steal a Brainrot x GOAT" won the Innovation in Branded Game category at the 2026 Innovation Awards | Press lists, September 2026 |
 | Brand event in an evergreen | Brookhaven ran a two-week event with a dinosaur film brand in September 2026 | StudioKrew, September 2026 |
-| Roblox's own titles | "The Hollow", credited to Roblox Presents, appeared among up-and-coming games on 2026-10-24 | Studio chart snapshot |
+| Platform events featuring partner games | "The Hollow" (2026-10-22 to 11-02), a Roblox-run Halloween event, featured monsters from nine horror games, including Animal Hospital and 99 Nights in the Forest | Roblox newsroom, 2026-10-21 |
 
 **Lesson:** a game with original IP can grow into a brand others pay to use. A game built on someone else's IP cannot.
 

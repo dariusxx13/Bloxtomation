@@ -76,7 +76,7 @@ Creation dates are universe creation dates from the public API and can be earlie
 
 ## Breakout candidates (young or small and growing)
 
-Games created in the last 60 days or with under 1M visits, with 1K+ players: DONT SPLASH (7 days old, 88K), Huss Valley (82K), Sell Fries! (81K), Break and Steal an Egg (73K), Cat Battles (73K), Bike Universe (64K), +1 Stone Skipping (63K), Climb For Animals Eggs (55K), Ragdoll Reality (54K), Backseat Rally (54K), Kukirin Life (54K), Chop A Forest (51K), an Arabic-titled lizard-hunting game (48K), The Hollow from Roblox Presents (41K) and Fake an Egg (36K).
+Games created in the last 60 days or with under 1M visits, with 1K+ players: DONT SPLASH (7 days old, 88K), Huss Valley (82K), Sell Fries! (81K), Break and Steal an Egg (73K), Cat Battles (73K), Bike Universe (64K), +1 Stone Skipping (63K), Climb For Animals Eggs (55K), Ragdoll Reality (54K), Backseat Rally (54K), Kukirin Life (54K), Chop A Forest (51K), an Arabic-titled lizard-hunting game (48K), The Hollow, Roblox's platform-wide Halloween survival event that opened on 2026-10-22 (41K) and Fake an Egg (36K).
 
 Themes visible in that list: eggs (three titles), +1 progress, Halloween variants, chopping and riding, and regional games.
 
@@ -102,7 +102,7 @@ Themes visible in that list: eggs (three titles), +1 progress, Halloween variant
 | Evergreens lead (MM2, Brookhaven, Adopt Me, Blox Fruits) | Social institutions and trading histories are durable targets for long-term projects |
 | Young games are diverse (obby, food job, bikes, ragdoll, cat battles) | The next wave is not obvious yet; watch two weeks of snapshots |
 | Sports games hold steady (two in the top 20) | Anime-styled or arcade sports remain an option with lower saturation |
-| Roblox Presents titles appear in up-and-coming | First-party content competes for the same discovery slots |
+| Roblox's own platform event (The Hollow) leads up-and-coming | Platform events take discovery slots and feature partner games (monsters from nine horror games this time) |
 
 ## How to refresh this note
 

@@ -39,6 +39,7 @@ A complete, practical knowledge base for making Roblox games that people play, r
 | 19 | [VFX](19-vfx/INDEX.md) | Effects in depth: particles, beams, meshes, flipbooks, timing, combat and reward effects, budgets, recipes |
 | 20 | [Anime games](20-anime-games/INDEX.md) | The anime category: sub-genres, gacha, IP and licensing, art, monetization, community, case studies |
 | 21 | [Hits and trends](21-hits-and-trends/INDEX.md) | What goes popular and why: hit anatomy, 2025-2026 case studies, waves, live events, chart snapshot, platform shifts |
+| 22 | [References](22-references/INDEX.md) | AI tooling landscape, new engine features, engine limits, API cookbook, reference games, learning paths, FAQ |
 | 99 | [Reference](99-reference/INDEX.md) | Key numbers, API cheat sheet, glossary, sources |
 
 ## Conventions

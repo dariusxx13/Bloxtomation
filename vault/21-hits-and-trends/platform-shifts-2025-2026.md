@@ -30,7 +30,8 @@ What goes popular depends on the platform's rules as much as on players' tastes.
 | Unique metadata and an own spin on trends are recommended; close look-alikes are not prioritized | Fact (discovery docs) | Copies lose twice: players and algorithm ([Trend lifecycle](../15-market-research/trend-lifecycle.md)) |
 | 2026-06-15: Recommended For You reportedly moved to a 28-day window and added weight on whether returning players keep playing and whether first-time players leave quickly | Reported (Bloxodes, June 2026) | Same direction: return play wins |
 | 2026-08-19: Roblox announced large-scale action against bot accounts; counts may fluctuate; known bot engagement excluded from Recommended For You | Reported (Bloxodes, citing a Developer Forum post) | Expect tracker noise; never buy fake engagement |
-| RDC 2026 (2026-09-11): discovery to become more age-aware and to look at whether players return beyond their first week | Reported (Bloxodes, September 2026) | Retention past day 7 matters more |
+| RDC 2026 (2026-09-11): discovery ranking is increasingly age-aware (younger players favour shorter-form games, older players deeper games they return to) and looks beyond the first week to the first 28 days and beyond; Roblox is also testing optimizing discovery for direct growth (new players a game brings to the platform) | Fact (Roblox newsroom, RDC 2026) | Retention past day 7 matters more; games that bring new players may be rewarded |
+| Moments: a tab where players watch gameplay videos and click to play, fully available in the U.S.; videos from games' detail pages to appear there | Fact (Roblox newsroom, RDC 2026) | Upload strong gameplay videos to the store page ([Store page video](../11-store-page-and-discovery/store-page-video.md)) |
 
 ## Audiences and safety
 
@@ -47,10 +48,14 @@ What goes popular depends on the platform's rules as much as on players' tastes.
 
 | Change | Source | What it means |
 |---|---|---|
-| 2026-07-16: a mobile-first tool that turns a text prompt into a basic playable game announced, with a public alpha starting in New Zealand on 2026-07-28 | Reported (Bloxodes, July 2026) | More, faster competition for simple formats; quality and live ops matter more |
+| Build, a mobile-first prompt-to-game tool: public alpha in New Zealand from July 2026; about 9,000 games published and 71% of its creators had never used Studio (data to 2026-09-01); expanding to Serbia and Singapore | Fact (Roblox newsroom, RDC 2026); alpha dates reported by Bloxodes | More, faster competition for simple formats; quality, depth and live ops matter more |
+| Scene Generator (prompt and reference image to a playable layout) announced for Build and Studio later in 2026 | Fact (Roblox newsroom, RDC 2026) | Faster greyboxing; the studio still owns design and review ([AI tooling landscape](../22-references/ai-tooling-landscape.md)) |
+| 2026-04-15: Studio "going agentic" with Planning Mode, mesh generation, procedural models and a playtesting agent beta; 44% of the top 1,000 creators used Assistant or third-party AI through MCP in a March-April 2026 window | Fact (Roblox newsroom) | AI-assisted development is mainstream among top creators ([AI tooling landscape](../22-references/ai-tooling-landscape.md)) |
 | 2026-07-14: unified 2D and 3D Marketplace publishing requirements after revised avatar-item fees | Reported (Bloxodes, July 2026) | Check current fees before UGC plans (money decisions go to the human) |
-| RDC 2026: players able to join games in the Chrome browser without installing the app by the end of 2026 | Reported (Bloxodes, September 2026) | New players on laptops and school devices; test performance and input on low-end browsers when available |
-| Built-in Studio MCP server and Studio CLI for AI agents | Fact (vault note) | The studio's agent workflow ([Studio MCP playbook](../16-ai-studio-operations/studio-mcp-playbook.md)) |
+| Web play: by the end of 2026, players can join games in Chrome from the game's detail page with no install | Fact (Roblox newsroom, RDC 2026) | New players on laptops and school devices; test performance and input in a browser when available |
+| Offline solo play (mid-2027, early access sooner), standalone apps ("Roblox Everywhere"), a Friends chat tab, voice typing and pre-reviewed Quick Words | Fact (Roblox newsroom, RDC 2026) | New session shapes and social coordination options to plan for |
+| 2D and turn-based support: orthographic camera, animated image containers, sprite-sheet import, UI blur, text shadows, improved gradients, and turn notifications for asynchronous games (Studio beta October 2026) | Fact (Roblox newsroom, RDC 2026) | New genres (2D, puzzle, turn-based) become practical on Roblox |
+| Built-in Studio MCP server and Studio CLI for AI agents | Fact (creator docs) | The studio's agent workflow ([Studio MCP playbook](../16-ai-studio-operations/studio-mcp-playbook.md)) |
 
 ## Money and IP
 
@@ -60,6 +65,8 @@ What goes popular depends on the platform's rules as much as on players' tastes.
 | U.S. 18+ DevEx rate of 0.0054 for eligible earnings from verified 18+ U.S. players | Fact (DevEx docs) | Older-audience games with strong character articulation earn more ([Studio business models](studio-business-models.md)) |
 | Managed pricing (regional pricing plus price optimization), enabled by default for new items | Fact (managed pricing docs) | Read prices dynamically; protect trades ([Anime monetization](../20-anime-games/anime-monetization.md)) |
 | Roblox's 20th anniversary event "The Hunt: Roblox 20" (2026-09-17 to 09-28) brought waves to older participating games | Reported (Bloxodes; Pocket Tactics) | Platform events are free exposure for participating games |
+| "The Hollow" (2026-10-22 to 11-02): a platform-wide Halloween survival event for ages 9+ featuring a monster from each of nine horror games, with a live finale on October 31 | Fact (Roblox newsroom, 2026-10-21) | Featured games get exposure; it explains The Hollow's chart presence on 2026-10-24 |
+| Creators earned more than $5B through DevEx since 2013 and about $1.7B in the 12 months to 2026-06-30; Roblox Wallet (daily payouts for eligible U.S. creators 18+) later in 2026 and Roblox Card in 2027 | Fact (Roblox newsroom, RDC 2026) | Payout options change; money setup is the human's decision |
 
 ## What the studio does differently because of these shifts
 
@@ -76,6 +83,6 @@ What goes popular depends on the platform's rules as much as on players' tastes.
 - [ ] Before acting on a Reported change, look for the official source and record it.
 - [ ] Update this note and [Key numbers](../99-reference/key-numbers.md) when Roblox changes a rule.
 
-Sources: [Discovery](https://create.roblox.com/docs/discovery) · [Discovery FAQ](https://create.roblox.com/docs/discovery-faq) · [Roblox Kids and Select](https://create.roblox.com/docs/production/publishing/kids-and-select) · [Social media links](https://create.roblox.com/docs/production/promotion/social-media-links) · [IP licensing](https://create.roblox.com/docs/ip-licensing) · [U.S. 18+ exchange rate](https://create.roblox.com/docs/production/monetization/18-plus-devex-rate) · [Managed pricing](https://create.roblox.com/docs/production/monetization/managed-pricing) · Bloxodes monthly reports (June-September 2026); StudioKrew August 2026 board; Newzoo 2025 summary; Pocket Tactics Innovation Awards coverage. All accessed 2026-10-24.
+Sources: [Discovery](https://create.roblox.com/docs/discovery) · [Discovery FAQ](https://create.roblox.com/docs/discovery-faq) · [Roblox Kids and Select](https://create.roblox.com/docs/production/publishing/kids-and-select) · [Social media links](https://create.roblox.com/docs/production/promotion/social-media-links) · [IP licensing](https://create.roblox.com/docs/ip-licensing) · [U.S. 18+ exchange rate](https://create.roblox.com/docs/production/monetization/18-plus-devex-rate) · [Managed pricing](https://create.roblox.com/docs/production/monetization/managed-pricing) · Roblox newsroom: [RDC 2026](https://about.roblox.com/newsroom/2026/09/rdc-2026-the-world-needs-more-play), [Roblox Studio is going agentic](https://about.roblox.com/newsroom/2026/04/roblox-studio-going-agentic), [The Hollow](https://about.roblox.com/newsroom/2026/10/the-hollow-halloween-survival-event) · Bloxodes monthly reports (June-September 2026); StudioKrew August 2026 board; Newzoo 2025 summary; Pocket Tactics Innovation Awards coverage. All accessed 2026-10-24.
 
 Related: [The Roblox platform in 2026](../00-start-here/roblox-platform-2026.md) · [Discovery algorithm](../11-store-page-and-discovery/discovery-algorithm.md) · [Anatomy of a Roblox hit](anatomy-of-a-hit.md) · [Age ratings and audience](../17-policy-and-business/age-ratings-and-audience.md) · [Key numbers](../99-reference/key-numbers.md)
