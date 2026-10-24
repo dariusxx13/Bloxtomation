@@ -1,0 +1,12 @@
+[package]
+name = "bloxtomation/starter-simulator"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+# The template has no required dependencies. Examples you may add:
+[dependencies]
+# Trove = "sleitnick/trove@1"
+
+[server-dependencies]
+# ProfileStore = "loleris/profilestore@1"  # proven alternative to src/server/Core/ProfileStore.luau

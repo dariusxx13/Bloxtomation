@@ -1,0 +1,12 @@
+*.rbxl
+*.rbxlx
+*.rbxl.lock
+*.rbxlx.lock
+Packages/
+ServerPackages/
+DevPackages/
+wally.lock
+sourcemap.json
+roblox.yml
+globalTypes.d.luau
+out/
