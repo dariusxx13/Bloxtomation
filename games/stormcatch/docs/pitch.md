@@ -1,7 +1,7 @@
 ---
 title: "Pitch: Reel the Storm (id stormcatch)"
 date: 2026-10-24
-status: submitted
+status: "resubmitted for the re-gate T-0006 after the T-0005 fixes"
 author: scout (task T-0003)
 ---
 
@@ -9,7 +9,7 @@ author: scout (task T-0003)
 
 Game id `stormcatch`. The working title was Stormcatch until the human chose "Reel the Storm" (D3).
 
-Task T-0003 · Scout · 2026-10-24 · Stage: pitch · Outcome served: **click** (an evidence-backed decision on whether to build this game). Submitted for the pitch gate (T-0004). The decision is yours.
+Task T-0003 · Scout · 2026-10-24 · Stage: pitch · Outcome served: **click** (an evidence-backed decision on whether to build this game). Submitted for the pitch gate (T-0004), which failed PITCH-01; resubmitted for the re-gate (T-0006) after the T-0005 fixes. The decision is yours.
 
 **Ten-minute reading path:** "Decision in brief", "Decisions you have already made", "Rubric score", "Recommendation and options" and "Questions for the human". The other sections hold the evidence for each gate criterion.
 
@@ -156,7 +156,7 @@ In the twist dimensions of `vault/15-market-research/trend-lifecycle.md`, the tw
 | Charting games where weather already changes play | 5 (Fisch, Fish It!, Grow a Garden, Sol's RNG, Ride A Pet) | [PC] plus [GUIDES] |
 | Leader trajectories | Fisch stable (30-day -2.5%); Fish It! declining (30-day -27%; about 5% of its 2025-11-24 peak) | [RW] |
 
-**Trend phase: genre (phase 5 in `vault/15-market-research/trend-lifecycle.md`). This is the scout's judgment, not a measurement.** It rests on four things: the 2024 spark (Fisch), Fish It!'s peak and decline [RW], a stable leader, and several smaller fishing games that hold 96-98% like ratios and returning players ([PC], [PH]).
+**Trend phase: genre (phase 5 in `vault/15-market-research/trend-lifecycle.md`). This is the scout's judgment, not a measurement.** It rests on four things: the 2024 spark (Fisch), Fish It!'s peak and decline [RW], a stable leader, and staying-power signals. Six of the seven smaller fishing games hold 96-98% like ratios (Deep Fishing 97.2%, Heavyweight Fishing 96.1%, Harpoon a Fish 97.3%, Roll a Fisherman 98.3%, Cage Fishing 98.2%, Titan Fishing 98.0%; the seventh, Fish an Anime RNG, 95.0%) [PC]. Two fishing games place in top revisited: Heavyweight Fishing, the only smaller one there (#32 computer / #8 phone), and Fisch (#28 / #37) ([PC], [PH]). (corrected by scout, T-0005, per gate PITCH-01)
 
 The chart tool cannot measure the phase from one snapshot. It needs at least 36 hours of history and prints "unknown (needs 36h+ of data)" [GEN] (the threshold is in `charts/chartlib/analysis.py`). A second snapshot after 2026-10-25 19:24 UTC gives the first measured 24-hour change and visits per day for each comparable. A snapshot at or after 2026-10-26 07:25 UTC (36 hours after the first) also gives the tool's phase estimate. That estimate covers Simulation as a whole. The phase for fishing alone comes from the growth of the nine fishing games in the same report.
 

@@ -171,6 +171,16 @@
       "at": "2026-10-24T20:12:24Z",
       "by": "scout",
       "message": "started T-0005"
+    },
+    {
+      "at": "2026-10-24T20:14:16Z",
+      "by": "scout",
+      "message": "submitted T-0005 for review"
+    },
+    {
+      "at": "2026-10-24T20:14:36Z",
+      "by": "director",
+      "message": "T-0005 -> done: Reviewed both passes: device claims match the per-game rank pairs, holiday sentence cites the seasonal calendar, phase paragraph names per-game like ratios and revisited placements, supersession note in loop-sketch. Rubric unchanged 35/54."
     }
   ],
   "tasks": {
@@ -303,15 +313,20 @@
           "at": "2026-10-24T20:12:15Z",
           "by": "director",
           "text": "returned: PITCH-01 risk, same pattern as the failure: pitch.md phase paragraph (line 159) says 'several smaller fishing games that hold 96-98% like ratios and returning players ([PC], [PH])'. Like ratios check out (Deep Fishing 97.2, Heavyweight 96.1, Harpoon 97.3, Roll a Fisherman 98.3, Cage 98.2, Titan 98.0; Fish an Anime RNG 95.0), but only Heavyweight Fishing has a top-revisited placement (#32 computer / #8 phone). Passes when: the sentence names Heavyweight Fishing (and Fisch revisited #28/#37) for returning players and states like ratios per game or as 95-98% for six of seven. Also: (1) pitch.md status and 'Submitted for the pitch gate (T-0004)' line updated to the re-gate T-0006; (2) a one-line note at the top of loop-sketch.md saying decisions D3 and D6 in decisions.md supersede its 'no summoning or buying weather' statements (sections 3, 4.3, 4.5, 8, 12) and the open trademark item in section 8, and that the Designer reworks them at the design stage."
+        },
+        {
+          "at": "2026-10-24T20:14:36Z",
+          "by": "director",
+          "text": "Reviewed both passes: device claims match the per-game rank pairs, holiday sentence cites the seasonal calendar, phase paragraph names per-game like ratios and revisited placements, supersession note in loop-sketch. Rubric unchanged 35/54."
         }
       ],
       "owner": "scout",
       "stage": "pitch",
       "started": "2026-10-24T20:12:24Z",
-      "status": "working",
-      "submitted": "2026-10-24T20:11:27Z",
+      "status": "done",
+      "submitted": "2026-10-24T20:14:16Z",
       "title": "Fix the two PITCH-01 failures in the pitch",
-      "updated": "2026-10-24T20:12:24Z"
+      "updated": "2026-10-24T20:14:36Z"
     },
     "T-0006": {
       "brief": "games/stormcatch/tasks/T-0006.md",
