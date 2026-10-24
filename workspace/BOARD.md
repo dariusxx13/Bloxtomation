@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-24T20:04:08Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-24T20:12:24Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -38,6 +38,9 @@ Nothing right now.
 
 ## Recent activity
 
+- 2026-10-24T20:12:24Z scout: started T-0005
+- 2026-10-24T20:12:15Z director: T-0005 -> queued: returned: PITCH-01 risk, same pattern as the failure: pitch.md phase paragraph (line 159) says 'several smaller fishing games that hold 96-98% like ratios and returning players ([PC], [PH])'. Like ratios check out (Deep Fishing 97.2, Heavyweight 96.1, Harpoon 97.3, Roll a Fisherman 98.3, Cage 98.2, Titan 98.0; Fish an Anime RNG 95.0), but only Heavyweight Fishing has a top-revisited placement (#32 computer / #8 phone). Passes when: the sentence names Heavyweight Fishing (and Fisch revisited #28/#37) for returning players and states like ratios per game or as 95-98% for six of seven. Also: (1) pitch.md status and 'Submitted for the pitch gate (T-0004)' line updated to the re-gate T-0006; (2) a one-line note at the top of loop-sketch.md saying decisions D3 and D6 in decisions.md supersede its 'no summoning or buying weather' statements (sections 3, 4.3, 4.5, 8, 12) and the open trademark item in section 8, and that the Designer reworks them at the design stage.
+- 2026-10-24T20:11:27Z scout: submitted T-0005 for review
 - 2026-10-24T20:04:08Z scout: started T-0005
 - 2026-10-24T20:03:52Z director: added T-0006 'Re-run the pitch gate after the PITCH-01 fix' for gatekeeper (queued)
 - 2026-10-24T20:03:52Z director: added T-0005 'Fix the two PITCH-01 failures in the pitch' for scout (queued)
@@ -50,6 +53,3 @@ Nothing right now.
 - 2026-10-24T19:40:22Z scout: started T-0003
 - 2026-10-24T19:40:05Z director: T-0002 -> done: Reviewed: loop, twist mapped to the scan's not-found column, first session, reuse map, hit sheet 17/20; template claims spot-checked (Upgrades baseCost 15, friend bonus 0.1/0.5, zone 2 pacing 8-16 min).
 - 2026-10-24T19:39:31Z designer: submitted T-0002 for review
-- 2026-10-24T19:34:54Z director: T-0001 -> done
-- 2026-10-24T19:34:08Z scout: submitted T-0001 for review
-- 2026-10-24T19:24:26Z scout: started T-0001
