@@ -96,6 +96,16 @@
       "at": "2026-10-24T19:40:22Z",
       "by": "scout",
       "message": "started T-0003"
+    },
+    {
+      "at": "2026-10-24T19:54:19Z",
+      "by": "scout",
+      "message": "submitted T-0003 for review"
+    },
+    {
+      "at": "2026-10-24T19:54:57Z",
+      "by": "director",
+      "message": "T-0003 -> done: Reviewed: one section per PITCH criterion with pointers, rubric 35/54 arithmetic checked, D1-D6 recorded as the human's, Ride Storm verified in the phone snapshot."
     }
   ],
   "tasks": {
@@ -166,15 +176,22 @@
         "PITCH-07",
         "PITCH-08"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0003.md",
       "id": "T-0003",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-24T19:54:57Z",
+          "by": "director",
+          "text": "Reviewed: one section per PITCH criterion with pointers, rubric 35/54 arithmetic checked, D1-D6 recorded as the human's, Ride Storm verified in the phone snapshot."
+        }
+      ],
       "owner": "scout",
       "stage": "pitch",
       "started": "2026-10-24T19:40:22Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-24T19:54:19Z",
       "title": "Write the Stormcatch pitch with the greenlight rubric",
-      "updated": "2026-10-24T19:40:22Z"
+      "updated": "2026-10-24T19:54:57Z"
     },
     "T-0004": {
       "brief": "games/stormcatch/tasks/T-0004.md",

@@ -1,15 +1,19 @@
 ---
-title: "Pitch: Stormcatch (working title)"
+title: "Pitch: Reel the Storm (id stormcatch)"
 date: 2026-10-24
 status: submitted
 author: scout (task T-0003)
 ---
 
-# Stormcatch (working title): pitch
+# Reel the Storm: pitch
+
+Game id `stormcatch`. The working title was Stormcatch until the human chose "Reel the Storm" (D3).
 
 Task T-0003 · Scout · 2026-10-24 · Stage: pitch · Outcome served: **click** (an evidence-backed decision on whether to build this game). Submitted for the pitch gate (T-0004). The decision is yours.
 
-This is a decision document. The detail is in the market scan (`games/stormcatch/docs/market-scan.md`, T-0001) and the loop sketch (`games/stormcatch/docs/loop-sketch.md`, T-0002), and each section here points to the part it draws on.
+**Ten-minute reading path:** "Decision in brief", "Decisions you have already made", "Rubric score", "Recommendation and options" and "Questions for the human". The other sections hold the evidence for each gate criterion.
+
+This is a decision document. The detail is in the market scan (`games/stormcatch/docs/market-scan.md`, T-0001), the loop sketch (`games/stormcatch/docs/loop-sketch.md`, T-0002) and the human's decisions (`games/stormcatch/docs/decisions.md`). Each section here points to the part it draws on.
 
 **Citation keys.** Every number below carries one of these keys.
 
@@ -21,6 +25,7 @@ This is a decision document. The detail is in the market scan (`games/stormcatch
 | [RW] | RoWatcher game history pages (third party, approximate), via the scan | accessed 2026-10-24 |
 | [GUIDES] | Public guides listed in the scan's Sources, with their dates and verification labels | published 2024-11-20 to 2026-10-21, read 2026-10-24 |
 | [SK n] | Loop sketch section n. These are design targets and first-pass estimates, not measurements | 2026-10-24 |
+| [D n] | The human's decision n, recorded by the Director in `decisions.md` | 2026-10-24 |
 
 Committed copies of [PC], [PH], both reports, both genres outputs and both evidence blocks are in `games/stormcatch/docs/evidence/charts-2026-10-24/`, because `charts/data/` is git-ignored. Every [PC] and [PH] number in this pitch was re-read from those files on 2026-10-24. **[PC] can support decisions under PITCH-01 (7 days) until 2026-10-31 19:24 UTC.** No second snapshot was taken; the Director decided against one.
 
@@ -28,9 +33,22 @@ Committed copies of [PC], [PH], both reports, both genres outputs and both evide
 
 - **The game:** cozy fishing on a small archipelago where each kind of weather is a different way to fish. The weather drifts between islands on a forecast everyone can read. Storms never hurt anyone. Every 15 minutes a Great Storm brings players together to pull in giant fish, and strangers count as helpers.
 - **The market:** fishing is a stable genre with two leaders. Nine fishing games chart with 219,733 players, and Fisch and Fish It! hold 83.5% of them [PC]. We would be late for a fast follow, so we can only win by being different and better.
-- **Rubric:** **35 / 54**, in the "refine the pitch" band (30-39). Comparable games prove the basic fishing loop. The twist, which is the reason to build this game, is untested.
+- **Rubric:** **35 / 54**, in the "refine the pitch" band (30-39). Comparable games prove the basic fishing loop. The twist, which is the reason to build this game, is untested. Your decisions D2 to D6 changed six justifications and no scores.
 - **Recommendation: approve with changes.** Approve a prototype only, with a written go/stop rule that tests whether players really fish differently in each weather. The options and their trade-offs are at the end.
-- **What we need from you:** the decision and answers to five policy and naming questions (end of document). The prototype needs no money.
+- **What we need from you:** the decision after the gate, and three open questions (end of document). The prototype needs no money.
+
+## Decisions you have already made
+
+From `games/stormcatch/docs/decisions.md` (written by the Director from your chat replies of 2026-10-24). They are recorded here as your decisions, not as studio answers.
+
+| # | Your decision | Where it shows in this pitch |
+|---|---|---|
+| D1 | You intend to approve. This is not an approval: the gate runs on evidence, and you record the approval yourself after it. It changed neither the score nor the recommendation. | Recommendation |
+| D2 | Companion nests count as paid random items when coins can be bought with Robux. | The game (money), PITCH-07 |
+| D3 | The store title is "Reel the Storm", with no trademark search; you accept that risk. The game id stays `stormcatch`. | Title, PITCH-07, rubric |
+| D4 | Superseded by D6 the same day (the first answer was "no"). | n/a |
+| D5 | The expected label is Minimal. This is the Director's reading of "Whatever the designer recommends", which you can correct in `decisions.md`. You fill in the questionnaire yourself in Creator Hub before release. | PITCH-07 |
+| D6 | Players can summon weather for Robux ("Wait, summoning weather shall be at a robux cost."). | The game (money), PITCH-04, risks, rubric, questions |
 
 ## Where each criterion is answered
 
@@ -39,10 +57,10 @@ Committed copies of [PC], [PH], both reports, both genres outputs and both evide
 | PITCH-01 | Evidence | [PC], [PH], [GEN] in the evidence folder; scan "Data used", "Comparables" and appendix |
 | PITCH-02 | One-liner | Sketch section 2 |
 | PITCH-03 | The game | Sketch sections 5.1, 5.3, 5.7 |
-| PITCH-04 | Competition and twist | Sketch sections 4.2 and 4.5; scan "Does weather already change play in the top 3 fishing games?" |
+| PITCH-04 | Competition and twist | Sketch sections 4.2 and 4.5; scan "Does weather already change play in the top 3 fishing games?"; D6 |
 | PITCH-05 | Urgency | Scan "Urgency read"; [GEN] |
 | PITCH-06 | Portfolio check | `python3 agents/studioctl.py game list`, 2026-10-24 19:46:59 UTC |
-| PITCH-07 | Audience, rating and IP | Sketch section 8; scan "Audience" and "IP risks seen in the space" |
+| PITCH-07 | Audience, rating and IP | Sketch section 8; scan "Audience" and "IP risks seen in the space"; D2, D3, D5, D6 |
 | PITCH-08 | Rubric score | This document; hit sheet in sketch section 9 as a cross-check |
 
 ## One-liner (PITCH-02)
@@ -54,7 +72,7 @@ How it works in Roblox: there is one Cast button in the thumb zone, and the fish
 ## Genre and audience
 
 - **Roblox genre:** Simulation. All five fishing comparables select it. They rank in its trending sort: on computer, Fisch is #1, Deep Fishing #31 and Harpoon a Fish #51 [PC]. Subgenre: unknown from our data, because the games API returns "Simulation" in both fields for all five [PC].
-- **Tier and label:** Kids and Select can be reached. The expected label is Minimal (a draft; see PITCH-07).
+- **Tier and label:** Kids and Select can be reached. The expected label is Minimal [D5] (see PITCH-07).
 - **Devices:** phone first. Fish It! and the smaller fishing games rank higher on phone sorts, and Fisch ranks higher on computer. For example, Fish It! is #37 in Fun with Friends on computer and #21 on phone, and Fisch is #7 in top earning on computer and #13 on phone ([PC], [PH]). Absolute device shares are unknown.
 - **Tourists and locals:** tourists land a first catch within 20 s and see a storm within 15 minutes. Locals get journal sets, size records, Tide Pots and a new weather front every Saturday [SK 5, 6].
 
@@ -73,7 +91,7 @@ All times are design targets or first-pass estimates [SK 5]. The prototype check
 | Why tomorrow | Collect the Tide Pot set under last night's forecast. Catch the Fish of the Day that the daily almanac announced. Claim day 2 of the calendar. Finish a set that needs one weather. On Saturday, see the new front. [SK 5.7] |
 | Friend reason | Everyone shares the weather. A storm giant takes about 45 s to land alone and about 10 s with four helpers (first-pass). Every helper, stranger or friend, gets a journal stamp and extra coins that do not come out of the angler's catch, capped per storm. [SK 4.4] |
 | Clip moment | Five avatars pulling on the pier, lightning on a taut line, a giant fish breaching and a server banner naming everyone. It reads muted and without UI. [SK 5.6] |
-| How it makes money | Directions only, because the catalog is design-stage work. An auto-reel pass weaker than active play, companion slots, an extra Tide Pot slot sold as capacity (not as a skip), a luck boost with its effect on odds disclosed, and weather cosmetics. The forecast and storms stay free, and nothing sells a way to skip a timer. [SK 3, 12] |
+| How it makes money | The catalog includes a **Robux weather summon** [D6], alongside the designer's direction [SK 12]: an auto-reel pass weaker than active play, companion slots, an extra Tide Pot slot sold as capacity (not as a skip), a luck boost with its effect on odds disclosed, and weather cosmetics. Companion nests are paid random items when coins can be bought with Robux, with odds shown [D2]. Prices, durations and effects are design-stage work. The design stage applies four constraints to the summon [D6]: (1) a summoned front shows on the Sky Dial for the whole server; (2) its benefit is shared with every player there; (3) it never moves the Great Storm schedule; (4) the purchase is granted only in `ProcessReceipt`. The Designer reworks sketch sections 3, 4.3 and 12 to match [D6]. |
 | Icon concept | Scout proposal for the Artist: a large fish leaping from dark water under a storm cloud, with one lightning flash and no text. Compare it with the comparables' icons before use, so it echoes none of them. |
 
 ## Evidence (PITCH-01)
@@ -97,10 +115,10 @@ Limits: there is one reading per device, taken on a Saturday evening (UTC) durin
 
 ## Competition and twist (PITCH-04)
 
-| Game (universe id) | Players [PC] | Like [PC] | Age [PC] | How Stormcatch plays differently |
+| Game (universe id) | Players [PC] | Like [PC] | Age [PC] | How Reel the Storm plays differently |
 |---|---|---|---|---|
-| Fisch (5750914919) | 107,205 | 91% | 955 d | In Fisch, weather changes which fish spawn, and players can summon it. Seasons run on a global timer of about 9.6 h [GUIDES, 2 sources], and one storm event can eliminate players [GUIDES, 1 source]. In Stormcatch, weather changes how you cast and reel. Several fronts drift between islands at once, so the decision is where to go. The forecast shows the next few minutes inside the game, nothing summons weather, and storms are never a hazard. |
-| Fish It! (6701277882) | 76,378 | 83% | 733 d | In Fish It!, one player pays coins for a server-wide boost (faster rods, luck, shiny odds) [GUIDES, 2 sources], and groups take turns paying [GUIDES, 1 source]. In Stormcatch, weather cannot be bought, so it stays a shared event that players can see coming. The social hook is being there together, not paying for a boost. |
+| Fisch (5750914919) | 107,205 | 91% | 955 d | In Fisch, weather changes which fish spawn, and players can summon it with items [GUIDES, 2 sources]. Seasons run on a global timer of about 9.6 h [GUIDES, 2 sources], and one storm event can eliminate players [GUIDES, 1 source]. In Reel the Storm, weather changes how you cast and reel. Several fronts drift between islands at once, so the decision is where to go. The forecast shows the next few minutes inside the game, and storms are never a hazard. Both games let players summon weather (ours for Robux [D6]), so summoning is not a difference. |
+| Fish It! (6701277882) | 76,378 | 83% | 733 d | In Fish It!, one player pays coins for a server-wide boost (faster rods, luck, shiny odds) [GUIDES, 2 sources], and groups take turns paying [GUIDES, 1 source]. Reel the Storm also sells a shared server weather (for Robux [D6]), so that part is familiar, not a difference. The differences are three: what weather does in your hands, fronts that move between islands, and a main social event (the Great Storm) that nobody can buy or move. |
 | Deep Fishing (10526853622) | 12,352 | 97% | 97 d | No weather found [unverified absence]. It stood out with a new verb: a distance cast that steers through several fish. We take the lesson and copy nothing: a new way of fishing set apart the strongest 2026 entrant. |
 | Heavyweight Fishing (8342498724) | 9,889 | 96% | 446 d | Mechanics not researched; listed for size and like ratio. |
 | Harpoon a Fish (10764240948) | 7,501 | 97% | 57 d | Mechanics not researched; listed for size and like ratio. |
@@ -112,9 +130,17 @@ Limits: there is one reading per device, taken on a Saturday evening (UTC) durin
 - In gusts, a cast made with the wind flies twice as far and the reel target sways.
 - Great Storm giants land fastest when a crowd pulls.
 
-These four parts are in the scan's "not found" column. Weather that changes spawns, weather mutations, rare weather as a server moment and summoned weather are already standard in Fisch, Fish It!, Grow a Garden, Sol's RNG and Ride A Pet (scan). Stormcatch keeps the first three only as the familiar layer and leaves summoning out [SK 4.5, twist check].
+These four parts are in the scan's "not found" column. The scan's "already standard" column holds four things: weather that changes spawns, weather mutations, rare weather as a server moment, and summoning or buying weather (Fisch's summoning items, Fish It!'s coin-bought weather machine). Reel the Storm uses the first three as the familiar layer [SK 4.5]. The Robux weather summon [D6] is a **familiar monetization layer, not part of the twist**.
 
-In the twist dimensions of `vault/15-market-research/trend-lifecycle.md`, this changes three things: the core verb (it differs per weather), the social structure (co-op landing) and platform fit (phone first). Caveat: "not found" means the scout did not find it in the public guides read; it is not a verified absence. Whether players feel the difference is also untested (risk 1).
+**The forecast and the paid summon.** The twist promises a forecast that is true for everyone, and a bought front changes the sky. D6's constraints handle most of that tension:
+
+- The summoned front appears on the Sky Dial for everyone in that server, so every player there sees it as soon as it is bought.
+- Its benefit goes to every player in the server, not only the buyer.
+- The Great Storm schedule stays the same in every server.
+
+What the constraints leave to the design stage: a forecast read before a purchase did not include the bought front, and it is open how summoned fronts interact with the natural fronts and with features computed from the global schedule (Tide Pots, almanac windows). The Designer reworks sketch sections 3, 4.3 and 12 for this [D6].
+
+In the twist dimensions of `vault/15-market-research/trend-lifecycle.md`, the twist changes three things: the core verb (it differs per weather), the social structure (co-op landing) and platform fit (phone first). Caveat: "not found" means the scout did not find it in the public guides read; it is not a verified absence. Whether players feel the difference is also untested (risk 1).
 
 ## Urgency (PITCH-05)
 
@@ -140,25 +166,27 @@ The chart tool cannot measure the phase from one snapshot. It needs at least 36 
 stormcatch               pitch      active   Stormcatch (working title)
 ```
 
-Stormcatch is the studio's only game, and the studio has not shipped any game yet, so Stormcatch duplicates nothing. The studio has recorded no house patterns, so there are none to follow or depart from. Stormcatch builds on the studio's game template (`template/`), which is a generic simulator base, not a shipped game.
+`stormcatch` (now titled Reel the Storm [D3]) is the studio's only game, and the studio has not shipped any game yet, so it duplicates nothing. The studio has recorded no house patterns, so there are none to follow or depart from. The game builds on the studio's game template (`template/`), which is a generic simulator base, not a shipped game.
 
 ## Audience, rating and IP (PITCH-07)
 
 - **Audience tier (draft):** Roblox Kids and Select, phone first. The designer's draft core audience is ages 7-13 [SK 8]. The comparables' age split is not public, so it is unknown. All nine fishing comparables and the three weather comparables are "minimal" with minimum age 0 [PC].
 - **Launch reach:** a new public game reaches only age-checked users aged 16 and over until it passes the under-16 evaluation. The evaluation needs 250 unique plays from engaged age-checked users within 60 days, plus a safety review (`vault/17-policy-and-business/age-ratings-and-audience.md`). The cozy loop therefore has to hold older players in the first weeks. Depth (weather skill, size records) matters for that, not only cute visuals.
-- **Expected content rating (draft only; the human answers the questionnaire):** Minimal. The game as designed has no violence, blood, fear, crude humour, romance, alcohol, strong language, free-form creation or AI interaction. On fear: storms never hurt, there are no jump scares, and lightning flashes can be turned off [SK 8]. Whether the game has paid random items depends on question 2 below.
+- **Content rating expectation: Minimal, adopted by the human [D5].** The game as designed has no violence, blood, fear, crude humour, romance, alcohol, strong language, free-form creation or AI interaction. On fear: storms never hurt, there are no jump scares, and lightning flashes can be turned off [SK 8]. The human fills in the Maturity & Compliance Questionnaire in Creator Hub before release (gate criterion RC-03). Agents only draft.
+- **Paid random items: decided [D2].** Companion nests count as paid random items when coins can be bought with Robux, and the questionnaire answer is "yes". Nests show their odds, and the game respects `ArePaidRandomItemsRestricted` through PolicyService. The template already does both (`games/stormcatch/project/src/server/Services/Policy.luau` and the hatch odds panel [SK 7]).
+- **Paid weather summon [D6]:** a paid, server-wide change to luck or odds. How it is disclosed, and whether it changes the questionnaire answers, is open (question 2).
 - **IP risks** (scan "IP risks seen in the space"; [SK 8]):
-  1. Title convergence: fishing titles cluster on "Fish ___", "___ Fishing", "Catch a ___" and puns, and discovery demotes look-alike metadata. Our title and thumbnail must avoid those patterns.
-  2. Competitors' named weather tools, items, events, UI and art belong to them. The general mechanics are free to use. Every name in the sketch is invented.
-  3. No anime, meme or franchise characters, and no real tackle or outdoor brands.
-  4. The working title is unchecked. One web search on 2026-10-24 found no Roblox game named "Stormcatch". "Storm Catcher" is an item name in a game outside Roblox. No trademark search has been done (question 3).
+  1. Title convergence: fishing titles cluster on "Fish ___", "___ Fishing", "Catch a ___" and puns, and discovery demotes look-alike metadata. "Reel the Storm" avoids those patterns.
+  2. The title "Reel the Storm" [D3] has had no trademark search, by the human's choice; the human accepts that risk. The scout checked our chart data for look-alikes, which is not a trademark search. No name across both snapshots (1,121 unique games) matches. Three names contain "Storm", and the closest is "Ride Storm" (universe 4420562665, Simulation, 9,546 players [PH]); see question 1.
+  3. Competitors' named weather tools, items, events, UI and art belong to them. The general mechanics, including summoning weather, are free to use. Every name in the sketch is invented, and the summon product must get an original name and look.
+  4. No anime, meme or franchise characters, and no real tackle or outdoor brands.
   5. The weather is fictional and runs on a schedule. No real-world weather data or player location is used, so no data-licensing or privacy question arises.
   6. Music and sound must be original or licensed, and recorded in the asset index.
 
 ## Build estimate and reuse
 
-- **Prototype:** the vault's prototype gate says "days, not weeks", and the Engineer sizes it. The scope is the moment loop with juice, Showers and Sea Fog fronts moving across 3 spots, one rod upgrade line, one Great Storm with the co-op pull, and placeholder art [SK 10]. Most of the work is cut-down versions of the two new large systems, Fishing and Weather.
-- **Launch content** [SK 6]: 4 islands, 4 weathers plus the Rainbow and the Great Storm, 48 species, 6 marks, 12 companions, 12 journal sets and 4 upgrade lines. Systems: an on-screen forecast dial, a daily almanac, Tide Pots, rebirth, a daily calendar, codes and the shop. The 6-10 week estimate comes from the scan; the Director and Engineer have not confirmed it.
+- **Prototype:** the vault's prototype gate says "days, not weeks", and the Engineer sizes it. The scope is the moment loop with juice, Showers and Sea Fog fronts moving across 3 spots, one rod upgrade line, one Great Storm with the co-op pull, and placeholder art [SK 10]. It has no paid products. Most of the work is cut-down versions of the two new large systems, Fishing and Weather.
+- **Launch content** [SK 6]: 4 islands, 4 weathers plus the Rainbow and the Great Storm, 48 species, 6 marks, 12 companions, 12 journal sets and 4 upgrade lines. Systems: an on-screen forecast dial, a daily almanac, Tide Pots, rebirth, a daily calendar, codes and the shop. The Robux weather summon [D6] adds summoned fronts to the Weather system and one product to the catalog. The 6-10 week estimate comes from the scan, predates D6, and has not been confirmed by the Director and Engineer.
 - **Reuse** [SK 7]: these template systems need only a reskin or config: Upgrades, Zones and gates, Pets and Eggs (companions and nests), Rebirth, Rewards, Codes, Purchases (idempotent `ProcessReceipt`), Social, Onboarding, Analytics and QA. New work: 2 large systems (Fishing, Weather) and 4 medium ones (weather reel modes, the storm co-op pull, the Sky Journal, Tide Pots).
 
 ## Risks
@@ -168,71 +196,75 @@ Stormcatch is the studio's only game, and the studio has not shipped any game ye
    - Test B passes if 45% or more of catches happen under fronts, which cover about 25% of the water. Under 30% means players ignore the weather.
 2. **Late entry into a genre two leaders control** (83.5% share [PC]). Mitigation: a phone-first feel, the twist, a new front every week, and a thumbnail that sells the storm. If the twist fails, stop rather than ship a third generic fishing game.
 3. **Phone problems:** weather effects may be too costly on low-end devices, and the reel modes may be fiddly on touch. Mitigation: full detail only for the nearest front, lighting and `Atmosphere` instead of particles, generous timing windows, misses that cost nothing, and gusts left optional. Test on a low-end Android phone in the first prototype week [SK 11].
+4. **A paid weather can read as pay-to-win or break the shared forecast** [D6]. Mitigation, from D6's constraints:
+   - The benefit is shared with every player in the server, never only the buyer.
+   - The summoned front is visible to everyone on the Sky Dial.
+   - The Great Storm schedule never moves.
+   - The purchase is granted only in `ProcessReceipt`.
+   - The design stage still has to make it fair in feel; see the open interactions under PITCH-04.
 
 Other risks (cozy pace against chasing fronts, value inflation from marks, time zones) are in sketch section 11.
 
 ## Rubric score (PITCH-08)
 
-The scores use the rubric in `vault/15-market-research/pitch-and-greenlight.md`. The design is scored as written against each line's 0 and 3 descriptions, and a point comes off only for a named gap. "Untested" counts once, on the core loop line, because that line's description asks for proof.
+The scores use the rubric in `vault/15-market-research/pitch-and-greenlight.md`. The design is scored as written against each line's 0 and 3 descriptions, and a point comes off only for a named gap. "Untested" counts once, on the core loop line, because that line's description asks for proof. **Re-scored after the human's decisions D2 to D6** (2026-10-24): six justifications changed, and no score changed.
 
 | Criterion | Weight | Score 0-3 | Points | Justification |
 |---|---|---|---|---|
 | Core loop clarity and fun | 3 | 2 | 6 | Strong comparables prove the cast-reel-reveal loop (Fisch 107,205 and Fish It! 76,378 players [PC]). The twist that makes this game worth building has no prototype yet. |
-| First-session strength | 2 | 2 | 4 | The design puts the first input by 10 s, the first catch at 15-20 s, the bridge goal at 10-12 min and a storm within 15 min [SK 5]. Gaps: the first catch comes later than the rubric's 10 s mark. The title "Stormcatch" has no verb, so the game's tile does not explain the loop (hit sheet row 1: 1/2). The weather reel modes are the part most likely to confuse a young player on a phone. |
+| First-session strength | 2 | 2 | 4 | The design puts the first input by 10 s, the first catch at 15-20 s, the bridge goal at 10-12 min and a storm within 15 min [SK 5]. Re-scored for D3: **the title gap is closed**, because "Reel the Storm" starts with a verb and names the twist. It stays at 2 because the first catch lands after the rubric's 10 s mark, and the weather reel modes are the part most likely to confuse a young player on a phone. |
 | Return and endgame potential | 2 | 2 | 4 | Strong reasons to come back (Tide Pots, Fish of the Day, the calendar, sets that need one weather) and a clear update unit: a new front every Saturday and a new island every 3-4 weeks. Gaps: there is **no consequence layer**, the risk of loss to other players that 2025-2026 hits use to bring players back to protect what they have (`vault/21-hits-and-trends/anatomy-of-a-hit.md`, ingredient 3). There is also no trading at launch. |
-| Social and clip potential | 2 | 2 | 4 | The strongest line on paper: strangers help land storm giants and earn rewards for it, and the clip moment reads with the sound off. Gaps: **no external funnel plan** (creators, social media, crossovers) to carry clips outside the game (hit sheet row 8: 1/2), and no consequence stories to share. |
+| Social and clip potential | 2 | 2 | 4 | The strongest line on paper: strangers help land storm giants and earn rewards for it, and the clip moment reads with the sound off. The D6 summon benefits everyone in the server, so it is a social purchase, not a private boost. Gaps: **no external funnel plan** (creators, social media, crossovers) to carry clips outside the game (hit sheet row 8: 1/2), and no consequence stories to share. |
 | Market evidence | 2 | 2 | 4 | Same-day evidence across several games shows steady demand for fishing (9 games, 219,733 players [PC]; a stable leader [RW]). Gaps: one snapshot per device, so there is no measured growth, risers or phase. The evidence shows demand for fishing, not for this twist. |
-| Differentiation | 2 | 2 | 4 | A clear twist that changes the action, the social structure and the device fit, checked against the scan's "not found" column. Gap: that column comes from public guides, not from playing the comparables, so the claim that the twist is unique is unverified. |
+| Differentiation | 2 | 2 | 4 | A clear twist that changes the action, the social structure and the device fit, checked against the scan's "not found" column. Gaps: that column comes from public guides, not from playing the comparables, so the claim that the twist is unique is unverified. D6 adds a paid summon, which is already standard and narrows the difference from Fish It!. The four parts of the twist still stand, so the score holds. |
 | Timing | 1 | 1 | 1 | **Late entry into a two-leader genre**: the leaders hold 83.5%, and 2026 entrants top out at 12,352 players [PC]. Not 0, because fishing has become an evergreen genre with stable demand, not a fading wave. |
-| Monetization fit | 1 | 2 | 2 | The directions are natural and fair: an auto-reel pass weaker than active play, capacity, cosmetics and disclosed luck, with no pay-to-skip and no paid weather. Gaps: no catalog or price tiers yet, and the paid-random-items question (selling coins for Robux) is open. |
-| Feasibility for our team | 2 | 2 | 4 | Most systems are template reskins [SK 7]. Gaps: 2 large and 4 medium new systems, weather effects on low-end phones, a weekly update rhythm the team has never kept, and no shipped game that shows how fast the team works. |
-| Policy and IP safety | 1 | 2 | 2 | Expected Minimal, all names invented, no real-world data. Gaps: **no trademark check on the title**, and paid random items are undecided. |
+| Monetization fit | 1 | 2 | 2 | D6 adds a shared, server-wide weather purchase like ones the genre already sells: Fish It! sells one for coins [GUIDES], and the grow-and-farm playbook calls server-wide weather triggers "a social purchase players love" (`vault/14-genre-playbooks/grow-and-farm.md`). It sits alongside an auto-reel pass weaker than active play, capacity, cosmetics and disclosed luck. Paid random items are decided [D2]. Gaps: no catalog or price tiers yet, and how the paid server-wide odds change is disclosed is open. |
+| Feasibility for our team | 2 | 2 | 4 | Most systems are template reskins [SK 7]. Gaps: 2 large and 4 medium new systems, plus summoned fronts in the Weather system [D6]. Weather effects must run on low-end phones. The team has never kept a weekly update rhythm and has shipped no game that shows how fast it works. |
+| Policy and IP safety | 1 | 2 | 2 | Expected Minimal [D5], all names invented, no real-world data. Paid random items are decided and handled (odds shown, PolicyService gating [D2]). Gaps: **no trademark search on "Reel the Storm"** (the human accepted the risk [D3], but the risk remains), a same-genre charting title "Ride Storm" [PH], and an open disclosure question for the paid weather [D6]. |
 | **Total (max 54)** | | | **35** | **Band 30-39: refine the pitch** (usually the twist or the evidence). |
 
-**Cross-check with the hit sheet** (sketch section 9, 17/20). The two scores answer different questions. The hit sheet measures how closely the design matches recent hits, and it rates this design highly. The greenlight rubric weighs proof, timing and feasibility, so the same pitch scores 85% on the hit sheet and 65% here. The three weak hit-sheet rows (title, consequence layer, external funnel) are the same gaps named above.
+**Cross-check with the hit sheet** (sketch section 9). As written it scores 17/20. Its row 1 says a verb-first title such as "Reel the Storm" would score 2, so with D3 it reads 18/20; the sketch has not been updated. The two scores answer different questions. The hit sheet measures how closely the design matches recent hits, and it rates this design highly. The greenlight rubric weighs proof, timing and feasibility, so the same pitch scores 90% on the hit sheet and 65% here. The two remaining weak hit-sheet rows (consequence layer, external funnel) are the same gaps named above.
 
-**What can still move the score.** Work on paper can add about 5 points, to about 40:
+**What can still move the score.** Work on paper can add about 4 points, to about 39, which is still under 40:
 
 - +2 on market evidence, if a measured second snapshot shows fishing holding steady.
 - +2 on social and clip, from an external funnel plan.
-- +1 on policy and IP, from a cleared title and a decision on paid random items.
 
-The core loop, differentiation and first-session lines carry 7 of the rubric's 18 weight units. Only a prototype can move them.
+The policy and IP line would need a trademark search, which the human declined [D3], and an answer to the disclosure question. The core loop, differentiation and first-session lines carry 7 of the rubric's 18 weight units. Only a prototype can move them.
 
 ## Recommendation and options
 
-**Scout recommendation: approve with changes.** The total falls in the "refine" band. The biggest gap is one no document can close: whether players really fish differently in each weather. A prototype answers that in days for some engineering time, and the fixes to the evidence can run alongside it.
+**Scout recommendation: approve with changes.** The total falls in the "refine" band, and paper work alone tops out at about 39. The biggest gap is one no document can close: whether players really fish differently in each weather. A prototype answers that in days for some engineering time, and the fixes to the evidence can run alongside it. You told the Director you intend to approve [D1]. That did not change this recommendation or the score. The gate runs on evidence, and you record the approval yourself after it.
 
 The changes:
 
 1. Approve a **prototype only** (scope in sketch section 10) with a written go/stop rule. Continue only if twist tests A and B and the 30-second test pass (5 of 5 testers land a fish within 30 s). Pivot or stop if fewer than 30% of catches happen under fronts.
-2. The scout takes a second snapshot at or after 2026-10-26 07:25 UTC, then re-scores market evidence and timing before the prototype verdict.
-3. The title is chosen and name-checked before any store page or thumbnail work. The prototype does not need it.
+2. Keep paid products out of the prototype, as its scope already does. Twist test B then measures whether players follow the natural fronts, not bought ones.
+3. The scout takes a second snapshot at or after 2026-10-26 07:25 UTC, then re-scores market evidence and timing before the prototype verdict.
 4. An external funnel plan is added at the design stage. The absence of a consequence layer stays as an argued omission and is reviewed with prototype data.
 
 | Option | What happens | Trade-off |
 |---|---|---|
 | **A. Approve with changes (recommended)** | The prototype starts, the evidence fixes run beside it, and the twist tests decide go or stop. | It spends engineering days on an unproven twist in a genre we are late to. In return, the top risk is answered by play rather than argument, and most systems are reused. |
-| **B. Refine first, then decide** | Second snapshot, title check, funnel plan and paid-random-items decision; re-score in about a week. | This is the literal reading of the 30-39 band. Evidence improves and the score rises by about 5 points at most. But the core loop line (weight 3) and differentiation cannot move without play. Each week of delay pushes the ship window further into or past the winter holidays. |
+| **B. Refine first, then decide** | Second snapshot and an external funnel plan; re-score in about a week. | This is the literal reading of the 30-39 band. Evidence improves, but the score rises by about 4 points at most, to about 39, still under 40. The core loop line (weight 3) and differentiation cannot move without play. Each week of delay pushes the ship window further into or past the winter holidays. |
 | **C. Reject (park) and look for an earlier trend** | Keep tracking fishing while the scout looks for formats in the spark or rise phase. | It avoids a late entry into a genre where 2026 entrants top out at about 12K players [PC]. But the studio has no other pitch ready, so the studio has nothing to build until a new scan and sketch exist, and the designed loop goes unused. |
 
 The decision is yours. Passing the pitch gate means only that the pitch meets the written criteria.
 
 ## Questions for the human
 
-These are open questions, each with the studio's recommendation. The scout has not escalated any of them; the Director handles escalation.
+Your answers of 2026-10-24 (D2 to D6) closed the earlier questions on maturity, paid random items, the title and selling weather. These questions remain open. Each carries the studio's recommendation where it has one. The scout has not escalated any of them; the Director handles escalation.
 
-1. **Maturity questionnaire.** How will you answer it for this content? Studio recommendation: answer from the content as built, at release, expecting Minimal (the draft is in PITCH-07). Answer it again after each content update.
-2. **Paid random items.** Should coins be sold for Robux? If they are, companion nests become paid random items, because the rules cover random outcomes obtained with Robux "directly or indirectly" (`vault/09-monetization/monetization-compliance.md`). Does a Robux pass that speeds up coin earning also count as "indirectly"? Studio recommendation: no Robux coin packs at launch, so nests are bought only with coins players earn. Keep the template's odds display and `ArePaidRandomItemsRestricted` handling either way. The questionnaire answer is yours.
-3. **Store title and trademark.** Keep "Stormcatch", or choose a title that starts with a verb and avoids the genre's common patterns (the designer's example is "Reel the Storm")? No trademark search has been done for any candidate. Studio recommendation: a verb-first title, with a name and trademark check on the finalists before any store page work.
-4. **Selling or summoning weather.** Should players ever be able to summon or buy weather, for coins or Robux, at launch or later? Studio recommendation: no. Both leaders already do it [GUIDES], and it would make the shared forecast untrue. A Robux version would be a paid change to everyone's odds on the server, which carries disclosure duties. An unpaid, cooperative "call a front" could be tested after launch.
-5. **Later, at launch planning (money and policy).** To reach players under 16, the game needs four things: a verified owner with 2-step verification, the full questionnaire, a publishing fee or subscription, and a passed evaluation. An expedited review costs a refundable fee (`vault/17-policy-and-business/age-ratings-and-audience.md`). Studio recommendation: no action now. The Director brings this to you at launch planning.
+1. **Title look-alike (new).** "Ride Storm" is a Simulation game on the phone charts: universe 4420562665, 9,546 players, created 2023-02-24 [PH]. Discovery demotes games whose metadata closely resembles others. Does that change your title choice? Nobody has researched what that game plays like. Studio recommendation: keep "Reel the Storm", which has a different verb and a fishing tile. The Artist should look at that game's store page before icon and thumbnail work, so ours does not resemble it.
+2. **Disclosure of the paid weather (open item from D6, policy).** How is a paid, server-wide change to odds or luck disclosed to players, and does it change the questionnaire answers? The Monetization Designer drafts this at the design stage, and the answer is yours. The studio has no recommendation yet.
+3. **Later, at launch planning (money and policy).** To reach players under 16, the game needs four things: a verified owner with 2-step verification, the full questionnaire, a publishing fee or subscription, and a passed evaluation. An expedited review costs a refundable fee (`vault/17-policy-and-business/age-ratings-and-audience.md`). Studio recommendation: no action now. The Director brings this to you at launch planning.
 
 ## Sources
 
 - Market scan: `games/stormcatch/docs/market-scan.md` (T-0001, 2026-10-24). Its third-party sources and verification labels apply to every comparable mechanic quoted here.
 - Loop sketch: `games/stormcatch/docs/loop-sketch.md` (T-0002, 2026-10-24).
-- Chart evidence (committed copies): `games/stormcatch/docs/evidence/charts-2026-10-24/`. It holds [PC], [PH], the reports `2026-10-24-computer-all.md` and `2026-10-24-high_end_phone-all.md`, both genres outputs and both evidence blocks.
+- Human decisions: `games/stormcatch/docs/decisions.md` (D1 to D6, 2026-10-24, written by the Director from the human's chat replies).
+- Chart evidence (committed copies): `games/stormcatch/docs/evidence/charts-2026-10-24/`. It holds [PC], [PH], the reports `2026-10-24-computer-all.md` and `2026-10-24-high_end_phone-all.md`, both genres outputs and both evidence blocks. The title look-alike check read game names from [PC] and [PH] only; it called no endpoint.
 - Chart tool phase threshold: `charts/chartlib/analysis.py` (`phase_for`, `genre_stats`: at least 36 h of history).
 - Portfolio: `python3 agents/studioctl.py game list`, 2026-10-24 19:46:59 UTC.
-- Vault (all 2026-10-24): `15-market-research/pitch-and-greenlight.md`, `18-templates-and-checklists/pitch-template.md`, `15-market-research/trend-lifecycle.md`, `15-market-research/reading-the-charts.md`, `11-store-page-and-discovery/discovery-algorithm.md`, `00-start-here/roblox-platform-2026.md`, `14-genre-playbooks/fishing-and-collection.md`, `21-hits-and-trends/anatomy-of-a-hit.md`, `17-policy-and-business/ip-and-licensing.md`, `17-policy-and-business/age-ratings-and-audience.md`, `09-monetization/monetization-compliance.md`.
+- Vault (all 2026-10-24): `15-market-research/pitch-and-greenlight.md`, `18-templates-and-checklists/pitch-template.md`, `15-market-research/trend-lifecycle.md`, `15-market-research/reading-the-charts.md`, `11-store-page-and-discovery/discovery-algorithm.md`, `00-start-here/roblox-platform-2026.md`, `14-genre-playbooks/fishing-and-collection.md`, `14-genre-playbooks/grow-and-farm.md`, `21-hits-and-trends/anatomy-of-a-hit.md`, `17-policy-and-business/ip-and-licensing.md`, `17-policy-and-business/age-ratings-and-audience.md`, `09-monetization/monetization-compliance.md`.
