@@ -8,7 +8,7 @@
   "counters": {
     "escalation": 0,
     "gate": 2,
-    "task": 6
+    "task": 12
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {},
@@ -222,6 +222,36 @@
       "at": "2026-10-24T20:27:45Z",
       "by": "human",
       "message": "approved pitch for stormcatch: Prototype only; go/stop on the twist tests"
+    },
+    {
+      "at": "2026-10-24T20:35:05Z",
+      "by": "director",
+      "message": "added T-0007 'Write the Reel the Storm GDD' for designer (queued)"
+    },
+    {
+      "at": "2026-10-24T20:35:05Z",
+      "by": "director",
+      "message": "added T-0008 'Build the economy sheet and drop tables' for economist (queued)"
+    },
+    {
+      "at": "2026-10-24T20:35:05Z",
+      "by": "director",
+      "message": "added T-0009 'Draft the product catalog' for monetization-designer (queued)"
+    },
+    {
+      "at": "2026-10-24T20:35:05Z",
+      "by": "director",
+      "message": "added T-0010 'Art direction one-pager and icon concept' for artist (queued)"
+    },
+    {
+      "at": "2026-10-24T20:35:05Z",
+      "by": "director",
+      "message": "added T-0011 'World plan and build budgets' for worldbuilder (queued)"
+    },
+    {
+      "at": "2026-10-24T20:35:05Z",
+      "by": "director",
+      "message": "added T-0012 'Run the design gate' for gatekeeper (queued)"
     }
   ],
   "tasks": {
@@ -402,6 +432,133 @@
       "submitted": "2026-10-24T20:23:34Z",
       "title": "Re-run the pitch gate after the PITCH-01 fix",
       "updated": "2026-10-24T20:24:06Z"
+    },
+    "T-0007": {
+      "brief": "games/stormcatch/tasks/T-0007.md",
+      "created": "2026-10-24T20:35:05Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-01",
+        "DESIGN-02",
+        "DESIGN-05",
+        "DESIGN-06",
+        "DESIGN-09",
+        "DESIGN-10"
+      ],
+      "handoff": null,
+      "id": "T-0007",
+      "notes": [],
+      "owner": "designer",
+      "stage": "design",
+      "status": "queued",
+      "title": "Write the Reel the Storm GDD",
+      "updated": "2026-10-24T20:35:05Z"
+    },
+    "T-0008": {
+      "brief": "games/stormcatch/tasks/T-0008.md",
+      "created": "2026-10-24T20:35:05Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-03",
+        "DESIGN-04"
+      ],
+      "handoff": null,
+      "id": "T-0008",
+      "notes": [],
+      "owner": "economist",
+      "stage": "design",
+      "status": "queued",
+      "title": "Build the economy sheet and drop tables",
+      "updated": "2026-10-24T20:35:05Z"
+    },
+    "T-0009": {
+      "brief": "games/stormcatch/tasks/T-0009.md",
+      "created": "2026-10-24T20:35:05Z",
+      "deps": [
+        "T-0007",
+        "T-0008"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-07"
+      ],
+      "handoff": null,
+      "id": "T-0009",
+      "notes": [],
+      "owner": "monetization-designer",
+      "stage": "design",
+      "status": "queued",
+      "title": "Draft the product catalog",
+      "updated": "2026-10-24T20:35:05Z"
+    },
+    "T-0010": {
+      "brief": "games/stormcatch/tasks/T-0010.md",
+      "created": "2026-10-24T20:35:05Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-08"
+      ],
+      "handoff": null,
+      "id": "T-0010",
+      "notes": [],
+      "owner": "artist",
+      "stage": "design",
+      "status": "queued",
+      "title": "Art direction one-pager and icon concept",
+      "updated": "2026-10-24T20:35:05Z"
+    },
+    "T-0011": {
+      "brief": "games/stormcatch/tasks/T-0011.md",
+      "created": "2026-10-24T20:35:05Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-09",
+        "DESIGN-10"
+      ],
+      "handoff": null,
+      "id": "T-0011",
+      "notes": [],
+      "owner": "worldbuilder",
+      "stage": "design",
+      "status": "queued",
+      "title": "World plan and build budgets",
+      "updated": "2026-10-24T20:35:05Z"
+    },
+    "T-0012": {
+      "brief": "games/stormcatch/tasks/T-0012.md",
+      "created": "2026-10-24T20:35:05Z",
+      "deps": [
+        "T-0007",
+        "T-0008",
+        "T-0009",
+        "T-0010",
+        "T-0011"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-01",
+        "DESIGN-02",
+        "DESIGN-03",
+        "DESIGN-04",
+        "DESIGN-05",
+        "DESIGN-06",
+        "DESIGN-07",
+        "DESIGN-08",
+        "DESIGN-09",
+        "DESIGN-10"
+      ],
+      "handoff": null,
+      "id": "T-0012",
+      "notes": [],
+      "owner": "gatekeeper",
+      "stage": "design",
+      "status": "queued",
+      "title": "Run the design gate",
+      "updated": "2026-10-24T20:35:05Z"
     }
   },
   "version": 1
