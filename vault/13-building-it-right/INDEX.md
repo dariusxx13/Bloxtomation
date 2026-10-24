@@ -17,4 +17,16 @@ summary: Engineering standards: architecture, networking, security, data, perfor
 - [Analytics instrumentation](analytics-instrumentation.md): event types and limits, naming, the minimum event plan, a wrapper module.
 - [Luau standards](luau-standards.md): strict typing, naming, module shape, error handling, review flags.
 
+## Deep dives
+
+- [Combat systems and hitboxes](combat-systems-and-hitboxes.md): hit detection methods, validation, lag compensation, combat state, projectiles, and the server authority model.
+- [NPC AI and pathfinding](npc-ai-and-pathfinding.md): state machines, perception, PathfindingService limits and modifiers, scaling, bosses.
+- [Physics and network ownership](physics-and-network-ownership.md): assemblies, ownership rules and exploits, vehicles, ragdolls, timestepping, sleep.
+- [Parallel Luau and profiling](parallel-luau-and-profiling.md): real player devices, diagnostic tools, a profiling workflow, actors and thread safety.
+- [Animation systems](animation-systems.md): Animator, priorities, markers, replication, Animation Graph Editor, IK, Adaptive Animation.
+- [Audio systems](audio-systems.md): modular audio objects, 2D and 3D wiring, effects, buses and ducking, import limits, a sound module.
+- [MemoryStore and cross-server systems](memorystore-and-cross-server.md): choosing services, sorted maps, queues, hash maps, quotas, sharding, patterns.
+- [Matchmaking and teleports](matchmaking-and-teleports.md): server matchmaking signals, TeleportService, reserved servers, lobby-to-match flows.
+- [Inventory and trading systems](inventory-and-trading-systems.md): item model, server operations, trade state machine, atomic swaps, policy checks.
+
 Up: [Vault home](../README.md)

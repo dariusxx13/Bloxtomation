@@ -22,5 +22,12 @@ Each playbook covers audience, the loop, first session or core mechanics, system
 - [Shooters and PvP playbook](shooters-and-pvp.md): gunplay, netcode, matchmaking, cross-input fairness.
 - [Fishing and collection playbook](fishing-and-collection.md): cast and reel, conditions, journals, rods and bait.
 - [Party and minigames playbook](party-and-minigames.md): fast rounds, variety, fairness, empty-server fixes.
+- [Sports games playbook](sports-games.md): arcade sports, ball netcode, match flow, styles, ranked modes.
+- [Driving and vehicles playbook](driving-and-vehicles.md): racing, open-world driving, chassis, ownership, anti-cheat.
+- [Fashion and dress-up playbook](fashion-and-dress-up.md): themes, dressing rooms, runway voting, wardrobes, safety.
+- [Social deduction and asymmetric playbook](social-deduction-and-asymmetric.md): hidden roles, 1vX hunters, information design, cosmetic economies.
+- [Story horror with chapters playbook](story-horror-chapters.md): chapters as updates, puzzles, scares, co-op, endings.
+- [Job and shift simulators playbook](job-and-shift-simulators.md): tasks, shifts, roles, the anomaly twist, novelty fade.
+- [Speed and escape courses playbook](speed-and-escape-courses.md): +1 speed, milestones, rebirths, saturation and twists.
 
 Up: [Vault home](../README.md)

@@ -50,7 +50,7 @@ Build or source sounds in this order:
 - **`SoundGroup`s** for categories (Music, SFX, UI, Ambience) so settings sliders control each group's volume.
 - **Spatial vs non-spatial**: world sounds (a pickaxe hitting rock) are parented to parts so they come from a location; UI sounds play without position.
 - **Central sound module**: one client module plays named sounds (`Sound.play("CoinCollect")`), handles pitch variation, pooling and volume, so sounds can be replaced in one place.
-- Roblox also offers a newer audio API with explicit audio players, emitters, listeners and wiring for more advanced routing and effects. Use it when you need features like custom mixes or effect chains; the classic `Sound` object is fine for most games.
+- Roblox's modular audio API (audio players, emitters, listeners and wires) is now the recommended path; the docs describe `Sound`, `SoundGroup` and `SoundEffect` as discouraged. Use audio objects for new systems and migrate older ones when you touch them. See [Audio systems](../13-building-it-right/audio-systems.md).
 
 ## Performance
 
