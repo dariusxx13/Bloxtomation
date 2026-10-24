@@ -151,6 +151,11 @@
       "at": "2026-10-24T20:03:52Z",
       "by": "director",
       "message": "added T-0006 'Re-run the pitch gate after the PITCH-01 fix' for gatekeeper (queued)"
+    },
+    {
+      "at": "2026-10-24T20:04:08Z",
+      "by": "scout",
+      "message": "started T-0005"
     }
   ],
   "tasks": {
@@ -281,9 +286,10 @@
       "notes": [],
       "owner": "scout",
       "stage": "pitch",
-      "status": "queued",
+      "started": "2026-10-24T20:04:08Z",
+      "status": "working",
       "title": "Fix the two PITCH-01 failures in the pitch",
-      "updated": "2026-10-24T20:03:52Z"
+      "updated": "2026-10-24T20:04:08Z"
     },
     "T-0006": {
       "brief": "games/stormcatch/tasks/T-0006.md",

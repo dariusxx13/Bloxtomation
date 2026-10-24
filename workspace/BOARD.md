@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-24T20:03:52Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-24T20:04:08Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,17 +14,19 @@ Nothing right now.
 
 ## Tasks
 
-### Working (0)
-
-
-### Needs review (0)
-
-
-### Queued (2)
+### Working (1)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0005 | scout | stormcatch | Fix the two PITCH-01 failures in the pitch | - |
+
+### Needs review (0)
+
+
+### Queued (1)
+
+| Task | Owner | Game | Title | Waiting on |
+|---|---|---|---|---|
 | T-0006 | gatekeeper | stormcatch | Re-run the pitch gate after the PITCH-01 fix | T-0005 |
 
 ### Draft (needs a brief) (0)
@@ -36,6 +38,7 @@ Nothing right now.
 
 ## Recent activity
 
+- 2026-10-24T20:04:08Z scout: started T-0005
 - 2026-10-24T20:03:52Z director: added T-0006 'Re-run the pitch gate after the PITCH-01 fix' for gatekeeper (queued)
 - 2026-10-24T20:03:52Z director: added T-0005 'Fix the two PITCH-01 failures in the pitch' for scout (queued)
 - 2026-10-24T20:03:19Z director: T-0004 -> done: Gate review accepted: PITCH-01 fail confirmed by the Director (computer vs phone ranks re-read: Deep Fishing, Harpoon a Fish, Fish an Anime RNG, Roll a Fisherman lean computer).
@@ -50,4 +53,3 @@ Nothing right now.
 - 2026-10-24T19:34:54Z director: T-0001 -> done
 - 2026-10-24T19:34:08Z scout: submitted T-0001 for review
 - 2026-10-24T19:24:26Z scout: started T-0001
-- 2026-10-24T19:24:26Z designer: started T-0002
