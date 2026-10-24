@@ -14,17 +14,21 @@
   "escalations": {},
   "games": {
     "stormcatch": {
-      "awaitingHuman": "pitch",
+      "awaitingHuman": null,
       "created": "2026-10-24T19:22:30Z",
       "genre": "fishing",
       "history": [
         {
           "at": "2026-10-24T19:22:30Z",
           "stage": "pitch"
+        },
+        {
+          "at": "2026-10-24T20:27:45Z",
+          "stage": "design"
         }
       ],
       "id": "stormcatch",
-      "stage": "pitch",
+      "stage": "design",
       "status": "active",
       "title": "Stormcatch (working title)"
     }
@@ -213,6 +217,11 @@
       "at": "2026-10-24T20:24:06Z",
       "by": "director",
       "message": "T-0006 -> done: Re-gate accepted: 8/8 pass, record games/stormcatch/gates/pitch-02.json; game waits for the human's pitch decision."
+    },
+    {
+      "at": "2026-10-24T20:27:45Z",
+      "by": "human",
+      "message": "approved pitch for stormcatch: Prototype only; go/stop on the twist tests"
     }
   ],
   "tasks": {

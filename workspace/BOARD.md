@@ -1,16 +1,16 @@
 # Studio board
 
-Updated 2026-10-24T20:24:06Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-24T20:27:45Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
-- **Stormcatch (working title)** (stormcatch), pitch: Approve the pitch. Review `games/stormcatch/gates/`, then `python3 agents/studioctl.py human approve stormcatch` or `human reject stormcatch --note "..."`.
+Nothing right now.
 
 ## Games
 
 | Game | Title | Stage | Status | Last gate |
 |---|---|---|---|---|
-| stormcatch | Stormcatch (working title) | pitch | active | pitch pass |
+| stormcatch | Stormcatch (working title) | design | active | pitch pass |
 
 ## Tasks
 
@@ -32,6 +32,7 @@ Updated 2026-10-24T20:24:06Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-24T20:27:45Z human: approved pitch for stormcatch: Prototype only; go/stop on the twist tests
 - 2026-10-24T20:24:06Z director: T-0006 -> done: Re-gate accepted: 8/8 pass, record games/stormcatch/gates/pitch-02.json; game waits for the human's pitch decision.
 - 2026-10-24T20:23:34Z gatekeeper: submitted T-0006 for review
 - 2026-10-24T20:22:30Z gatekeeper: gate pitch for stormcatch: pass
@@ -46,4 +47,3 @@ Updated 2026-10-24T20:24:06Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-24T20:03:52Z director: added T-0005 'Fix the two PITCH-01 failures in the pitch' for scout (queued)
 - 2026-10-24T20:03:19Z director: T-0004 -> done: Gate review accepted: PITCH-01 fail confirmed by the Director (computer vs phone ranks re-read: Deep Fishing, Harpoon a Fish, Fish an Anime RNG, Roll a Fisherman lean computer).
 - 2026-10-24T20:02:29Z gatekeeper: submitted T-0004 for review
-- 2026-10-24T20:01:35Z gatekeeper: gate pitch for stormcatch: fail
