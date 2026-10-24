@@ -25,7 +25,7 @@ python3 charts/charts.py game <universeId>     # one game's history across snaps
 python3 charts/charts.py evidence --genre <g>  # pitch-ready evidence block with dates and numbers
 ```
 
-Take a new snapshot when the latest is older than six hours. Trend data older than 7 days is stale for decisions (PITCH-01).
+History lives on the `chart-data` branch when the scheduled workflow is on: run `git fetch origin chart-data && git worktree add --detach .chart-data origin/chart-data` once (the tool then reads it automatically). Without it, snapshots go to `charts/data/` for this session only. Take a new snapshot when the latest is older than six hours (`python3 charts/charts.py status`). Trend data older than 7 days is stale for decisions (PITCH-01); the evidence block flags it.
 
 ## How you work
 

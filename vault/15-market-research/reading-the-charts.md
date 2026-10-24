@@ -80,5 +80,6 @@ Breakouts are where trends start. Track them daily; most fade, a few become the 
 - [ ] Sponsored entries are labelled.
 - [ ] Breakout thresholds stated explicitly when flagging candidates.
 - [ ] Collection is polite: cached, low frequency, no automated play or fake traffic.
+- [ ] In this repository: `python3 charts/charts.py report --days 7` for the weekly picture and `python3 charts/charts.py evidence --genre <genre> --game <comparable>` for a pitch block that carries its own dates and source (see `charts/README.md`).
 
 Related: [Trend lifecycle](trend-lifecycle.md) · [Competitor teardown](competitor-teardown.md) · [Pitch and greenlight](pitch-and-greenlight.md) · [Titles and descriptions](../11-store-page-and-discovery/titles-and-descriptions.md)

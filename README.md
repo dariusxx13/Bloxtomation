@@ -7,7 +7,7 @@ An AI-assisted studio kit for making Roblox games: a deep knowledge vault, a pro
 | Knowledge vault (Obsidian) | [`vault/`](vault/README.md) | Done: 132 notes across 20 sections |
 | Game template and Roblox tools | [`template/`](template/README.md) | Done: full simulator game (19 server systems, 13 client controllers), strict types, 47 unit tests, CI |
 | AI agent team, stage gates, orchestrator | [`agents/`](agents/README.md), [`.claude/agents/studio/`](.claude/agents/studio/) | Done: 15 role agents, `/studio` commands, `studioctl` task queue with gates, leases and human checkpoints, guard hook, 45 tests |
-| Chart tracking | `charts/` | Planned |
+| Chart tracking | [`charts/`](charts/README.md) | Done: snapshots of every discovery sort, breakouts, risers, new entries, rank movers, genre phases, pitch evidence, scheduled collection to a data branch, 20 tests |
 
 ## The vault
 
@@ -23,6 +23,10 @@ A complete Rojo project for a tap-to-earn simulator (zones, eggs and pets, upgra
 
 ## The agent team
 
-Open the repository in Claude Code and type `/studio <your game idea>`. The Director plans the stages, briefs and dispatches fifteen specialist agents (Scout, Designer, Economist, Monetization Designer, Engineer, Interface Designer, Worldbuilder, Artist, Storefront, QA Tester, Newcomer, Security Reviewer, Gatekeeper, Analyst), reviews their evidence, runs the stage gates and brings you only the decisions that are yours: approving the pitch, the prototype verdict, spending, policy answers and publishing. Progress is on `workspace/BOARD.md`. With Roblox Studio's MCP server connected, the agents playtest, build and capture in Studio. See [the agents README](agents/README.md).
+Open the repository in Claude Code and type `/studio <your game idea>`. The Director (one of fifteen role agents) plans the stages, briefs and dispatches the fourteen specialists (Scout, Designer, Economist, Monetization Designer, Engineer, Interface Designer, Worldbuilder, Artist, Storefront, QA Tester, Newcomer, Security Reviewer, Gatekeeper, Analyst), reviews their evidence, runs the stage gates and brings you only the decisions that are yours: approving the pitch, the prototype verdict, spending, policy answers and publishing. Progress is on `workspace/BOARD.md`. With Roblox Studio's MCP server connected, the agents playtest, build and capture in Studio. See [the agents README](agents/README.md).
+
+## Chart tracking
+
+`python3 charts/charts.py snapshot` records every sort on the Roblox Charts page (about 900 games) with details; `report --days 7` turns the snapshots into breakouts, risers, new entries, breakout candidates, organic rank movers and genre trends; `evidence --genre ... --game ...` produces a dated, sourced block for a pitch. A scheduled GitHub Action can collect every 3 hours into the `chart-data` branch. See [the charts README](charts/README.md).
 
 Automation in this repo never publishes a game: `template/scripts/upload-place.luau` uploads Saved versions only, and a person publishes.

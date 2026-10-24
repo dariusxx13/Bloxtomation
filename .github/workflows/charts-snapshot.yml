@@ -1,0 +1,58 @@
+name: Chart snapshots
+
+# Collects a snapshot of the Roblox discovery sorts every 3 hours, compacts data older than 14 days
+# into daily snapshots, writes the 7-day report, and publishes everything to the `chart-data` branch
+# as a single commit (force-pushed) so the branch stays small. Scheduled runs only start once this
+# file is on the default branch; GitHub pauses schedules after 60 days without repository activity.
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: chart-data
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: code
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch existing chart data
+        run: |
+          if git ls-remote --exit-code --heads "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPO}.git" chart-data > /dev/null; then
+            git clone --depth 1 --branch chart-data "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPO}.git" data
+          else
+            mkdir data && git -C data init -b chart-data
+          fi
+
+      - name: Snapshot, compact, report
+        run: |
+          python code/charts/charts.py --data-dir data snapshot --min-interval 120
+          python code/charts/charts.py --data-dir data compact --keep-days 14
+          python code/charts/charts.py --data-dir data report --days 7
+          python code/charts/charts.py --data-dir data status
+
+      - name: Publish chart-data branch
+        run: |
+          cd data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan publish
+          git add -A
+          git commit -q -m "Chart data $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPO}.git" publish:chart-data
