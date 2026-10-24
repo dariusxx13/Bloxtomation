@@ -12,5 +12,6 @@ summary: Interface design and engineering for young, mobile, multilingual player
 - [Menus, shops and inventories](menus-shops-inventories.md): shop cards, personalized picks, upgrade menus, inventory tools, settings, codes.
 - [Feedback, popups and toasts](feedback-popups-and-toasts.md): the five-level message hierarchy, errors, server notifications, badges.
 - [UI implementation](ui-implementation.md): scale and constraints, layouts and flex, styling tokens, tweens, viewports, UI architecture.
+- [Accessibility and player settings](accessibility-and-player-settings.md): contrast, colour and sound non-reliance, built-in text size, transparency and reduced-motion preferences, comfort settings.
 
 Up: [Vault home](../README.md)

@@ -95,6 +95,34 @@ All values dated **2026-10-24**. "Fact" means documented by Roblox (link in [Sou
 | Trending Events chart | Event started within 7 days and ≥ 1,000 RSVPs | Fact |
 | Notification opt-in prompt | 13+ users; not shown again within 30 days | Fact |
 
+## Market and platform (added October 2026)
+
+| Item | Value | Type |
+|---|---|---|
+| Platform concurrency record | About 47.3M (2025-08-23) | Reported (press) |
+| Highest single-game peak | About 25.4M, Steal a Brainrot (October 2025) | Reported (press) |
+| Roblox 2025 revenue and bookings | About $4.9B (+36%) and $6.8B (+55%) | Reported (Newzoo summary of public results) |
+| Hours on Roblox, Q2 2026 | 29 billion in the quarter, 180+ countries | Fact (Roblox newsroom, RDC 2026) |
+| Creator earnings | More than $5B since 2013; about $1.7B in the 12 months to 2026-06-30 | Fact (Roblox newsroom, RDC 2026) |
+| Top creators using AI | 44% of the top 1,000 used Assistant or third-party AI via MCP (March-April 2026) | Fact (Roblox newsroom) |
+| Build (prompt-to-game) | About 9,000 games published; 71% of creators new to Studio (to 2026-09-01) | Fact (Roblox newsroom) |
+| Typical player devices | Android about 65% of players; of those about 60% have 2-4 GB RAM; over half of all players on devices scoring 10,000-20,000 on Passmark | Fact (creator docs) |
+| Charting players, studio snapshot | About 15.1M across 878 games (2026-10-24, 17:04 UTC) | Studio data |
+
+## Engineering limits (summary)
+
+| Item | Value | Type |
+|---|---|---|
+| Data store value size | About 4 MB per key | Fact |
+| Data store requests per minute | Read 300 + 40 × CCU; write 300 + 20 × CCU | Fact |
+| Memory store quota | 64 KB + 1.2 KB × users; 1,000 + 120 × CCU request units per minute | Fact |
+| MessagingService message | 1 KB; best effort, typically 1-2 s | Fact |
+| Pathfinding | 3,000 studs straight-line; 20,000 nodes | Fact |
+| Idle disconnect | About 20 minutes | Fact |
+| Replicated attributes under server authority | First 64 per instance; names and string values up to 50 characters | Fact |
+
+Full table with sources: [Engine limits reference](../22-references/engine-limits-reference.md).
+
 ## Design rules of thumb (this vault)
 
 | Item | Value |

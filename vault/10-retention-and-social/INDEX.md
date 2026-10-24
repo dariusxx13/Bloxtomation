@@ -11,5 +11,6 @@ summary: Reasons to come back, reasons to bring friends, goals for veterans, and
 - [Social systems](social-systems.md): presence, co-play, invites and referrals, show-off, competition, cooperation, chat safety.
 - [Endgame and long-term goals](endgame-and-long-term-goals.md): endless systems, scheduled novelty, veterans versus newcomers, the goal ladder.
 - [Community building](community-building.md): Roblox group, Discord, codes, creators, update logs, listening.
+- [Competitive and ranked systems](competitive-and-ranked-systems.md): hidden ratings and visible ranks, Elo worked example, placement, seasons, decay, integrity.
 
 Up: [Vault home](../README.md)

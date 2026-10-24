@@ -13,5 +13,7 @@ summary: Launching under 2026 publishing rules, updating every week, running eve
 - [Experiments and configs](experiments-and-configs.md): live configs, Roblox Experiments, how to run honest tests.
 - [User acquisition](user-acquisition.md): channels, Ads Manager essentials, share links, creators, measuring by source.
 - [Postmortems](postmortems.md): the format, rules for honest learning, where lessons go, incident reviews.
+- [Seasonal calendar](seasonal-calendar.md): the weekly rhythm, a twelve-month map of holidays and platform moments, lead times, a quarterly planning table.
+- [Working with content creators](working-with-content-creators.md): what to give creators, fairness and disclosure, codes, measuring impact, risks.
 
 Up: [Vault home](../README.md)

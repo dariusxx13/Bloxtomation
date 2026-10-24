@@ -29,5 +29,7 @@ Each playbook covers audience, the loop, first session or core mechanics, system
 - [Story horror with chapters playbook](story-horror-chapters.md): chapters as updates, puzzles, scares, co-op, endings.
 - [Job and shift simulators playbook](job-and-shift-simulators.md): tasks, shifts, roles, the anomaly twist, novelty fade.
 - [Speed and escape courses playbook](speed-and-escape-courses.md): +1 speed, milestones, rebirths, saturation and twists.
+- [Puzzle, 2D and turn-based playbook](puzzle-2d-and-turn-based.md): word, tile, logic and board games; announced 2D and asynchronous support.
+- [Merge and number games playbook](merge-and-number-games.md): merging tiers, big numbers, rebirths, idle balance, server-side boards.
 
 Up: [Vault home](../README.md)

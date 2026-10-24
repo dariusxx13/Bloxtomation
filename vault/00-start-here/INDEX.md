@@ -11,5 +11,6 @@ summary: Entry point to the vault: how to use it, rules for agents, the platform
 - [For AI agents](for-ai-agents.md): mandatory operating rules for any agent working on a game.
 - [The Roblox platform in 2026](roblox-platform-2026.md): audience, age tiers, discovery, money flow, what changed.
 - [The hit formula](hit-formula.md): twelve principles shared by hits, with a scoring rubric and diagnosis table.
+- [First week quick start](first-week-quick-start.md): a seven-day plan from cloning the repository to a playtested, validated change.
 
 Up: [Vault home](../README.md)

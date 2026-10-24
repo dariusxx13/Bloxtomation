@@ -13,5 +13,6 @@ summary: What players unlock and when, currencies and flows, the balancing math,
 - [Rebirth and prestige](rebirth-and-prestige.md): when and how to reset for permanent bonuses, layers, quality of life.
 - [Idle and offline progression](idle-and-offline-progression.md): offline earnings, timers, AFK rules, automation as progression.
 - [Trading economies](trading-economies.md): when to add trading, atomic trades, scarcity, policy rules, scam prevention.
+- [Worked economy example](worked-economy-example.md): a simulated simulator economy with pacing for three player types and how it was tuned.
 
 Up: [Vault home](../README.md)

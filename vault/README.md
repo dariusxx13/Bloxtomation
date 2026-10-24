@@ -31,7 +31,7 @@ A complete, practical knowledge base for making Roblox games that people play, r
 | 11 | [Store page and discovery](11-store-page-and-discovery/INDEX.md) | The algorithm, icon, thumbnails, text, video |
 | 12 | [Live ops and launch](12-live-ops-and-launch/INDEX.md) | Launching, updating, events, A/B tests, ads, postmortems |
 | 13 | [Building it right](13-building-it-right/INDEX.md) | Architecture, security, data, performance, testing, tooling |
-| 14 | [Genre playbooks](14-genre-playbooks/INDEX.md) | Thirteen genre guides |
+| 14 | [Genre playbooks](14-genre-playbooks/INDEX.md) | Twenty-two genre guides |
 | 15 | [Market research](15-market-research/INDEX.md) | Charts, trends, teardowns, pitches |
 | 16 | [AI studio operations](16-ai-studio-operations/INDEX.md) | Agent team, Studio MCP, gates, briefs, AI assets |
 | 17 | [Policy and business](17-policy-and-business/INDEX.md) | Rules, ratings, IP, money, privacy |

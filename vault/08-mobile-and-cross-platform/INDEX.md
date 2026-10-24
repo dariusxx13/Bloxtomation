@@ -12,5 +12,6 @@ summary: Phones first, then PC, consoles and VR; controls; low-end performance; 
 - [Device performance](device-performance.md): what hurts phones, the low-end test profile, quality scaling, release checklist.
 - [Console and VR](console-and-vr.md): TV-safe UI, gamepad-only navigation, VR comfort, cross-platform fairness.
 - [Localization and global players](localization-and-global-players.md): designing for translation, Roblox localization tools, global pricing.
+- [Web, offline and new surfaces](web-offline-and-new-surfaces.md): web play from links, Moments, offline play, standalone apps, Friends chat and Quick Words.
 
 Up: [Vault home](../README.md)

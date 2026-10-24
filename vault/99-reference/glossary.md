@@ -76,4 +76,63 @@ audience: [human, agent]
 | Universe / place | A game (universe) and its places (levels or servers' worlds) |
 | Variant / mutation | A modified version of an item (golden, shiny, giant) |
 
+## Terms from the VFX, anime, hits, engineering and reference sections
+
+| Term | Meaning |
+|---|---|
+| Actor (Parallel Luau) | An instance whose scripts can run in parallel with other actors' scripts |
+| Adaptive Animation | A system that maps custom rigs to Roblox's standard joints so they can play standard animations |
+| Admin abuse event | A scheduled live session where developers trigger generous, chaotic effects for everyone online |
+| Animation Graph Editor | Studio's node-based tool for blending and state machines of animations |
+| Animation marker (event) | A named point in an animation that fires a signal, used to time hits, effects and sounds |
+| Anomaly (job games) | A hidden "wrong" customer, patient or event players must notice in a job simulator |
+| Anti-infinite rules | Combat limits (stun decay, combo scaling, hit caps, evasives) that stop endless combos |
+| Asymmetric game | A game where sides have different roles and powers, such as one hunter versus several survivors |
+| Assembly | Parts joined rigidly or by joints that the physics engine treats as one body |
+| Awakening | An upgraded form or moveset unlocked late, common in anime games |
+| Banner | A summon pool shown to players, often with featured units at boosted odds |
+| Battlegrounds | A free-for-all arena fighting genre with character movesets |
+| Beam | An effect object that draws a textured strip between two attachments |
+| Brainrot | Absurd internet meme characters; the theme of a 2025 record-setting game |
+| Consequence layer | Risk of loss caused by other players (stealing, raids) added to a loop |
+| Content floor | The minimum content needed to launch and to sustain a regular update rhythm |
+| Cross-server messaging | Sending messages between a game's servers with MessagingService (best effort) |
+| Evasive | A combo-breaker escape on a meter or cooldown in fighting games |
+| Expected pulls | Average number of summons needed for a result, including pity |
+| Flipbook | A sprite-sheet texture played as frames by a particle emitter |
+| Hitstop | A brief freeze of attacker and victim on impact that sells weight |
+| Impact frame | A few frames of high-contrast silhouette at the moment of a big hit |
+| Input Action System | Roblox's declarative input actions and contexts, required by the server authority model |
+| Instance stitching | Merging a client-predicted instance with the server's copy under server authority |
+| Lag compensation | Validating hits against where targets were, rewound by the attacker's latency |
+| License Manager | Roblox's tool for rights holders to license IP to creators; offers can auto-activate after 14 days |
+| Licenses catalog | The list of IP licenses creators can request on Roblox |
+| Managed pricing | Roblox's combined regional pricing and price optimization system |
+| MemoryStore | Fast, expiring shared storage across a game's servers (sorted maps, queues, hash maps) |
+| Mesh VFX | Effects built from textured meshes (rings, domes, slashes) animated with tweens |
+| Moments | A Roblox tab of gameplay videos that link straight to play |
+| Network ownership | Which machine (server or a client) simulates an unanchored part's physics |
+| Novelty fade | The drop in players after a fresh premise has been fully experienced |
+| Overdraw | Drawing many transparent layers on the same pixels, the main VFX cost on phones |
+| Pity | A guarantee of a top result after a number of unsuccessful rolls |
+| Power creep | New content that makes old content obsolete by being strictly stronger |
+| Prediction (client) | A client showing the result of its input before the server confirms it |
+| Probability modifier | A luck boost, pity system or rate-up that changes odds; paid ones must be explained |
+| Recognisability test | Asking whether a fan would identify a franchise character from silhouette, colours and pose |
+| Reserved server | A private server reachable only by teleport with its access code |
+| Rollback and resimulation | Under server authority, rewinding a mispredicted client to the server's state and replaying inputs |
+| Scene Analysis | Studio's treemap views of memory, instances and triangles during play |
+| Server authority model | Roblox's model where the server owns simulation and clients predict inputs |
+| Session shape | Whether a game is built for long sessions or short, frequent ones |
+| Sharding | Splitting one data structure into several to spread request load |
+| Shapecast | A spatial query that sweeps a box or sphere along a direction |
+| Social deduction | A hidden-role genre where players work out who is who |
+| Standard offer (licensing) | A rights holder's license offer to a game that activates after 14 days unless disputed |
+| Title tag | A bracketed prefix in a game title announcing an update, event or boost |
+| Trait | A random modifier on a unit or character, often rerollable |
+| Trend wave | A burst of similar games after one spark game finds a new loop or theme |
+| Unit (anime TD) | A collectible character placed in tower defense matches |
+| Web play | Playing Roblox in a browser from a link, announced for Chrome by the end of 2026 |
+| Wire (audio) | The object that carries an audio stream between modular audio objects |
+
 Related: [Key numbers](key-numbers.md) · [API quick reference](api-quick-reference.md) · [How to use this vault](../00-start-here/how-to-use-this-vault.md)
