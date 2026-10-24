@@ -252,6 +252,26 @@
       "at": "2026-10-24T20:35:05Z",
       "by": "director",
       "message": "added T-0012 'Run the design gate' for gatekeeper (queued)"
+    },
+    {
+      "at": "2026-10-24T20:35:36Z",
+      "by": "economist",
+      "message": "started T-0008"
+    },
+    {
+      "at": "2026-10-24T20:35:36Z",
+      "by": "worldbuilder",
+      "message": "started T-0011"
+    },
+    {
+      "at": "2026-10-24T20:35:37Z",
+      "by": "artist",
+      "message": "started T-0010"
+    },
+    {
+      "at": "2026-10-24T20:35:37Z",
+      "by": "designer",
+      "message": "started T-0007"
     }
   ],
   "tasks": {
@@ -451,9 +471,10 @@
       "notes": [],
       "owner": "designer",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-24T20:35:37Z",
+      "status": "working",
       "title": "Write the Reel the Storm GDD",
-      "updated": "2026-10-24T20:35:05Z"
+      "updated": "2026-10-24T20:35:37Z"
     },
     "T-0008": {
       "brief": "games/stormcatch/tasks/T-0008.md",
@@ -469,9 +490,10 @@
       "notes": [],
       "owner": "economist",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-24T20:35:36Z",
+      "status": "working",
       "title": "Build the economy sheet and drop tables",
-      "updated": "2026-10-24T20:35:05Z"
+      "updated": "2026-10-24T20:35:36Z"
     },
     "T-0009": {
       "brief": "games/stormcatch/tasks/T-0009.md",
@@ -506,9 +528,10 @@
       "notes": [],
       "owner": "artist",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-24T20:35:37Z",
+      "status": "working",
       "title": "Art direction one-pager and icon concept",
-      "updated": "2026-10-24T20:35:05Z"
+      "updated": "2026-10-24T20:35:37Z"
     },
     "T-0011": {
       "brief": "games/stormcatch/tasks/T-0011.md",
@@ -524,9 +547,10 @@
       "notes": [],
       "owner": "worldbuilder",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-24T20:35:36Z",
+      "status": "working",
       "title": "World plan and build budgets",
-      "updated": "2026-10-24T20:35:05Z"
+      "updated": "2026-10-24T20:35:36Z"
     },
     "T-0012": {
       "brief": "games/stormcatch/tasks/T-0012.md",
