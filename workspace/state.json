@@ -71,6 +71,16 @@
       "at": "2026-10-24T19:24:26Z",
       "by": "scout",
       "message": "started T-0001"
+    },
+    {
+      "at": "2026-10-24T19:34:08Z",
+      "by": "scout",
+      "message": "submitted T-0001 for review"
+    },
+    {
+      "at": "2026-10-24T19:34:54Z",
+      "by": "director",
+      "message": "T-0001 -> done"
     }
   ],
   "tasks": {
@@ -84,15 +94,16 @@
         "PITCH-05",
         "PITCH-07"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0001.md",
       "id": "T-0001",
       "notes": [],
       "owner": "scout",
       "stage": "pitch",
       "started": "2026-10-24T19:24:26Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-24T19:34:08Z",
       "title": "Scan the fishing and cozy market with fresh charts",
-      "updated": "2026-10-24T19:24:26Z"
+      "updated": "2026-10-24T19:34:54Z"
     },
     "T-0002": {
       "brief": "games/stormcatch/tasks/T-0002.md",
