@@ -7,14 +7,14 @@
   },
   "counters": {
     "escalation": 0,
-    "gate": 1,
+    "gate": 2,
     "task": 6
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {},
   "games": {
     "stormcatch": {
-      "awaitingHuman": null,
+      "awaitingHuman": "pitch",
       "created": "2026-10-24T19:22:30Z",
       "genre": "fishing",
       "history": [
@@ -42,6 +42,18 @@
       "path": "games/stormcatch/gates/pitch-01.json",
       "stage": "pitch",
       "verdict": "fail",
+      "waived": []
+    },
+    {
+      "at": "2026-10-24T20:22:30Z",
+      "build": "",
+      "by": "gatekeeper",
+      "failed": [],
+      "game": "stormcatch",
+      "id": "G-0002",
+      "path": "games/stormcatch/gates/pitch-02.json",
+      "stage": "pitch",
+      "verdict": "pass",
       "waived": []
     }
   ],
@@ -186,6 +198,21 @@
       "at": "2026-10-24T20:14:51Z",
       "by": "gatekeeper",
       "message": "started T-0006"
+    },
+    {
+      "at": "2026-10-24T20:22:30Z",
+      "by": "gatekeeper",
+      "message": "gate pitch for stormcatch: pass"
+    },
+    {
+      "at": "2026-10-24T20:23:34Z",
+      "by": "gatekeeper",
+      "message": "submitted T-0006 for review"
+    },
+    {
+      "at": "2026-10-24T20:24:06Z",
+      "by": "director",
+      "message": "T-0006 -> done: Re-gate accepted: 8/8 pass, record games/stormcatch/gates/pitch-02.json; game waits for the human's pitch decision."
     }
   ],
   "tasks": {
@@ -350,15 +377,22 @@
         "PITCH-07",
         "PITCH-08"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0006.md",
       "id": "T-0006",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-24T20:24:06Z",
+          "by": "director",
+          "text": "Re-gate accepted: 8/8 pass, record games/stormcatch/gates/pitch-02.json; game waits for the human's pitch decision."
+        }
+      ],
       "owner": "gatekeeper",
       "stage": "pitch",
       "started": "2026-10-24T20:14:51Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-24T20:23:34Z",
       "title": "Re-run the pitch gate after the PITCH-01 fix",
-      "updated": "2026-10-24T20:14:51Z"
+      "updated": "2026-10-24T20:24:06Z"
     }
   },
   "version": 1

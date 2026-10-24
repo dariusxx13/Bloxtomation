@@ -1,24 +1,21 @@
 # Studio board
 
-Updated 2026-10-24T20:14:51Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-24T20:24:06Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
-Nothing right now.
+- **Stormcatch (working title)** (stormcatch), pitch: Approve the pitch. Review `games/stormcatch/gates/`, then `python3 agents/studioctl.py human approve stormcatch` or `human reject stormcatch --note "..."`.
 
 ## Games
 
 | Game | Title | Stage | Status | Last gate |
 |---|---|---|---|---|
-| stormcatch | Stormcatch (working title) | pitch | active | pitch fail |
+| stormcatch | Stormcatch (working title) | pitch | active | pitch pass |
 
 ## Tasks
 
-### Working (1)
+### Working (0)
 
-| Task | Owner | Game | Title | Waiting on |
-|---|---|---|---|---|
-| T-0006 | gatekeeper | stormcatch | Re-run the pitch gate after the PITCH-01 fix | - |
 
 ### Needs review (0)
 
@@ -35,6 +32,9 @@ Nothing right now.
 
 ## Recent activity
 
+- 2026-10-24T20:24:06Z director: T-0006 -> done: Re-gate accepted: 8/8 pass, record games/stormcatch/gates/pitch-02.json; game waits for the human's pitch decision.
+- 2026-10-24T20:23:34Z gatekeeper: submitted T-0006 for review
+- 2026-10-24T20:22:30Z gatekeeper: gate pitch for stormcatch: pass
 - 2026-10-24T20:14:51Z gatekeeper: started T-0006
 - 2026-10-24T20:14:36Z director: T-0005 -> done: Reviewed both passes: device claims match the per-game rank pairs, holiday sentence cites the seasonal calendar, phase paragraph names per-game like ratios and revisited placements, supersession note in loop-sketch. Rubric unchanged 35/54.
 - 2026-10-24T20:14:16Z scout: submitted T-0005 for review
@@ -47,6 +47,3 @@ Nothing right now.
 - 2026-10-24T20:03:19Z director: T-0004 -> done: Gate review accepted: PITCH-01 fail confirmed by the Director (computer vs phone ranks re-read: Deep Fishing, Harpoon a Fish, Fish an Anime RNG, Roll a Fisherman lean computer).
 - 2026-10-24T20:02:29Z gatekeeper: submitted T-0004 for review
 - 2026-10-24T20:01:35Z gatekeeper: gate pitch for stormcatch: fail
-- 2026-10-24T19:55:14Z gatekeeper: started T-0004
-- 2026-10-24T19:54:57Z director: T-0003 -> done: Reviewed: one section per PITCH criterion with pointers, rubric 35/54 arithmetic checked, D1-D6 recorded as the human's, Ride Storm verified in the phone snapshot.
-- 2026-10-24T19:54:19Z scout: submitted T-0003 for review
