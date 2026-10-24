@@ -181,6 +181,11 @@
       "at": "2026-10-24T20:14:36Z",
       "by": "director",
       "message": "T-0005 -> done: Reviewed both passes: device claims match the per-game rank pairs, holiday sentence cites the seasonal calendar, phase paragraph names per-game like ratios and revisited placements, supersession note in loop-sketch. Rubric unchanged 35/54."
+    },
+    {
+      "at": "2026-10-24T20:14:51Z",
+      "by": "gatekeeper",
+      "message": "started T-0006"
     }
   ],
   "tasks": {
@@ -350,9 +355,10 @@
       "notes": [],
       "owner": "gatekeeper",
       "stage": "pitch",
-      "status": "queued",
+      "started": "2026-10-24T20:14:51Z",
+      "status": "working",
       "title": "Re-run the pitch gate after the PITCH-01 fix",
-      "updated": "2026-10-24T20:03:52Z"
+      "updated": "2026-10-24T20:14:51Z"
     }
   },
   "version": 1
