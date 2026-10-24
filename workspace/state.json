@@ -1,0 +1,167 @@
+{
+  "config": {
+    "leaseMinutes": 45,
+    "studioInstances": [
+      "studio-1"
+    ]
+  },
+  "counters": {
+    "escalation": 0,
+    "gate": 0,
+    "task": 4
+  },
+  "created": "2026-10-24T19:22:17Z",
+  "escalations": {},
+  "games": {
+    "stormcatch": {
+      "awaitingHuman": null,
+      "created": "2026-10-24T19:22:30Z",
+      "genre": "fishing",
+      "history": [
+        {
+          "at": "2026-10-24T19:22:30Z",
+          "stage": "pitch"
+        }
+      ],
+      "id": "stormcatch",
+      "stage": "pitch",
+      "status": "active",
+      "title": "Stormcatch (working title)"
+    }
+  },
+  "gates": [],
+  "leases": {},
+  "log": [
+    {
+      "at": "2026-10-24T19:22:17Z",
+      "by": "human",
+      "message": "workspace initialised"
+    },
+    {
+      "at": "2026-10-24T19:22:30Z",
+      "by": "director",
+      "message": "created game stormcatch (Stormcatch (working title))"
+    },
+    {
+      "at": "2026-10-24T19:23:59Z",
+      "by": "director",
+      "message": "added T-0001 'Scan the fishing and cozy market with fresh charts' for scout (queued)"
+    },
+    {
+      "at": "2026-10-24T19:23:59Z",
+      "by": "director",
+      "message": "added T-0002 'Sketch the core loop and the weather twist' for designer (queued)"
+    },
+    {
+      "at": "2026-10-24T19:24:06Z",
+      "by": "director",
+      "message": "added T-0003 'Write the Stormcatch pitch with the greenlight rubric' for scout (queued)"
+    },
+    {
+      "at": "2026-10-24T19:24:06Z",
+      "by": "director",
+      "message": "added T-0004 'Run the Stormcatch pitch gate' for gatekeeper (queued)"
+    },
+    {
+      "at": "2026-10-24T19:24:26Z",
+      "by": "designer",
+      "message": "started T-0002"
+    },
+    {
+      "at": "2026-10-24T19:24:26Z",
+      "by": "scout",
+      "message": "started T-0001"
+    }
+  ],
+  "tasks": {
+    "T-0001": {
+      "brief": "games/stormcatch/tasks/T-0001.md",
+      "created": "2026-10-24T19:23:59Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "PITCH-01",
+        "PITCH-05",
+        "PITCH-07"
+      ],
+      "handoff": null,
+      "id": "T-0001",
+      "notes": [],
+      "owner": "scout",
+      "stage": "pitch",
+      "started": "2026-10-24T19:24:26Z",
+      "status": "working",
+      "title": "Scan the fishing and cozy market with fresh charts",
+      "updated": "2026-10-24T19:24:26Z"
+    },
+    "T-0002": {
+      "brief": "games/stormcatch/tasks/T-0002.md",
+      "created": "2026-10-24T19:23:59Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "PITCH-02",
+        "PITCH-03",
+        "PITCH-04",
+        "PITCH-07"
+      ],
+      "handoff": null,
+      "id": "T-0002",
+      "notes": [],
+      "owner": "designer",
+      "stage": "pitch",
+      "started": "2026-10-24T19:24:26Z",
+      "status": "working",
+      "title": "Sketch the core loop and the weather twist",
+      "updated": "2026-10-24T19:24:26Z"
+    },
+    "T-0003": {
+      "brief": "games/stormcatch/tasks/T-0003.md",
+      "created": "2026-10-24T19:24:06Z",
+      "deps": [
+        "T-0001",
+        "T-0002"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "PITCH-01",
+        "PITCH-02",
+        "PITCH-03",
+        "PITCH-04",
+        "PITCH-05",
+        "PITCH-06",
+        "PITCH-07",
+        "PITCH-08"
+      ],
+      "handoff": null,
+      "id": "T-0003",
+      "notes": [],
+      "owner": "scout",
+      "stage": "pitch",
+      "status": "queued",
+      "title": "Write the Stormcatch pitch with the greenlight rubric",
+      "updated": "2026-10-24T19:24:06Z"
+    },
+    "T-0004": {
+      "brief": "games/stormcatch/tasks/T-0004.md",
+      "created": "2026-10-24T19:24:06Z",
+      "deps": [
+        "T-0003"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "PITCH-01",
+        "PITCH-08"
+      ],
+      "handoff": null,
+      "id": "T-0004",
+      "notes": [],
+      "owner": "gatekeeper",
+      "stage": "pitch",
+      "status": "queued",
+      "title": "Run the Stormcatch pitch gate",
+      "updated": "2026-10-24T19:24:06Z"
+    }
+  },
+  "version": 1
+}
