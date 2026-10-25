@@ -272,6 +272,16 @@
       "at": "2026-10-24T20:35:37Z",
       "by": "designer",
       "message": "started T-0007"
+    },
+    {
+      "at": "2026-10-25T09:32:25Z",
+      "by": "artist",
+      "message": "submitted T-0010 for review"
+    },
+    {
+      "at": "2026-10-25T09:33:15Z",
+      "by": "director",
+      "message": "T-0010 -> done: Reviewed: palette with roles, gold matches Theme.colors.accent (255,196,46), contrast recomputed (gold/Night Ink 10.1:1, gold/Seafoam 1.05:1), icon concept A recommended, look-alike check recorded, VFX budget within the vault's 300-500 low-end particle band; SVG has no external references."
     }
   ],
   "tasks": {
@@ -523,15 +533,22 @@
       "gates": [
         "DESIGN-08"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0010.md",
       "id": "T-0010",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-25T09:33:15Z",
+          "by": "director",
+          "text": "Reviewed: palette with roles, gold matches Theme.colors.accent (255,196,46), contrast recomputed (gold/Night Ink 10.1:1, gold/Seafoam 1.05:1), icon concept A recommended, look-alike check recorded, VFX budget within the vault's 300-500 low-end particle band; SVG has no external references."
+        }
+      ],
       "owner": "artist",
       "stage": "design",
       "started": "2026-10-24T20:35:37Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-25T09:32:25Z",
       "title": "Art direction one-pager and icon concept",
-      "updated": "2026-10-24T20:35:37Z"
+      "updated": "2026-10-25T09:33:15Z"
     },
     "T-0011": {
       "brief": "games/stormcatch/tasks/T-0011.md",

@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-25T09:16:42Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-25T09:33:15Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,13 +14,12 @@ Nothing right now.
 
 ## Tasks
 
-### Working (4)
+### Working (3)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0007 | designer | stormcatch | Write the Reel the Storm GDD | - |
 | T-0008 | economist | stormcatch | Build the economy sheet and drop tables | - |
-| T-0010 | artist | stormcatch | Art direction one-pager and icon concept | - |
 | T-0011 | worldbuilder | stormcatch | World plan and build budgets | - |
 
 ### Needs review (0)
@@ -31,7 +30,7 @@ Nothing right now.
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0009 | monetization-designer | stormcatch | Draft the product catalog | T-0007, T-0008 |
-| T-0012 | gatekeeper | stormcatch | Run the design gate | T-0007, T-0008, T-0009, T-0010, T-0011 |
+| T-0012 | gatekeeper | stormcatch | Run the design gate | T-0007, T-0008, T-0009, T-0011 |
 
 ### Draft (needs a brief) (0)
 
@@ -42,6 +41,8 @@ Nothing right now.
 
 ## Recent activity
 
+- 2026-10-25T09:33:15Z director: T-0010 -> done: Reviewed: palette with roles, gold matches Theme.colors.accent (255,196,46), contrast recomputed (gold/Night Ink 10.1:1, gold/Seafoam 1.05:1), icon concept A recommended, look-alike check recorded, VFX budget within the vault's 300-500 low-end particle band; SVG has no external references.
+- 2026-10-25T09:32:25Z artist: submitted T-0010 for review
 - 2026-10-24T20:35:37Z designer: started T-0007
 - 2026-10-24T20:35:37Z artist: started T-0010
 - 2026-10-24T20:35:36Z worldbuilder: started T-0011
@@ -55,5 +56,3 @@ Nothing right now.
 - 2026-10-24T20:27:45Z human: approved pitch for stormcatch: Prototype only; go/stop on the twist tests
 - 2026-10-24T20:24:06Z director: T-0006 -> done: Re-gate accepted: 8/8 pass, record games/stormcatch/gates/pitch-02.json; game waits for the human's pitch decision.
 - 2026-10-24T20:23:34Z gatekeeper: submitted T-0006 for review
-- 2026-10-24T20:22:30Z gatekeeper: gate pitch for stormcatch: pass
-- 2026-10-24T20:14:51Z gatekeeper: started T-0006
