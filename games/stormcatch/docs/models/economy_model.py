@@ -80,10 +80,10 @@ STORMBORN_SIZE_SIGMA = 0.30
 STORM = {
     "periodSeconds": 900,  # :00 :15 :30 :45 UTC
     "durationSeconds": 180,
-    "stormbornHookChance": 0.025,  # chance that an eye bite is a Stormborn
+    "stormbornHookChance": 0.015,  # chance that an eye bite is a Stormborn ("if lucky", loop sketch 5.4)
     "soloLandSeconds": 45.0,  # loop sketch 4.4
     "helperSpeedup": 0.875,  # land time = 45 / (1 + 0.875 * helpers): 4 helpers -> 10 s
-    "stormbornValueFactor": 1.5,  # giants: extra value on top of tier value
+    "stormbornValueFactor": 1.0,  # giants are valued like any fish of their tier (no extra factor)
     "helperShare": 0.10,  # a helper's minted share of the Stormborn's value
     "helperSharesCapPerStorm": 3,  # abuse cap (loop sketch 4.4)
     "travelSecondsByIsland": {"pebble_cove": 10, "lantern_reef": 30, "gustwhistle_bluffs": 40,
