@@ -317,6 +317,16 @@
       "at": "2026-10-25T17:59:44Z",
       "by": "director",
       "message": "added T-0013 'Sync the GDD with the economy sheet and world plan' for designer (queued)"
+    },
+    {
+      "at": "2026-10-25T18:00:06Z",
+      "by": "monetization-designer",
+      "message": "started T-0009"
+    },
+    {
+      "at": "2026-10-25T18:00:07Z",
+      "by": "designer",
+      "message": "started T-0013"
     }
   ],
   "tasks": {
@@ -570,9 +580,10 @@
       "notes": [],
       "owner": "monetization-designer",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-25T18:00:06Z",
+      "status": "working",
       "title": "Draft the product catalog",
-      "updated": "2026-10-24T20:35:05Z"
+      "updated": "2026-10-25T18:00:06Z"
     },
     "T-0010": {
       "brief": "games/stormcatch/tasks/T-0010.md",
@@ -675,9 +686,10 @@
       "notes": [],
       "owner": "designer",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-25T18:00:07Z",
+      "status": "working",
       "title": "Sync the GDD with the economy sheet and world plan",
-      "updated": "2026-10-25T17:59:44Z"
+      "updated": "2026-10-25T18:00:07Z"
     }
   },
   "version": 1
