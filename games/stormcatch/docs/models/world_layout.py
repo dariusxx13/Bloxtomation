@@ -170,11 +170,11 @@ BRIDGES = [
 # ---------------------------------------------------------------------------------------------
 SPOTS: List[Dict] = [
     # Pebble Cove
-    dict(id="cove_dock", name="Harbor Dock", zone="pebble_cove", stand="ST_cove_dock", pos=(-5, 0, -10), kind="regular", cell="cove_dock", proto=True),
-    dict(id="cove_shallows", name="Cove Shallows", zone="pebble_cove", stand="ST_cove_shallows", pos=(-20, 0, -52), kind="regular", cell="cove_shallows", proto=True),
-    dict(id="pier_head", name="Pier Head", zone="pebble_cove", stand="ST_pier_head", pos=(20, 0, -104), kind="regular", cell="pier_head", proto=True),
-    dict(id="cove_pool_1", name="Dock Rock Pool", zone="pebble_cove", stand="ST_cove_dock", pos=(-20, 3.5, 6), kind="pool", cell="cove_dock", proto=False),
-    dict(id="cove_pool_2", name="Point Rock Pool", zone="pebble_cove", stand="ST_cove_shallows", pos=(-50, 4.5, -44), kind="pool", cell="cove_shallows", proto=False),
+    dict(id="cove_dock", name="Dock Ripple", zone="pebble_cove", stand="ST_cove_dock", pos=(-5, 0, -10), kind="regular", cell="cove_dock", proto=True, sheltered=True),
+    dict(id="cove_shallows", name="Cove Shallows", zone="pebble_cove", stand="ST_cove_shallows", pos=(-20, 0, -52), kind="regular", cell="cove_shallows", proto=True, callable=True),
+    dict(id="pier_head", name="Open Pier", zone="pebble_cove", stand="ST_pier_head", pos=(20, 0, -104), kind="regular", cell="pier_head", proto=True, callable=True, storm_eye=True),
+    dict(id="cove_pool_1", name="Point Rock Pool South", zone="pebble_cove", stand="ST_cove_shallows", pos=(-48, 4.5, -62), kind="pool", cell="cove_shallows", proto=False, callable=True),
+    dict(id="cove_pool_2", name="Point Rock Pool North", zone="pebble_cove", stand="ST_cove_shallows", pos=(-50, 4.5, -44), kind="pool", cell="cove_shallows", proto=False, callable=True),
     # Lantern Reef
     dict(id="reef_steps", name="Lantern Steps", zone="lantern_reef", stand="ST_reef_steps", pos=(-70, 0, -180), kind="regular", cell="reef_steps", proto=False),
     dict(id="reef_lagoon", name="Glow Lagoon", zone="lantern_reef", stand="ST_reef_lagoon", pos=(-153, 0, -160), kind="regular", cell="reef_lagoon", proto=False),
@@ -212,13 +212,13 @@ ADJACENT_PAIRS = [
 # Front paths (Config/Weather.luau): ordered CellIds. Fronts drift over water between cells.
 # ---------------------------------------------------------------------------------------------
 FRONT_PATHS = {
-    "Showers (Harbour Showers)": ["reef_steps", "cove_shallows", "cove_dock", "pier_head", "squall_rocks"],
+    "Showers (Harbour Showers)": ["reef_steps", "cove_shallows", "pier_head", "squall_rocks"],
     "Sea Fog (Reef Fog)": ["reef_outer", "reef_lagoon", "reef_steps", "anvil_reach"],
     "Gusts (Bluff Gusts)": ["whistle_point", "kite_ledge", "squall_rocks", "anvil_reach"],
 }
-PROTO_FRONT_PATHS = {
-    "Showers (prototype)": ["pier_head", "cove_dock", "cove_shallows"],
-    "Sea Fog (prototype)": ["FOG_ENTRY", "cove_shallows", "cove_dock", "pier_head"],
+PROTO_FRONT_PATHS = {  # gdd.md 13.2 / specs/prototype.md req 6
+    "Showers (prototype)": ["pier_head", "cove_shallows"],
+    "Sea Fog (prototype)": ["FOG_ENTRY", "cove_shallows", "pier_head"],
 }
 FOG_ENTRY: Vec = (-80, 0, -110)  # prototype fog bank sits off the Lantern Reef edge stub
 STORM_HOME: Vec = (115, 50, -217)  # anvil cloud base over the Thunder Spire (StormHome)
@@ -241,7 +241,7 @@ FERRY_ROUTE: List[Tuple[str, Vec]] = [
 # Landmarks and sightline targets (position of the part that must read; Y = top or centre)
 # ---------------------------------------------------------------------------------------------
 SIGHT_TARGETS = [
-    ("Harbor Dock ripple (first spot), 5 studs left of the avatar", (-5, 0, -10), True),
+    ("Dock Ripple (first spot, sheltered), 5 studs left of the avatar", (-5, 0, -10), True),
     ("Cove Shallows cell (showers over the far end of the cove)", (-28.5, 6, -52), True),
     ("Bridge 1 gate and price sign (next goal)", (-50, 14, -76), True),
     ("Pier Head (Great Storm eye below)", (20, 4, -80), True),
@@ -436,8 +436,8 @@ def report() -> int:
 
     # 5. Cast geometry
     print("\n## Cast geometry (stand root to spot centre, 3D; hitRange 28, server +8)\n")
-    print("| Spot | Kind | Only in | Cell | Horizontal | 3D | Check |")
-    print("|---|---|---|---|---|---|---|")
+    print("| Spot | Name | SpotKind | Only in | Cell | Flags | Horizontal | 3D | Check |")
+    print("|---|---|---|---|---|---|---|---|---|")
     for s in SPOTS:
         root = root_at(s["stand"])
         h = hdist(root, s["pos"])
@@ -450,7 +450,8 @@ def report() -> int:
             check = f"<= {HIT_RANGE:g}"
         if not ok:
             failures.append(f"cast range {s['id']} {d3:.1f}")
-        print(f"| {s['id']} | {s['kind']} | {WEATHER_ONLY[s['kind']] or 'any'} | {s['cell']} | {h:.1f} | {d3:.1f} | {'pass' if ok else 'FAIL'} {check} |")
+        flags = ", ".join(f for f, key in (("Sheltered", "sheltered"), ("Callable", "callable"), ("StormEye", "storm_eye")) if s.get(key)) or "-"
+        print(f"| {s['id']} | {s['name']} | {s['kind']} | {WEATHER_ONLY[s['kind']] or 'any'} | {s['cell']} | {flags} | {h:.1f} | {d3:.1f} | {'pass' if ok else 'FAIL'} {check} |")
 
     # 6. Weather cells
     print("\n## Weather cells (radius 36; a point belongs to the nearest cell centre)\n")
@@ -490,6 +491,52 @@ def report() -> int:
         for c in cells:
             z = spot_by_id[c]["zone"]
             home_counts.setdefault(z, []).append(label.split(" (")[0])
+    # Sheltered cells: never on a front path, and no drift leg passes over them
+    sheltered = [s["id"] for s in SPOTS if s.get("sheltered")]
+    print("\n## Sheltered spot (GDD 4.1: no front, call or Rainbow ever covers it)\n")
+    print("| Sheltered cell | On any front path | Closest drift leg to its centre (studs) | Rule |")
+    print("|---|---|---|---|")
+    for cid in sheltered:
+        on_path = [label for label, cells in {**FRONT_PATHS, **PROTO_FRONT_PATHS}.items() if cid in cells]
+        closest = min(
+            seg_point_distance(centres[cid],
+                               FOG_ENTRY if a == "FOG_ENTRY" else centres[a],
+                               FOG_ENTRY if b == "FOG_ENTRY" else centres[b])
+            for cells in {**FRONT_PATHS, **PROTO_FRONT_PATHS}.values()
+            for a, b in zip(cells, cells[1:]))
+        ok = not on_path and closest > CELL_RADIUS
+        if not ok:
+            failures.append(f"sheltered {cid} crossed")
+        print(f"| {cid} | {', '.join(on_path) if on_path else 'no'} | {closest:.0f} | {'pass' if ok else 'FAIL'} (> {CELL_RADIUS:g}, outside its cell) |")
+
+    # Callable harbour spots (GDD 4.10): at least 2 incl. the Open Pier, never sheltered, reachable within 60 s
+    callable_spots = [s for s in SPOTS if s.get("callable")]
+    print("\n## Callable harbour spots (GDD 4.10, paid Sky Bell calls)\n")
+    print("| Callable spot | Kind | Farthest walkway point | Walk (studs / s) | Rule <= 60 s | Target <= 45 s |")
+    print("|---|---|---|---|---|---|")
+    for s in callable_spots:
+        tree = shortest(graph, s["stand"])
+        far_node, (far_d, _) = max(tree.items(), key=lambda kv: kv[1][0])
+        ok = secs(far_d) <= WARNING_S
+        if not ok:
+            failures.append(f"callable {s['id']} too far")
+        print(f"| {s['id']} | {s['kind']} | {far_node} | {far_d:.0f} / {secs(far_d):.1f} | {'pass' if ok else 'FAIL'} | {'pass' if secs(far_d) <= ANY_SPOT_TARGET_S else 'over'} |")
+    regular_callable = [s for s in callable_spots if s["kind"] == "regular"]
+    rules = [
+        ("at least 2 regular Callable spots", len(regular_callable) >= 2),
+        ("the Open Pier (StormEye) is Callable", any(s.get("storm_eye") for s in callable_spots)),
+        ("all Callable spots are on Pebble Cove", all(s["zone"] == "pebble_cove" for s in callable_spots)),
+        ("no Callable spot is Sheltered", not any(s.get("sheltered") for s in callable_spots)),
+    ]
+    dock_to_pier = walk("cove_dock", "pier_head")
+    rules.append((f"Dock Ripple to Open Pier within 10 s (GDD 13 note): {dock_to_pier:.0f} studs = {secs(dock_to_pier):.1f} s",
+                  secs(dock_to_pier) <= 10))
+    for text, ok in rules:
+        if not ok:
+            failures.append(text)
+        print(f"\n- {text}: {'pass' if ok else 'FAIL'}", end="")
+    print()
+
     print("\nFront visits per island per cycle: "
           + "; ".join(f"{z}: {', '.join(v)}" for z, v in home_counts.items()))
 
