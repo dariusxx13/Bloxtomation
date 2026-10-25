@@ -20,8 +20,8 @@ Mean size factor (clear) 1.0001; Stormborn 1.0007. Failed reel costs the cast, t
 | Weather (Lantern Reef, Lure 0, typical reel) | Catches/min | Value per catch vs clear | Coins per minute vs clear | Rare-or-better per catch |
 | --- | --- | --- | --- | --- |
 | clear | 7.40 | 1.00 | 1.00 | 12.00% |
-| showers | 11.22 | 1.27 | 1.92 | 17.60% |
-| fog | 5.69 | 2.12 | 1.63 | 40.14% |
+| showers | 11.22 | 1.23 | 1.87 | 16.26% |
+| fog | 5.69 | 1.82 | 1.40 | 31.99% |
 | gusts | 6.08 | 1.94 | 1.59 | 25.11% |
 | rainbow | 7.40 | 2.40 | 2.40 | 12.00% |
 
@@ -30,65 +30,75 @@ Mean size factor (clear) 1.0001; Stormborn 1.0007. Failed reel costs the cast, t
 | Goal | Casual free | Typical | Paying | Target (casual free) |
 | --- | --- | --- | --- | --- |
 | 1. First rod upgrade (Rod 2) | 45 s [45-45] (s1) | 45 s [45-45] (s1) | 45 s [45-45] (s1) | 0-1.25 min |
-| 2. Bridge to Lantern Reef | 11.1 [10.2-13.0] (s2, d2) | 7.5 [3.3-9.8] (s1, d1) | 2.9 [1.0-3.3] (s1, d1) | 10-12 min |
-| 3. Bridge to Gustwhistle Bluffs | 23.5 [20.9-25.2] (s3, d3) | 15.1 [15.0-15.3] (s1, d1) | 7.1 [3.0-9.4] (s1, d1) | 20-30 min |
-| 4. First island set complete (Pebble Cove 8/8, median) | 28.5 [13.2-39.0] (s3, d3) | 21.2 [9.5-46.7] (s2, d1) | 26.9 [20.0-44.0] (s1, d1) | 20-40 min |
-| 5. New Tide (first rebirth) | 71.0 [70.1-73.6] (s8, d8) | 42.0 [40.0-45.1] (s3, d2) | 22.9 [19.2-24.1] (s1, d1) | 20-90 min |
+| 2. Bridge to Lantern Reef | 10.8 [10.3-11.1] (s2, d2) | 8.7 [6.6-9.6] (s1, d1) | 2.9 [2.0-3.3] (s1, d1) | 10-12 min |
+| 3. Bridge to Gustwhistle Bluffs | 23.6 [23.1-24.3] (s3, d3) | 16.4 [15.2-17.9] (s1, d1) | 8.0 [5.1-9.1] (s1, d1) | 20-30 min |
+| 4. First island set complete (Pebble Cove 8/8, median) | 17.2 [11.7-24.3] (s2, d2) | 12.4 [8.2-20.7] (s1, d1) | 25.5 [19.3-31.8] (s1, d1) | 20-40 min |
+| 5. New Tide (first rebirth) | 62.2 [60.9-67.9] (s7, d7) | 44.2 [40.5-49.0] (s3, d2) | 24.4 [23.4-27.0] (s1, d1) | 20-90 min |
 
 Cells: mean minutes [fastest-slowest join minute] (session index, day index). Session and day use the
 model's session length and sessions per day (casual 10x1, typical 20x2, paying 30x3).
 
 | Other milestones | Casual free | Typical | Paying |
 | --- | --- | --- | --- |
-| Second upgrade line (first Lure or Boots) | 4.1 [4.0-4.3] (s1, d1) | 4.1 [4.0-4.3] (s1, d1) | 4.0 [4.0-4.0] (s1, d1) |
-| First nest (Driftwood) | 5.0 [5.0-5.0] (s1, d1) | 6.2 [5.0-12.7] (s1, d1) | 5.7 [3.5-13.3] (s1, d1) |
-| Lure level 7 (+28% luck, above the D6 +25%) | 21.8 [20.2-23.0] (s3, d3) | 15.3 [13.8-15.8] (s1, d1) | 7.0 [4.1-8.7] (s1, d1) |
-| Rain set 3/3 (median) | 67.3 [64.5-69.8] (s7, d7) | 37.5 [32.3-42.8] (s2, d1) | 29.7 [26.7-32.2] (s1, d1) |
+| Second upgrade line (first Lure or Boots) | 4.2 [4.0-4.6] (s1, d1) | 4.2 [4.0-4.3] (s1, d1) | 4.0 [4.0-4.0] (s1, d1) |
+| First nest (Driftwood) | 5.0 [5.0-5.0] (s1, d1) | 5.0 [5.0-5.0] (s1, d1) | 6.3 [4.0-24.8] (s1, d1) |
+| Lure level 7 (+28% luck, above the D6 +25%) | 23.9 [23.3-24.5] (s3, d3) | 16.8 [15.8-18.0] (s1, d1) | 8.2 [5.6-9.5] (s1, d1) |
+| Rain set 3/3 (median) | 81.1 [79.2-83.5] (s9, d9) | 42.7 [38.7-45.8] (s3, d2) | 34.8 [33.3-37.0] (s2, d1) |
 | Lantern Reef set 8/8 (median) | > 240 | > 240 | > 240 |
-| Bridge to Thunderhead Point | 41.8 [40.6-45.0] (s5, d5) | 30.1 [27.3-31.6] (s2, d1) | 14.9 [13.3-15.1] (s1, d1) |
-| New Tide 2 | 93.6 [92.6-95.8] (s10, d10) | 55.5 [53.0-58.0] (s3, d2) | 27.6 [25.7-28.8] (s1, d1) |
+| Bridge to Thunderhead Point | 38.8 [38.1-39.7] (s4, d4) | 28.9 [27.9-29.6] (s2, d1) | 14.4 [13.4-15.0] (s1, d1) |
+| New Tide 2 | 92.3 [91.7-92.9] (s10, d10) | 59.3 [56.9-60.0] (s3, d2) | 28.6 [27.6-31.9] (s1, d1) |
 
 ### Target checks (casual free unless named)
 
 | Check | Result | Model value |
 | --- | --- | --- |
 | First rod upgrade about 60 s (under 75 s), every model | PASS | casual 45 s, max 45 s |
-| Bridge to Lantern Reef at 10-12 min (brief target), inside 10-15 (DESIGN-03) | CHECK | mean 11.1, range 10.2-13.0 |
-| Bridge to Gustwhistle Bluffs at 20-30 min | PASS | mean 23.5, range 20.9-25.2 |
-| New Tide 1 within 20-90 min (template Economy.spec) | PASS | mean 71.0, range 70.1-73.6 |
-| Typical New Tide 1 within 30-60 min (vault key numbers) | PASS | mean 42.0, range 40.0-45.1 |
-| Paying player faster but within 2-4x of casual on goals 2-5 | PASS | 3.86x, 3.29x, 1.06x, 3.10x |
-| No gap above about 3 min between purchases in the first hour (typical) | PASS | worst gap 2.82 min, mean worst 2.40 min |
-| Next purchase 1-3 min away in the first 30 min (casual) | PASS | worst gap 2.32 min |
-| After New Tide 1, regain the pre-tide income in 1/4-1/3 of the original time (typical; vault band assumes zones reset, islands stay here) | ARGUED DEVIATION | 0.11 of the original time; the tide's cost is carried by the cycle length instead (section D) |
+| Bridge to Lantern Reef at 10-12 min (brief target), inside 10-15 (DESIGN-03) | PASS | mean 10.8, range 10.3-11.1 |
+| Bridge to Gustwhistle Bluffs at 20-30 min | PASS | mean 23.6, range 23.1-24.3 |
+| New Tide 1 within 20-90 min (template Economy.spec) | PASS | mean 62.2, range 60.9-67.9 |
+| Typical New Tide 1 within 30-60 min (vault key numbers) | PASS | mean 44.2, range 40.5-49.0 |
+| Paying player faster but within 2-4x of casual on goals 2, 3 and 5 | PASS | 3.72x, 2.95x, 2.55x |
+| No gap above about 3 min between purchases in the first hour (typical) | NEAR (final save for New Tide 1 only) | worst gap 3.47 min; over 3.2 min in 1 of 15 join minutes; mean worst 2.70 min |
+| Next purchase 1-3 min away in the first 30 min (casual) | PASS | worst gap 2.22 min |
+| After New Tide 1, regain the pre-tide income in 1/4-1/3 of the original time (typical; vault band assumes zones reset, islands stay here) | ARGUED DEVIATION | 0.14 of the original time; the tide's cost is carried by the cycle length instead (section D) |
 
-### Conservative run: catch income only (no daily, playtime or pot rewards)
+### Conservative run: catch income only (no daily, playtime, pot or journal-set rewards)
 
 | Model | Bridge to Lantern Reef | Bridge to Gustwhistle | New Tide 1 |
 | --- | --- | --- | --- |
-| Casual free | 13.8 [13.2-14.6] | 27.6 [25.9-28.8] | 97.0 [95.8-97.8] |
-| Typical | 8.2 [3.4-11.5] | 18.9 [16.4-20.9] | 59.6 [55.2-62.1] |
-| Paying | 3.4 [2.0-4.0] | 8.2 [4.0-10.7] | 25.8 [23.3-27.7] |
+| Casual free | 14.8 [14.0-15.1] | 29.3 [28.7-29.7] | 93.6 [93.3-94.2] |
+| Typical | 10.1 [8.6-11.4] | 20.8 [19.4-21.8] | 61.0 [59.6-62.3] |
+| Paying | 3.5 [2.0-3.9] | 9.5 [7.7-10.7] | 26.9 [25.3-27.8] |
 
 ### Return view: the same goals with sessions, daily rewards and Tide Pots (play minutes, session, day)
 
 | Goal | Casual free | Typical | Paying |
 | --- | --- | --- | --- |
-| 2. Bridge to Lantern Reef | 10.0 [10.0-10.0] (s2, d2) | 7.5 [3.3-9.8] (s1, d1) | 2.9 [1.0-3.3] (s1, d1) |
-| 3. Bridge to Gustwhistle Bluffs | 20.0 [20.0-20.0] (s3, d3) | 15.5 [15.0-17.5] (s1, d1) | 7.1 [3.0-9.4] (s1, d1) |
-| 5. New Tide (first rebirth) | 40.0 [40.0-40.0] (s5, d5) | 41.3 [40.0-49.0] (s3, d2) | 22.9 [19.2-24.4] (s1, d1) |
-| Bridge to Thunderhead Point | 30.0 [30.0-30.0] (s4, d4) | 33.4 [31.1-35.0] (s2, d1) | 14.9 [13.3-15.1] (s1, d1) |
+| 2. Bridge to Lantern Reef | 10.0 [10.0-10.0] (s2, d2) | 8.7 [6.6-9.6] (s1, d1) | 2.9 [2.0-3.3] (s1, d1) |
+| 3. Bridge to Gustwhistle Bluffs | 20.0 [20.0-20.0] (s3, d3) | 16.4 [15.2-17.9] (s1, d1) | 8.0 [5.1-9.1] (s1, d1) |
+| 5. New Tide (first rebirth) | 40.0 [40.0-40.0] (s5, d5) | 40.1 [40.0-40.3] (s3, d2) | 24.4 [23.4-27.0] (s1, d1) |
+| Bridge to Thunderhead Point | 30.0 [30.0-30.0] (s4, d4) | 29.4 [27.6-30.0] (s2, d1) | 14.4 [13.4-15.0] (s1, d1) |
 
 Return sources arrive at the start of each session, so a goal close to a session end lands at the next
 session's first second. The five-goal table above is the design commitment; this view is the upside.
 
 ### Where the coins come from (return view, first 240 play minutes, mean over join minutes)
 
-| Model | Great Storm share (eye catches, Stormborn, helper shares) | Tide Pot share |
-| --- | --- | --- |
-| Casual free | 6.9% | 32.7% |
-| Typical | 15.2% | 12.0% |
-| Paying | 18.5% | 7.1% |
+| Model | Catches outside storms | Great Storm (eye catches, Stormborn, helper shares) | Tide Pots | Calendar, playtime gifts, scripted first catch |
+| --- | --- | --- | --- | --- |
+| Casual free | 36.3% | 4.6% | 32.2% | 26.9% |
+| Typical | 60.1% | 10.9% | 13.0% | 16.1% |
+| Paying | 73.0% | 14.1% | 5.0% | 7.9% |
+
+### Where the coins go (return view, first 240 play minutes, share of coins spent)
+
+| Model | Rod | Lure | Boots | Pal Pouch | Nests | Bridges | New Tide | Unspent at 240 min (share of earned) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Casual free | 72.8% | 0.4% | 0.0% | 0.0% | 0.0% | 0.0% | 26.8% | 14.4% |
+| Typical | 71.7% | 0.6% | 0.0% | 0.0% | 0.0% | 0.0% | 27.7% | 14.3% |
+| Paying | 75.4% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 24.6% | 4.0% |
+
+New Tide also resets the Rod and Boots, so their coins are sunk twice over a tide.
 
 ## C. Upgrade cost curves (Config/Upgrades.luau)
 
@@ -97,53 +107,64 @@ session's first second. The five-goal table above is the design commitment; this
 | Rod (power; 15 x 1.28^L; max 150) | 15 | 19 | 25 | 52 | 177 | 608 | 2.09K | 5.61K | 24.68K | 291.4K | 40.62M |
 | Lure (luck; 150 x 2.0^L; max 25) | 150 | 300 | 600 | 4.8K | 153.6K | 4.92M | 157.29M | 2.52B | - | - | - |
 | Boots (speed; 120 x 1.55^L; max 16) | 120 | 186 | 288 | 1.07K | 9.61K | 85.93K | - | - | - | - | - |
-| Pal Pouch (slots; 3000 x 100.0^L; max 2) | 3K | 300K | - | - | - | - | - | - | - | - | - |
+| Pal Pouch (storage; 1000 x 3.0^L; max 10) | 1K | 3K | 9K | 243K | - | - | - | - | - | - | - |
 
 Rod effect x1.14 coins per level: L10 x3.71, L20 x13.7, L40 x189, L60 x2.6K, max L150 x343.34M. r/g = 1.123 (vault band 1.03-1.15).
 Lure +4% luck per level (Gear category, cap +100% at L25). Boots +1 walk speed per level (16 -> 32).
-Pal Pouch +1 companion slot per level (2 -> 4 slots).
+Pal Pouch +10 companion capacity per level (60 -> 160); equip slots stay at 3 (GDD 4.4), so it adds no income.
 
 ## D. Islands, bridges and New Tide (Config/Zones.luau, Config/Economy.luau)
 
 | Island | Bridge price | Value multiplier | Home weather | Also needs | Nest |
 | --- | --- | --- | --- | --- | --- |
 | Pebble Cove | 0 | x1 | showers | - | driftwood_nest |
-| Lantern Reef | 700 | x4 | fog | - | reef_nest |
-| Gustwhistle Bluffs | 20K | x16 | gusts | - | bluff_nest |
-| Thunderhead Point | 3.3M | x64 | mixed | - | thunder_nest |
+| Lantern Reef | 620 | x4 | fog | - | reef_nest |
+| Gustwhistle Bluffs | 19K | x16 | gusts | - | bluff_nest |
+| Thunderhead Point | 1.6M | x64 | mixed | - | thunder_nest |
 
 | New Tide # | Cost (coins) | Coin multiplier after |
 | --- | --- | --- |
-| 1 | 170M | x1.5 |
-| 2 | 323M | x2.0 |
-| 3 | 613.7M | x2.5 |
-| 4 | 1.17B | x3.0 |
-| 5 | 2.22B | x3.5 |
-| 6 | 4.21B | x4.0 |
-| 7 | 8B | x4.5 |
-| 8 | 15.2B | x5.0 |
-| 9 | 28.87B | x5.5 |
-| 10 | 54.86B | x6.0 |
-| 11 | 104.23B | x6.5 |
-| 12 | 198.03B | x7.0 |
+| 1 | 130M | x1.5 |
+| 2 | 247M | x2.0 |
+| 3 | 469.3M | x2.5 |
+| 4 | 891.67M | x3.0 |
+| 5 | 1.69B | x3.5 |
+| 6 | 3.22B | x4.0 |
+| 7 | 6.12B | x4.5 |
+| 8 | 11.62B | x5.0 |
+| 9 | 22.08B | x5.5 |
+| 10 | 41.95B | x6.0 |
+| 11 | 79.7B | x6.5 |
+| 12 | 151.44B | x7.0 |
 
 ### New Tide cycle lengths (typical model, catch income plus storms, no rewards, continuous play)
 
 | New Tide # | Minutes since previous tide | Cumulative active hours |
 | --- | --- | --- |
-| 1 | 55.2 | 0.9 |
-| 2 | 14.2 | 1.2 |
-| 3 | 13.4 | 1.4 |
-| 5 | 17.2 | 1.9 |
-| 8 | 26.2 | 3.1 |
-| 10 | 39.1 | 4.2 |
-| 11 | 46.0 | 5.0 |
-| 12 | 59.0 | 6.0 |
-| 15 | 120.0 | 10.8 |
-| 20 | 411.5 | 32.7 |
-| 25 | 1497.7 | 111.0 |
+| 1 | 59.8 | 1.0 |
+| 2 | 16.4 | 1.3 |
+| 3 | 16.5 | 1.5 |
+| 5 | 19.3 | 2.1 |
+| 8 | 29.6 | 3.4 |
+| 10 | 43.0 | 4.7 |
+| 11 | 52.0 | 5.6 |
+| 12 | 66.1 | 6.7 |
+| 15 | 134.8 | 12.1 |
+| 20 | 462.9 | 36.7 |
+| 25 | 1684.6 | 124.9 |
 
-## E. Drop tables per island and weather (Config/Fish.luau), base luck x1 except natural Sea Fog
+### Great Storm and Stormborn (Config/Weather.luau greatStorm)
+
+| Model | Walks to the pier from | Walk | Eye bites per storm | P(hook) per storm | Storms to first hook (with pity) | Land time with 3 helpers |
+| --- | --- | --- | --- | --- | --- | --- |
+| Casual free | pebble_cove | 10 s | 14.5 | 45% | 2.00 | 12.4 s |
+| Casual free | gustwhistle_bluffs | 40 s | 11.7 | 38% | 2.37 | 12.4 s |
+| Typical | pebble_cove | 10 s | 16.9 | 50% | 1.87 | 12.4 s |
+| Typical | gustwhistle_bluffs | 40 s | 13.4 | 42% | 2.26 | 12.4 s |
+
+Hook 4.0% per eye bite, at most 1 per player per storm, hard pity at 60 eye bites (2.4x the expected 25). Stormborn coin value = tier value x 0.5 x the player's best island multiplier; eye catches use Pebble Cove species at the best island multiplier. Helper share 10% of the giant's value, at most 3 paid helps per player per storm. Charged: 25% + 5% per friend helper, cap 50%, x3.
+
+## E. Drop tables per island and weather (Config/Species.luau), base luck x1 except natural Sea Fog
 
 Displayed odds = the same effective() function the server rolls with. Columns are what a player with
 no Lure, companions or friends sees. Natural Sea Fog carries Sky luck +100% (Rare-and-up weights x2).
@@ -152,43 +173,43 @@ no Lure, companions or friends sees. Natural Sea Fog carries Sky luck +100% (Rar
 
 | Species | Tier | Weight | Base value (coins) | Clear | Showers | Sea Fog | Gusts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| pebble_minnow | Common | 26 | 5 | 26.00% | 20.80% | 17.93% | 22.13% |
-| pc_common_2 | Common | 22 | 5 | 22.00% | 17.60% | 15.17% | 18.72% |
-| pc_common_3 | Common | 18 | 5 | 18.00% | 14.40% | 12.41% | 15.32% |
-| pc_uncommon_1 | Uncommon | 13 | 10 | 13.00% | 10.40% | 8.97% | 11.06% |
-| pc_uncommon_2 | Uncommon | 11 | 10 | 11.00% | 8.80% | 7.59% | 9.36% |
-| pc_rare_1 | Rare | 4.7 | 20 | 4.70% | 3.76% | 6.48% | 4.00% |
-| pc_rare_2 | Rare | 3.8 | 20 | 3.80% | 3.04% | 5.24% | 3.23% |
-| pc_epic_1 | Epic | 1.5 | 50 | 1.50% | 1.20% | 2.07% | 1.28% |
-| rain_uncommon | Uncommon | 15 | 10 | - | 12.00% | - | - |
-| rain_rare | Rare | 8 | 20 | - | 6.40% | - | - |
-| rain_epic | Epic | 2 | 50 | - | 1.60% | - | - |
-| fog_rare | Rare | 12 | 20 | - | - | 16.55% | - |
-| fog_epic | Epic | 4.5 | 50 | - | - | 6.21% | - |
-| lanternfin | Legendary | 1 | 150 | - | - | 1.38% | - |
-| gust_rare | Rare | 12 | 20 | - | - | - | 10.21% |
-| gust_epic | Epic | 4.5 | 50 | - | - | - | 3.83% |
-| gust_legendary | Legendary | 1 | 150 | - | - | - | 0.851% |
+| pebble_minnow | Common | 26 | 5 | 25.87% | 21.05% | 20.25% | 22.03% |
+| bobblefin | Common | 22 | 5 | 21.89% | 17.81% | 17.13% | 18.64% |
+| sandskipper | Common | 18 | 5 | 17.91% | 14.57% | 14.02% | 15.25% |
+| tidetail | Uncommon | 13 | 10 | 12.94% | 10.53% | 10.12% | 11.02% |
+| kelpnibbler | Uncommon | 11 | 10 | 10.95% | 8.91% | 8.57% | 9.32% |
+| copperscale | Rare | 4.7 | 20 | 4.68% | 3.81% | 7.32% | 3.98% |
+| pc_rare_2 | Rare | 3.8 | 20 | 3.78% | 3.08% | 5.92% | 3.22% |
+| pc_epic_1 | Epic | 2 | 50 | 1.99% | 1.62% | 3.12% | 1.69% |
+| splashkin | Uncommon | 15 | 10 | - | 12.15% | - | - |
+| pitterpike | Rare | 6.5 | 20 | - | 5.26% | - | - |
+| rain_epic | Epic | 1.5 | 50 | - | 1.21% | - | - |
+| hushgill | Rare | 6 | 20 | - | - | 9.35% | - |
+| lanternfin | Epic | 2.2 | 50 | - | - | 3.43% | - |
+| fog_legendary | Legendary | 0.5 | 150 | - | - | 0.779% | - |
+| gust_rare | Rare | 12 | 20 | - | - | - | 10.17% |
+| gust_epic | Epic | 4.5 | 50 | - | - | - | 3.81% |
+| gust_legendary | Legendary | 1 | 150 | - | - | - | 0.847% |
 | **sum** |  |  |  | 100.0000% | 100.0000% | 100.0000% | 100.0000% |
 
 ### Lantern Reef (x4)
 
 | Species | Tier | Weight | Base value (coins) | Clear | Showers | Sea Fog | Gusts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| lr_common_1 | Common | 25 | 20 | 25.00% | 20.00% | 17.01% | 21.28% |
-| lr_common_2 | Common | 21 | 20 | 21.00% | 16.80% | 14.29% | 17.87% |
-| lr_common_3 | Common | 17 | 20 | 17.00% | 13.60% | 11.56% | 14.47% |
-| lr_uncommon_1 | Uncommon | 14 | 40 | 14.00% | 11.20% | 9.52% | 11.91% |
-| lr_uncommon_2 | Uncommon | 11 | 40 | 11.00% | 8.80% | 7.48% | 9.36% |
-| lr_rare_1 | Rare | 9 | 80 | 9.00% | 7.20% | 12.24% | 7.66% |
-| lr_epic_1 | Epic | 2.6 | 200 | 2.60% | 2.08% | 3.54% | 2.21% |
-| lr_legendary_1 | Legendary | 0.4 | 600 | 0.400% | 0.320% | 0.544% | 0.340% |
-| rain_uncommon | Uncommon | 15 | 40 | - | 12.00% | - | - |
-| rain_rare | Rare | 8 | 80 | - | 6.40% | - | - |
-| rain_epic | Epic | 2 | 200 | - | 1.60% | - | - |
-| fog_rare | Rare | 12 | 80 | - | - | 16.33% | - |
-| fog_epic | Epic | 4.5 | 200 | - | - | 6.12% | - |
-| lanternfin | Legendary | 1 | 600 | - | - | 1.36% | - |
+| lr_common_1 | Common | 25 | 20 | 25.00% | 20.33% | 19.32% | 21.28% |
+| lr_common_2 | Common | 21 | 20 | 21.00% | 17.07% | 16.23% | 17.87% |
+| lr_common_3 | Common | 17 | 20 | 17.00% | 13.82% | 13.14% | 14.47% |
+| lr_uncommon_1 | Uncommon | 14 | 40 | 14.00% | 11.38% | 10.82% | 11.91% |
+| lr_uncommon_2 | Uncommon | 11 | 40 | 11.00% | 8.94% | 8.50% | 9.36% |
+| lr_rare_1 | Rare | 9 | 80 | 9.00% | 7.32% | 13.91% | 7.66% |
+| lr_epic_1 | Epic | 2.6 | 200 | 2.60% | 2.11% | 4.02% | 2.21% |
+| lr_legendary_1 | Legendary | 0.4 | 600 | 0.400% | 0.325% | 0.618% | 0.340% |
+| splashkin | Uncommon | 15 | 40 | - | 12.20% | - | - |
+| pitterpike | Rare | 6.5 | 80 | - | 5.28% | - | - |
+| rain_epic | Epic | 1.5 | 200 | - | 1.22% | - | - |
+| hushgill | Rare | 6 | 80 | - | - | 9.27% | - |
+| lanternfin | Epic | 2.2 | 200 | - | - | 3.40% | - |
+| fog_legendary | Legendary | 0.5 | 600 | - | - | 0.773% | - |
 | gust_rare | Rare | 12 | 80 | - | - | - | 10.21% |
 | gust_epic | Epic | 4.5 | 200 | - | - | - | 3.83% |
 | gust_legendary | Legendary | 1 | 600 | - | - | - | 0.851% |
@@ -198,20 +219,20 @@ no Lure, companions or friends sees. Natural Sea Fog carries Sky luck +100% (Rar
 
 | Species | Tier | Weight | Base value (coins) | Clear | Showers | Sea Fog | Gusts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| gb_common_1 | Common | 25 | 80 | 25.00% | 20.00% | 17.01% | 21.28% |
-| gb_common_2 | Common | 21 | 80 | 21.00% | 16.80% | 14.29% | 17.87% |
-| gb_common_3 | Common | 17 | 80 | 17.00% | 13.60% | 11.56% | 14.47% |
-| gb_uncommon_1 | Uncommon | 14 | 160 | 14.00% | 11.20% | 9.52% | 11.91% |
-| gb_uncommon_2 | Uncommon | 11 | 160 | 11.00% | 8.80% | 7.48% | 9.36% |
-| gb_rare_1 | Rare | 9 | 320 | 9.00% | 7.20% | 12.24% | 7.66% |
-| gb_epic_1 | Epic | 2.6 | 800 | 2.60% | 2.08% | 3.54% | 2.21% |
-| gb_legendary_1 | Legendary | 0.4 | 2.4K | 0.400% | 0.320% | 0.544% | 0.340% |
-| rain_uncommon | Uncommon | 15 | 160 | - | 12.00% | - | - |
-| rain_rare | Rare | 8 | 320 | - | 6.40% | - | - |
-| rain_epic | Epic | 2 | 800 | - | 1.60% | - | - |
-| fog_rare | Rare | 12 | 320 | - | - | 16.33% | - |
-| fog_epic | Epic | 4.5 | 800 | - | - | 6.12% | - |
-| lanternfin | Legendary | 1 | 2.4K | - | - | 1.36% | - |
+| gb_common_1 | Common | 25 | 80 | 25.00% | 20.33% | 19.32% | 21.28% |
+| gb_common_2 | Common | 21 | 80 | 21.00% | 17.07% | 16.23% | 17.87% |
+| gb_common_3 | Common | 17 | 80 | 17.00% | 13.82% | 13.14% | 14.47% |
+| gb_uncommon_1 | Uncommon | 14 | 160 | 14.00% | 11.38% | 10.82% | 11.91% |
+| gb_uncommon_2 | Uncommon | 11 | 160 | 11.00% | 8.94% | 8.50% | 9.36% |
+| gb_rare_1 | Rare | 9 | 320 | 9.00% | 7.32% | 13.91% | 7.66% |
+| gb_epic_1 | Epic | 2.6 | 800 | 2.60% | 2.11% | 4.02% | 2.21% |
+| gb_legendary_1 | Legendary | 0.4 | 2.4K | 0.400% | 0.325% | 0.618% | 0.340% |
+| splashkin | Uncommon | 15 | 160 | - | 12.20% | - | - |
+| pitterpike | Rare | 6.5 | 320 | - | 5.28% | - | - |
+| rain_epic | Epic | 1.5 | 800 | - | 1.22% | - | - |
+| hushgill | Rare | 6 | 320 | - | - | 9.27% | - |
+| lanternfin | Epic | 2.2 | 800 | - | - | 3.40% | - |
+| fog_legendary | Legendary | 0.5 | 2.4K | - | - | 0.773% | - |
 | gust_rare | Rare | 12 | 320 | - | - | - | 10.21% |
 | gust_epic | Epic | 4.5 | 800 | - | - | - | 3.83% |
 | gust_legendary | Legendary | 1 | 2.4K | - | - | - | 0.851% |
@@ -221,20 +242,20 @@ no Lure, companions or friends sees. Natural Sea Fog carries Sky luck +100% (Rar
 
 | Species | Tier | Weight | Base value (coins) | Clear | Showers | Sea Fog | Gusts |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| tp_common_1 | Common | 30 | 320 | 30.00% | 24.00% | 19.74% | 25.53% |
-| tp_common_2 | Common | 25 | 320 | 25.00% | 20.00% | 16.45% | 21.28% |
-| tp_uncommon_1 | Uncommon | 15 | 640 | 15.00% | 12.00% | 9.87% | 12.77% |
-| tp_uncommon_2 | Uncommon | 13 | 640 | 13.00% | 10.40% | 8.55% | 11.06% |
-| tp_rare_1 | Rare | 11.5 | 1.28K | 11.50% | 9.20% | 15.13% | 9.79% |
-| tp_epic_1 | Epic | 4.5 | 3.2K | 4.50% | 3.60% | 5.92% | 3.83% |
-| tp_legendary_1 | Legendary | 0.9 | 9.6K | 0.900% | 0.720% | 1.18% | 0.766% |
-| tp_mythic_1 | Mythic | 0.1 | 32K | 0.100% | 0.080% | 0.132% | 0.085% |
-| rain_uncommon | Uncommon | 15 | 640 | - | 12.00% | - | - |
-| rain_rare | Rare | 8 | 1.28K | - | 6.40% | - | - |
-| rain_epic | Epic | 2 | 3.2K | - | 1.60% | - | - |
-| fog_rare | Rare | 12 | 1.28K | - | - | 15.79% | - |
-| fog_epic | Epic | 4.5 | 3.2K | - | - | 5.92% | - |
-| lanternfin | Legendary | 1 | 9.6K | - | - | 1.32% | - |
+| tp_common_1 | Common | 30 | 320 | 30.00% | 24.39% | 22.32% | 25.53% |
+| tp_common_2 | Common | 25 | 320 | 25.00% | 20.33% | 18.60% | 21.28% |
+| tp_uncommon_1 | Uncommon | 15 | 640 | 15.00% | 12.20% | 11.16% | 12.77% |
+| tp_uncommon_2 | Uncommon | 13 | 640 | 13.00% | 10.57% | 9.67% | 11.06% |
+| tp_rare_1 | Rare | 11.5 | 1.28K | 11.50% | 9.35% | 17.11% | 9.79% |
+| tp_epic_1 | Epic | 4.5 | 3.2K | 4.50% | 3.66% | 6.70% | 3.83% |
+| tp_legendary_1 | Legendary | 0.9 | 9.6K | 0.900% | 0.732% | 1.34% | 0.766% |
+| tp_mythic_1 | Mythic | 0.1 | 32K | 0.100% | 0.081% | 0.149% | 0.085% |
+| splashkin | Uncommon | 15 | 640 | - | 12.20% | - | - |
+| pitterpike | Rare | 6.5 | 1.28K | - | 5.28% | - | - |
+| rain_epic | Epic | 1.5 | 3.2K | - | 1.22% | - | - |
+| hushgill | Rare | 6 | 1.28K | - | - | 8.93% | - |
+| lanternfin | Epic | 2.2 | 3.2K | - | - | 3.27% | - |
+| fog_legendary | Legendary | 0.5 | 9.6K | - | - | 0.744% | - |
 | gust_rare | Rare | 12 | 1.28K | - | - | - | 10.21% |
 | gust_epic | Epic | 4.5 | 3.2K | - | - | - | 3.83% |
 | gust_legendary | Legendary | 1 | 9.6K | - | - | - | 0.851% |
@@ -244,18 +265,18 @@ no Lure, companions or friends sees. Natural Sea Fog carries Sky luck +100% (Rar
 
 | Species | Tier | Chance per eye bite |
 | --- | --- | --- |
-| pebble_minnow | Common | 25.35% |
-| pc_common_2 | Common | 21.45% |
-| pc_common_3 | Common | 17.55% |
-| pc_uncommon_1 | Uncommon | 12.68% |
-| pc_uncommon_2 | Uncommon | 10.72% |
-| pc_rare_1 | Rare | 4.58% |
-| pc_rare_2 | Rare | 3.71% |
-| pc_epic_1 | Epic | 1.46% |
-| stormborn_legendary_1 | Legendary | 1.25% (= 2.5% hook x 50.00%) |
-| stormborn_legendary_2 | Legendary | 0.925% (= 2.5% hook x 37.00%) |
-| rumblefin | Mythic | 0.300% (= 2.5% hook x 12.00%) |
-| stormborn_secret | Secret | 0.025% (= 2.5% hook x 1.00%) |
+| pebble_minnow | Common | 24.84% |
+| bobblefin | Common | 21.01% |
+| sandskipper | Common | 17.19% |
+| tidetail | Uncommon | 12.42% |
+| kelpnibbler | Uncommon | 10.51% |
+| copperscale | Rare | 4.49% |
+| pc_rare_2 | Rare | 3.63% |
+| pc_epic_1 | Epic | 1.91% |
+| stormborn_legendary_1 | Legendary | 2.00% (= 4.0% hook x 50.00%) |
+| stormborn_legendary_2 | Legendary | 1.48% (= 4.0% hook x 37.00%) |
+| rumblefin | Mythic | 0.480% (= 4.0% hook x 12.00%) |
+| stormborn_secret | Secret | 0.040% (= 4.0% hook x 1.00%) |
 
 ### Aurora Night (weekly event table, base luck)
 
@@ -270,12 +291,12 @@ no Lure, companions or friends sees. Natural Sea Fog carries Sky luck +100% (Rar
 | Tier | Designed median | Casual free | Typical | Paying |
 | --- | --- | --- | --- | --- |
 | Common | first catch (scripted, 0:18) | 0.3 (p90 0.3) | 0.3 (p90 0.3) | 0.3 (p90 0.3) |
-| Uncommon | <= 1.5 min | 1.0 (p90 2.4) | 0.8 (p90 2.0) | 0.8 (p90 2.0) |
+| Uncommon | <= 1.5 min | 1.0 (p90 2.4) | 0.8 (p90 2.0) | 0.9 (p90 2.0) |
 | Rare | <= 3 min (scripted rain Rare at 2:00) | 2.0 (p90 2.2) | 1.6 (p90 2.2) | 1.3 (p90 2.2) |
-| Epic | 8-20 min | 7.4 (p90 18.0) | 5.0 (p90 12.0) | 3.9 (p90 8.8) |
-| Legendary | 25-60 min | 24.3 (p90 54.5) | 15.1 (p90 36.4) | 11.6 (p90 26.2) |
-| Mythic | typical: first week (<= 280 min); casual: weeks | 125.2 (p90 > 240) | 89.0 (p90 237.3) | 68.1 (p90 195.6) |
-| Secret | no promise (>= 30 h) | ~6124 (extrapolated, 612.4 play days) | ~3407 (extrapolated, 85.2 play days) | ~3332 (extrapolated, 37.0 play days) |
+| Epic | 5-15 min | 6.5 (p90 17.5) | 4.6 (p90 12.1) | 3.7 (p90 8.9) |
+| Legendary | 20-45 min | 23.8 (p90 52.4) | 15.9 (p90 36.2) | 11.5 (p90 25.9) |
+| Mythic | typical: first week (<= 280 min); casual: weeks | 116.5 (p90 > 240) | 83.2 (p90 221.8) | 64.2 (p90 183.8) |
+| Secret | no promise (>= 30 h) | ~4771 (extrapolated, 477.1 play days) | ~2776 (extrapolated, 69.4 play days) | ~2725 (extrapolated, 30.3 play days) |
 
 Median = time when the expected number of catches of that tier reaches ln 2 (Poisson, exact for the
 modelled catch rate); p90 = ln 10. Includes Stormborn hooks and weather-only species.
@@ -296,14 +317,14 @@ Sky = min(skyCap, naturalWeather + min(paidCap, paid) + timed). Additive inside 
 | Scenario | Gear | Companions | Friends | Sky | Raw product | Applied |
 | --- | --- | --- | --- | --- | --- | --- |
 | New player, clear water | +0% | +0% | +0% | +0% | x1.000 | x1.000 |
-| New player, clear, D6 Called Front in the server | +0% | +0% | +0% | +25% | x1.250 | x1.250 |
+| New player under a called Showers front (D6 bonus) | +0% | +0% | +0% | +25% | x1.250 | x1.250 |
 | New player, natural Sea Fog | +0% | +0% | +0% | +100% | x2.000 | x2.000 |
-| New player, natural Sea Fog + D6 (capped: adds 0) | +0% | +0% | +0% | +100% | x2.000 | x2.000 |
+| New player under a called Sea Fog (bonus capped: adds 0) | +0% | +0% | +0% | +100% | x2.000 | x2.000 |
 | Lure 7, clear (casual after first session) | +28% | +0% | +0% | +0% | x1.280 | x1.280 |
 | Lure 12, 1 friend, Lamp Moth in fog (typical, hour 1-2) | +48% | +15% | +10% | +100% | x3.744 | x3.744 |
 | Max free: Lure 25, companions +50%, 5 friends, clear | +100% | +50% | +50% | +0% | x4.500 | x4.500 |
 | Max free in natural fog (total cap binds) | +100% | +50% | +50% | +100% | x9.000 | x6.000 |
-| Max paying: as max free + paid luck + D6, clear | +100% | +50% | +50% | +25% | x5.625 | x5.625 |
+| Max paying: max free + paid luck item + D6 bonus (paid cap +25%) | +100% | +50% | +50% | +25% | x5.625 | x5.625 |
 | Max paying in natural fog (cap binds; same as free) | +100% | +50% | +50% | +100% | x9.000 | x6.000 |
 
 ### Luck applied to Thunderhead Point clear water (tier totals)
@@ -317,19 +338,30 @@ Sky = min(skyCap, naturalWeather + min(paidCap, paid) + timed). Additive inside 
 | x4.5 | 34.48% | 17.55% | 32.45% | 12.70% | 2.54% | 0.282% | x1.80 |
 | x6.0 | 29.73% | 15.14% | 37.30% | 14.59% | 2.92% | 0.324% | x1.99 |
 
-## H. D6 Called Front: effect size and cap
+## H. D6 Sky Bell call: effect size and cap (GDD 4.10)
 
-- Shared luck: +25% in the Sky category for every player in the server for 5 min. Lantern Reef clear: Rare-or-better 12.00% -> 14.56%; coin value per catch +6.7%.
-- Compared with play: Lure 7 alone gives x1.28; natural Sea Fog gives x2.00; max earned (Gear x Companions) gives x3.00. The Called Front gives x1.25 and adds 0 in natural fog (Sky cap).
-- A player who walks into the called front itself (Showers type) earns +105% coins per minute for up to 5 min, the same as a natural Showers front plus the +25% luck: at most 5.3 extra minutes of income per call.
-| Model | Goal | No Called Fronts | Called Front active 83% of non-storm time (max allowed) | Time saved |
+A call is a natural front of the chosen type on the harbour's Callable spots (Pebble Cove values, x1) for 180 s, plus the shared bonus: Sky luck +25% for every player fishing under it. Paid luck of every kind shares one +25% cap; the Sky category is capped at +100%; the total at x6.
+
+| Called weather | Luck under a natural front (new player) | Luck under the call | Added by the bonus | Rare-or-better per catch | Coin value per catch |
+| --- | --- | --- | --- | --- | --- |
+| showers | x1.00 | x1.25 | +25% | 14.98% -> 18.05% | +6.0% |
+| fog | x2.00 | x2.00 | +0% | 29.91% -> 29.91% | +0.0% |
+| gusts | x1.00 | x1.25 | +25% | 23.73% -> 28.00% | +8.8% |
+
+Compared with play: Lure 7 alone gives x1.28; Lure 25 (Gear cap) x2.00; Gear x Companions at cap x3.00. The paid part of a call (+25%) is below Lure 7, and a called Sea Fog is never luckier than a natural one (Sky cap), so a call never gives more than free weather plus +25%.
+
+- Coins: a natural Showers front pays +93% per minute against Clear at the harbour; a called one +105% (the shared bonus adds 12 points).
+- Coins: a player at the harbour under a called Showers earns +105% per minute against Clear for 3 min, about 3.1 extra minutes of harbour income per call. The harbour pays Pebble Cove values, so for anyone past Lantern Reef (x4) a call is a collection and social moment (weather-only species, marks, journal), not income: a player at Gustwhistle earns 8x more per minute at home than under a call.
+- Upper bound on coverage: 2 calls x 180 s = 50% of the 720 non-storm seconds, only on clear harbour time.
+
+| Model | Goal | No calls | Worst case: Showers calls on 50% of non-storm time, player always under them | Time saved |
 | --- | --- | --- | --- | --- |
-| Casual free | 2. Bridge to Lantern Reef | 11.1 | 10.5 | 5.7% |
-| Casual free | 3. Bridge to Gustwhistle Bluffs | 23.6 | 22.7 | 4.0% |
-| Casual free | 5. New Tide (first rebirth) | 74.2 | 70.6 | 4.9% |
-| Typical | 2. Bridge to Lantern Reef | 7.5 | 7.2 | 4.4% |
-| Typical | 3. Bridge to Gustwhistle Bluffs | 15.5 | 15.1 | 2.5% |
-| Typical | 5. New Tide (first rebirth) | 44.3 | 41.0 | 7.5% |
+| Casual free | 2. Bridge to Lantern Reef | 10.8 | 9.9 | 8.6% |
+| Casual free | 3. Bridge to Gustwhistle Bluffs | 23.6 | 21.8 | 7.7% |
+| Casual free | 5. New Tide (first rebirth) | 62.2 | 61.3 | 1.4% |
+| Typical | 2. Bridge to Lantern Reef | 8.7 | 7.1 | 17.7% |
+| Typical | 3. Bridge to Gustwhistle Bluffs | 16.4 | 15.1 | 7.7% |
+| Typical | 5. New Tide (first rebirth) | 44.2 | 40.3 | 8.7% |
 
 ## I. Coin multiplier categories and the maxed player
 
@@ -371,21 +403,69 @@ Monte Carlo, 200,000 players hatching until the first Legendary: mean 30.5 hatch
 
 | Table | Sum of displayed probabilities | Worst relative deviation, 1M rolls | Within Odds.spec tolerance |
 | --- | --- | --- | --- |
-| Pebble Cove clear, luck x1 | 1.000000000000 | 0.61% | PASS |
-| Lantern Reef natural fog, luck x2.2 | 1.000000000000 | 1.09% | PASS |
+| Pebble Cove clear, luck x1 | 1.000000000000 | 0.62% | PASS |
+| Lantern Reef natural fog, luck x2.2 | 1.000000000000 | 1.32% | PASS |
 | Thunderhead clear, luck x6 (cap) | 1.000000000000 | 2.01% | PASS |
 
-### Size roll (Config/Fish.luau sizeRoll)
+### Size roll (Config/Species.luau sizeRoll)
 
 factor = clamp(exp(N(-0.25^2/2, 0.25)), 0.5, 3.0); kg = species average kg x factor x weather size. 1M rolls: mean 1.0000, median 0.969, p99 1.732, share >= 1.5x 4.01%, share >= 2x 0.182%.
 
+## M. Prototype subset (GDD 13, docs/specs/prototype.md): paste-ready values
+
+Spots cove_dock (sheltered, always Clear outside the storm), cove_shallows, pier_head (storm eye); timetable of GDD 13.2 (front coverage 600/720 s of non-storm time at the two front spots). No Lure, no companions, no friend bonus: luck is 1.0 except natural Sea Fog's Sky +100%.
+
+| Species | Tier | Table | Weight | Base coins | Base kg | Clear (and storm away from the eye) | Showers | Sea Fog |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| pebble_minnow | Common | clear | 26 | 5 | 0.8 | 27.08% | 22.13% | 21.96% |
+| bobblefin | Common | clear | 22 | 5 | 0.8 | 22.92% | 18.72% | 18.58% |
+| sandskipper | Common | clear | 18 | 5 | 0.8 | 18.75% | 15.32% | 15.20% |
+| tidetail | Uncommon | clear | 13 | 10 | 2 | 13.54% | 11.06% | 10.98% |
+| kelpnibbler | Uncommon | clear | 11 | 10 | 2 | 11.46% | 9.36% | 9.29% |
+| copperscale | Rare | clear | 6 | 20 | 5 | 6.25% | 5.11% | 10.14% |
+| splashkin | Uncommon | showers | 15 | 10 | 2 | - | 12.77% | - |
+| pitterpike | Rare | showers | 6.5 | 20 | 5 | - | 5.53% | - |
+| hushgill | Rare | fog | 6 | 20 | 5 | - | - | 10.14% |
+| lanternfin | Epic | fog | 2.2 | 50 | 12 | - | - | 3.72% |
+| rumblefin | Mythic | storm | 1 | 250 | 180 | - | - | - |
+
+Rumblefin: 4.0% of eye bites during the storm, at most 1 per player per storm; Charged by chance 25% (+5% per friend helper, cap 50%), x3. Helper share 10% of its value, at most 3 paid helps per storm. Regular storm catches: Charged by a landing tap on a flash (model assumes 25%).
+
+| Weather | Reel success | Catches/min | Coins per catch (Rod 0) | Coins/min vs Clear | Rare-or-better |
+| --- | --- | --- | --- | --- | --- |
+| clear | casual 85% | 6.87 | 7.19 | 1.00 | 6.25% |
+| clear | typical 92% | 7.40 | 7.19 | 1.00 | 6.25% |
+| showers | casual 85% | 10.70 | 9.08 | 1.97 | 10.64% |
+| showers | typical 92% | 11.22 | 9.08 | 1.92 | 10.64% |
+| fog | casual 85% | 5.28 | 12.34 | 1.32 | 23.99% |
+| fog | typical 92% | 5.69 | 12.34 | 1.32 | 23.99% |
+| eye | casual 85% | 7.36 | 10.78 | 1.61 | 6.25% |
+| eye | typical 92% | 7.93 | 10.78 | 1.61 | 6.25% |
+
+| Model | Behaviour | Line time under fronts | First Rod | Rod level @5 min | @10 | @15 | @20 | Worst gap between Rod buys in 20 min (min) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Casual free | stay | 0% | 45 s | 8.5 | 13.2 | 16.0 | 18.3 | 2.92 |
+| Casual free | target | 41% | 45 s | 10.2 | 14.5 | 17.6 | 19.5 | 2.98 |
+| Casual free | chase | 77% | 45 s | 10.8 | 15.5 | 18.0 | 20.5 | 2.98 |
+| Typical | stay | 0% | 45 s | 10.6 | 15.5 | 18.8 | 20.7 | 3.00 |
+| Typical | target | 41% | 45 s | 11.9 | 16.9 | 20.0 | 22.3 | 3.32 |
+| Typical | chase | 77% | 45 s | 12.5 | 17.5 | 20.9 | 23.0 | 3.33 |
+
+| Model (target behaviour) | At 10:00, minutes to the next Rod level (test 5: 1-3 min) | Worst gap between Rod buys in the first 10 min |
+| --- | --- | --- |
+| Casual free | 0.67 (max 1.42) | 1.83 |
+| Typical | 1.06 (max 2.00) | 2.07 |
+
+Storm (typical at the eye all storm): 19.8 eye bites; P(hooks a Rumblefin) = 55% per storm; with 4 anglers at the eye, expected pulls per storm = 2.2. Rod max level 30 costs 19.28K for the last level.
+
 ## L. Tide Pots and passive share (Config/TidePots.luau)
 
-| Pot rate vs active income | Full pot (8 h) in minutes of income | 2 pots, typical, minutes of income per day | Passive share of a typical day (40 active min) |
-| --- | --- | --- | --- |
-| 25.00% | 120 | 420 | 91% |
-| 10.00% | 48 | 168 | 81% |
-| 5.00% | 24 | 84 | 68% |
-| 1.67% (chosen) | 8 | 28 | 41% |
+| Pot rate vs active income | Full pot (8 h), minutes of income | Typical: 2 pots, 2 collections/day | Passive share, typical (40 active min/day) | Passive share, casual (2 pots, 10 active min/day) |
+| --- | --- | --- | --- | --- |
+| 25.00% | 120 | 420 | 91% | 96% |
+| 10.00% | 48 | 168 | 81% | 91% |
+| 5.00% | 24 | 84 | 68% | 83% |
+| 0.83% (chosen) | 4 | 14 | 26% | 44% |
 
+Chosen: 0.5 minute of income per pot-hour, cap 8 h, one fish per hour (a full pot reveals 8 fish; day-7 bait adds 2). Measured share in the return view: see section B.
 

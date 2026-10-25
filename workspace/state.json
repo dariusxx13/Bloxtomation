@@ -8,7 +8,7 @@
   "counters": {
     "escalation": 0,
     "gate": 2,
-    "task": 12
+    "task": 13
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {},
@@ -302,6 +302,21 @@
       "at": "2026-10-25T17:16:37Z",
       "by": "director",
       "message": "T-0011 -> done: Reviewed: re-ran models/world_layout.py (All checks pass; output matches the stored file apart from the SVG-written line), base walk 16 studs/s confirmed in Util/Stats.luau, 11 adjacent pairs under 15 s, fronts avoid cove_dock, Callable spots marked, prototype subset marked, SVG has no external references. GDD deltas (ferry skips Gustwhistle Bluffs, dock pool moved) listed for the gate."
+    },
+    {
+      "at": "2026-10-25T17:58:51Z",
+      "by": "economist",
+      "message": "submitted T-0008 for review"
+    },
+    {
+      "at": "2026-10-25T17:59:44Z",
+      "by": "director",
+      "message": "T-0008 -> done: Reviewed: output md5 matches the handoff (4a40955...), check record passed, five goals per player type present (casual bridge 1 at 10.8 min, New Tide 1 at 62.2), luck stacking rule with caps including the D6 +25% shared Sky luck, deviations argued. GDD sync queued as T-0013; the gate re-runs the model."
+    },
+    {
+      "at": "2026-10-25T17:59:44Z",
+      "by": "director",
+      "message": "added T-0013 'Sync the GDD with the economy sheet and world plan' for designer (queued)"
     }
   ],
   "tasks": {
@@ -522,15 +537,22 @@
         "DESIGN-03",
         "DESIGN-04"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0008.md",
       "id": "T-0008",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-25T17:59:44Z",
+          "by": "director",
+          "text": "Reviewed: output md5 matches the handoff (4a40955...), check record passed, five goals per player type present (casual bridge 1 at 10.8 min, New Tide 1 at 62.2), luck stacking rule with caps including the D6 +25% shared Sky luck, deviations argued. GDD sync queued as T-0013; the gate re-runs the model."
+        }
+      ],
       "owner": "economist",
       "stage": "design",
       "started": "2026-10-24T20:35:36Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-25T17:58:51Z",
       "title": "Build the economy sheet and drop tables",
-      "updated": "2026-10-24T20:35:36Z"
+      "updated": "2026-10-25T17:59:44Z"
     },
     "T-0009": {
       "brief": "games/stormcatch/tasks/T-0009.md",
@@ -634,6 +656,28 @@
       "status": "queued",
       "title": "Run the design gate",
       "updated": "2026-10-24T20:35:05Z"
+    },
+    "T-0013": {
+      "brief": "games/stormcatch/tasks/T-0013.md",
+      "created": "2026-10-25T17:59:44Z",
+      "deps": [
+        "T-0007",
+        "T-0008",
+        "T-0011"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-03",
+        "DESIGN-09"
+      ],
+      "handoff": null,
+      "id": "T-0013",
+      "notes": [],
+      "owner": "designer",
+      "stage": "design",
+      "status": "queued",
+      "title": "Sync the GDD with the economy sheet and world plan",
+      "updated": "2026-10-25T17:59:44Z"
     }
   },
   "version": 1
