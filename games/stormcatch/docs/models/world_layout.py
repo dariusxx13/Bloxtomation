@@ -194,7 +194,7 @@ SPOTS: List[Dict] = [
     dict(id="anvil_lantern", name="Lantern Ripple Anvil", zone="thunderhead_point", stand="ST_anvil_reach", pos=(110, 0, -289), kind="lantern", cell="anvil_reach", proto=False),
 ]
 
-WEATHER_ONLY = {"regular": None, "pool": "Showers", "lantern": "SeaFog", "far": "Gusts", "eye": "Storm"}
+WEATHER_ONLY = {"regular": None, "pool": "Showers", "lantern": "SeaFog", "far": "Gusts"}  # SpotKind -> weather
 
 # Adjacent pairs for the 15 s rule: every pair on one island, plus the nearest pair across each bridge.
 ADJACENT_PAIRS = [
@@ -651,10 +651,15 @@ def write_svg(path: str) -> None:
         add(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="#4E8FA3" stroke-width="0.6"/>')
     # weather cells
     centres = {s["id"]: cell_centre(s["id"]) for s in SPOTS if s["kind"] == "regular"}
+    sheltered_cells = {s["cell"] for s in SPOTS if s.get("sheltered")}
     for cid, c in centres.items():
         cxp, czp = P(c[0], c[2])
-        add(f'<circle cx="{cxp:.1f}" cy="{czp:.1f}" r="{CELL_RADIUS * scale:.1f}" fill="#A8DCD1" fill-opacity="0.18" '
-            f'stroke="#A8DCD1" stroke-dasharray="3,3" stroke-width="1"/>')
+        if cid in sheltered_cells:
+            add(f'<circle cx="{cxp:.1f}" cy="{czp:.1f}" r="{CELL_RADIUS * scale:.1f}" fill="#18203A" fill-opacity="0.12" '
+                f'stroke="#18203A" stroke-width="2.5"/>')
+        else:
+            add(f'<circle cx="{cxp:.1f}" cy="{czp:.1f}" r="{CELL_RADIUS * scale:.1f}" fill="#A8DCD1" fill-opacity="0.18" '
+                f'stroke="#A8DCD1" stroke-dasharray="3,3" stroke-width="1"/>')
     # islands
     land = "#6BAA75"
     for zone, outline in ISLAND_OUTLINES.items():
@@ -701,10 +706,12 @@ def write_svg(path: str) -> None:
         if s["kind"] == "regular":
             add(f'<circle cx="{sp[0]:.1f}" cy="{sp[1]:.1f}" r="{r + 1:.1f}" fill="#FFC42E" stroke="#18203A" stroke-width="2"/>')
         else:
-            fill = {"pool": "#6FC3D9", "lantern": "#E6ECEA", "far": "#9BE3C3", "eye": "#FFD27A"}[s["kind"]]
+            fill = {"pool": "#6FC3D9", "lantern": "#E6ECEA", "far": "#9BE3C3"}[s["kind"]]
             add(f'<circle cx="{sp[0]:.1f}" cy="{sp[1]:.1f}" r="{r - 1:.1f}" fill="{fill}" stroke="#18203A" stroke-width="1.2"/>')
         if s["proto"]:
             add(f'<circle cx="{sp[0]:.1f}" cy="{sp[1]:.1f}" r="{r + 5:.1f}" fill="none" stroke="#FF7A59" stroke-width="2"/>')
+        if s.get("callable"):
+            add(f'<circle cx="{sp[0]:.1f}" cy="{sp[1]:.1f}" r="{r + 9:.1f}" fill="none" stroke="#FFC42E" stroke-width="2" stroke-dasharray="3,2"/>')
         st = P(pos(s["stand"])[0], pos(s["stand"])[2])
         add(f'<line x1="{st[0]:.1f}" y1="{st[1]:.1f}" x2="{sp[0]:.1f}" y2="{sp[1]:.1f}" stroke="#18203A" stroke-width="0.8" stroke-dasharray="2,2"/>')
         if s["kind"] == "regular":
@@ -735,6 +742,8 @@ def write_svg(path: str) -> None:
     op = P(28, -24)
     add(f'<text x="{op[0]:.1f}" y="{op[1]:.1f}" font-size="11" fill="#FFF8EC" font-weight="bold">Open Pier</text>')
     add(f'<text x="{op[0]:.1f}" y="{op[1] + 13:.1f}" font-size="9" fill="#FFF8EC">Storm Eye at the head</text>')
+    dl = P(-62, 22)
+    add(f'<text x="{dl[0]:.1f}" y="{dl[1]:.1f}" font-size="10" fill="#18203A" font-weight="bold">Sheltered dock cell: no fronts</text>')
     nw = P(36, -92)
     add(f'<text x="{nw[0]:.1f}" y="{nw[1]:.1f}" font-size="10" fill="#FFF8EC">Net Walk</text>')
     # prototype build area (Pebble Cove harbour edge, Open Pier, bridge-1 stub, Lantern Reef edge stub)
@@ -769,6 +778,8 @@ def write_svg(path: str) -> None:
         ("tri", "#FFF8EC", "Landmark (height studs)"),
         ("cone", "#FFC42E", "Spawn camera, +/-35 deg"),
         ("dash", "#FF7A59", "Prototype build area"),
+        ("callring", "#FFC42E", "Callable (Sky Bell harbour spot)"),
+        ("shelter", "#18203A", "Sheltered cell (never a front)"),
     ]
     add(f'<rect x="{pad:.0f}" y="{ly - 4:.0f}" width="{width - 2 * pad:.0f}" height="134" fill="#18203A" rx="8"/>')
     cols = 4
@@ -776,7 +787,11 @@ def write_svg(path: str) -> None:
     for i, (shape, colour, text) in enumerate(items):
         cx_ = pad + 16 + (i % cols) * colw
         cy_ = ly + 16 + (i // cols) * 24
-        if shape in ("circle", "ring"):
+        if shape == "callring":
+            add(f'<circle cx="{cx_:.1f}" cy="{cy_:.1f}" r="7" fill="none" stroke="{colour}" stroke-width="2" stroke-dasharray="3,2"/>')
+        elif shape == "shelter":
+            add(f'<circle cx="{cx_:.1f}" cy="{cy_:.1f}" r="7" fill="#3E5376" stroke="#FFF8EC" stroke-width="2"/>')
+        elif shape in ("circle", "ring"):
             fill = "none" if shape == "ring" else colour
             add(f'<circle cx="{cx_:.1f}" cy="{cy_:.1f}" r="6" fill="{fill}" stroke="{colour if shape == "ring" else "#FFF8EC"}" stroke-width="2"/>')
         elif shape == "square":

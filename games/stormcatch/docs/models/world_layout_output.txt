@@ -67,27 +67,27 @@ Longest spot-to-spot walk: reef_outer to anvil_reach, 681 studs = 42.5 s (60 s w
 
 ## Cast geometry (stand root to spot centre, 3D; hitRange 28, server +8)
 
-| Spot | Kind | Only in | Cell | Horizontal | 3D | Check |
-|---|---|---|---|---|---|---|
-| cove_dock | regular | any | cove_dock | 8.6 | 11.1 | pass <= 28 |
-| cove_shallows | regular | any | cove_shallows | 17.0 | 18.8 | pass <= 28 |
-| pier_head | regular | any | pier_head | 15.0 | 16.6 | pass <= 28 |
-| cove_pool_1 | pool | Showers | cove_dock | 21.9 | 22.2 | pass <= 28 |
-| cove_pool_2 | pool | Showers | cove_shallows | 15.3 | 15.7 | pass <= 28 |
-| reef_steps | regular | any | reef_steps | 18.7 | 20.3 | pass <= 28 |
-| reef_lagoon | regular | any | reef_lagoon | 20.0 | 21.5 | pass <= 28 |
-| reef_outer | regular | any | reef_outer | 19.0 | 20.6 | pass <= 28 |
-| reef_lantern_1 | lantern | SeaFog | reef_steps | 23.8 | 25.1 | pass <= 28 |
-| reef_lantern_2 | lantern | SeaFog | reef_lagoon | 24.5 | 25.8 | pass <= 28 |
-| reef_lantern_3 | lantern | SeaFog | reef_outer | 25.1 | 26.3 | pass <= 28 |
-| kite_ledge | regular | any | kite_ledge | 18.1 | 23.5 | pass <= 28 |
-| whistle_point | regular | any | whistle_point | 19.0 | 24.2 | pass <= 28 |
-| kite_far | far | Gusts | kite_ledge | 40.0 | 42.8 | pass wind only (28 < d <= 44) |
-| whistle_far | far | Gusts | whistle_point | 41.2 | 43.9 | pass wind only (28 < d <= 44) |
-| squall_rocks | regular | any | squall_rocks | 18.1 | 19.8 | pass <= 28 |
-| anvil_reach | regular | any | anvil_reach | 18.1 | 20.2 | pass <= 28 |
-| squall_pool | pool | Showers | squall_rocks | 14.4 | 15.0 | pass <= 28 |
-| anvil_lantern | lantern | SeaFog | anvil_reach | 24.2 | 25.8 | pass <= 28 |
+| Spot | Name | SpotKind | Only in | Cell | Flags | Horizontal | 3D | Check |
+|---|---|---|---|---|---|---|---|---|
+| cove_dock | Dock Ripple | regular | any | cove_dock | Sheltered | 8.6 | 11.1 | pass <= 28 |
+| cove_shallows | Cove Shallows | regular | any | cove_shallows | Callable | 17.0 | 18.8 | pass <= 28 |
+| pier_head | Open Pier | regular | any | pier_head | Callable, StormEye | 15.0 | 16.6 | pass <= 28 |
+| cove_pool_1 | Point Rock Pool South | pool | Showers | cove_shallows | Callable | 14.9 | 15.3 | pass <= 28 |
+| cove_pool_2 | Point Rock Pool North | pool | Showers | cove_shallows | Callable | 15.3 | 15.7 | pass <= 28 |
+| reef_steps | Lantern Steps | regular | any | reef_steps | - | 18.7 | 20.3 | pass <= 28 |
+| reef_lagoon | Glow Lagoon | regular | any | reef_lagoon | - | 20.0 | 21.5 | pass <= 28 |
+| reef_outer | Outer Reef | regular | any | reef_outer | - | 19.0 | 20.6 | pass <= 28 |
+| reef_lantern_1 | Lantern Ripple Steps | lantern | SeaFog | reef_steps | - | 23.8 | 25.1 | pass <= 28 |
+| reef_lantern_2 | Lantern Ripple Lagoon | lantern | SeaFog | reef_lagoon | - | 24.5 | 25.8 | pass <= 28 |
+| reef_lantern_3 | Lantern Ripple Outer | lantern | SeaFog | reef_outer | - | 25.1 | 26.3 | pass <= 28 |
+| kite_ledge | Kite Ledge | regular | any | kite_ledge | - | 18.1 | 23.5 | pass <= 28 |
+| whistle_point | Whistle Point | regular | any | whistle_point | - | 19.0 | 24.2 | pass <= 28 |
+| kite_far | Far Water North | far | Gusts | kite_ledge | - | 40.0 | 42.8 | pass wind only (28 < d <= 44) |
+| whistle_far | Far Water East | far | Gusts | whistle_point | - | 41.2 | 43.9 | pass wind only (28 < d <= 44) |
+| squall_rocks | Squall Rocks | regular | any | squall_rocks | - | 18.1 | 19.8 | pass <= 28 |
+| anvil_reach | Anvil Reach | regular | any | anvil_reach | - | 18.1 | 20.2 | pass <= 28 |
+| squall_pool | Squall Rock Pool | pool | Showers | squall_rocks | - | 14.4 | 15.0 | pass <= 28 |
+| anvil_lantern | Lantern Ripple Anvil | lantern | SeaFog | anvil_reach | - | 24.2 | 25.8 | pass <= 28 |
 
 ## Weather cells (radius 36; a point belongs to the nearest cell centre)
 
@@ -111,14 +111,35 @@ Front coverage with 1/2/3 fronts on 10 cells: 10% / 20% / 30% (loop sketch: abou
 
 | Front | Cells | Legs (studs) | Total drift (studs) |
 |---|---|---|---|
-| Showers (Harbour Showers) | reef_steps > cove_shallows > cove_dock > pier_head > squall_rocks | 135, 52, 93, 129 | 409 |
+| Showers (Harbour Showers) | reef_steps > cove_shallows > pier_head > squall_rocks | 135, 66, 129 | 330 |
 | Sea Fog (Reef Fog) | reef_outer > reef_lagoon > reef_steps > anvil_reach | 76, 79, 202 | 358 |
 | Gusts (Bluff Gusts) | whistle_point > kite_ledge > squall_rocks > anvil_reach | 89, 91, 110 | 290 |
-| Showers (prototype) | pier_head > cove_dock > cove_shallows | 93, 52 | 145 |
-| Sea Fog (prototype) | FOG_ENTRY > cove_shallows > cove_dock > pier_head | 78, 52, 93 | 223 |
+| Showers (prototype) | pier_head > cove_shallows | 66 | 66 |
+| Sea Fog (prototype) | FOG_ENTRY > cove_shallows > pier_head | 78, 66 | 143 |
 | Great Storm roll-in | StormHome (Thunder Spire) > StormEye (Open Pier) | 154 | 154 |
 
-Front visits per island per cycle: lantern_reef: Showers, Sea Fog, Sea Fog, Sea Fog; pebble_cove: Showers, Showers, Showers; thunderhead_point: Showers, Sea Fog, Gusts, Gusts; gustwhistle_bluffs: Gusts, Gusts
+## Sheltered spot (GDD 4.1: no front, call or Rainbow ever covers it)
+
+| Sheltered cell | On any front path | Closest drift leg to its centre (studs) | Rule |
+|---|---|---|---|
+| cove_dock | no | 52 | pass (> 36, outside its cell) |
+
+## Callable harbour spots (GDD 4.10, paid Sky Bell calls)
+
+| Callable spot | Kind | Farthest walkway point | Walk (studs / s) | Rule <= 60 s | Target <= 45 s |
+|---|---|---|---|---|---|
+| cove_shallows | regular | ST_anvil_reach | 434 / 27.1 | pass | pass |
+| pier_head | regular | L_NW | 473 / 29.6 | pass | pass |
+| cove_pool_1 | pool | ST_anvil_reach | 434 / 27.1 | pass | pass |
+| cove_pool_2 | pool | ST_anvil_reach | 434 / 27.1 | pass | pass |
+
+- at least 2 regular Callable spots: pass
+- the Open Pier (StormEye) is Callable: pass
+- all Callable spots are on Pebble Cove: pass
+- no Callable spot is Sheltered: pass
+- Dock Ripple to Open Pier within 10 s (GDD 13 note): 110 studs = 6.9 s: pass
+
+Front visits per island per cycle: lantern_reef: Showers, Sea Fog, Sea Fog, Sea Fog; pebble_cove: Showers, Showers; thunderhead_point: Showers, Sea Fog, Gusts, Gusts; gustwhistle_bluffs: Gusts, Gusts
 
 ## Ferry loop
 
@@ -140,7 +161,7 @@ Camera assumed at (0.0, 12.5, 12.0) looking north (-Z). Core cone +/-35 deg; fra
 
 | Target | Bearing (deg, + = right) | Distance (studs) | Elevation (deg) | Must see | Result |
 |---|---|---|---|---|---|
-| Harbor Dock ripple (first spot), 5 studs left of the avatar | -12.8 | 23 | -29.0 | yes | core |
+| Dock Ripple (first spot, sheltered), 5 studs left of the avatar | -12.8 | 23 | -29.0 | yes | core |
 | Cove Shallows cell (showers over the far end of the cove) | -24.0 | 70 | -5.3 | yes | core |
 | Bridge 1 gate and price sign (next goal) | -29.6 | 101 | +0.8 | yes | core |
 | Pier Head (Great Storm eye below) | +12.3 | 94 | -5.2 | yes | core |
@@ -177,11 +198,11 @@ All checks pass.
 ~~~~~~~~.......~~==~~~~~~~~~~~~~~:~~~=~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~==~~~~~~~~~3~~:~~~=~~~~~~~~~~7...~~~~~~~~~o~~
 ~~~~~~~~~~~~~~~~~~~~~=#~~~~~||------#=~~~~~~~~.............8~~~~
-~~~~~~~~~~~~~~~~~~~~~...~~~~|^|||:~....~~~~~~...............~~~~
+~~~~~~~~~~~~~~~~~~~~~.o.~~~~|^|||:~....~~~~~~...............~~~~
 ~~~~~~~~~~~~~~~~~~~~..o.~~2~~||~:~~....#=====........^......~~~~
 ~~~~~~~~~~~~~~~~~~~~....~~~~~||~~~~.....~~~~~~............~~~~~~
 ~~~~~~~~~~~~~~~~~~~~....~~~1~||~~~~.....~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~......o.S...........~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~........S...........~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~.....................~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~.....................~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~...................~~~~~~~~~~~~~~~~~~~~~~~~~

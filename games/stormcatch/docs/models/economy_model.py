@@ -42,7 +42,7 @@ ECONOMY = {
     "shopOpensAtSeconds": 45,  # onboarding steps 4-5 (shop pulses after 15 coins); first purchase not earlier
     "assumedCatchesPerMinute": 5,  # converts "minutes of income" rewards to coins (Rewards.assumedHitsPerMinute)
     # New Tide (rebirth): template keys rebirthBaseCost / rebirthCostGrowth / rebirthMultiplierPerRebirth
-    "newTideBaseCost": 170_000_000,
+    "newTideBaseCost": 130_000_000,
     "newTideCostGrowth": 1.9,
     "newTideMultiplierPerTide": 0.5,
     "maxNewTides": 30,  # cap: x16 at 30 tides; a second layer is planned before tide 15 (see output)
@@ -80,11 +80,15 @@ STORMBORN_SIZE_SIGMA = 0.30
 STORM = {
     "periodSeconds": 900,  # :00 :15 :30 :45 UTC
     "durationSeconds": 180,
-    "stormbornHookChance": 0.015,  # chance that an eye bite is a Stormborn ("if lucky", loop sketch 5.4)
+    "stormbornHookChance": 0.025,  # chance that an eye bite is a Stormborn (GDD 4.3: one every other storm)
+    "stormbornMaxPerStorm": 1,  # per player (prototype brief req. 9.3)
+    "stormbornPityEyeBites": 100,  # hard pity: 100 eye bites without a hook -> the next eye bite hooks (2.5x of 40)
     "soloLandSeconds": 45.0,  # loop sketch 4.4
     "helperSpeedup": 0.875,  # land time = 45 / (1 + 0.875 * helpers): 4 helpers -> 10 s
-    "stormbornValueFactor": 1.0,  # giants are valued like any fish of their tier (no extra factor)
-    "helperShare": 0.10,  # a helper's minted share of the Stormborn's value
+    "stormbornValueFactor": 0.5,  # giants pay half their tier value in coins: the prize is the journal page, the
+                                  # banner and the crowd (a full-value giant in a new player's first storm skipped
+                                  # most of the first bridge in the model run of 2026-10-25)
+    "helperShare": 0.25,  # a helper's minted share of the Stormborn's value (prototype brief fallback kept)
     "helperSharesCapPerStorm": 3,  # abuse cap (loop sketch 4.4)
     "travelSecondsByIsland": {"pebble_cove": 10, "lantern_reef": 30, "gustwhistle_bluffs": 40,
                               "thunderhead_point": 50},  # at walk speed 16; Boots shorten it
@@ -103,10 +107,10 @@ SCRIPTED_RAIN_RARE_SECONDS = 120  # first catch in rain is a guaranteed rain-onl
 # Config/Zones.luau (islands; gateCost = bridge price)
 ISLANDS = [
     dict(id="pebble_cove", name="Pebble Cove", gate=0, mult=1, tides=0, home="showers", nest="driftwood_nest"),
-    dict(id="lantern_reef", name="Lantern Reef", gate=700, mult=4, tides=0, home="fog", nest="reef_nest"),
-    dict(id="gustwhistle_bluffs", name="Gustwhistle Bluffs", gate=20_000, mult=16, tides=0, home="gusts",
+    dict(id="lantern_reef", name="Lantern Reef", gate=600, mult=4, tides=0, home="fog", nest="reef_nest"),
+    dict(id="gustwhistle_bluffs", name="Gustwhistle Bluffs", gate=19_000, mult=16, tides=0, home="gusts",
          nest="bluff_nest"),
-    dict(id="thunderhead_point", name="Thunderhead Point", gate=3_300_000, mult=64, tides=0, home="mixed",
+    dict(id="thunderhead_point", name="Thunderhead Point", gate=2_000_000, mult=64, tides=0, home="mixed",
          nest="thunder_nest"),
 ]
 ISLAND_BY_ID = {i["id"]: i for i in ISLANDS}
@@ -116,11 +120,11 @@ ISLAND_BY_ID = {i["id"]: i for i in ISLANDS}
 SPECIES = [
     # Pebble Cove (8): 3 Common, 2 Uncommon, 2 Rare, 1 Epic. Set lock: the Epic.
     ("pebble_minnow", "Common", "island:pebble_cove", 26.0),
-    ("pc_common_2", "Common", "island:pebble_cove", 22.0),
-    ("pc_common_3", "Common", "island:pebble_cove", 18.0),
-    ("pc_uncommon_1", "Uncommon", "island:pebble_cove", 13.0),
-    ("pc_uncommon_2", "Uncommon", "island:pebble_cove", 11.0),
-    ("pc_rare_1", "Rare", "island:pebble_cove", 4.7),
+    ("bobblefin", "Common", "island:pebble_cove", 22.0),
+    ("sandskipper", "Common", "island:pebble_cove", 18.0),
+    ("tidetail", "Uncommon", "island:pebble_cove", 13.0),
+    ("kelpnibbler", "Uncommon", "island:pebble_cove", 11.0),
+    ("copperscale", "Rare", "island:pebble_cove", 4.7),
     ("pc_rare_2", "Rare", "island:pebble_cove", 3.8),
     ("pc_epic_1", "Epic", "island:pebble_cove", 1.5),
     # Lantern Reef (8): 3 C, 2 U, 1 R, 1 E, 1 L
@@ -151,12 +155,12 @@ SPECIES = [
     ("tp_legendary_1", "Legendary", "island:thunderhead_point", 0.9),
     ("tp_mythic_1", "Mythic", "island:thunderhead_point", 0.1),
     # Weather-only, 3 per front type; they join the table of any island the front covers.
-    ("rain_uncommon", "Uncommon", "weather:showers", 15.0),
-    ("rain_rare", "Rare", "weather:showers", 8.0),  # the scripted first rain catch
-    ("rain_epic", "Epic", "weather:showers", 2.0),
-    ("fog_rare", "Rare", "weather:fog", 12.0),
-    ("fog_epic", "Epic", "weather:fog", 4.5),
-    ("lanternfin", "Legendary", "weather:fog", 1.0),  # Fish of the Day example in loop sketch 5.7
+    ("splashkin", "Uncommon", "weather:showers", 15.0),
+    ("pitterpike", "Rare", "weather:showers", 6.5),  # the scripted first rain catch
+    ("rain_epic", "Epic", "weather:showers", 1.5),
+    ("hushgill", "Rare", "weather:fog", 6.0),
+    ("lanternfin", "Epic", "weather:fog", 2.2),  # Fish of the Day example in loop sketch 5.7
+    ("fog_legendary", "Legendary", "weather:fog", 0.5),
     ("gust_rare", "Rare", "weather:gusts", 12.0),
     ("gust_epic", "Epic", "weather:gusts", 4.5),
     ("gust_legendary", "Legendary", "weather:gusts", 1.0),
@@ -181,11 +185,12 @@ UPGRADES = {
                  resetsOnNewTide=False, revealSeconds=240),
     "boots": dict(kind="speed", name="Boots", baseCost=120, costGrowth=1.55, effect=1, maxLevel=16,
                   resetsOnNewTide=True, revealSeconds=240),
-    "pal_pouch": dict(kind="slots", name="Pal Pouch", baseCost=3_000, costGrowth=100.0, effect=1, maxLevel=2,
-                      resetsOnNewTide=False, revealSeconds=None),  # revealed by the Lantern Reef bridge
+    "pal_pouch": dict(kind="storage", name="Pal Pouch", baseCost=1_000, costGrowth=3.0, effect=10, maxLevel=10,
+                      resetsOnNewTide=False, revealSeconds=None),  # +10 companion capacity; revealed at Lantern Reef
 }
 BASE_WALK_SPEED = 16
-BASE_COMPANION_SLOTS = 2  # Pets.baseEquipSlots (template 3)
+BASE_COMPANION_SLOTS = 3  # Pets.baseEquipSlots (template 3; GDD 4.4)
+BASE_COMPANION_CAPACITY = 60  # Pets.baseCapacity (template)
 
 # Config/Eggs.luau (nests) and Config/Pets.luau (companions). Nest odds are fixed: no luck applies.
 NESTS = [
@@ -221,12 +226,16 @@ LUCK = {
 }
 
 # D6 Called Front (Config/Weather.luau calledFront; the product row belongs to the Monetization Designer)
-CALLED_FRONT = {
+CALLED_FRONT = {  # GDD 4.10 (timing is the Designer's; the shared bonus is the Economist's)
     "warningSeconds": 60,  # on the Sky Dial for everyone before it arrives
-    "lingerSeconds": 300,
+    "lingerSeconds": 180,
     "maxActivePerServer": 1,
-    "maxPerStormCycle": 2,  # at most 10 of every 15 minutes
-    "blockedBeforeStormSeconds": 240,  # never during, or in the 4 minutes before, a Great Storm
+    "maxQueuedPerServer": 2,
+    "maxPerStormCycle": 2,  # 2 x 180 = 360 of the 720 non-storm seconds at most
+    "guardBeforeStormSeconds": 60,
+    "guardAfterStormSeconds": 30,
+    "gapSeconds": 60,
+    "where": "harbour Callable spots (Pebble Cove values, x1)",
 }
 
 # Coin multiplier categories (Util/Stats.luau rule)
@@ -282,7 +291,7 @@ MODELS = {
     "paying": dict(label="Paying", sessionMin=30, sessionsPerDay=3, sameDayGapHours=4,
                    reel=0.92, idle=0.12, travel=0.10, front=0.45, rainbow=0.05, stormAttend=0.9,
                    friends=2, helpers=3, helps=2, bootsCap=10, hatch={"driftwood_nest": 3, "reef_nest": 3,
-                   "bluff_nest": 3, "thunder_nest": 3}, x2coins=True, paidLuck=0.25, extraSlots=1),
+                   "bluff_nest": 3, "thunder_nest": 3}, x2coins=True, paidLuck=0.25, extraSlots=3),
 }
 # The paying model's purchases are placeholders from the template catalog (2x Coins pass, a paid luck
 # item at the paid-luck cap, +1 companion slot) until the Monetization Designer's catalog (T-0009) lands.
@@ -499,7 +508,7 @@ class Player:
         return BASE_WALK_SPEED + self.lv["boots"] * UPGRADES["boots"]["effect"]
 
     def slots(self) -> int:
-        return BASE_COMPANION_SLOTS + self.lv["pal_pouch"] + self.m["extraSlots"]
+        return BASE_COMPANION_SLOTS + self.m["extraSlots"]
 
     def companion_coin(self) -> float:
         best = sorted(self.companions, reverse=True)[: self.slots()]
@@ -542,13 +551,18 @@ class Player:
         return self.catch_value(isl["mult"], "clear", ev) * self.coin_mult() * ECONOMY["assumedCatchesPerMinute"]
 
     # ----- one second of play -----
-    def weather_mix(self, called: bool) -> list[tuple[str, float]]:
+    def weather_mix(self) -> list[tuple[str, float, bool]]:
+        """(weather, share of fishing time, under a D6 call). Calls go only into clear harbour time (GDD 4.10)."""
         if self.t < FRONTS_START_SECONDS:
-            return [("clear", 1.0)]
+            return [("clear", 1.0, False)]
         f, r = self.m["front"], self.m["rainbow"]
         mix = FRONT_MIX[self.island()["home"]]
-        out = [("clear", 1 - f - r), ("rainbow", r)]
-        out += [(w, f * share) for w, share in mix.items()]
+        clear = 1 - f - r
+        called = min(self.cf_share, clear) if self.island()["id"] == "pebble_cove" else 0.0
+        out = [("clear", clear - called, False), ("rainbow", r, False)]
+        out += [(w, f * share, False) for w, share in mix.items()]
+        if called > 0:
+            out.append(("showers", called, True))  # worst case: every call is Showers, the best coin weather
         return out
 
     def efficiency(self) -> float:
@@ -574,7 +588,7 @@ class Player:
             isl = self.island()
             v = (ECONOMY["baseCoinsPerCatch"] * TIER_VALUE["Rare"] * isl["mult"] * 1.5) * self.coin_mult()
             self.gain(v)
-            self.lam["rain_rare"] = math.inf
+            self.lam["pitterpike"] = math.inf
         wall = self.phase + t
         in_storm = (wall % STORM["periodSeconds"]) < STORM["durationSeconds"]
         storm_sec = wall % STORM["periodSeconds"]
@@ -596,7 +610,7 @@ class Player:
                 eye_share = max(0.0, 1 - help_time / max(1.0, STORM["durationSeconds"] - travel))
                 luck_e = self.luck("eye", False)
                 probs_e, ev_e = self.table("pebble_cove", "eye", luck_e)
-                hook = STORM["stormbornHookChance"]
+                hook = self.effective_hook(travel)
                 t_catch = landed_seconds("eye", self.m["reel"]) + hook * land_seconds(self.m["helpers"])
                 rate_e = attend * eye_share * (1 - self.m["idle"]) / t_catch
                 normal = (1 - hook) * self.catch_value(isl["mult"], "eye", ev_e)
@@ -614,22 +628,31 @@ class Player:
                 income += inc
                 self.storm_coins += inc
         else:
-            for called in (False, True):
-                share = self.cf_share if called else 1 - self.cf_share
-                if share <= 0:
+            for weather, frac, called in self.weather_mix():
+                if frac <= 0:
                     continue
-                for weather, frac in self.weather_mix(called):
-                    if frac <= 0:
-                        continue
-                    lk = self.luck(weather, called)
-                    probs, ev = self.table(isl["id"], weather, lk)
-                    rate = share * frac * eff / landed_seconds(weather, self.m["reel"])
-                    income += rate * self.catch_value(isl["mult"], weather, ev) * mult
-                    self.add_species(probs, rate)
+                lk = self.luck(weather, called)
+                probs, ev = self.table(isl["id"], weather, lk)
+                rate = frac * eff / landed_seconds(weather, self.m["reel"])
+                income += rate * self.catch_value(isl["mult"], weather, ev) * mult
+                self.add_species(probs, rate)
         self.gain(income)
         if t % 60 == 0:
             self.income_log.append((t, income * 60))
         self.t += 1
+
+    def eye_bites_per_storm(self, travel: float) -> float:
+        help_time = self.m["helps"] * land_seconds(self.m["helpers"])
+        eye_seconds = max(0.0, STORM["durationSeconds"] - travel - help_time) * (1 - self.m["idle"])
+        return eye_seconds / landed_seconds("eye", self.m["reel"])
+
+    def effective_hook(self, travel: float) -> float:
+        """Per-bite hook chance after the cap of one Stormborn per player per storm (expected value)."""
+        h = STORM["stormbornHookChance"]
+        n = self.eye_bites_per_storm(travel)
+        if n <= 0:
+            return 0.0
+        return (1 - (1 - h) ** n) / n
 
     def stormborn_value(self, island_mult: float) -> float:
         return (ECONOMY["baseCoinsPerCatch"] * stormborn_ev_tier_value() * STORM["stormbornValueFactor"]
@@ -697,10 +720,10 @@ class Player:
         eff = self.efficiency()
         mult = self.coin_mult()
         total = 0.0
-        for weather, frac in self.weather_mix(False):
+        for weather, frac, called in self.weather_mix():
             if frac <= 0:
                 continue
-            _, ev = self.table(isl["id"], weather, self.luck(weather, False))
+            _, ev = self.table(isl["id"], weather, self.luck(weather, called))
             total += frac * eff / landed_seconds(weather, self.m["reel"]) * self.catch_value(isl["mult"], weather, ev)
         return total * 60 * mult
 
@@ -1289,42 +1312,60 @@ def main() -> None:
     table(["Luck"] + TIERS[:6] + ["Coin value per catch"], rows)
 
     # ---------------------------------------------------------------- D6
-    out("## H. D6 Called Front: effect size and cap")
+    out("## H. D6 Sky Bell call: effect size and cap (GDD 4.10)")
     out()
-    probs0 = effective(table_entries("lantern_reef", "clear"), 1.0)
-    probs1 = effective(table_entries("lantern_reef", "clear"), 1.25)
-    ev_gain = ev_tier_value(probs1) / ev_tier_value(probs0) - 1
-    rare0 = sum(p for _, t, p in probs0 if t in LUCK_APPLIES)
-    rare1 = sum(p for _, t, p in probs1 if t in LUCK_APPLIES)
+    out(f"A call is a natural front of the chosen type on the harbour's Callable spots (Pebble Cove values, x1) for "
+        f"{CALLED_FRONT['lingerSeconds']} s, plus the shared bonus: Sky luck +{LUCK['calledFront']:.0%} for every player "
+        f"fishing under it. Paid luck of every kind shares one +{LUCK['paidCap']:.0%} cap; the Sky category is capped "
+        f"at +{LUCK['skyCap']:.0%}; the total at x{LUCK['totalCap']:.0f}.")
+    out()
+    rows = []
+    for w in ("showers", "fog", "gusts"):
+        tot, parts = luck_total(0, 0, 0, WEATHER[w]["sky_luck"], LUCK["calledFront"], 0)
+        nat, _ = luck_total(0, 0, 0, WEATHER[w]["sky_luck"], 0, 0)
+        p0 = effective(table_entries("pebble_cove", w), nat)
+        p1 = effective(table_entries("pebble_cove", w), tot)
+        r0 = sum(p for _, t_, p in p0 if t_ in LUCK_APPLIES)
+        r1 = sum(p for _, t_, p in p1 if t_ in LUCK_APPLIES)
+        ev0 = ev_tier_value(p0)
+        ev1 = ev_tier_value(p1)
+        rows.append([w, f"x{nat:.2f}", f"x{tot:.2f}", f"+{tot / nat - 1:.0%}", f"{pct(r0)} -> {pct(r1)}",
+                     f"+{ev1 / ev0 - 1:.1%}"])
+    table(["Called weather", "Luck under a natural front (new player)", "Luck under the call", "Added by the bonus",
+           "Rare-or-better per catch", "Coin value per catch"], rows)
     lure7 = luck_total(7, 0, 0, 0, 0, 0)[0]
-    out(f"- Shared luck: +{LUCK['calledFront']:.0%} in the Sky category for every player in the server for "
-        f"{CALLED_FRONT['lingerSeconds'] // 60} min. Lantern Reef clear: Rare-or-better {pct(rare0)} -> {pct(rare1)}; "
-        f"coin value per catch +{ev_gain:.1%}.")
-    out(f"- Compared with play: Lure 7 alone gives x{lure7:.2f}; natural Sea Fog gives x2.00; max earned "
-        f"(Gear x Companions) gives x{2.0 * 1.5:.2f}. The Called Front gives x1.25 and adds 0 in natural fog (Sky cap).")
-    # coin effect of a called Showers front for a player standing in it, vs clear
-    lk = 1.25
-    ev_c = ev_tier_value(effective(table_entries("lantern_reef", "clear"), 1.0)) * mark_factor("clear")
-    ev_s = ev_tier_value(effective(table_entries("lantern_reef", "showers"), lk)) * mark_factor("showers")
+    out(f"Compared with play: Lure 7 alone gives x{lure7:.2f}; Lure 25 (Gear cap) x2.00; Gear x Companions at cap "
+        f"x{2.0 * 1.5:.2f}. The paid part of a call (+25%) is below Lure 7, and a called Sea Fog is never luckier "
+        f"than a natural one (Sky cap), so a call never gives more than free weather plus +25%.")
+    out()
+    ev_c = ev_tier_value(effective(table_entries("pebble_cove", "clear"), 1.0)) * mark_factor("clear")
+    lk = luck_total(0, 0, 0, 0.0, LUCK["calledFront"], 0)[0]
+    ev_s = ev_tier_value(effective(table_entries("pebble_cove", "showers"), lk)) * mark_factor("showers")
     gain_s = (60 / landed_seconds("showers", 0.92) * ev_s) / (60 / landed_seconds("clear", 0.92) * ev_c) - 1
-    out(f"- A player who walks into the called front itself (Showers type) earns +{gain_s:.0%} coins per minute "
-        f"for up to 5 min, the same as a natural Showers front plus the +25% luck: at most "
-        f"{gain_s * 5:.1f} extra minutes of income per call.")
-    # pacing sensitivity: casual in a server with D6 fronts the maximum allowed time
+    out(f"- Coins: a player at the harbour under a called Showers earns +{gain_s:.0%} per minute against Clear for "
+        f"{CALLED_FRONT['lingerSeconds'] // 60} min, about {gain_s * CALLED_FRONT['lingerSeconds'] / 60:.1f} extra minutes "
+        f"of harbour income per call. The harbour pays Pebble Cove values, so for anyone past Lantern Reef (x4) a call is "
+        f"a collection and social moment (weather-only species, marks, journal), not income: a player at Gustwhistle "
+        f"earns {16 / (1 + gain_s):.0f}x more per minute at home than under a call.")
     max_share = CALLED_FRONT["maxPerStormCycle"] * CALLED_FRONT["lingerSeconds"] / (
         STORM["periodSeconds"] - STORM["durationSeconds"])
+    out(f"- Upper bound on coverage: {CALLED_FRONT['maxPerStormCycle']} calls x {CALLED_FRONT['lingerSeconds']} s = "
+        f"{max_share:.0%} of the 720 non-storm seconds, only on clear harbour time.")
+    out()
     rows = []
     for name in ("casual", "typical"):
         base = [run_model(name, ph, track_species=False)[0] for ph in PHASES_MIN]
         d6 = [run_model(name, ph, called_front_share=max_share, track_species=False)[0] for ph in PHASES_MIN]
+
         def mean_ev(ps, key):
             v = [p.events.get(key) for p in ps]
-            return sum(x for x in v if x) / 60 / len([x for x in v if x]) if any(v) else float("nan")
-        for key, label in GOALS[1:3] + [GOALS[4]]:
-            b, d = mean_ev(base, key), mean_ev(d6, key)
-            rows.append([MODELS[name]["label"], label, f"{b:.1f}", f"{d:.1f}", f"{(b - d) / b:.1%}"])
-    table(["Model", "Goal", "No Called Fronts", f"Called Front active {max_share:.0%} of non-storm time (max allowed)",
-           "Time saved"], rows)
+            v = [x for x in v if x]
+            return sum(v) / 60 / len(v) if v else float("nan")
+        for key, label in (GOALS[1], GOALS[2], GOALS[4]):
+            bm, dm = mean_ev(base, key), mean_ev(d6, key)
+            rows.append([MODELS[name]["label"], label, f"{bm:.1f}", f"{dm:.1f}", f"{(bm - dm) / bm:.1%}"])
+    table(["Model", "Goal", "No calls", f"Worst case: Showers calls on {max_share:.0%} of non-storm time, player "
+           "always under them", "Time saved"], rows)
 
     # ---------------------------------------------------------------- multipliers
     out("## I. Coin multiplier categories and the maxed player")
@@ -1425,6 +1466,8 @@ def main() -> None:
         f"share >= 1.5x {sum(1 for s in sizes if s >= 1.5) / n:.2%}, share >= 2x {sum(1 for s in sizes if s >= 2.0) / n:.3%}.")
     out()
 
+    prototype_report()
+
     # ---------------------------------------------------------------- pots and passive share
     out("## L. Tide Pots and passive share (Config/TidePots.luau)")
     out()
@@ -1445,6 +1488,165 @@ def main() -> None:
     if args.out:
         with open(args.out, "w", encoding="utf-8") as fh:
             fh.write(text)
+
+
+# =====================================================================================================
+# 8. PROTOTYPE SUBSET (GDD 13, docs/specs/prototype.md): 3 spots, Rod only, Clear/Showers/Sea Fog, one storm
+# =====================================================================================================
+
+PROTO_SPECIES = [  # (id, tier, table, weight); base value = baseCoinsPerCatch * TIER_VALUE[tier]
+    ("pebble_minnow", "Common", "clear", 26.0),
+    ("bobblefin", "Common", "clear", 22.0),
+    ("sandskipper", "Common", "clear", 18.0),
+    ("tidetail", "Uncommon", "clear", 13.0),
+    ("kelpnibbler", "Uncommon", "clear", 11.0),
+    ("copperscale", "Rare", "clear", 6.0),
+    ("splashkin", "Uncommon", "showers", 15.0),
+    ("pitterpike", "Rare", "showers", 6.5),
+    ("hushgill", "Rare", "fog", 6.0),
+    ("lanternfin", "Epic", "fog", 2.2),
+    ("rumblefin", "Mythic", "storm", 1.0),
+]
+PROTO_ROD = dict(baseCost=15, costGrowth=1.28, effect=1.14, maxLevel=30)  # template values (prototype brief)
+# GDD 13.2 timetable for the two front spots (cove_dock is always Clear outside the storm)
+PROTO_FRONTS = [(200, 300, "showers"), (300, 400, "showers"), (420, 520, "fog"), (520, 620, "fog"),
+                (640, 740, "showers"), (740, 840, "showers")]
+PROTO_WALK_SECONDS = 8  # moving between cove_shallows and pier_head when a front moves (layout model: <= 7-10 s)
+
+
+def proto_rows(weather: str) -> list[tuple[str, str, float]]:
+    rows = [(sid, tier, w) for sid, tier, tbl, w in PROTO_SPECIES if tbl == "clear"]
+    if weather in ("showers", "fog"):
+        rows += [(sid, tier, w) for sid, tier, tbl, w in PROTO_SPECIES if tbl == weather]
+    return rows
+
+
+def proto_value_per_catch(weather: str) -> tuple[float, list]:
+    lk = 1.0 + WEATHER[weather]["sky_luck"]  # no Lure, no friends in the prototype
+    probs = effective(proto_rows("clear" if weather == "eye" else weather), lk)
+    w = WEATHER[weather]
+    ev = ECONOMY["baseCoinsPerCatch"] * ev_tier_value(probs) * SIZE_MEAN * w["size"] * w["value"] * mark_factor(weather)
+    return ev, probs
+
+
+def proto_front_at(c: int) -> str | None:
+    for a, b, w in PROTO_FRONTS:
+        if a <= c < b:
+            return w
+    return None
+
+
+def proto_run(model: dict, behaviour: str, phase_s: int, minutes: int = 20) -> dict:
+    """behaviour: stay (Dock Ripple only), target (45% of non-storm line time under fronts), chase (every front)."""
+    coins, rod, t = 0.0, 0, 0
+    buys: list[int] = []
+    under = total_line = 0.0
+    eye_rumble = STORM["stormbornValueFactor"] * ECONOMY["baseCoinsPerCatch"] * TIER_VALUE["Mythic"] * mark_factor("eye")
+    front_cover = sum(b - a for a, b, _ in PROTO_FRONTS) / 720
+    take = {"stay": 0.0, "target": 0.45 / front_cover, "chase": 1.0}[behaviour]
+    while t < minutes * 60:
+        c = (phase_s + t) % 900
+        mult = PROTO_ROD["effect"] ** rod
+        if t == 18:
+            coins += ECONOMY["firstCatchCoins"]
+        elif t > 18:
+            if c < 180:  # storm: eye at pier_head (attend) else storm ring at other spots, clear table
+                attend = model["stormAttend"]
+                ev_e, _ = proto_value_per_catch("eye")
+                n = max(1.0, (180 - 10) * (1 - model["idle"]) / landed_seconds("eye", model["reel"]))
+                hook = (1 - (1 - STORM["stormbornHookChance"]) ** n) / n
+                rate = (1 - model["idle"]) / (landed_seconds("eye", model["reel"]) + hook * land_seconds(model["helpers"]))
+                ev_c, _ = proto_value_per_catch("clear")
+                inc = attend * rate * ((1 - hook) * ev_e + hook * eye_rumble)
+                inc += (1 - attend) * (1 - model["idle"]) / landed_seconds("clear", model["reel"]) * ev_c
+                if c == 179:
+                    inc += attend * min(STORM["helperSharesCapPerStorm"], model["helps"]) * STORM["helperShare"] * eye_rumble
+                coins += inc * mult
+            else:
+                front = proto_front_at(c)
+                just_moved = any(0 <= c - a < PROTO_WALK_SECONDS for a, _, _ in PROTO_FRONTS)
+                walk = take if (front is not None and just_moved) else 0.0
+                share_front = take if (front is not None and not just_moved) else 0.0
+                eff = 1 - model["idle"]
+                inc = 0.0
+                if share_front > 0:
+                    ev_f, _ = proto_value_per_catch(front)
+                    inc += share_front * eff / landed_seconds(front, model["reel"]) * ev_f
+                ev_c, _ = proto_value_per_catch("clear")
+                inc += (1 - share_front - walk) * eff / landed_seconds("clear", model["reel"]) * ev_c
+                coins += inc * mult
+                total_line += 1
+                under += share_front
+            if t == SCRIPTED_RAIN_RARE_SECONDS and behaviour != "stay":
+                coins += ECONOMY["baseCoinsPerCatch"] * TIER_VALUE["Rare"] * 1.5 * mult
+        t += 1
+        while t >= ECONOMY["shopOpensAtSeconds"] and rod < PROTO_ROD["maxLevel"]:
+            cost = math.floor(PROTO_ROD["baseCost"] * PROTO_ROD["costGrowth"] ** rod + 0.5)
+            if coins < cost:
+                break
+            coins -= cost
+            rod += 1
+            buys.append(t)
+    return dict(buys=buys, under=under / max(1, total_line), rod=rod)
+
+
+def prototype_report() -> None:
+    out("## M. Prototype subset (GDD 13, docs/specs/prototype.md): paste-ready values")
+    out()
+    out("Spots cove_dock (sheltered, always Clear outside the storm), cove_shallows, pier_head (storm eye); "
+        "timetable of GDD 13.2 (front coverage 600/720 s of non-storm time at the two front spots). No Lure, "
+        "no companions, no friend bonus: luck is 1.0 except natural Sea Fog's Sky +100%.")
+    out()
+    rows = []
+    kg = {"Common": 0.8, "Uncommon": 2, "Rare": 5, "Epic": 12, "Mythic": 180}
+    tables = {w: {sid: p for sid, _, p in effective(proto_rows(w), 1.0 + WEATHER[w]["sky_luck"])}
+              for w in ("clear", "showers", "fog")}
+    for sid, tier, tbl, wgt in PROTO_SPECIES:
+        val = ECONOMY["baseCoinsPerCatch"] * TIER_VALUE[tier] * (STORM["stormbornValueFactor"] if tbl == "storm" else 1)
+        cells = [pct(tables[w][sid]) if sid in tables[w] else "-" for w in ("clear", "showers", "fog")]
+        rows.append([sid, tier, tbl, f"{wgt:g}", f"{val:g}", f"{kg[tier]:g}"] + cells)
+    table(["Species", "Tier", "Table", "Weight", "Base coins", "Base kg", "Clear (and storm away from the eye)",
+           "Showers", "Sea Fog"], rows)
+    out(f"Rumblefin: {STORM['stormbornHookChance']:.1%} of eye bites during the storm, at most "
+        f"{STORM['stormbornMaxPerStorm']} per player per storm; Charged by chance 25% (+5% per friend helper, cap 50%), x3. "
+        f"Helper share {STORM['helperShare']:.0%} of its value, at most {STORM['helperSharesCapPerStorm']} paid helps per storm. "
+        "Regular storm catches: Charged by a landing tap on a flash (model assumes 25%).")
+    out()
+    rows = []
+    base_ev, _ = proto_value_per_catch("clear")
+    for w in ("clear", "showers", "fog", "eye"):
+        ev, probs = proto_value_per_catch(w)
+        for label, reel in (("casual 85%", 0.85), ("typical 92%", 0.92)):
+            rate = 60 / landed_seconds(w, reel)
+            rows.append([w, label, f"{rate:.2f}", f"{ev:.2f}",
+                         f"{rate * ev / (60 / landed_seconds('clear', reel) * base_ev):.2f}",
+                         pct(sum(p for _, t_, p in probs if t_ in LUCK_APPLIES))])
+    table(["Weather", "Reel success", "Catches/min", "Coins per catch (Rod 0)", "Coins/min vs Clear",
+           "Rare-or-better"], rows)
+    rows = []
+    for name in ("casual", "typical"):
+        for beh in ("stay", "target", "chase"):
+            runs = [proto_run(MODELS[name], beh, ph * 60) for ph in PHASES_MIN]
+            first = sum(r["buys"][0] for r in runs) / len(runs)
+
+            def level_at(r, m):
+                return sum(1 for b in r["buys"] if b <= m * 60)
+            lv = [sum(level_at(r, m) for r in runs) / len(runs) for m in (5, 10, 15, 20)]
+            gaps = []
+            for r in runs:
+                pts = [0] + [b for b in r["buys"] if b <= 1200] + [1200]
+                gaps.append(max(b - a for a, b in zip(pts, pts[1:])) / 60)
+            under = sum(r["under"] for r in runs) / len(runs)
+            rows.append([MODELS[name]["label"], beh, f"{under:.0%}", f"{first:.0f} s"] + [f"{x:.1f}" for x in lv]
+                        + [f"{max(gaps):.2f}"])
+    table(["Model", "Behaviour", "Line time under fronts", "First Rod", "Rod level @5 min", "@10", "@15", "@20",
+           "Worst gap between Rod buys in 20 min (min)"], rows)
+    n = (180 - 10) * (1 - MODELS["typical"]["idle"]) / landed_seconds("eye", 0.92)
+    p_hook = 1 - (1 - STORM["stormbornHookChance"]) ** n
+    out(f"Storm (typical at the eye all storm): {n:.1f} eye bites; P(hooks a Rumblefin) = {p_hook:.0%} per storm; "
+        f"with 4 anglers at the eye, expected pulls per storm = {4 * p_hook:.1f}. Rod max level 30 costs "
+        f"{short(math.floor(15 * 1.28 ** 29 + 0.5))} for the last level.")
+    out()
 
 
 def print_timeline(name: str, phase: int) -> None:
