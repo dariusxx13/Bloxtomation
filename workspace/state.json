@@ -282,6 +282,16 @@
       "at": "2026-10-25T09:33:15Z",
       "by": "director",
       "message": "T-0010 -> done: Reviewed: palette with roles, gold matches Theme.colors.accent (255,196,46), contrast recomputed (gold/Night Ink 10.1:1, gold/Seafoam 1.05:1), icon concept A recommended, look-alike check recorded, VFX budget within the vault's 300-500 low-end particle band; SVG has no external references."
+    },
+    {
+      "at": "2026-10-25T09:44:05Z",
+      "by": "designer",
+      "message": "submitted T-0007 for review"
+    },
+    {
+      "at": "2026-10-25T09:44:47Z",
+      "by": "director",
+      "message": "T-0007 -> done: Reviewed: criterion map (DESIGN-01/02/05/06/09/10), D6 Sky Bell meets all four constraints with griefing rules and ProcessReceipt credit flow, timetable check script run (60 s lead true, dock clear, 27.8% coverage), prototype brief validates. Economy numbers are labelled targets until T-0008 lands; the gate checks consistency."
     }
   ],
   "tasks": {
@@ -476,15 +486,22 @@
         "DESIGN-09",
         "DESIGN-10"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0007.md",
       "id": "T-0007",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-25T09:44:47Z",
+          "by": "director",
+          "text": "Reviewed: criterion map (DESIGN-01/02/05/06/09/10), D6 Sky Bell meets all four constraints with griefing rules and ProcessReceipt credit flow, timetable check script run (60 s lead true, dock clear, 27.8% coverage), prototype brief validates. Economy numbers are labelled targets until T-0008 lands; the gate checks consistency."
+        }
+      ],
       "owner": "designer",
       "stage": "design",
       "started": "2026-10-24T20:35:37Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-25T09:44:05Z",
       "title": "Write the Reel the Storm GDD",
-      "updated": "2026-10-24T20:35:37Z"
+      "updated": "2026-10-25T09:44:47Z"
     },
     "T-0008": {
       "brief": "games/stormcatch/tasks/T-0008.md",
