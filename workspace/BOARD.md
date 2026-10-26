@@ -1,10 +1,10 @@
 # Studio board
 
-Updated 2026-10-26T15:41:54Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T15:48:43Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
-- E-0001 **policy** from monetization-designer on stormcatch: D6 disclosure (GDD O-H1) plus O-H2: (1) How should a paid, server-wide Sky Bell luck/odds change be shown to buyers and to players who paid nothing, and does it change the questionnaire answers (including the catalog's paid-random-item classification in section 6.1)? (2) May players whose ArePaidRandomItemsRestricted is true fish under a call another player bought? Options and recommendations in games/stormcatch/docs/catalog.md section 7 (7.2 options A/B/C, 7.3 options a/b/c). (`human resolve E-0001 --note "..."`)
+Nothing right now.
 
 ## Games
 
@@ -35,6 +35,7 @@ Updated 2026-10-26T15:41:54Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T15:48:43Z human: resolved E-0001: Disclosed by a harbour NPC; restricted players fish under calls without the +25%
 - 2026-10-26T11:30:01Z engineer: started T-0020
 - 2026-10-26T11:29:42Z director: added T-0020 'Build the prototype code (no Studio)' for engineer (queued)
 - 2026-10-26T11:28:31Z director: T-0019 -> done: Re-gate accepted: 10/10 pass, record games/stormcatch/gates/design-02.json; stormcatch advanced to prototype. Follow-ups 14-15 added to docs/design-followups.md.
@@ -49,4 +50,3 @@ Updated 2026-10-26T15:41:54Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-26T11:14:08Z director: T-0012 -> done: Gate review accepted: 9/10 pass, DESIGN-07 fail confirmed (catalog never revised to sheet v2 / GDD v3.1; Director did not queue the catalog change requests). Rework T-0018, re-gate T-0019; non-blocking items 6-13 tracked in docs/design-followups.md.
 - 2026-10-26T11:12:53Z gatekeeper: submitted T-0012 for review
 - 2026-10-26T11:11:37Z gatekeeper: gate design for stormcatch: fail
-- 2026-10-26T10:58:59Z gatekeeper: started T-0012

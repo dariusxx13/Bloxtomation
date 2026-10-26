@@ -19,7 +19,9 @@
       "id": "E-0001",
       "kind": "policy",
       "note": "D6 disclosure (GDD O-H1) plus O-H2: (1) How should a paid, server-wide Sky Bell luck/odds change be shown to buyers and to players who paid nothing, and does it change the questionnaire answers (including the catalog's paid-random-item classification in section 6.1)? (2) May players whose ArePaidRandomItemsRestricted is true fish under a call another player bought? Options and recommendations in games/stormcatch/docs/catalog.md section 7 (7.2 options A/B/C, 7.3 options a/b/c).",
-      "status": "open"
+      "resolution": "Disclosed by a harbour NPC; restricted players fish under calls without the +25%",
+      "resolved": "2026-10-26T15:48:43Z",
+      "status": "resolved"
     }
   },
   "games": {
@@ -547,6 +549,11 @@
       "at": "2026-10-26T11:30:01Z",
       "by": "engineer",
       "message": "started T-0020"
+    },
+    {
+      "at": "2026-10-26T15:48:43Z",
+      "by": "human",
+      "message": "resolved E-0001: Disclosed by a harbour NPC; restricted players fish under calls without the +25%"
     }
   ],
   "tasks": {
