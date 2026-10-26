@@ -1,8 +1,10 @@
 --!strict
--- Soft-currency upgrade lines. cost(level) = baseCost * costGrowth ^ level.
--- `effect` meaning depends on `kind` (see Util/Stats.luau).
+-- Soft-currency upgrade lines. cost(level) = round(baseCost * costGrowth ^ level).
+-- The prototype has one line, the Rod: the template's `power` line renamed (prototype brief req. 5 and 8;
+-- economy sheet v2 §4 and §14). The launch maximum is 150; the prototype stops at 30. If testers stall
+-- between minutes 15 and 20, the sheet's lever is costGrowth = 1.24, changed from the QA report only.
 
-export type UpgradeKind = "power" | "speed" | "luck" | "storage"
+export type UpgradeKind = "power"
 
 export type UpgradeDef = {
 	id: string,
@@ -19,52 +21,16 @@ export type UpgradeDef = {
 
 local Upgrades: { UpgradeDef } = {
 	{
-		id = "power",
+		id = "rod",
 		kind = "power",
-		name = "Power",
-		description = "More coins per hit",
+		name = "Rod",
+		description = "Every fish pays more",
 		baseCost = 15,
 		costGrowth = 1.28,
-		effect = 1.14, -- coins per hit multiplied by this per level
-		maxLevel = 400,
+		effect = 1.14, -- coins per catch multiplied by this per level
+		maxLevel = 30,
 		resetsOnRebirth = true,
 		order = 1,
-	},
-	{
-		id = "speed",
-		kind = "speed",
-		name = "Speed",
-		description = "Walk faster",
-		baseCost = 60,
-		costGrowth = 1.55,
-		effect = 1, -- +1 walk speed per level
-		maxLevel = 16,
-		resetsOnRebirth = true,
-		order = 2,
-	},
-	{
-		id = "luck",
-		kind = "luck",
-		name = "Luck",
-		description = "Better odds on eggs",
-		baseCost = 400,
-		costGrowth = 1.6,
-		effect = 0.05, -- +5% luck per level
-		maxLevel = 20,
-		resetsOnRebirth = false,
-		order = 3,
-	},
-	{
-		id = "storage",
-		kind = "storage",
-		name = "Pet Storage",
-		description = "Hold more pets",
-		baseCost = 1000,
-		costGrowth = 1.8,
-		effect = 10, -- +10 pet capacity per level
-		maxLevel = 10,
-		resetsOnRebirth = false,
-		order = 4,
 	},
 }
 

@@ -1,0 +1,11 @@
+{
+  "game": "stormcatch",
+  "build": "dfaaa3f055a1",
+  "release": false,
+  "passed": true,
+  "exitCode": 0,
+  "started": "2026-10-26T16:34:55Z",
+  "finished": "2026-10-26T16:34:59Z",
+  "command": "bash scripts/check.sh",
+  "log": "games/stormcatch/checks/20261026T163455Z-dfaaa3f055a1.log"
+}

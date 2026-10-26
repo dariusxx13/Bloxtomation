@@ -15,16 +15,18 @@ for _, arg in process.args do
 	end
 end
 
-local Codes = require("../src/shared/Config/Codes")
-local Economy = require("../src/shared/Config/Economy")
-local Eggs = require("../src/shared/Config/Eggs")
+local Catch = require("../src/shared/Util/Catch")
+local Fishing = require("../src/shared/Config/Fishing")
 local Game = require("../src/shared/Config/Game")
+local Odds = require("../src/shared/Util/Odds")
 local Onboarding = require("../src/shared/Config/Onboarding")
-local Pets = require("../src/shared/Config/Pets")
 local Products = require("../src/shared/Config/Products")
+local Rarities = require("../src/shared/Config/Rarities")
 local Remotes = require("../src/shared/Config/Remotes")
-local Rewards = require("../src/shared/Config/Rewards")
+local Species = require("../src/shared/Config/Species")
 local Upgrades = require("../src/shared/Config/Upgrades")
+local WeatherConfig = require("../src/shared/Config/Weather")
+local WorldLayout = require("../src/shared/Config/WorldLayout")
 local Zones = require("../src/shared/Config/Zones")
 
 local release = table.find(args, "--release") ~= nil
@@ -43,72 +45,91 @@ local function positive(value: number): boolean
 	return value == value and value > 0 and value < math.huge
 end
 
--- Pets and rarities ------------------------------------------------------------------------------
-local kinds: { [string]: boolean } = {}
-for _, pet in Pets.Catalog do
-	check(not kinds[pet.kind], `duplicate pet kind {pet.kind}`)
-	kinds[pet.kind] = true
-	check(Pets.rarityById[pet.rarity] ~= nil, `pet {pet.kind} has unknown rarity {pet.rarity}`)
-	check(pet.bonus >= 0, `pet {pet.kind} has a negative bonus`)
-	check(#pet.color == 3, `pet {pet.kind} color must be {"{"}r, g, b{"}"}`)
-end
-for index, rarity in Pets.Rarities do
-	check(rarity.order == index, `rarity {rarity.id} order must be {index}`)
-end
-
--- Eggs ------------------------------------------------------------------------------------------------
-local zoneIds: { [string]: boolean } = {}
-for _, zone in Zones do
-	zoneIds[zone.id] = true
-end
-for _, egg in Eggs.list do
-	check(zoneIds[egg.zoneId] == true, `egg {egg.id} references unknown zone {egg.zoneId}`)
-	check(positive(egg.price), `egg {egg.id} price must be positive`)
-	check(#egg.entries > 0, `egg {egg.id} has no entries`)
-	local seen: { [string]: boolean } = {}
-	for _, entry in egg.entries do
-		check(kinds[entry.kind] == true, `egg {egg.id} references unknown pet {entry.kind}`)
-		check(positive(entry.weight), `egg {egg.id} weight for {entry.kind} must be positive`)
-		check(not seen[entry.kind], `egg {egg.id} lists {entry.kind} twice`)
-		seen[entry.kind] = true
-	end
-	if egg.pity then
-		check(Pets.rarityById[egg.pity.rarity] ~= nil, `egg {egg.id} pity rarity {egg.pity.rarity} unknown`)
-		check(egg.pity.afterRolls >= 10, `egg {egg.id} pity is suspiciously low`)
-		local reachable = false
-		for _, entry in egg.entries do
-			local pet = Pets.byKind[entry.kind]
-			local petRarity = pet and Pets.rarityById[pet.rarity]
-			local pityRarity = Pets.rarityById[egg.pity.rarity]
-			if petRarity and pityRarity and petRarity.order >= pityRarity.order then
-				reachable = true
-			end
-		end
-		check(reachable, `egg {egg.id} pity rarity {egg.pity.rarity} is not in its drop table`)
+-- Species, tables and marks ------------------------------------------------------------------------------
+local ids: { [string]: boolean } = {}
+for _, def in Species.list do
+	check(not ids[def.id], `duplicate species {def.id}`)
+	ids[def.id] = true
+	check(Rarities.byId[def.tier] ~= nil, `species {def.id} has unknown tier {def.tier}`)
+	check(positive(def.baseCoins) and positive(def.baseKg), `species {def.id} values must be positive`)
+	if not def.stormborn then
+		check(positive(def.weight), `species {def.id} weight must be positive`)
 	end
 end
+check(Species.byId[Species.stormborn.id] ~= nil, "the Stormborn id must be a species")
+check(
+	Species.stormborn.hookChance > 0 and Species.stormborn.hookChance < 1,
+	"Stormborn hook chance must be in (0, 1)"
+)
+for _, weather in { "clear", "showers", "fog" } do
+	local total = Odds.total(Catch.outcomes(weather :: any))
+	check(math.abs(total - 1) < 1e-9, `{weather} table probabilities sum to {total}`)
+end
+for _, mark in Species.marks do
+	check(
+		mark.multiplier >= 1 and mark.multiplier <= 5,
+		`mark {mark.id} multiplier must be 1..5 (sheet §9.4 cap)`
+	)
+	check(mark.chance >= 0 and mark.chance <= 1, `mark {mark.id} chance must be 0..1`)
+end
+check(Species.sizeRoll.min > 0 and Species.sizeRoll.max > Species.sizeRoll.min, "size clamp must be ordered")
 
--- Zones -----------------------------------------------------------------------------------------------------
+-- Fishing, ring and pull -------------------------------------------------------------------------------------
+for mode, ring in Fishing.ring do
+	check(positive(ring.lap) and ring.arc > 0 and ring.arc < 360, `ring {mode} lap and arc`)
+	check(ring.missBudget >= 1, `ring {mode} needs a miss budget`)
+	local range = Fishing.biteWait[mode]
+	check(range ~= nil and range.min > 0 and range.max >= range.min, `bite wait for {mode}`)
+end
+check(Fishing.tapSpacing >= 0.1, "tap spacing below 0.1 s invites auto-clicker abuse")
+check(
+	Fishing.pull.chargedCap <= 1 and Fishing.pull.chargedBase <= Fishing.pull.chargedCap,
+	"Charged chance caps"
+)
+check(Fishing.pull.helperShare > 0 and Fishing.pull.helperShare < 1, "helper share must be a fraction")
+check(Species.byId[Fishing.firstCatch.species] ~= nil, "first catch species exists")
+check(Species.byId[Fishing.firstRainCatch.species] ~= nil, "first rain catch species exists")
+
+-- Weather timetable ------------------------------------------------------------------------------------------
+local covered = 0
+for _, row in WeatherConfig.timetable do
+	check(row.from == covered, `timetable gap or overlap at {covered}`)
+	covered = row.to
+	for _, spot in WeatherConfig.spots do
+		local weather = (row :: any)[spot]
+		check(
+			weather == "clear" or weather == "showers" or weather == "fog" or weather == "storm",
+			`timetable {row.from}-{row.to} {spot}: {tostring(weather)}`
+		)
+	end
+	check((row :: any).cove_dock == "clear" or (row :: any).cove_dock == "storm", "cove_dock is sheltered")
+end
+check(covered == WeatherConfig.cycleSeconds, "timetable must cover the whole cycle")
+
+-- World layout ----------------------------------------------------------------------------------------------
+local sheltered = 0
+for _, spot in WorldLayout.spots do
+	check(table.find(WeatherConfig.spots, spot.id) ~= nil, `spot {spot.id} is not in the timetable`)
+	if spot.sheltered then
+		sheltered += 1
+		check(not spot.callable, `sheltered spot {spot.id} must not be callable`)
+	end
+	local root = { spot.stand[1], spot.stand[2] + WorldLayout.standRootHeight, spot.stand[3] }
+	local d = math.sqrt(
+		(root[1] - spot.ripple[1]) ^ 2 + (root[2] - spot.ripple[2]) ^ 2 + (root[3] - spot.ripple[3]) ^ 2
+	)
+	check(
+		d <= Fishing.castRange,
+		`spot {spot.id} stand is {d} studs from its ripple (cast range {Fishing.castRange})`
+	)
+end
+check(sheltered == 1, "exactly one sheltered spot")
+
+-- Zones and upgrades -------------------------------------------------------------------------------------------
 for index, zone in Zones do
 	check(zone.order == index, `zone {zone.id} order must be {index}`)
-	if index == 1 then
-		check(zone.gateCost == 0, "the first zone must be free")
-	else
-		check(
-			zone.gateCost > Zones[index - 1].gateCost,
-			`zone {zone.id} gate must cost more than the previous one`
-		)
-		check(
-			zone.valueMultiplier > Zones[index - 1].valueMultiplier,
-			`zone {zone.id} must pay more than the previous one`
-		)
-	end
-	if zone.eggId then
-		check(Eggs.byId[zone.eggId] ~= nil, `zone {zone.id} references unknown egg {zone.eggId}`)
-	end
 end
-
--- Upgrades ---------------------------------------------------------------------------------------------------
+check(Zones[1] ~= nil and Zones[1].gateCost == 0, "the first zone must be free")
 local upgradeIds: { [string]: boolean } = {}
 for _, def in Upgrades do
 	check(not upgradeIds[def.id], `duplicate upgrade {def.id}`)
@@ -116,16 +137,13 @@ for _, def in Upgrades do
 	check(positive(def.baseCost) and def.costGrowth > 1, `upgrade {def.id} cost curve must grow`)
 	check(def.maxLevel >= 1, `upgrade {def.id} needs a max level`)
 end
+check(upgradeIds[Onboarding.upgradeForStep6] == true, "onboarding step 6 names an upgrade that exists")
 
--- Products and passes -------------------------------------------------------------------------------------
-local boostIds = Products.boostEffects :: any
+-- Products and passes (the prototype sells nothing: every id must stay 0) --------------------------------------
 local productKeys: { [string]: boolean } = {}
-local robloxIds: { [number]: string } = {}
 local function claimId(id: number, owner: string)
-	if id ~= 0 then
-		check(robloxIds[id] == nil, `id {id} used by both {robloxIds[id]} and {owner}`)
-		robloxIds[id] = owner
-	elseif release then
+	check(id == 0, `{owner} has a Roblox id ({id}): the prototype sells nothing (prototype brief req. 1)`)
+	if release then
 		table.insert(blockers, `{owner} has no Roblox id (0): create it in Creator Hub or remove it`)
 	end
 end
@@ -134,66 +152,10 @@ for _, pass in Products.Passes do
 	productKeys[pass.key] = true
 	claimId(pass.id, `pass {pass.key}`)
 end
-local function checkGrant(owner: string, grant: Products.ProductGrant)
-	if grant.kind == "boost" or grant.kind == "serverBoost" then
-		check(boostIds[grant.boost] ~= nil, `{owner} grants unknown boost {grant.boost}`)
-		check(positive(grant.seconds), `{owner} boost seconds must be positive`)
-	elseif grant.kind == "coinsMinutes" then
-		check(positive(grant.minutes), `{owner} minutes must be positive`)
-	elseif grant.kind == "gems" then
-		check(positive(grant.amount), `{owner} gem amount must be positive`)
-	elseif grant.kind == "bundle" then
-		for _, inner in grant.grants do
-			checkGrant(owner, inner)
-		end
-	end
-end
 for _, product in Products.Products do
 	check(not productKeys[product.key], `duplicate pass/product key {product.key}`)
 	productKeys[product.key] = true
 	claimId(product.id, `product {product.key}`)
-	checkGrant(`product {product.key}`, product.grant)
-	if product.grant.kind == "boost" and boostIds[(product.grant :: any).boost] then
-		local effect = boostIds[(product.grant :: any).boost]
-		if effect.luck then
-			check(
-				product.probabilityModifier,
-				`product {product.key} changes luck but is not marked probabilityModifier`
-			)
-		end
-	end
-end
-
--- Rewards and codes ----------------------------------------------------------------------------------------
-local function checkReward(owner: string, reward: Rewards.Reward)
-	if reward.boost then
-		check(boostIds[reward.boost] ~= nil, `{owner} grants unknown boost {reward.boost}`)
-		check(
-			reward.boostSeconds ~= nil and positive(reward.boostSeconds),
-			`{owner} boost needs boostSeconds`
-		)
-	end
-end
-check(#Rewards.daily == 7, "the daily calendar should have 7 days")
-for index, reward in Rewards.daily do
-	checkReward(`daily day {index}`, reward)
-end
-local lastMinutes = 0
-for index, gift in Rewards.playtime do
-	check(gift.minutes > lastMinutes, `playtime gift {index} must come after the previous one`)
-	lastMinutes = gift.minutes
-	checkReward(`playtime gift {index}`, gift.reward)
-end
-for _, def in Codes.list do
-	check(#def.code <= Codes.maxLength, `code {def.code} is longer than {Codes.maxLength}`)
-	check(
-		string.match(def.code, "^[%w_%-]+$") ~= nil,
-		`code {def.code} has characters players can't type reliably`
-	)
-	checkReward(`code {def.code}`, def :: any)
-	if def.expiresAt == 0 then
-		table.insert(notes, `code {def.code} never expires`)
-	end
 end
 
 -- Onboarding and remotes ------------------------------------------------------------------------------------
@@ -204,18 +166,14 @@ for index, step in Onboarding.steps do
 	)
 end
 for name, def in Remotes do
-	local clientToServer = def.rate ~= nil or def.burst ~= nil
+	local clientToServer = def.rate ~= nil or def.burst ~= nil or def.kind == "function"
 	if clientToServer then
 		check(
-			def.rate ~= nil and def.burst ~= nil and def.rate > 0 and def.burst >= 1,
+			def.rate ~= nil and def.burst ~= nil and (def.rate :: number) > 0 and (def.burst :: number) >= 1,
 			`remote {name} needs rate and burst`
 		)
 	end
 end
-
--- Economy caps ---------------------------------------------------------------------------------------------
-check(Economy.maxLuck >= 1 and Economy.maxPetMultiplier >= 1, "multiplier caps must be at least 1")
-check(Economy.hitCooldownSeconds >= 0.1, "hit cooldown below 0.1s invites auto-clicker abuse")
 
 -- Release blockers ------------------------------------------------------------------------------------------
 if release then
@@ -231,6 +189,12 @@ if release then
 end
 if Game.groupId == 0 then
 	table.insert(notes, "no community group configured (Config/Game.groupId = 0)")
+end
+if #Game.qaUserIds == 0 then
+	table.insert(
+		notes,
+		"no QA user ids: twistStats and exportLog work in Studio only until the human adds theirs"
+	)
 end
 
 -- Report ---------------------------------------------------------------------------------------------------

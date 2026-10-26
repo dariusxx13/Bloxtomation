@@ -1,56 +1,46 @@
 --!strict
--- World: builds a PLACEHOLDER world from config (zones, resource nodes, gates, egg stands) when the place has
--- no authored "World" folder, and keeps a registry the other systems use for server-side lookups.
--- Worldbuilders replace it by authoring Workspace.World with the same tags and attributes:
---   ResourceNode (attributes NodeId, ZoneId), ZoneGate (ZoneId), EggStand (EggId), ZoneBounds (ZoneId),
---   and a SpawnLocation named PlayerSpawn.
--- Everything generated is tagged with the attribute Placeholder = true.
+-- World: builds the prototype's placeholder world from Config/WorldLayout (Pebble Cove's harbour edge) when the
+-- place has no authored "World" folder, and keeps the registry other systems use for server-side lookups.
+-- Contract (world plan v2 §9): ResourceNode spots (NodeId, ZoneId, SpotKind, CellId, CastPoint, Sheltered,
+-- Callable, StormEye), WeatherCell parts (CellId, ZoneId, Radius, flags), StormHome, ZoneBounds (ZoneId) and a
+-- SpawnLocation named PlayerSpawn. Everything generated carries the attribute Placeholder = true.
+-- Public: node(id), allNodes(), spot(id), castPoint(id), ripplePosition(id), zoneAt(pos), spawnCFrame(),
+-- distanceTo(player, pos), rootPosition(player).
 
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local Shared = ReplicatedStorage.Shared
-local Eggs = require(Shared.Config.Eggs)
-local Format = require(Shared.Util.Format)
-local Odds = require(Shared.Util.Odds)
-local Pets = require(Shared.Config.Pets)
-local Zones = require(Shared.Config.Zones)
+local WorldLayout = require(Shared.Config.WorldLayout)
 
 local World = {}
 
 World.TAGS = table.freeze({
 	node = "ResourceNode",
-	gate = "ZoneGate",
-	egg = "EggStand",
 	bounds = "ZoneBounds",
+	cell = "WeatherCell",
+	stormHome = "StormHome",
 })
 
-local ZONE_SPACING = 150
-local PLATFORM_SIZE = 120
-
 local nodes: { [string]: BasePart } = {}
-local gates: { [string]: BasePart } = {}
-local eggs: { [string]: BasePart } = {}
+local spots: { [string]: WorldLayout.SpotSpec } = {}
 local bounds: { { part: BasePart, zoneId: string } } = {}
 local spawnPart: BasePart? = nil
+
+for _, spec in WorldLayout.spots do
+	spots[spec.id] = spec
+end
+
+local function vec(values: { number }): Vector3
+	return Vector3.new(values[1], values[2], values[3])
+end
 
 local function rgb(values: { number }): Color3
 	return Color3.fromRGB(values[1], values[2], values[3])
 end
 
-local function part(props: { [string]: any }): Part
-	local p = Instance.new("Part")
-	p.Anchored = true
-	p.TopSurface = Enum.SurfaceType.Smooth
-	p.BottomSurface = Enum.SurfaceType.Smooth
-	for key, value in props do
-		(p :: any)[key] = value
-	end
-	return p
-end
-
-local function label(parent: BasePart, text: string, face: Enum.NormalId, textSize: number)
+local function label(parent: BasePart, text: string, face: Enum.NormalId)
 	local gui = Instance.new("SurfaceGui")
 	gui.Face = face
 	gui.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud
@@ -60,63 +50,189 @@ local function label(parent: BasePart, text: string, face: Enum.NormalId, textSi
 	textLabel.BackgroundTransparency = 1
 	textLabel.TextScaled = true
 	textLabel.Font = Enum.Font.FredokaOne
-	textLabel.TextColor3 = Color3.new(1, 1, 1)
+	textLabel.TextColor3 = rgb(WorldLayout.colors.shellCream)
 	textLabel.Text = text
 	local stroke = Instance.new("UIStroke")
 	stroke.Thickness = 3
+	stroke.Color = rgb(WorldLayout.colors.nightInk)
 	stroke.Parent = textLabel
 	local constraint = Instance.new("UITextSizeConstraint")
-	constraint.MaxTextSize = textSize
+	constraint.MaxTextSize = 120 -- 6-stud letters: readable at 101 studs on a phone (world plan §5)
 	constraint.Parent = textLabel
 	textLabel.Parent = gui
 	gui.Parent = parent
 end
 
--- Odds board above each egg stand, generated from the same tables the server rolls from.
-local function oddsBoard(stand: BasePart, eggId: string)
-	local egg = Eggs.byId[eggId]
-	if not egg then
-		return
-	end
+local function nameBoard(parent: BasePart, text: string)
 	local billboard = Instance.new("BillboardGui")
-	billboard.Name = "Odds"
-	billboard.Size = UDim2.fromOffset(220, 40 + 22 * #egg.entries)
+	billboard.Name = "SpotName"
+	billboard.Size = UDim2.fromOffset(200, 36)
 	billboard.StudsOffset = Vector3.new(0, 9, 0)
-	billboard.MaxDistance = 60
-	billboard.AlwaysOnTop = false
-	local list = Instance.new("Frame")
-	list.Size = UDim2.fromScale(1, 1)
-	list.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
-	list.BackgroundTransparency = 0.25
-	local corner = Instance.new("UICorner")
-	corner.Parent = list
-	local layout = Instance.new("UIListLayout")
-	layout.Padding = UDim.new(0, 2)
-	layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-	layout.Parent = list
-	local title = Instance.new("TextLabel")
-	title.Size = UDim2.new(1, 0, 0, 30)
-	title.BackgroundTransparency = 1
-	title.Font = Enum.Font.FredokaOne
-	title.TextScaled = true
-	title.TextColor3 = Color3.new(1, 1, 1)
-	title.Text = `{egg.name}: {Format.short(egg.price)} Coins`
-	title.Parent = list
-	for _, outcome in Odds.effective(egg, 1) do
-		local pet = Pets.byKind[outcome.kind]
-		local rarity = Pets.rarityById[outcome.rarity]
-		local row = Instance.new("TextLabel")
-		row.Size = UDim2.new(1, -10, 0, 20)
-		row.BackgroundTransparency = 1
-		row.Font = Enum.Font.GothamBold
-		row.TextScaled = true
-		row.TextColor3 = if rarity then rgb(rarity.color) else Color3.new(1, 1, 1)
-		row.Text =
-			`{pet and pet.name or outcome.kind} ({outcome.rarity}): {Format.percent(outcome.probability)}`
-		row.Parent = list
+	billboard.MaxDistance = 140
+	billboard.LightInfluence = 0
+	local textLabel = Instance.new("TextLabel")
+	textLabel.Size = UDim2.fromScale(1, 1)
+	textLabel.BackgroundTransparency = 1
+	textLabel.TextScaled = true
+	textLabel.Font = Enum.Font.FredokaOne
+	textLabel.TextColor3 = rgb(WorldLayout.colors.shellCream)
+	textLabel.Text = text
+	local stroke = Instance.new("UIStroke")
+	stroke.Thickness = 2
+	stroke.Color = rgb(WorldLayout.colors.nightInk)
+	stroke.Parent = textLabel
+	textLabel.Parent = billboard
+	billboard.Parent = parent
+end
+
+local function newPart(spec: WorldLayout.PartSpec): BasePart
+	local part: BasePart
+	if spec.shape == "Truss" then
+		part = Instance.new("TrussPart")
+	else
+		local p = Instance.new("Part")
+		if spec.shape == "Ball" then
+			p.Shape = Enum.PartType.Ball
+		elseif spec.shape == "Column" then
+			p.Shape = Enum.PartType.Cylinder
+		end
+		part = p
 	end
-	list.Parent = billboard
-	billboard.Parent = stand
+	part.Name = spec.name
+	part.Anchored = true
+	part.TopSurface = Enum.SurfaceType.Smooth
+	part.BottomSurface = Enum.SurfaceType.Smooth
+	part.Material = if spec.material == "Neon" then Enum.Material.Neon else Enum.Material.SmoothPlastic
+	part.Color = rgb(spec.color)
+	part.Transparency = spec.transparency or 0
+	local collide = spec.collide ~= false
+	part.CanCollide = collide
+	part.CanTouch = false
+	part.CanQuery = collide and (spec.transparency or 0) < 1
+	part.CastShadow = (spec.transparency or 0) < 1
+	local position = vec(spec.pos)
+	if spec.shape == "Column" then
+		-- Roblox cylinders run along X: stand them up.
+		part.Size = Vector3.new(spec.size[2], spec.size[1], spec.size[3])
+		part.CFrame = CFrame.new(position) * CFrame.Angles(0, 0, math.rad(90))
+	else
+		part.Size = vec(spec.size)
+		part.CFrame = CFrame.new(position) * CFrame.Angles(0, math.rad(spec.yaw or 0), 0)
+	end
+	if spec.tag then
+		CollectionService:AddTag(part, spec.tag)
+	end
+	if spec.light then
+		local light = Instance.new("PointLight")
+		light.Enabled = false -- storm only; the client switches it on
+		light.Shadows = false
+		light.Range = 16
+		light.Brightness = 2
+		light.Color = rgb(WorldLayout.colors.lanternGold)
+		light.Parent = part
+	end
+	if spec.text then
+		label(part, spec.text, Enum.NormalId.Front)
+		label(part, spec.text, Enum.NormalId.Back)
+	end
+	part:SetAttribute("Placeholder", true)
+	return part
+end
+
+-- A flat vertical-axis disc (cylinder) of the given diameter and thickness.
+local function disc(name: string, diameter: number, thickness: number, center: Vector3): Part
+	local p = Instance.new("Part")
+	p.Name = name
+	p.Shape = Enum.PartType.Cylinder
+	p.Anchored = true
+	p.Size = Vector3.new(thickness, diameter, diameter)
+	p.CFrame = CFrame.new(center) * CFrame.Angles(0, 0, math.rad(90))
+	p.TopSurface = Enum.SurfaceType.Smooth
+	p.BottomSurface = Enum.SurfaceType.Smooth
+	p:SetAttribute("Placeholder", true)
+	return p
+end
+
+local function cellCentre(spec: WorldLayout.SpotSpec): Vector3
+	return (vec(spec.stand) + vec(spec.ripple)) / 2
+end
+
+local function buildSpot(spec: WorldLayout.SpotSpec, parent: Instance, cells: Instance)
+	local model = Instance.new("Model")
+	model.Name = spec.id
+	model.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
+	local ripplePos = vec(spec.ripple) + Vector3.new(0, 0.15, 0)
+
+	local ripple = disc("Ripple", WorldLayout.rippleDiameter, 0.4, ripplePos)
+	ripple.Material = Enum.Material.Neon
+	ripple.Color = rgb(WorldLayout.rippleColor)
+	ripple.Transparency = 0.25
+	ripple.CanCollide = false
+	ripple.CanTouch = false
+	ripple.CanQuery = true -- the tap raycast needs it
+	ripple.CastShadow = false
+	ripple:SetAttribute("NodeId", spec.id)
+	ripple:SetAttribute("ZoneId", WorldLayout.zoneId)
+	ripple:SetAttribute("SpotKind", "regular")
+	ripple:SetAttribute("CellId", spec.id)
+	ripple:SetAttribute("CastPoint", vec(spec.stand))
+	ripple:SetAttribute("SpotName", spec.name)
+	if spec.sheltered then
+		ripple:SetAttribute("Sheltered", true)
+	end
+	if spec.callable then
+		ripple:SetAttribute("Callable", true)
+	end
+	if spec.stormEye then
+		ripple:SetAttribute("StormEye", true)
+	end
+	CollectionService:AddTag(ripple, World.TAGS.node)
+	nameBoard(ripple, spec.name)
+	ripple.Parent = model
+
+	local rim = disc("Rim", WorldLayout.rippleDiameter * 1.15, 0.3, ripplePos - Vector3.new(0, 0.1, 0))
+	rim.Material = Enum.Material.SmoothPlastic
+	rim.Color = rgb(WorldLayout.rimColor)
+	rim.CanCollide = false
+	rim.CanTouch = false
+	rim.CanQuery = false
+	rim.CastShadow = false
+	rim.Parent = model
+
+	local stand = Instance.new("Part")
+	stand.Name = "Stand"
+	stand.Anchored = true
+	stand.Size = Vector3.new(4, 0.2, 4)
+	stand.Position = vec(spec.stand) + Vector3.new(0, 0.1, 0)
+	stand.Material = Enum.Material.SmoothPlastic
+	stand.Color = rgb(WorldLayout.colors.lanternGold)
+	stand.CanCollide = false
+	stand.CanTouch = false
+	stand.CanQuery = false
+	stand:SetAttribute("Placeholder", true)
+	stand.Parent = model
+	model.Parent = parent
+
+	local cell = disc(`Cell_{spec.id}`, WorldLayout.cellRadius * 2, 1, cellCentre(spec))
+	cell.Transparency = 1
+	cell.CanCollide = false
+	cell.CanTouch = false
+	cell.CanQuery = false
+	cell.CastShadow = false
+	cell:SetAttribute("CellId", spec.id)
+	cell:SetAttribute("ZoneId", WorldLayout.zoneId)
+	cell:SetAttribute("Radius", WorldLayout.cellRadius)
+	if spec.sheltered then
+		cell:SetAttribute("Sheltered", true)
+	end
+	if spec.callable then
+		cell:SetAttribute("Callable", true)
+	end
+	if spec.stormEye then
+		cell:SetAttribute("StormEye", true)
+	end
+	CollectionService:AddTag(cell, World.TAGS.cell)
+	cell.Parent = cells
 end
 
 local function buildPlaceholder(): Folder
@@ -124,99 +240,79 @@ local function buildPlaceholder(): Folder
 	root.Name = "World"
 	root:SetAttribute("Placeholder", true)
 
+	-- Terrain water over the cove and lagoon on a sand floor (swimming is safe: no damage, ladders out).
+	local terrain = Workspace.Terrain
+	terrain:FillBlock(CFrame.new(vec(WorldLayout.floor.pos)), vec(WorldLayout.floor.size), Enum.Material.Sand)
+	terrain:FillBlock(
+		CFrame.new(vec(WorldLayout.water.pos)),
+		vec(WorldLayout.water.size),
+		Enum.Material.Water
+	)
+
 	local spawn = Instance.new("SpawnLocation")
 	spawn.Name = "PlayerSpawn"
 	spawn.Anchored = true
-	spawn.Size = Vector3.new(12, 1, 12)
-	spawn.Position = Vector3.new(0, 2.5, -40)
-	spawn.Transparency = 0.5
+	spawn.Size = vec(WorldLayout.spawn.size)
+	spawn.CFrame = CFrame.new(vec(WorldLayout.spawn.pos)) -- orientation (0, 0, 0): faces north
+	spawn.Color = rgb(WorldLayout.spawn.color)
+	spawn.Material = Enum.Material.SmoothPlastic
 	spawn.Neutral = true
 	spawn.Duration = 0
+	spawn:SetAttribute("Placeholder", true)
 	spawn.Parent = root
 
-	for index, zone in Zones do
-		local zoneFolder = Instance.new("Folder")
-		zoneFolder.Name = zone.id
-		local centerZ = (index - 1) * ZONE_SPACING
-		local ground = part({
-			Name = "Ground",
-			Size = Vector3.new(PLATFORM_SIZE, 4, PLATFORM_SIZE + 30),
-			Position = Vector3.new(0, 0, centerZ),
-			Color = rgb(zone.color),
-			Material = Enum.Material.SmoothPlastic,
-			Parent = zoneFolder,
-		})
-		ground:SetAttribute("ZoneId", zone.id)
-		CollectionService:AddTag(ground, World.TAGS.bounds)
-		-- Resource nodes in a ring, facing the player path
-		for i = 1, zone.nodeCount do
-			local angle = (i / zone.nodeCount) * math.pi * 2
-			local node = part({
-				Name = `Node{i}`,
-				Size = Vector3.new(5, 7, 5),
-				Position = Vector3.new(math.cos(angle) * 32, 5.5, centerZ + math.sin(angle) * 32),
-				Color = rgb(zone.nodeColor),
-				Material = Enum.Material.Glass,
-				Parent = zoneFolder,
-			})
-			local nodeId = `{zone.id}_{i}`
-			node:SetAttribute("NodeId", nodeId)
-			node:SetAttribute("ZoneId", zone.id)
-			CollectionService:AddTag(node, World.TAGS.node)
-		end
-		-- Egg stand
-		if zone.eggId then
-			local stand = part({
-				Name = "EggStand",
-				Shape = Enum.PartType.Ball,
-				Size = Vector3.new(7, 9, 7),
-				Position = Vector3.new(40, 6.5, centerZ - 40),
-				Color = Color3.fromRGB(255, 245, 220),
-				Material = Enum.Material.SmoothPlastic,
-				Parent = zoneFolder,
-			})
-			stand:SetAttribute("EggId", zone.eggId)
-			stand:SetAttribute("ZoneId", zone.id)
-			CollectionService:AddTag(stand, World.TAGS.egg)
-			local prompt = Instance.new("ProximityPrompt")
-			prompt.Name = "HatchPrompt"
-			prompt.ActionText = "Hatch"
-			prompt.ObjectText = Eggs.byId[zone.eggId] and Eggs.byId[zone.eggId].name or "Egg"
-			prompt.HoldDuration = 0
-			prompt.MaxActivationDistance = Eggs.hatchRange - 2
-			prompt.RequiresLineOfSight = false
-			prompt.Parent = stand
-			oddsBoard(stand, zone.eggId)
-		end
-		-- Gate at the entrance of every zone after the first
-		if zone.gateCost > 0 then
-			local gate = part({
-				Name = "Gate",
-				Size = Vector3.new(PLATFORM_SIZE, 30, 2),
-				Position = Vector3.new(0, 17, centerZ - (PLATFORM_SIZE + 30) / 2 - 1),
-				Color = rgb(zone.nodeColor),
-				Material = Enum.Material.ForceField,
-				Transparency = 0.3,
-				Parent = zoneFolder,
-			})
-			gate:SetAttribute("ZoneId", zone.id)
-			CollectionService:AddTag(gate, World.TAGS.gate)
-			label(gate, `{zone.name}\n{Format.short(zone.gateCost)} Coins`, Enum.NormalId.Front, 80)
-			label(gate, `{zone.name}`, Enum.NormalId.Back, 80)
-			local prompt = Instance.new("ProximityPrompt")
-			prompt.Name = "UnlockPrompt"
-			prompt.ActionText = `Unlock ({Format.short(zone.gateCost)})`
-			prompt.ObjectText = zone.name
-			prompt.HoldDuration = 0
-			prompt.MaxActivationDistance = 14
-			prompt.RequiresLineOfSight = false
-			local attachment = Instance.new("Attachment")
-			attachment.Position = Vector3.new(0, -12, 0)
-			attachment.Parent = gate
-			prompt.Parent = attachment
-		end
-		zoneFolder.Parent = root
+	local scenery = Instance.new("Folder")
+	scenery.Name = "Scenery"
+	for _, spec in WorldLayout.parts do
+		newPart(spec).Parent = scenery
 	end
+	for _, spec in WorldLayout.walls do
+		local wall = newPart(spec)
+		wall.CanQuery = false
+		wall.CastShadow = false
+		wall.Parent = scenery
+	end
+	scenery.Parent = root
+
+	-- Weather cells and the storm's home are always streamed (world plan §10: Persistent, sparingly).
+	local cells = Instance.new("Model")
+	cells.Name = "WeatherCells"
+	cells.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+	local stormHome = Instance.new("Part")
+	stormHome.Name = "StormHome"
+	stormHome.Anchored = true
+	stormHome.Size = Vector3.one
+	stormHome.Position = vec(WorldLayout.stormHome)
+	stormHome.Transparency = 1
+	stormHome.CanCollide = false
+	stormHome.CanTouch = false
+	stormHome.CanQuery = false
+	stormHome:SetAttribute("Placeholder", true)
+	CollectionService:AddTag(stormHome, World.TAGS.stormHome)
+	stormHome.Parent = cells
+
+	local spotFolder = Instance.new("Folder")
+	spotFolder.Name = "Spots"
+	for _, spec in WorldLayout.spots do
+		buildSpot(spec, spotFolder, cells)
+	end
+	spotFolder.Parent = root
+	cells.Parent = root
+
+	local zone = Instance.new("Part")
+	zone.Name = "Bounds_" .. WorldLayout.zoneId
+	zone.Anchored = true
+	zone.Size = vec(WorldLayout.bounds.size)
+	zone.Position = vec(WorldLayout.bounds.pos)
+	zone.Transparency = 1
+	zone.CanCollide = false
+	zone.CanTouch = false
+	zone.CanQuery = false
+	zone:SetAttribute("ZoneId", WorldLayout.zoneId)
+	zone:SetAttribute("Placeholder", true)
+	CollectionService:AddTag(zone, World.TAGS.bounds)
+	zone.Parent = root
+
 	root.Parent = Workspace
 	return root
 end
@@ -228,18 +324,6 @@ local function register(root: Instance)
 				local id = instance:GetAttribute("NodeId")
 				if type(id) == "string" then
 					nodes[id] = instance
-					instance:SetAttribute("Hp", 0)
-					instance:SetAttribute("Broken", false)
-				end
-			elseif CollectionService:HasTag(instance, World.TAGS.gate) then
-				local zoneId = instance:GetAttribute("ZoneId")
-				if type(zoneId) == "string" then
-					gates[zoneId] = instance
-				end
-			elseif CollectionService:HasTag(instance, World.TAGS.egg) then
-				local eggId = instance:GetAttribute("EggId")
-				if type(eggId) == "string" then
-					eggs[eggId] = instance
 				end
 			elseif CollectionService:HasTag(instance, World.TAGS.bounds) then
 				local zoneId = instance:GetAttribute("ZoneId")
@@ -258,20 +342,41 @@ function World.node(nodeId: string): BasePart?
 	return nodes[nodeId]
 end
 
-function World.gate(zoneId: string): BasePart?
-	return gates[zoneId]
-end
-
-function World.eggStand(eggId: string): BasePart?
-	return eggs[eggId]
-end
-
 function World.allNodes(): { [string]: BasePart }
 	return nodes
 end
 
+-- The layout entry for a spot (pure data, never streamed out).
+function World.spot(spotId: string): WorldLayout.SpotSpec?
+	return spots[spotId]
+end
+
+function World.ripplePosition(spotId: string): Vector3?
+	local spec = spots[spotId]
+	return if spec then vec(spec.ripple) else nil
+end
+
+function World.castPoint(spotId: string): Vector3?
+	local spec = spots[spotId]
+	return if spec then vec(spec.stand) else nil
+end
+
+-- The cell whose centre is nearest to `position`, if it is within the cell radius (horizontal plane).
+function World.cellAt(position: Vector3): string?
+	local best: string? = nil
+	local bestDistance = WorldLayout.cellRadius
+	for id, spec in spots do
+		local centre = cellCentre(spec)
+		local distance = Vector2.new(position.X - centre.X, position.Z - centre.Z).Magnitude
+		if distance <= bestDistance then
+			best = id
+			bestDistance = distance
+		end
+	end
+	return best
+end
+
 -- The zone whose bounds part contains `position` in the horizontal plane (nil outside every zone).
--- Bounds extend upward so jumping does not leave the zone.
 function World.zoneAt(position: Vector3): string?
 	for _, entry in bounds do
 		local localPos = entry.part.CFrame:PointToObjectSpace(position)
@@ -295,14 +400,19 @@ function World.spawnCFrame(): CFrame
 	return CFrame.new(0, 10, 0)
 end
 
--- Distance from the player's character root to a world position (math.huge if no character).
-function World.distanceTo(player: Player, position: Vector3): number
+function World.rootPosition(player: Player): Vector3?
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart")
 	if not root or not root:IsA("BasePart") then
-		return math.huge
+		return nil
 	end
-	return (root.Position - position).Magnitude
+	return root.Position
+end
+
+-- Distance from the player's character root to a world position (math.huge if no character).
+function World.distanceTo(player: Player, position: Vector3): number
+	local root = World.rootPosition(player)
+	return if root then (root - position).Magnitude else math.huge
 end
 
 function World.init()

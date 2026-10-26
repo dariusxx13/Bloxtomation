@@ -34,8 +34,7 @@ local panels: { [string]: Panel } = {}
 local current: string? = nil
 
 -- Panels that report "open" to the server (must match ClientEvents.PANELS on the server).
-local REPORTED =
-	{ shop = true, pets = true, rebirth = true, daily = true, settings = true, codes = true, index = true }
+local REPORTED = { shop = true, settings = true }
 
 local backdrop: TextButton = Builder.make("TextButton", {
 	Name = "Backdrop",

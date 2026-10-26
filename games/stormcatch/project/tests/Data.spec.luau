@@ -24,7 +24,7 @@ return function(test: TestKit.Test)
 		TestKit.equal(migrated.coins, 50, "kept existing value")
 		TestKit.truthy(migrated.settings and migrated.settings.music == true, "settings filled")
 		TestKit.truthy(migrated.daily and migrated.daily.calendarDay == 1, "daily filled")
-		TestKit.truthy(migrated.zonesUnlocked.meadow == true, "first zone unlocked")
+		TestKit.truthy(migrated.zonesUnlocked.pebble_cove == true, "first zone unlocked")
 	end)
 
 	test("migration steps run in order and bump the version", function()
@@ -72,42 +72,58 @@ return function(test: TestKit.Test)
 		TestKit.truthy(Schema.check(data) ~= nil)
 	end)
 
-	test("derived stats: pets, rebirths and passes multiply coins; caps hold", function()
+	test("migration 1 -> 2 adds the fishing stats and Pebble Cove, keeping existing values", function()
+		local old: any = {
+			version = 1,
+			coins = 75,
+			gems = 3,
+			rebirths = 0,
+			onboardingStep = 4,
+			pets = {},
+			equipped = {},
+			zonesUnlocked = { meadow = true },
+			stats = { hits = 9, totalCoinsEarned = 90 },
+			upgrades = { power = 2 },
+		}
+		local migrated = Migrations.migrate(old)
+		TestKit.equal(migrated.version, 2)
+		TestKit.equal(migrated.coins, 75, "coins kept")
+		TestKit.equal(migrated.stats.hits, 9, "old stats kept")
+		TestKit.equal(migrated.stats.catches, 0)
+		TestKit.equal(migrated.stats.rainCatches, 0)
+		TestKit.equal(migrated.stats.stormsJoined, 0)
+		TestKit.equal(migrated.stats.giantsLanded, 0)
+		TestKit.equal(migrated.stats.helps, 0)
+		TestKit.equal(migrated.zonesUnlocked.pebble_cove, true, "Pebble Cove unlocked")
+		TestKit.equal(migrated.zonesUnlocked.meadow, true, "nothing removed")
+		TestKit.equal(Schema.check(migrated), nil)
+	end)
+
+	test("derived stats: the Rod multiplies coins by 1.14 per level; luck stays 1", function()
 		local data = Schema.new(0)
 		local base = Stats.derive(data, nil, 0)
-		TestKit.equal(base.coinsPerHit, 1)
-		TestKit.equal(base.petSlots, 3)
-		data.rebirths = 2
-		table.insert(data.pets, { id = "a", kind = "sunbeam_fox" })
-		table.insert(data.equipped, "a")
+		TestKit.equal(base.rodLevel, 0)
+		TestKit.equal(base.rodMultiplier, 1)
+		TestKit.equal(base.walkSpeed, 16)
+		data.upgrades.rod = 3
+		local derived = Stats.derive(data, nil, 0)
+		TestKit.near(derived.rodMultiplier, 1.14 ^ 3, 1e-12)
+		TestKit.equal(derived.luck, 1)
+	end)
+
+	test("passes and boosts change nothing in the prototype (no paid luck, no coin multipliers)", function()
+		local data = Schema.new(0)
+		data.boosts.luck2x = 1000
+		data.boosts.coins2x = 1000
 		local session = {
-			passes = { x2Coins = true, petSlots = true, lucky = true },
-			serverLuckUntil = 0,
-			socialBonus = 0,
-			playtimeClaimed = {},
+			passes = { lucky = true, x2Coins = true },
+			serverLuckUntil = 1000,
 			sessionStart = 0,
 			joinedAt = 0,
 			randomItemsRestricted = false,
 		}
-		local derived = Stats.derive(data, session, 0)
-		-- 1 * pet (1 + 1.6) * rebirth (1 + 0.5 * 2) * x2
-		TestKit.near(derived.coinsPerHit, 2.6 * 2 * 2, 1e-9)
-		TestKit.equal(derived.petSlots, 6)
-		TestKit.near(derived.luck, 1.5, 1e-9)
-	end)
-
-	test("restricted players get no paid luck", function()
-		local data = Schema.new(0)
-		data.boosts.luck2x = 1000
-		local session = {
-			passes = { lucky = true },
-			serverLuckUntil = 1000,
-			socialBonus = 0,
-			playtimeClaimed = {},
-			sessionStart = 0,
-			joinedAt = 0,
-			randomItemsRestricted = true,
-		}
-		TestKit.equal(Stats.derive(data, session, 10).luck, 1)
+		local derived = Stats.derive(data, session, 10)
+		TestKit.equal(derived.luck, 1)
+		TestKit.equal(derived.rodMultiplier, 1)
 	end)
 end

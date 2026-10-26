@@ -8,14 +8,14 @@ local TableUtil = require("../Util/TableUtil")
 
 local Schema = {}
 
-Schema.VERSION = 1
+Schema.VERSION = 2 -- v2: Reel the Storm prototype (stats.catches and friends; zone pebble_cove)
 
 local DEFAULT: Types.ProfileData = {
-	version = 1,
+	version = 2,
 	coins = 0,
 	gems = 0,
 	upgrades = {},
-	zonesUnlocked = { meadow = true },
+	zonesUnlocked = { pebble_cove = true },
 	pets = {},
 	equipped = {},
 	index = {},
@@ -36,6 +36,11 @@ local DEFAULT: Types.ProfileData = {
 		lastLogout = 0,
 		totalCoinsEarned = 0,
 		playSeconds = 0,
+		catches = 0,
+		rainCatches = 0,
+		stormsJoined = 0,
+		giantsLanded = 0,
+		helps = 0,
 	},
 }
 
@@ -68,6 +73,17 @@ function Schema.check(data: any): string?
 	end
 	if type(data.pets) ~= "table" or type(data.equipped) ~= "table" then
 		return "invalid pets"
+	end
+	if type(data.stats) ~= "table" then
+		return "missing stats"
+	end
+	for _, field in { "catches", "rainCatches", "stormsJoined", "giantsLanded", "helps", "totalCoinsEarned" } do
+		local value = data.stats[field]
+		if
+			value ~= nil and (type(value) ~= "number" or value ~= value or value == math.huge or value < 0)
+		then
+			return `invalid stat {field}`
+		end
 	end
 	return nil
 end

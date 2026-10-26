@@ -6,7 +6,6 @@ local TweenService = game:GetService("TweenService")
 
 local Shared = ReplicatedStorage.Shared
 local Net = require(Shared.Net)
-local Pets = require(Shared.Config.Pets)
 
 local UI = script.Parent.Parent.UI
 local Builder = require(UI.Builder)
@@ -100,28 +99,21 @@ local function onToast(payload: any)
 	end
 end
 
+-- The server-wide Stormborn banner (prototype brief req. 9.8; juice layer 10).
 local function onAnnounce(payload: any)
-	if type(payload) ~= "table" then
+	if type(payload) ~= "table" or payload.kind ~= "giant" then
 		return
 	end
-	local text: string
-	local color = Theme.colors.accent
-	if payload.kind == "serverLuck" then
-		text = `{payload.name} activated Server Luck! 2x luck for everyone`
-	else
-		local pet = Pets.byKind[payload.kind]
-		local rarity = Pets.rarityById[payload.rarity]
-		if not pet or not rarity then
-			return
-		end
-		color = Builder.rgb(rarity.color)
-		local prefix = if payload.global then "[Global] " else ""
-		text = `{prefix}{payload.name} hatched a {payload.rarity} {pet.name}!`
-	end
+	local name = if type(payload.name) == "string" then payload.name else "Someone"
+	local helpers = if type(payload.helpers) == "number" then math.floor(payload.helpers) else 0
+	local species = if type(payload.species) == "string" then payload.species else "Stormborn"
+	local kg = if type(payload.kg) == "number" then math.floor(payload.kg) else 0
+	local charged = if payload.charged == true then "CHARGED " else ""
+	local who = if helpers > 0 then `{name} and {helpers} angler{if helpers == 1 then "" else "s"}` else name
 	bannerToken += 1
 	local token = bannerToken
-	banner.Text = text
-	banner.TextColor3 = color
+	banner.Text = `{who} landed a {charged}{species}, {kg} kg!`
+	banner.TextColor3 = Theme.colors.accent
 	banner.Visible = true
 	Sounds.play("reward", 1.2)
 	task.delay(ANNOUNCE_SECONDS, function()
@@ -137,14 +129,14 @@ function Toasts.init()
 		Name = "ToastStack",
 		BackgroundTransparency = 1,
 		AnchorPoint = Vector2.new(0.5, 0),
-		Position = UDim2.new(0.5, 0, 0, 70),
+		Position = UDim2.new(0.5, 0, 0, 164),
 		Size = UDim2.fromOffset(460, 240),
 		Parent = layer,
 	}, { Builder.list(Enum.FillDirection.Vertical, 6, Enum.HorizontalAlignment.Center) })
 	banner = Builder.label({
 		Name = "Announcement",
 		AnchorPoint = Vector2.new(0.5, 0),
-		Position = UDim2.new(0.5, 0, 0, 12),
+		Position = UDim2.new(0.5, 0, 0, 58),
 		Size = UDim2.fromOffset(820, 48),
 		Visible = false,
 		Parent = layer,

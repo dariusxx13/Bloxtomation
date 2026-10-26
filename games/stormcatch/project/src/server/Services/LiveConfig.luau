@@ -13,18 +13,12 @@ local LiveConfig = {}
 
 -- Declare every live key with its default. Create the same keys in Creator Hub > Configs to override them.
 local DEFAULTS: { [string]: any } = {
-	featureDailyRewards = true,
-	featurePlaytimeRewards = true,
-	featureCodes = true,
-	featureServerLuck = true,
-	nodeValueMultiplier = 1, -- global economy dial (e.g. for events)
-	hatchPriceMultiplier = 1,
-	announceMinRarity = "Legendary",
+	featureStormPull = true, -- kill switch for Stormborn hooks (the Great Storm itself always runs on time)
 }
 
 -- Keys the client may read (to hide disabled features). Published as attributes on
 -- ReplicatedStorage.LiveConfig. Never list anything secret here.
-local PUBLIC_KEYS = { "featureDailyRewards", "featurePlaytimeRewards", "featureCodes", "featureServerLuck" }
+local PUBLIC_KEYS = { "featureStormPull" }
 
 local REFRESH_SECONDS = 60
 

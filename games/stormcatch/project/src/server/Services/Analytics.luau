@@ -1,6 +1,6 @@
 --!strict
 -- Wrapper around AnalyticsService (vault: 13-building-it-right/analytics-instrumentation.md).
--- All calls are protected; high-frequency sources (hits) are batched to respect analytics rate limits.
+-- All calls are protected; high-frequency sources (catches) are batched to respect analytics rate limits.
 -- Events only record in published games; calls in Studio are harmless no-ops.
 
 local AnalyticsService = game:GetService("AnalyticsService")
@@ -14,7 +14,6 @@ local Analytics = {}
 
 type Batch = { [string]: { currency: string, amount: number, transactionType: string, sku: string? } }
 local batches: { [Player]: Batch } = {}
-local hitCounts: { [Player]: number } = {}
 local shopFunnels: { [Player]: { id: string, step: number } } = {}
 
 local FIELD_KEYS = {
@@ -127,10 +126,6 @@ function Analytics.batchSource(
 	end
 end
 
-function Analytics.countHit(player: Player)
-	hitCounts[player] = (hitCounts[player] or 0) + 1
-end
-
 -- `balanceOf(player, currency)` lets the flush report correct balances.
 function Analytics.flush(player: Player, balanceOf: (Player, string) -> number)
 	local batch = batches[player]
@@ -147,11 +142,6 @@ function Analytics.flush(player: Player, balanceOf: (Player, string) -> number)
 				entry.sku
 			)
 		end
-	end
-	local hits = hitCounts[player]
-	hitCounts[player] = nil
-	if hits and hits > 0 then
-		Analytics.custom(player, AnalyticsConfig.customEvents.hits, hits)
 	end
 end
 

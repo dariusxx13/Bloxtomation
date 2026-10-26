@@ -1,15 +1,18 @@
 --!strict
--- Guide: shows the next onboarding step as a hint plus a pointer: a beam to world targets
--- (nodes, eggs, gates) or a pulsing outline on UI targets (buttons)
--- (vault: 01-first-five-minutes/onboarding-patterns.md). Steps come from Config/Onboarding.
+-- Guide: shows the next onboarding step as a hint plus a pointer: a beam to a world target (a spot) or a
+-- pulsing outline on a button (vault: 01-first-five-minutes/onboarding-patterns.md; prototype brief req. 10).
+-- Guide kinds: node (the nearest spot, and the Cast button), shop, upgradePower (the Rod's buy button) and
+-- weather (the spot under Showers now, or the next one due, with its ETA). Whatever the step, while no spot is
+-- in cast range the beam points to the nearest spot (req. 3.1). A profile past step 7 shows no hint.
 
-local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 local Workspace = game:GetService("Workspace")
 
-local OnboardingConfig = require(ReplicatedStorage.Shared.Config.Onboarding)
+local Shared = ReplicatedStorage.Shared
+local OnboardingConfig = require(Shared.Config.Onboarding)
+local WeatherConfig = require(Shared.Config.Weather)
 
 local UI = script.Parent.Parent.UI
 local Builder = require(UI.Builder)
@@ -17,16 +20,16 @@ local Panels = require(UI.Panels)
 local Root = require(UI.Root)
 local Theme = require(UI.Theme)
 
-local Gates = require(script.Parent.Gates)
 local HUD = require(script.Parent.HUD)
 local Interact = require(script.Parent.Interact)
-local PetsPanel = require(script.Parent.PetsPanel)
+local Reel = require(script.Parent.Reel)
 local Shop = require(script.Parent.Shop)
 local State = require(script.Parent.State)
+local Weather = require(script.Parent.Weather)
 
 local Guide = {}
 
-local UPDATE_SECONDS = 0.4
+local UPDATE_SECONDS = 0.25
 
 local player = Players.LocalPlayer
 local hint: TextLabel
@@ -37,26 +40,9 @@ local outline: UIStroke
 local outlinedButton: GuiObject? = nil
 local pulse: Tween? = nil
 
-local function nearestEggStand(): BasePart?
-	local character = player.Character
-	local root = character and character:FindFirstChild("HumanoidRootPart")
-	local data = State.data
-	if not root or not root:IsA("BasePart") or not data then
-		return nil
-	end
-	local best: BasePart? = nil
-	local bestDistance = math.huge
-	for _, stand in CollectionService:GetTagged("EggStand") do
-		local zoneId = stand:GetAttribute("ZoneId")
-		if stand:IsA("BasePart") and type(zoneId) == "string" and data.zonesUnlocked[zoneId] then
-			local distance = (stand.Position - root.Position).Magnitude
-			if distance < bestDistance then
-				best = stand
-				bestDistance = distance
-			end
-		end
-	end
-	return best
+local function clock(seconds: number): string
+	local s = math.max(0, math.floor(seconds))
+	return string.format("%d:%02d", s // 60, s % 60)
 end
 
 local function setOutline(target: GuiObject?)
@@ -83,17 +69,37 @@ local function setOutline(target: GuiObject?)
 	end
 end
 
-local function setWorldTarget(part: BasePart?)
+local function setWorldTarget(position: Vector3?)
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart")
 	local rootAttachment = root and root:FindFirstChild("RootAttachment")
-	if part and rootAttachment and rootAttachment:IsA("Attachment") then
-		anchorPart.Position = part.Position + Vector3.new(0, part.Size.Y / 2 + 1, 0)
+	if position and rootAttachment and rootAttachment:IsA("Attachment") then
+		anchorPart.Position = position + Vector3.new(0, 1, 0)
 		beam.Attachment0 = rootAttachment
 		beam.Enabled = true
 	else
 		beam.Enabled = false
 	end
+end
+
+-- The spot under Showers now, or the next Showers arrival, and the seconds until it (0 if now).
+local function rainTarget(): (string?, number)
+	local state = Weather.state()
+	if not state then
+		return nil, 0
+	end
+	for _, spot in WeatherConfig.spots do
+		if state.spots[spot] == "showers" then
+			return spot, 0
+		end
+	end
+	local now = Weather.now()
+	for _, arrival in state.arrivals do
+		if arrival.weather == "showers" and arrival.at > now then
+			return arrival.spot, arrival.at - now
+		end
+	end
+	return nil, 0
 end
 
 local function update()
@@ -103,27 +109,39 @@ local function update()
 	end
 	local stepDef = OnboardingConfig.steps[data.onboardingStep + 1]
 	local guide = if stepDef then stepDef.guide else "none"
-	hint.Visible = stepDef ~= nil and stepDef.hint ~= "" and Panels.current() ~= "hatch"
-	hint.Text = if stepDef then stepDef.hint else ""
+	local hintText = if stepDef then stepDef.hint else ""
 
-	local worldTarget: BasePart? = nil
+	local worldTarget: Vector3? = nil
 	local uiTarget: GuiObject? = nil
 	if guide == "node" then
-		worldTarget = Interact.nearestUsableNode()
-	elseif guide == "egg" then
-		worldTarget = nearestEggStand()
-	elseif guide == "gate" then
-		worldTarget = Gates.nextGate()
+		local spot = Interact.nearestSpot()
+		worldTarget = if spot then Interact.spotPosition(spot) else nil
+		uiTarget = Reel.castButton
 	elseif guide == "shop" then
 		uiTarget = HUD.buttons.shop
 	elseif guide == "upgradePower" then
-		uiTarget = if Panels.isOpen("shop") then Shop.upgradeButtons.power else HUD.buttons.shop
-	elseif guide == "pets" then
-		uiTarget = if Panels.isOpen("pets") then PetsPanel.equipBestButton else HUD.buttons.pets
+		uiTarget = if Panels.isOpen("shop")
+			then Shop.upgradeButtons[OnboardingConfig.upgradeForStep6]
+			else HUD.buttons.shop
+	elseif guide == "weather" then
+		local spot, eta = rainTarget()
+		if spot then
+			worldTarget = Interact.spotPosition(spot)
+			if eta > 0 then
+				hintText = `{hintText} Rain at {Interact.spotName(spot)} in {clock(eta)}`
+			end
+		end
+	end
+	-- Out of cast range with nothing on the line: point at the nearest ripple whatever the step.
+	if worldTarget == nil and Reel.state() == "idle" and Reel.outOfRange() then
+		local spot = Interact.nearestSpot()
+		worldTarget = if spot then Interact.spotPosition(spot) else nil
 	end
 	if Panels.current() ~= nil then
 		worldTarget = nil
 	end
+	hint.Visible = hintText ~= "" and Panels.current() == nil
+	hint.Text = hintText
 	setWorldTarget(worldTarget)
 	setOutline(uiTarget)
 end
@@ -133,7 +151,7 @@ function Guide.init()
 		Name = "GuideHint",
 		AnchorPoint = Vector2.new(0.5, 1),
 		Position = UDim2.new(0.5, 0, 1, -24),
-		Size = UDim2.fromOffset(560, 52),
+		Size = UDim2.fromOffset(620, 52),
 		TextColor3 = Theme.colors.accent,
 		Visible = false,
 		Parent = Root.layer("hud"),

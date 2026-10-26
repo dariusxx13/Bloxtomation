@@ -9,12 +9,21 @@ local Schema = require("./Schema")
 local Migrations = {}
 
 local STEPS: { [number]: (any) -> any } = {
-	-- Example for the future:
-	-- [1] = function(data)
-	-- 	data.settings.hideOthersPets = data.settings.hidePets or false
-	-- 	data.settings.hidePets = nil
-	-- 	return data
-	-- end,
+	-- 1 -> 2 (Reel the Storm prototype): fishing stats and the Pebble Cove zone. Nothing is removed; template
+	-- fields the prototype does not use (gems, pets, daily, codes) stay so the build stage can use them.
+	[1] = function(data)
+		local stats = if type(data.stats) == "table" then data.stats else {}
+		data.stats = stats
+		for _, field in { "catches", "rainCatches", "stormsJoined", "giantsLanded", "helps" } do
+			if type(stats[field]) ~= "number" then
+				stats[field] = 0
+			end
+		end
+		local zones = if type(data.zonesUnlocked) == "table" then data.zonesUnlocked else {}
+		data.zonesUnlocked = zones
+		zones.pebble_cove = true
+		return data
+	end,
 }
 
 -- Runs all steps from the stored version to Schema.VERSION, then fills missing fields.

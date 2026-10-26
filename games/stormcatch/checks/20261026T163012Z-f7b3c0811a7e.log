@@ -1,0 +1,157 @@
+
+== Format (StyLua)
+
+== Lint (Selene)
+ERROR: There was an error generating a new Roblox standard library: error when getting API dump
+Using the cached one instead.
+Results:
+0 errors
+0 warnings
+0 parse errors
+
+== Sourcemap (Rojo)
+Created sourcemap at sourcemap.json
+
+== Types (luau-lsp, strict)
+[INFO] Loading definitions file: @roblox - .tools/globalTypes.d.luau
+[WARN] client does not allow didChangeWatchedFiles registration - automatic updating on sourcemap changes disabled
+[INFO] Loading Luau configuration from /home/user/Bloxtomation/games/stormcatch/project/.luaurc
+
+== Unit tests (Lune)
+
+Catch.spec.luau
+  ok    every species table sums to 1 and matches req. 5 within 0.01 percentage points
+  ok    200,000 rolls of the Sea Fog table match its odds (the server's pick function)
+  ok    ring mode and bite wait follow the weather; the storm fishes as Storm at the eye only
+  ok    size roll: clamp 0.5-3.0, mean 1.00, median about 0.97, about 4% at 1.5x or more (sheet §9.3)
+  ok    marks: Drizzled 20% of Showers catches, Misty 15% of Sea Fog, none in Clear or the storm
+  ok    value = base x size x mark x 1.14^Rod, nearest whole coin, at least 1
+  ok    the first catch pays 12 and makes the Rod affordable on the second catch, whatever it is
+  ok    ring steps by tier per mode (req. 3.4)
+  ok    a bite payload carries the tier but never the species, size or mark; fog has no ring yet
+
+Config.spec.luau
+  ok    species ids are unique, tiers exist, pools are known, weights and values are positive
+  ok    one free zone (Pebble Cove) and the layout uses it
+  ok    products and passes have unique keys; every id is 0 so nothing can be bought
+  ok    onboarding steps are numbered 1..n without gaps and use known guides
+  ok    client-to-server remotes all declare rate limits; the fishing limits are the brief's
+  ok    the weather timetable covers the whole cycle without gaps and names every spot
+
+Data.spec.luau
+  ok    new profiles are independent deep copies
+  ok    reconcile fills missing fields of old saves
+  ok    migration steps run in order and bump the version
+  ok    missing migration step and newer versions are refused
+  ok    schema check catches corrupted numbers
+  ok    migration 1 -> 2 adds the fishing stats and Pebble Cove, keeping existing values
+  ok    derived stats: the Rod multiplies coins by 1.14 per level; luck stays 1
+  ok    passes and boosts change nothing in the prototype (no paid luck, no coin multipliers)
+
+Economy.spec.luau
+  ok    Rod costs: 15 first, then 19, 25, 31 ... (round(15 x 1.28^L))
+  ok    the first Rod is bought from the second catch (first catch 12 + any catch >= 15)
+  ok    upgrade costs grow faster than their effect (natural slowdown)
+  ok    all upgrade costs are positive and increasing up to the max level
+  ok    each Rod level needs more catches than the last (cost grows faster than value)
+
+Format.spec.luau
+  ok    short formats small numbers without suffix
+  ok    short uses suffixes with three significant digits
+  ok    short never prints 1000K
+  ok    short handles negatives and NaN
+  ok    commas
+  ok    duration
+  ok    percent and oneIn
+
+NoPurchase.spec.luau
+  ok    every pass and product id is 0
+  ok    no source file can open a purchase prompt
+  ok    the Shop shows the Upgrades list only (no passes or Robux tab)
+
+Odds.spec.luau
+  ok    displayed probabilities sum to 1 for every weather table and luck level
+  ok    luck raises Rare-and-up odds and lowers common odds (Sea Fog's doubled weights)
+  ok    one million rolls match designed odds (server pick function, Showers table)
+  ok    pickAtLeast only returns the requested rarity or better
+  ok    tries for chance matches the closed form
+
+Pull.spec.luau
+  ok    landing time = 45 / (1 + 0.875 x helpers): 45 s solo, 12.4 s with 3, 10 s with 4
+  ok    the meter integrated over time: solo lands at 45 s, 3 steady helpers at 12.4 s
+  ok    active helpers: a tap counts for 1.0 s
+  ok    Charged chance: 25%, +5% per friend among the active helpers, capped at 50%
+  ok    helpers get 10% of the giant's value at their own Rod level, minted on top, 3 paid helps a storm
+  ok    the angler's payout is identical with or without helpers
+
+Remotes.spec.luau
+  ok    every remote used through Net is declared, and client-sent ones are rate limited
+  ok    every client-to-server remote has exactly one Net.handle on the server
+  ok    no raw remote API outside src/shared/Net.luau
+
+Ring.spec.luau
+  ok    marker angle runs clockwise from the start, once per lap
+  ok    allowance is min(ping, 0.25) + 0.06 and ignores junk pings
+  ok    a tap with the marker on the arc is good; off the arc is a miss
+  ok    the allowance accepts a tap that arrives late by up to the allowance
+  ok    taps before the ring starts never count; the arc wraps past 360
+  ok    the next arc lands 120-240 degrees ahead of the marker
+  ok    a landing tap counts on a flash only inside a flash window (0.8 s, with the allowance)
+
+SheetConfig.spec.luau
+  ok    species rows equal sheet §14 (tier, table, weight, base coins, base kg)
+  ok    bite waits equal sheet §3.2 / §14
+  ok    marks, size roll and scripted catches equal sheet §9.3, §9.4 and §14
+  ok    Stormborn, pull, helper share and Charged equal sheet §8 / §14 and brief req. 9
+  ok    Rod equals 15 / 1.28 / 1.14 / max 30 and coinsForStep4 = 15 (sheet §4, §14)
+  ok    ring modes, hook window, escape, tap spacing and latency allowance equal brief req. 3
+
+TwistLog.spec.luau
+  ok    segments merge when they continue, and totals add up
+  ok    window seconds exclude storm and forced time and clip to the window
+  ok    the twist window opens at max(join + 300 s, step 7)
+  ok    twistStats: per alias and pooled share, time-weighted coverage, catches by weather
+  ok    CSV has a header with every field the brief lists and one line per row
+
+Validate.spec.luau
+  ok    integerInRange rejects NaN, infinity, fractions, wrong types
+  ok    identifier accepts ids and rejects junk
+  ok    identifierList rejects sparse, oversized and duplicate lists
+  ok    rate limiter allows a burst then blocks, then refills
+
+WeatherSchedule.spec.luau
+  ok    cycle starts are clock-aligned at :00, :15, :30 and :45 UTC
+  ok    the same t gives the same state (pure, periodic, no hidden state)
+  ok    every timetable boundary matches the brief (start-inclusive, end-exclusive)
+  ok    arrivalsAfter lists exactly the front arrivals, in order
+  ok    every arrival is returned by arrivalsAfter at least 60 s before it happens
+  ok    coverage over cycleTime 180-900 is 0.2778 within 0.001
+  ok    cove_dock is clear or storm at every t
+  ok    the storm runs 0-180 s of every cycle and stormAt points at the next one outside it
+  ok    the longest wait for rain from any join second is 260 s (GDD §13.2)
+  ok    QA overrides: forced spot weather beats a forced storm, which beats the timetable and offset
+
+WorldLayout.spec.luau
+  ok    three spots with the brief's stands, ripples and flags
+  ok    every stand casts within 28 studs (root 3 studs above the deck): 11.1, 18.8, 16.6
+  ok    the Dock Ripple sits 10 studs ahead of spawn and 5 to the left; spawn faces north
+  ok    walks: nearest neighbour within 160 studs (10 s) and every pair within 240 (15 s)
+  ok    exactly one sheltered spot (cove_dock), and no callable spot is sheltered
+  ok    each stand and ripple lies in its own cell and nearest to its own cell centre
+  ok    front visuals keep clear of the Dock Ripple (no drift leg within 52 studs; fog edge 14 or more)
+  ok    part, material and light budgets: 400 parts, SmoothPlastic and Neon only, 3 lights
+  ok    the bridge sign reads Lantern Reef with no price
+
+93 passed, 0 failed
+
+== Config gate
+note     no community group configured (Config/Game.groupId = 0)
+note     no QA user ids: twistStats and exportLog work in Studio only until the human adds theirs
+
+0 errors, 0 release blockers, 2 notes: OK
+
+== Build (Rojo)
+Building project 'ReelTheStorm'
+Built project to build.rbxl
+
+All checks passed.

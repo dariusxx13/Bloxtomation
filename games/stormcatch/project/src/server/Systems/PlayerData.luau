@@ -152,8 +152,6 @@ local function newSession(): Types.SessionState
 	return {
 		passes = {},
 		serverLuckUntil = 0,
-		socialBonus = 0,
-		playtimeClaimed = {},
 		sessionStart = os.time(),
 		joinedAt = os.time(),
 		randomItemsRestricted = true, -- safe default until Policy loads

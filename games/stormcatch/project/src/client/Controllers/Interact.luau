@@ -1,146 +1,153 @@
 --!strict
--- Interact: the core action on the client. Tap/click a node to hit it (or walk to it if far),
--- predicted feedback instantly (pop, floating number, sound), and the Auto Hit pass loop.
--- The server decides the real reward; this file only requests and decorates.
+-- Interact: the fishing spots on the client. Tapping a ripple walks the avatar to that spot's CastPoint (the
+-- stand), never to the ripple in the water (prototype brief req. 3.1; world plan §9 rule 6): a path that
+-- treats water as impassable, with a straight MoveTo as the fallback. Spot positions come from
+-- Config/WorldLayout (pure data), so nothing waits on streaming; ripples get a soft bob here.
+-- Public: nearestSpot(maxDistance?), spotPosition(id), castPoint(id), walkTo(id), rootPart(), spots().
 
 local CollectionService = game:GetService("CollectionService")
+local PathfindingService = game:GetService("PathfindingService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 
 local Shared = ReplicatedStorage.Shared
-local Economy = require(Shared.Config.Economy)
-local Format = require(Shared.Util.Format)
-local Net = require(Shared.Net)
-local Stats = require(Shared.Util.Stats)
+local WorldLayout = require(Shared.Config.WorldLayout)
 
 local UI = script.Parent.Parent.UI
-local Builder = require(UI.Builder)
 local Panels = require(UI.Panels)
-local Root = require(UI.Root)
-local Sounds = require(UI.Sounds)
-local Theme = require(UI.Theme)
-
-local State = require(script.Parent.State)
-local Toasts = require(script.Parent.Toasts)
 
 local Interact = {}
 
 local NODE_TAG = "ResourceNode"
-local RAY_DISTANCE = 250
-local FAR_TOAST_COOLDOWN = 3
+local RAY_DISTANCE = 300
+local ARRIVE_DISTANCE = 2.5
+local BOB_HEIGHT = 0.15
+local BOB_SECONDS = 2.4
 
 local player = Players.LocalPlayer
-local nodes: { [string]: BasePart } = {}
-local lastHit = 0
-local lastFarToast = 0
-local autoEnabled = true
-local autoButton: TextButton
+local ripples: { [string]: BasePart } = {}
+local baseHeights: { [BasePart]: number } = {}
+local walkToken = 0
 
-local function rootPart(): BasePart?
+local spotById: { [string]: WorldLayout.SpotSpec } = {}
+for _, spec in WorldLayout.spots do
+	spotById[spec.id] = spec
+end
+
+local function vec(values: { number }): Vector3
+	return Vector3.new(values[1], values[2], values[3])
+end
+
+function Interact.rootPart(): BasePart?
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart")
 	return if root and root:IsA("BasePart") then root else nil
 end
 
-local function canUseNode(node: BasePart): boolean
-	local data = State.data
-	local zoneId = node:GetAttribute("ZoneId")
-	return data ~= nil
-		and type(zoneId) == "string"
-		and data.zonesUnlocked[zoneId] == true
-		and node:GetAttribute("Broken") ~= true
+function Interact.spots(): { WorldLayout.SpotSpec }
+	return WorldLayout.spots
 end
 
-local function floatingText(position: Vector3, text: string, color: Color3)
-	if Panels.reduceMotion then
+function Interact.spotPosition(spotId: string): Vector3?
+	local spec = spotById[spotId]
+	return if spec then vec(spec.ripple) else nil
+end
+
+function Interact.castPoint(spotId: string): Vector3?
+	local spec = spotById[spotId]
+	return if spec then vec(spec.stand) else nil
+end
+
+function Interact.spotName(spotId: string): string
+	local spec = spotById[spotId]
+	return if spec then spec.name else spotId
+end
+
+-- The closest spot to the avatar (by ripple centre), optionally within `maxDistance` studs.
+function Interact.nearestSpot(maxDistance: number?): (string?, number)
+	local root = Interact.rootPart()
+	if not root then
+		return nil, math.huge
+	end
+	local best: string? = nil
+	local bestDistance = maxDistance or math.huge
+	for _, spec in WorldLayout.spots do
+		local distance = (root.Position - vec(spec.ripple)).Magnitude
+		if distance <= bestDistance then
+			best = spec.id
+			bestDistance = distance
+		end
+	end
+	return best, bestDistance
+end
+
+local function humanoid(): Humanoid?
+	local character = player.Character
+	return character and character:FindFirstChildOfClass("Humanoid")
+end
+
+-- Walks to the spot's CastPoint along a path that avoids water; falls back to a straight MoveTo.
+function Interact.walkTo(spotId: string)
+	local target = Interact.castPoint(spotId)
+	local root = Interact.rootPart()
+	local hum = humanoid()
+	if not target or not root or not hum then
 		return
 	end
-	local anchor: Part = Builder.make("Part", {
-		Anchored = true,
-		CanCollide = false,
-		CanQuery = false,
-		CanTouch = false,
-		Transparency = 1,
-		Size = Vector3.one,
-		Position = position + Vector3.new(0, 4, 0),
-		Parent = Workspace,
-	})
-	local billboard: BillboardGui = Builder.make("BillboardGui", {
-		Size = UDim2.fromOffset(160, 50),
-		AlwaysOnTop = true,
-		MaxDistance = 120,
-		Parent = anchor,
-	})
-	local label = Builder.label(
-		{ Text = text, TextColor3 = color, Size = UDim2.fromScale(1, 1), Parent = billboard },
-		34
-	)
-	TweenService:Create(anchor, Theme.motion.float, { Position = anchor.Position + Vector3.new(0, 4, 0) })
-		:Play()
-	TweenService:Create(label, Theme.motion.float, { TextTransparency = 1 }):Play()
-	task.delay(0.85, function()
-		anchor:Destroy()
+	if
+		(Vector2.new(root.Position.X, root.Position.Z) - Vector2.new(target.X, target.Z)).Magnitude
+		<= ARRIVE_DISTANCE
+	then
+		return
+	end
+	walkToken += 1
+	local token = walkToken
+	local walker: Humanoid = hum
+	task.spawn(function()
+		local path = PathfindingService:CreatePath({
+			AgentRadius = 2,
+			AgentHeight = 5,
+			AgentCanJump = true,
+			Costs = { Water = math.huge },
+		})
+		local ok = pcall(function()
+			path:ComputeAsync(root.Position, target)
+		end)
+		if not ok or path.Status ~= Enum.PathStatus.Success then
+			walker:MoveTo(target)
+			return
+		end
+		for _, waypoint in path:GetWaypoints() do
+			if token ~= walkToken or walker.Health <= 0 then
+				return
+			end
+			if waypoint.Action == Enum.PathWaypointAction.Jump then
+				walker.Jump = true
+			end
+			walker:MoveTo(waypoint.Position)
+			local reached = walker.MoveToFinished:Wait()
+			if not reached then
+				walker:MoveTo(target)
+				return
+			end
+		end
 	end)
 end
 
-local function pop(node: BasePart)
-	if Panels.reduceMotion then
-		return
-	end
-	local original = node:GetAttribute("BaseSize")
-	if typeof(original) ~= "Vector3" then
-		node:SetAttribute("BaseSize", node.Size)
-		original = node.Size
-	end
-	local base = original :: Vector3
-	node.Size = base * 0.86
-	TweenService:Create(node, Theme.motion.pop, { Size = base }):Play()
+-- Cancels a tap-to-walk when the player steers by hand.
+function Interact.cancelWalk()
+	walkToken += 1
 end
 
--- Requests a hit; returns true if the request was sent.
-function Interact.tryHit(node: BasePart, fromTap: boolean): boolean
-	local nodeId = node:GetAttribute("NodeId")
-	local root = rootPart()
-	local derived = State.derived
-	if type(nodeId) ~= "string" or not root or not derived or not canUseNode(node) then
-		return false
-	end
-	local now = os.clock()
-	if now - lastHit < Economy.hitCooldownSeconds then
-		return false
-	end
-	if (root.Position - node.Position).Magnitude > Economy.hitRange then
-		if fromTap then
-			local character = player.Character
-			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-			if humanoid then
-				humanoid:MoveTo(node.Position)
-			end
-			if now - lastFarToast > FAR_TOAST_COOLDOWN then
-				lastFarToast = now
-				Toasts.show("Walking closer...", "info")
-			end
-		end
-		return false
-	end
-	lastHit = now
-	Net.fire("Hit", nodeId)
-	local zoneId = node:GetAttribute("ZoneId") :: string
-	local predicted = derived.coinsPerHit * Stats.zoneMultiplier(zoneId)
-	pop(node)
-	floatingText(node.Position, `+{Format.short(predicted)}`, Theme.colors.coins)
-	Sounds.play("hit")
-	return true
-end
-
-local function nodeFromInstance(instance: Instance?): BasePart?
+local function spotFromInstance(instance: Instance?): string?
 	local current = instance
 	while current and current ~= Workspace do
 		if current:IsA("BasePart") and CollectionService:HasTag(current, NODE_TAG) then
-			return current
+			local id = current:GetAttribute("NodeId")
+			return if type(id) == "string" then id else nil
 		end
 		current = current.Parent
 	end
@@ -164,119 +171,58 @@ local function onInput(input: InputObject, gameProcessed: boolean)
 	local params = RaycastParams.new()
 	params.FilterType = Enum.RaycastFilterType.Exclude
 	params.FilterDescendantsInstances = if player.Character then { player.Character } else {}
+	params.IgnoreWater = true
 	local result = Workspace:Raycast(ray.Origin, ray.Direction * RAY_DISTANCE, params)
-	local node = result and nodeFromInstance(result.Instance)
-	if node then
-		Interact.tryHit(node, true)
+	local spotId = result and spotFromInstance(result.Instance)
+	if spotId then
+		Interact.walkTo(spotId)
 	end
 end
 
--- Closest node the player may hit (unlocked zone, not broken), optionally within `maxDistance`.
-function Interact.nearestUsableNode(maxDistance: number?): BasePart?
-	local root = rootPart()
-	if not root then
-		return nil
-	end
-	local best: BasePart? = nil
-	local bestDistance = maxDistance or math.huge
-	for _, node in nodes do
-		if canUseNode(node) then
-			local distance = (root.Position - node.Position).Magnitude
-			if distance < bestDistance then
-				best = node
-				bestDistance = distance
-			end
-		end
-	end
-	return best
-end
-
-local function updateNodeLook(node: BasePart)
-	node.Transparency = if node:GetAttribute("Broken") == true then 0.85 else 0
-end
-
-local function addNode(instance: Instance)
+local function addRipple(instance: Instance)
 	if not instance:IsA("BasePart") then
 		return
 	end
-	local nodeId = instance:GetAttribute("NodeId")
-	if type(nodeId) ~= "string" then
-		return
-	end
-	nodes[nodeId] = instance
-	updateNodeLook(instance)
-	instance:GetAttributeChangedSignal("Broken"):Connect(function()
-		updateNodeLook(instance)
-		if instance:GetAttribute("Broken") == true then
-			Sounds.play("reward", 1.4)
-		end
-	end)
-end
-
-local function removeNode(instance: Instance)
-	local nodeId = instance:GetAttribute("NodeId")
-	if type(nodeId) == "string" and nodes[nodeId] == instance then
-		nodes[nodeId] = nil
+	local id = instance:GetAttribute("NodeId")
+	if type(id) == "string" then
+		ripples[id] = instance
+		baseHeights[instance] = instance.Position.Y
 	end
 end
 
-local function refreshAutoButton()
-	local session = State.session
-	local owned = session ~= nil and session.passes.autoHit == true
-	autoButton.Visible = owned
-	autoButton.Text = if autoEnabled then "Auto: ON" else "Auto: OFF"
-	autoButton.BackgroundColor3 = if autoEnabled then Theme.colors.good else Theme.colors.disabled
+local function removeRipple(instance: Instance)
+	local id = instance:GetAttribute("NodeId")
+	if type(id) == "string" and ripples[id] == instance then
+		ripples[id] = nil
+	end
+	if instance:IsA("BasePart") then
+		baseHeights[instance] = nil
+	end
 end
 
-function Interact.init()
-	autoButton = Builder.button({
-		text = "Auto: ON",
-		color = Theme.colors.good,
-		size = UDim2.fromOffset(170, Theme.touchTarget),
-		position = UDim2.new(1, -16, 1, -16),
-		anchor = Vector2.new(1, 1),
-		parent = Root.layer("hud"),
-		onClick = function()
-			autoEnabled = not autoEnabled
-			refreshAutoButton()
-		end,
-	})
-	autoButton.Visible = false
-end
+function Interact.init() end
 
 function Interact.start()
 	for _, instance in CollectionService:GetTagged(NODE_TAG) do
-		addNode(instance)
+		addRipple(instance)
 	end
-	CollectionService:GetInstanceAddedSignal(NODE_TAG):Connect(addNode)
-	CollectionService:GetInstanceRemovedSignal(NODE_TAG):Connect(removeNode)
+	CollectionService:GetInstanceAddedSignal(NODE_TAG):Connect(addRipple)
+	CollectionService:GetInstanceRemovedSignal(NODE_TAG):Connect(removeRipple)
 	UserInputService.InputBegan:Connect(onInput)
-
-	Net.on("HitEffect", function(nodeId: any, broke: any)
-		local node = if type(nodeId) == "string" then nodes[nodeId] else nil
-		if node then
-			pop(node)
-			if broke == true then
-				Sounds.play("reward", 1.4)
-			end
+	-- A hand on the thumbstick or keys cancels the walk.
+	UserInputService.InputBegan:Connect(function(input: InputObject)
+		if input.KeyCode == Enum.KeyCode.W or input.KeyCode == Enum.KeyCode.Thumbstick1 then
+			Interact.cancelWalk()
 		end
 	end)
-
-	State.Changed:Connect(function(key: string)
-		if key == "*" or key == "session.passes" then
-			refreshAutoButton()
-		end
-	end)
-
-	task.spawn(function()
-		while true do
-			task.wait(Economy.autoHitInterval)
-			local session = State.session
-			if autoEnabled and session and session.passes.autoHit then
-				local node = Interact.nearestUsableNode(Economy.hitRange)
-				if node then
-					Interact.tryHit(node, false)
-				end
+	-- The soft bob of every ripple (client-only cosmetic).
+	RunService.RenderStepped:Connect(function()
+		local offset = math.sin(os.clock() * 2 * math.pi / BOB_SECONDS) * BOB_HEIGHT
+		for _, ripple in ripples do
+			local base = baseHeights[ripple]
+			if base and ripple.Parent then
+				local position = ripple.Position
+				ripple.Position = Vector3.new(position.X, base + offset, position.Z)
 			end
 		end
 	end)

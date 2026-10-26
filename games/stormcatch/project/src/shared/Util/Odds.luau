@@ -1,38 +1,35 @@
 --!strict
 -- Drop table math: effective weights with luck, displayed probabilities, weighted picks and pity.
--- Pure module. The server rolls with these functions and the client displays odds with the SAME functions,
--- so displayed odds always match real odds (Roblox paid random items policy).
+-- Pure module. The server rolls with these functions and any odds display uses the SAME functions, so shown
+-- odds always match real odds (Roblox paid random items policy). Used by Util/Catch for the species tables.
 
-local Eggs = require("../Config/Eggs")
-local Pets = require("../Config/Pets")
+local Rarities = require("../Config/Rarities")
 
 local Odds = {}
 
+export type Entry = { kind: string, weight: number, rarity: string }
 export type WeightedOutcome = { kind: string, weight: number, probability: number, rarity: string }
 
 local function rarityOrder(rarity: string): number
-	local def = Pets.rarityById[rarity]
+	local def = Rarities.byId[rarity]
 	return if def then def.order else 0
 end
 
 -- Applies luck by multiplying the weights of tiers marked `luckApplies`, then renormalizes.
-function Odds.effective(egg: Eggs.EggDef, luck: number): { WeightedOutcome }
+function Odds.effective(entries: { Entry }, luck: number): { WeightedOutcome }
 	local outcomes: { WeightedOutcome } = {}
 	local total = 0
-	for _, entry in egg.entries do
-		local pet = Pets.byKind[entry.kind]
-		assert(pet, `unknown pet kind {entry.kind} in egg {egg.id}`)
-		local rarity = Pets.rarityById[pet.rarity]
+	for _, entry in entries do
+		local rarity = Rarities.byId[entry.rarity]
+		assert(rarity, `unknown rarity {entry.rarity} for {entry.kind}`)
 		local weight = entry.weight
-		if rarity and rarity.luckApplies then
+		if rarity.luckApplies then
 			weight *= math.max(1, luck)
 		end
 		total += weight
-		table.insert(
-			outcomes,
-			{ kind = entry.kind, weight = weight, probability = 0, rarity = pet.rarity :: string }
-		)
+		table.insert(outcomes, { kind = entry.kind, weight = weight, probability = 0, rarity = entry.rarity })
 	end
+	assert(total > 0, "drop table has no weight")
 	for _, outcome in outcomes do
 		outcome.probability = outcome.weight / total
 	end
@@ -51,7 +48,7 @@ function Odds.pick(outcomes: { WeightedOutcome }, roll: number): WeightedOutcome
 	return outcomes[#outcomes] -- floating point safety net
 end
 
--- Picks among outcomes at or above a rarity (used when hard pity triggers).
+-- Picks among outcomes at or above a rarity (for a hard pity).
 function Odds.pickAtLeast(outcomes: { WeightedOutcome }, minRarity: string, roll: number): WeightedOutcome
 	local minOrder = rarityOrder(minRarity)
 	local filtered: { WeightedOutcome } = {}

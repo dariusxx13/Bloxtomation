@@ -12,14 +12,12 @@ local ORDER = {
 	"Toasts",
 	"HUD",
 	"Shop",
-	"PetsPanel",
-	"RebirthPanel",
-	"RewardsPanel",
 	"SettingsPanel",
-	"Hatch",
-	"Gates",
 	"Interact",
-	"PetFollow",
+	"Weather",
+	"SkyDial",
+	"StormHUD",
+	"Reel",
 	"Guide",
 }
 

@@ -1,62 +1,51 @@
 --!strict
--- Pacing regression tests: they fail if a config change breaks the vault's pacing targets.
+-- Rod pacing regression tests (economy sheet v2 §4 and §14): they fail if a config change breaks the
+-- prototype's first-session targets.
 local TestKit = require("./TestKit")
+local Catch = require("../src/shared/Util/Catch")
 local EconomyMath = require("../src/shared/Util/EconomyMath")
-local Economy = require("../src/shared/Config/Economy")
+local Fishing = require("../src/shared/Config/Fishing")
 local Upgrades = require("../src/shared/Config/Upgrades")
 
 return function(test: TestKit.Test)
-	local casual = EconomyMath.simulatePacing(Economy.playerModels.casual.hitsPerSecond, 240)
-	local typical = EconomyMath.simulatePacing(Economy.playerModels.typical.hitsPerSecond, 240)
+	local rod = EconomyMath.upgradeDef("rod")
+	assert(rod, "rod missing")
 
-	test("first upgrade under one minute", function()
-		TestKit.truthy(
-			casual.firstUpgradeSeconds > 0 and casual.firstUpgradeSeconds < 60,
-			tostring(casual.firstUpgradeSeconds)
-		)
+	test("Rod costs: 15 first, then 19, 25, 31 ... (round(15 x 1.28^L))", function()
+		TestKit.equal(EconomyMath.upgradeCost(rod, 0), 15)
+		TestKit.equal(EconomyMath.upgradeCost(rod, 1), 19)
+		TestKit.equal(EconomyMath.upgradeCost(rod, 2), 25)
+		TestKit.equal(EconomyMath.upgradeCost(rod, 3), 31)
+		TestKit.equal(EconomyMath.upgradeCost(rod, 29), math.floor(15 * 1.28 ^ 29 + 0.5))
 	end)
 
-	test("zone 2 reached at 10-15 minutes by a casual free player (no pets)", function()
-		local minutes = casual.zoneMinutes[1]
-		TestKit.truthy(minutes ~= nil and minutes >= 8 and minutes <= 16, `zone 2 at {minutes}`)
-	end)
-
-	test("zone 3 within 25-50 minutes for a casual player", function()
-		local minutes = casual.zoneMinutes[2]
-		TestKit.truthy(minutes ~= nil and minutes >= 25 and minutes <= 50, `zone 3 at {minutes}`)
-	end)
-
-	test("each zone takes longer than the previous one", function()
-		local previousGap = 0
-		local previous = 0
-		for _, minutes in typical.zoneMinutes do
-			local gap = minutes - previous
-			TestKit.truthy(gap >= previousGap * 0.5, "zone gaps should not collapse")
-			previousGap = gap
-			previous = minutes
-		end
-	end)
-
-	test("first rebirth affordable between 20 and 90 minutes", function()
-		local minutes = casual.rebirthMinutes
-		TestKit.truthy(minutes ~= nil and minutes >= 20 and minutes <= 90, `rebirth at {minutes}`)
+	test("the first Rod is bought from the second catch (first catch 12 + any catch >= 15)", function()
+		local second = Catch.value(5, 0.5, nil, 0) -- the cheapest possible second catch
+		TestKit.truthy(Fishing.firstCatch.coins + second >= EconomyMath.upgradeCost(rod, 0))
 	end)
 
 	test("upgrade costs grow faster than their effect (natural slowdown)", function()
-		local power = EconomyMath.upgradeDef("power")
-		assert(power, "power missing")
-		TestKit.truthy(power.costGrowth > power.effect, "r must exceed g")
-		TestKit.truthy(power.costGrowth / power.effect < 1.2, "slowdown too steep")
+		TestKit.truthy(rod.costGrowth > rod.effect, "r must exceed g")
+		TestKit.truthy(rod.costGrowth / rod.effect < 1.2, "slowdown too steep")
 	end)
 
-	test("all upgrade costs are positive and increasing", function()
+	test("all upgrade costs are positive and increasing up to the max level", function()
 		for _, def in Upgrades do
 			local last = 0
-			for level = 0, math.min(def.maxLevel, 50) do
+			for level = 0, def.maxLevel - 1 do
 				local cost = EconomyMath.upgradeCost(def, level)
 				TestKit.truthy(cost > last, `{def.id} level {level}`)
 				last = cost
 			end
+		end
+	end)
+
+	test("each Rod level needs more catches than the last (cost grows faster than value)", function()
+		local previous = 0
+		for level = 0, rod.maxLevel - 1 do
+			local catches = EconomyMath.upgradeCost(rod, level) / Catch.expectedClearValue(level)
+			TestKit.truthy(catches > previous, `level {level}: {catches} catches`)
+			previous = catches
 		end
 	end)
 end

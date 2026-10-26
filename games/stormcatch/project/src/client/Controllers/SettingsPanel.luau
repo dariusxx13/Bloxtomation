@@ -22,28 +22,25 @@ local Toasts = require(script.Parent.Toasts)
 
 local SettingsPanel = {}
 
-type SettingKey = "music" | "sfx" | "reduceMotion" | "hideOthersPets"
+type SettingKey = "music" | "sfx" | "reduceMotion"
 
 local OPTIONS: { { key: SettingKey, text: string } } = {
 	{ key = "music", text = "Music" },
 	{ key = "sfx", text = "Sound effects" },
 	{ key = "reduceMotion", text = "Reduce motion" },
-	{ key = "hideOthersPets", text = "Hide other players' pets" },
 }
 
+-- Buttons for the QA commands (prototype brief req. 11). The server re-checks every command.
 local QA_COMMANDS: { { name: string, text: string, arg: any } } = {
 	{ name = "state", text = "Show state" },
-	{ name = "addCoins", text = "+Coins", arg = 1e6 },
-	{ name = "addGems", text = "+Gems", arg = 1000 },
-	{ name = "unlockZones", text = "Unlock zones" },
-	{ name = "rebirthReady", text = "Rebirth ready" },
-	{ name = "resetDaily", text = "Daily ready" },
-	{ name = "skipPlaytime", text = "+60 min" },
-	{ name = "setRestricted", text = "Restricted ON", arg = true },
-	{ name = "setRestricted", text = "Restricted OFF", arg = false },
-	{ name = "simulateEgg", text = "Sim Meadow Egg", arg = "meadow_egg" },
-	{ name = "grantPass", text = "Pass: Triple Hatch", arg = "tripleHatch" },
-	{ name = "grantPass", text = "Pass: Auto Hit", arg = "autoHit" },
+	{ name = "addCoins", text = "+100 Coins", arg = 100 },
+	{ name = "forceWeather", text = "Shallows: Rain 120s", arg = "cove_shallows showers 120" },
+	{ name = "forceWeather", text = "Shallows: Fog 120s", arg = "cove_shallows fog 120" },
+	{ name = "forceWeather", text = "Shallows: Clear 120s", arg = "cove_shallows clear 120" },
+	{ name = "forceStorm", text = "Storm now" },
+	{ name = "forceStormborn", text = "Next eye bite: giant" },
+	{ name = "twistStats", text = "Twist stats" },
+	{ name = "exportLog", text = "Export log" },
 	{ name = "setOnboarding", text = "Restart guide", arg = 0 },
 	{ name = "wipeData", text = "Wipe my data" },
 }
@@ -130,8 +127,13 @@ function SettingsPanel.init()
 				parent = grid,
 				onClick = function()
 					local result = Net.invoke("QACommand", command.name, command.arg)
+					local text = if type(result.text) == "string" then result.text else ""
+					if #text > 120 then
+						print(`[QA] {command.name}: {text}`)
+						text = `{command.name}: done (full text in the output)`
+					end
 					Toasts.show(
-						result.text or (if result.ok then "Done" else "Failed"),
+						if text ~= "" then text else (if result.ok then "Done" else "Failed"),
 						if result.ok then "info" else "error"
 					)
 				end,

@@ -1,11 +1,14 @@
 --!strict
--- HUD: currencies (with count-up), active boosts, and the menu buttons. Everything is driven by State.
--- Layout keeps the thumb zones clear on phones: menu on the left edge, currencies top-left.
+-- HUD: the coin counter (count-up and bump), the "Better Rod" bar, and the Shop and Settings buttons.
+-- Progressive reveal (GDD v3.1 §3.2): spawn shows the Cast button only; the coin counter and Rod bar appear
+-- with the first catch; the Shop button when the Rod is affordable (or onboarding reaches step 4). Settings is
+-- always there (sound, reduce motion and, in Studio, the QA tools). Everything is driven by State.
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 
 local Shared = ReplicatedStorage.Shared
+local EconomyMath = require(Shared.Util.EconomyMath)
 local Format = require(Shared.Util.Format)
 
 local UI = script.Parent.Parent.UI
@@ -20,100 +23,124 @@ local HUD = {}
 
 HUD.buttons = {} :: { [string]: TextButton }
 
-local MENU = {
-	{ panel = "shop", text = "Shop", color = Theme.colors.accent },
-	{ panel = "pets", text = "Pets", color = Theme.colors.info },
-	{ panel = "rebirth", text = "Rebirth", color = Color3.fromRGB(190, 110, 255) },
-	{ panel = "daily", text = "Rewards", color = Theme.colors.good },
-	{ panel = "settings", text = "Settings", color = Theme.colors.panelLight },
-}
-
-local BOOST_NAMES: { [string]: string } =
-	{ coins2x = "2x Coins", luck2x = "2x Luck", serverLuck = "Server Luck" }
-
-local badges: { [string]: Frame } = {}
+local coinsPill: Frame
 local coinsValue: NumberValue
-local gemsValue: NumberValue
-local boostLabel: TextLabel
-
-local function pill(parent: Instance, position: UDim2, color: Color3, symbol: string): TextLabel
-	local frame = Builder.card({
-		Size = UDim2.fromOffset(230, 52),
-		Position = position,
-		BackgroundColor3 = Theme.colors.panel,
-		Parent = parent,
-	})
-	local icon = Builder.make("Frame", {
-		Size = UDim2.fromOffset(40, 40),
-		Position = UDim2.fromOffset(6, 6),
-		BackgroundColor3 = color,
-		Parent = frame,
-	}, { Builder.corner(UDim.new(1, 0)), Builder.stroke(2) })
-	Builder.label({ Text = symbol, Size = UDim2.fromScale(1, 1), Parent = icon }, 26)
-	return Builder.label({
-		Text = "0",
-		Size = UDim2.new(1, -60, 1, -8),
-		Position = UDim2.fromOffset(54, 4),
-		TextXAlignment = Enum.TextXAlignment.Left,
-		Parent = frame,
-	}, 32)
-end
+local coinsScale: UIScale
+local rodBar: Frame
+local rodFill: Frame
+local rodText: TextLabel
+local menu: Frame
 
 local function countUp(value: NumberValue, target: number)
 	TweenService:Create(value, Theme.motion.countUp, { Value = target }):Play()
 end
 
-function HUD.setBadge(panel: string, visible: boolean)
-	local badge = badges[panel]
-	if badge then
-		badge.Visible = visible
-	end
+-- The coin counter, the target the "+N" popups fly to.
+function HUD.coinTarget(): GuiObject
+	return coinsPill
 end
 
-local function refreshBoosts()
-	local parts: { string } = {}
-	for _, boost in State.activeBoosts() do
-		table.insert(parts, `{BOOST_NAMES[boost.id] or boost.id} {Format.duration(boost.secondsLeft)}`)
+-- Juice layer 4: the counter scales 1.0 -> 1.15 -> 1.0.
+function HUD.bumpCoins()
+	coinsScale.Scale = 1.15
+	TweenService:Create(coinsScale, Theme.motion.pop, { Scale = 1 }):Play()
+end
+
+local function refresh()
+	local data = State.data
+	if not data then
+		return
 	end
-	boostLabel.Text = table.concat(parts, "   ")
-	boostLabel.Visible = #parts > 0
+	local caught = data.stats.catches > 0 or data.coins > 0
+	coinsPill.Visible = caught
+	rodBar.Visible = caught
+	local rod = EconomyMath.upgradeDef("rod")
+	local level = data.upgrades.rod or 0
+	if rod then
+		if level >= rod.maxLevel then
+			rodText.Text = "Rod MAX"
+			rodFill.Size = UDim2.fromScale(1, 1)
+		else
+			local cost = EconomyMath.upgradeCost(rod, level)
+			local share = math.clamp(data.coins / cost, 0, 1)
+			rodText.Text = `Better Rod  {Format.short(math.min(data.coins, cost))}/{Format.short(cost)}`
+			TweenService:Create(rodFill, Theme.motion.fast, { Size = UDim2.fromScale(share, 1) }):Play()
+			rodFill.BackgroundColor3 = if share >= 1 then Theme.colors.good else Theme.colors.accent
+		end
+		local affordable = level < rod.maxLevel and data.coins >= EconomyMath.upgradeCost(rod, level)
+		HUD.buttons.shop.Visible = affordable or level > 0 or data.onboardingStep >= 4
+	end
 end
 
 function HUD.init()
 	local layer = Root.layer("hud")
 
-	local coinsLabel = pill(layer, UDim2.fromOffset(16, 16), Theme.colors.coins, "C")
-	local gemsLabel = pill(layer, UDim2.fromOffset(16, 76), Theme.colors.gems, "G")
-	coinsValue = Builder.make("NumberValue", { Parent = coinsLabel })
-	gemsValue = Builder.make("NumberValue", { Parent = gemsLabel })
-	coinsValue.Changed:Connect(function(value: number)
-		coinsLabel.Text = Format.short(value)
-	end)
-	gemsValue.Changed:Connect(function(value: number)
-		gemsLabel.Text = Format.short(value)
-	end)
-
-	boostLabel = Builder.label({
-		Name = "Boosts",
-		Text = "",
-		Size = UDim2.fromOffset(420, 30),
-		Position = UDim2.fromOffset(18, 134),
-		TextXAlignment = Enum.TextXAlignment.Left,
-		TextColor3 = Theme.colors.accent,
+	coinsPill = Builder.card({
+		Name = "Coins",
+		Size = UDim2.fromOffset(230, 52),
+		Position = UDim2.fromOffset(16, 16),
+		BackgroundColor3 = Theme.colors.panel,
 		Visible = false,
 		Parent = layer,
-	}, 22)
+	})
+	coinsScale = Builder.make("UIScale", { Parent = coinsPill })
+	local icon = Builder.make("Frame", {
+		Size = UDim2.fromOffset(40, 40),
+		Position = UDim2.fromOffset(6, 6),
+		BackgroundColor3 = Theme.colors.coins,
+		Parent = coinsPill,
+	}, { Builder.corner(UDim.new(1, 0)), Builder.stroke(2) })
+	Builder.label({ Text = "C", Size = UDim2.fromScale(1, 1), Parent = icon }, 26)
+	local coinsLabel = Builder.label({
+		Text = "0",
+		Size = UDim2.new(1, -60, 1, -8),
+		Position = UDim2.fromOffset(54, 4),
+		TextXAlignment = Enum.TextXAlignment.Left,
+		Parent = coinsPill,
+	}, 32)
+	coinsValue = Builder.make("NumberValue", { Parent = coinsLabel })
+	coinsValue.Changed:Connect(function(value: number)
+		coinsLabel.Text = Format.short(math.floor(value + 0.5))
+	end)
 
-	local menu = Builder.make("Frame", {
+	rodBar = Builder.card({
+		Name = "RodBar",
+		Size = UDim2.fromOffset(230, 30),
+		Position = UDim2.fromOffset(16, 74),
+		BackgroundColor3 = Theme.colors.panel,
+		ClipsDescendants = true,
+		Visible = false,
+		Parent = layer,
+	})
+	rodFill = Builder.make("Frame", {
+		Name = "Fill",
+		BackgroundColor3 = Theme.colors.accent,
+		BackgroundTransparency = 0.25,
+		BorderSizePixel = 0,
+		Size = UDim2.fromScale(0, 1),
+		Parent = rodBar,
+	}, { Builder.corner() })
+	rodText = Builder.label({
+		Text = "Better Rod",
+		Size = UDim2.new(1, -12, 1, -4),
+		Position = UDim2.fromOffset(6, 2),
+		ZIndex = 2,
+		Parent = rodBar,
+	}, 20)
+
+	menu = Builder.make("Frame", {
 		Name = "Menu",
 		BackgroundTransparency = 1,
-		AnchorPoint = Vector2.new(0, 0.5),
-		Position = UDim2.new(0, 16, 0.55, 0),
-		Size = UDim2.fromOffset(150, (Theme.touchTarget + 10) * #MENU),
+		Position = UDim2.fromOffset(16, 116),
+		Size = UDim2.fromOffset(150, (Theme.touchTarget + 10) * 2),
 		Parent = layer,
 	}, { Builder.list(Enum.FillDirection.Vertical, 10) })
-	for index, entry in MENU do
-		local button = Builder.button({
+	local entries = {
+		{ panel = "shop", text = "Shop", color = Theme.colors.accent },
+		{ panel = "settings", text = "Settings", color = Theme.colors.panelLight },
+	}
+	for index, entry in entries do
+		HUD.buttons[entry.panel] = Builder.button({
 			text = entry.text,
 			color = entry.color,
 			size = UDim2.fromOffset(150, Theme.touchTarget),
@@ -123,17 +150,8 @@ function HUD.init()
 				Panels.toggle(entry.panel)
 			end,
 		})
-		HUD.buttons[entry.panel] = button
-		badges[entry.panel] = Builder.make("Frame", {
-			Name = "Badge",
-			Size = UDim2.fromOffset(22, 22),
-			Position = UDim2.new(1, -12, 0, -8),
-			BackgroundColor3 = Theme.colors.bad,
-			Visible = false,
-			ZIndex = 3,
-			Parent = button,
-		}, { Builder.corner(UDim.new(1, 0)), Builder.stroke(2) })
 	end
+	HUD.buttons.shop.Visible = false
 end
 
 function HUD.start()
@@ -145,19 +163,8 @@ function HUD.start()
 		if key == "*" or key == "coins" then
 			countUp(coinsValue, data.coins)
 		end
-		if key == "*" or key == "gems" then
-			countUp(gemsValue, data.gems)
-		end
-		if key == "*" or key == "boosts" or key == "session.serverLuckUntil" then
-			refreshBoosts()
-		end
-	end)
-	task.spawn(function()
-		while true do
-			task.wait(1)
-			if State.isReady() then
-				refreshBoosts()
-			end
+		if key == "*" or key == "coins" or key == "upgrades" or key == "stats" or key == "onboardingStep" then
+			refresh()
 		end
 	end)
 end

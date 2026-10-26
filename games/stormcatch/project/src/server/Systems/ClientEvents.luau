@@ -19,15 +19,10 @@ local ClientEvents = {}
 -- (player, panel)
 ClientEvents.PanelOpened = Signal.new() :: Signal.Signal<Player, string>
 
--- Panels the client may report. Anything else is ignored.
+-- Panels the client may report. Anything else is ignored. (The prototype has the Shop and Settings only.)
 ClientEvents.PANELS = table.freeze({
 	shop = true,
-	pets = true,
-	rebirth = true,
-	daily = true,
 	settings = true,
-	codes = true,
-	index = true,
 })
 
 local SETTINGS = table.freeze({

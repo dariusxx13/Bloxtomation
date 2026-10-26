@@ -1,30 +1,34 @@
 --!strict
--- QA: test commands for playtests (vault: 13-building-it-right/testing-and-qa.md).
+-- QA: test commands for playtests (vault: 13-building-it-right/testing-and-qa.md; prototype brief req. 11).
 -- Allowed in Studio for everyone, and in live servers ONLY for user ids in Config/Game.qaUserIds
 -- (empty by default, so live servers reject every command). Every use is logged.
 -- Automation (Studio MCP) calls these through the real remote from the Client data model, e.g.
---   game.ReplicatedStorage.Remotes.QACommand:InvokeServer("addCoins", 1000000)
+--   game.ReplicatedStorage.Remotes.QACommand:InvokeServer("forceWeather", "cove_shallows fog 120")
 -- because requiring server modules from execute_luau creates separate module instances.
+-- Commands: state, addCoins <n>, setOnboarding <0..7>, wipeData (Studio only), forceWeather
+-- "<spot> <clear|showers|fog> <seconds <= 120>", forceStorm, forceStormborn, setScheduleOffset <seconds>,
+-- twistStats, exportLog.
 
 local HttpService = game:GetService("HttpService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local Shared = ReplicatedStorage.Shared
-local EconomyMath = require(Shared.Util.EconomyMath)
-local Eggs = require(Shared.Config.Eggs)
 local Format = require(Shared.Util.Format)
 local Game = require(Shared.Config.Game)
 local Net = require(Shared.Net)
 local OnboardingConfig = require(Shared.Config.Onboarding)
-local Odds = require(Shared.Util.Odds)
 local Schema = require(Shared.Data.Schema)
+local Stats = require(Shared.Util.Stats)
+local Types = require(Shared.Types)
 local Validate = require(Shared.Util.Validate)
-local ZoneConfig = require(Shared.Config.Zones)
+local WeatherConfig = require(Shared.Config.Weather)
 
+local CatchLog = require(script.Parent.CatchLog)
 local Currency = require(script.Parent.Currency)
+local Fishing = require(script.Parent.Fishing)
 local PlayerData = require(script.Parent.PlayerData)
-local Purchases = require(script.Parent.Purchases)
+local Weather = require(script.Parent.Weather)
 
 local QA = {}
 
@@ -32,7 +36,8 @@ type Result = { ok: boolean, text: string? }
 type Command = { studioOnly: boolean, run: (Player, unknown) -> Result }
 
 local MAX_AMOUNT = 1e15
-local MAX_SIM_ROLLS = 100000
+local MAX_OFFSET = 7 * 86400
+local FORCEABLE: { [string]: Types.Weather } = { clear = "clear", showers = "showers", fog = "fog" }
 
 function QA.allowed(player: Player): boolean
 	return RunService:IsStudio() or table.find(Game.qaUserIds, player.UserId) ~= nil
@@ -45,6 +50,21 @@ local function amountArg(arg: unknown): number?
 	return nil
 end
 
+-- Splits "a b c" into at most `max` identifier-safe tokens.
+local function tokens(arg: unknown, max: number): { string }?
+	if type(arg) ~= "string" or #arg > 80 then
+		return nil
+	end
+	local list: { string } = {}
+	for token in string.gmatch(arg, "%S+") do
+		if #list >= max or not Validate.identifier(token, 32) then
+			return nil
+		end
+		table.insert(list, token)
+	end
+	return list
+end
+
 local Commands: { [string]: Command } = {
 	-- Read-only summary of the caller's server-side state, for automated playtest assertions.
 	state = {
@@ -52,33 +72,24 @@ local Commands: { [string]: Command } = {
 		run = function(player)
 			local data = PlayerData.get(player)
 			local session = PlayerData.session(player)
-			local derived = PlayerData.derived(player)
-			if not data or not session or not derived then
+			if not data or not session then
 				return { ok = false, text = "not loaded" }
 			end
-			local zones = {}
-			for zoneId, unlocked in data.zonesUnlocked do
-				if unlocked then
-					table.insert(zones, zoneId)
-				end
-			end
-			table.sort(zones)
 			return {
 				ok = true,
 				text = HttpService:JSONEncode({
+					alias = CatchLog.alias(player),
 					coins = data.coins,
-					gems = data.gems,
-					rebirths = data.rebirths,
-					zones = zones,
-					pets = #data.pets,
-					equipped = #data.equipped,
 					onboardingStep = data.onboardingStep,
-					upgrades = data.upgrades,
-					hits = data.stats.hits,
-					hatches = data.stats.hatches,
-					coinsPerHit = derived.coinsPerHit,
-					luck = derived.luck,
-					restricted = session.randomItemsRestricted,
+					rodLevel = Stats.rodLevel(data),
+					catches = data.stats.catches,
+					rainCatches = data.stats.rainCatches,
+					stormsJoined = data.stats.stormsJoined,
+					giantsLanded = data.stats.giantsLanded,
+					helps = data.stats.helps,
+					index = data.index,
+					lineOut = Fishing.hasLine(player),
+					weather = Weather.payload(),
 				}),
 			}
 		end,
@@ -94,63 +105,6 @@ local Commands: { [string]: Command } = {
 			return { ok = true, text = `+{Format.short(amount)} Coins` }
 		end,
 	},
-	addGems = {
-		studioOnly = false,
-		run = function(player, arg)
-			local amount = amountArg(arg)
-			if not amount then
-				return { ok = false, text = "amount 1..1e15" }
-			end
-			Currency.add(player, "Gems", amount, "QA", "qa")
-			return { ok = true, text = `+{Format.short(amount)} Gems` }
-		end,
-	},
-	unlockZones = {
-		studioOnly = false,
-		run = function(player)
-			local data = PlayerData.get(player)
-			if not data then
-				return { ok = false }
-			end
-			for _, zone in ZoneConfig do
-				data.zonesUnlocked[zone.id] = true
-			end
-			PlayerData.changed(player, "zonesUnlocked")
-			return { ok = true, text = "All zones unlocked" }
-		end,
-	},
-	rebirthReady = {
-		studioOnly = false,
-		run = function(player)
-			local data = PlayerData.get(player)
-			if not data then
-				return { ok = false }
-			end
-			local missing = EconomyMath.rebirthCost(data.rebirths) - data.coins
-			if missing > 0 then
-				Currency.add(player, "Coins", missing, "QA", "qa")
-			end
-			return { ok = true, text = "Enough coins to rebirth" }
-		end,
-	},
-	grantPass = {
-		studioOnly = false,
-		run = function(player, arg)
-			if type(arg) ~= "string" or not Purchases.qaGrantPass(player, arg) then
-				return { ok = false, text = "unknown pass key" }
-			end
-			return { ok = true, text = `Pass {arg} active this session` }
-		end,
-	},
-	grantProduct = {
-		studioOnly = false,
-		run = function(player, arg)
-			if type(arg) ~= "string" or not Purchases.qaGrantProduct(player, arg) then
-				return { ok = false, text = "unknown product key" }
-			end
-			return { ok = true, text = `Granted {arg} (no receipt)` }
-		end,
-	},
 	setOnboarding = {
 		studioOnly = false,
 		run = function(player, arg)
@@ -163,74 +117,72 @@ local Commands: { [string]: Command } = {
 			return { ok = true, text = `Onboarding step {arg}` }
 		end,
 	},
-	resetDaily = {
+	-- forceWeather "<spot> <clear|showers|fog> <seconds, at most 120>" (this server; lines marked forced)
+	forceWeather = {
+		studioOnly = false,
+		run = function(_player, arg)
+			local list = tokens(arg, 3)
+			if not list or #list ~= 3 then
+				return { ok = false, text = 'usage: forceWeather "<spot> <clear|showers|fog> <seconds>"' }
+			end
+			local spot, weatherName = list[1], list[2]
+			local seconds = tonumber(list[3])
+			local found: Types.Weather? = FORCEABLE[weatherName]
+			if table.find(WeatherConfig.spots, spot) == nil or found == nil then
+				return { ok = false, text = "unknown spot or weather" }
+			end
+			local weather: Types.Weather = found
+			if seconds == nil or not Validate.integerInRange(seconds, 1, WeatherConfig.maxForceSeconds) then
+				return { ok = false, text = `seconds 1..{WeatherConfig.maxForceSeconds}` }
+			end
+			Weather.forceWeather(spot, weather, seconds :: number)
+			return { ok = true, text = `{spot} is {weather} for {seconds} s (forced)` }
+		end,
+	},
+	-- A 180 s Great Storm now, in this server only (excluded from twist test B).
+	forceStorm = {
+		studioOnly = false,
+		run = function()
+			Weather.forceStorm()
+			return { ok = true, text = `Great Storm for {WeatherConfig.storm.forcedSeconds} s (forced)` }
+		end,
+	},
+	-- The caller's next bite at pier_head during a storm hooks a Rumblefin.
+	forceStormborn = {
 		studioOnly = false,
 		run = function(player)
-			local data = PlayerData.get(player)
-			if not data then
-				return { ok = false }
-			end
-			data.daily.lastClaimDay = os.time() // 86400 - 1
-			PlayerData.changed(player, "daily")
-			return { ok = true, text = "Daily reward available (streak kept)" }
+			Fishing.forceStormborn(player)
+			return { ok = true, text = "Next storm bite at the Open Pier hooks a Rumblefin" }
 		end,
 	},
-	skipPlaytime = {
+	setScheduleOffset = {
 		studioOnly = false,
-		run = function(player)
-			local session = PlayerData.session(player)
-			if not session then
-				return { ok = false }
+		run = function(_player, arg)
+			if not Validate.integerInRange(arg, -MAX_OFFSET, MAX_OFFSET) then
+				return { ok = false, text = `whole seconds, -{MAX_OFFSET}..{MAX_OFFSET}` }
 			end
-			session.joinedAt -= 3600
-			PlayerData.sessionChanged(player, "joinedAt")
-			return { ok = true, text = "Session clock +60 minutes" }
+			Weather.setOffset(arg :: number)
+			return { ok = true, text = `Schedule offset {arg} s` }
 		end,
 	},
-	setRestricted = {
+	twistStats = {
 		studioOnly = false,
-		run = function(player, arg)
-			local session = PlayerData.session(player)
-			if not session or not Validate.boolean(arg) then
-				return { ok = false, text = "true/false" }
-			end
-			session.randomItemsRestricted = arg :: boolean
-			PlayerData.sessionChanged(player, "randomItemsRestricted")
-			return { ok = true, text = `Paid random items restricted: {arg}` }
+		run = function()
+			local text = HttpService:JSONEncode(CatchLog.twistStats())
+			print(`[QA] twistStats {text}`)
+			return { ok = true, text = text }
 		end,
 	},
-	simulateEgg = {
+	exportLog = {
 		studioOnly = false,
-		run = function(player, arg)
-			if type(arg) ~= "string" or not Eggs.byId[arg] then
-				return { ok = false, text = "unknown egg id" }
+		run = function()
+			local lines = CatchLog.csv()
+			print("[QA] exportLog begin")
+			for _, line in lines do
+				print(line)
 			end
-			local derived = PlayerData.derived(player)
-			local outcomes = Odds.effective(Eggs.byId[arg], if derived then derived.luck else 1)
-			local rng = Random.new()
-			local expected: { [string]: number } = {}
-			local observed: { [string]: number } = {}
-			local order: { string } = {}
-			for _, outcome in outcomes do
-				if expected[outcome.rarity] == nil then
-					table.insert(order, outcome.rarity)
-					expected[outcome.rarity] = 0
-				end
-				expected[outcome.rarity] += outcome.probability
-			end
-			for _ = 1, MAX_SIM_ROLLS do
-				local outcome = Odds.pick(outcomes, rng:NextNumber())
-				observed[outcome.rarity] = (observed[outcome.rarity] or 0) + 1
-			end
-			local lines: { string } = {}
-			for _, rarity in order do
-				local seen = (observed[rarity] or 0) / MAX_SIM_ROLLS
-				table.insert(
-					lines,
-					`{rarity} {Format.percent(seen)} (shown {Format.percent(expected[rarity])})`
-				)
-			end
-			return { ok = true, text = table.concat(lines, ", ") }
+			print(`[QA] exportLog end ({#lines - 1} rows)`)
+			return { ok = true, text = table.concat(lines, "\n") }
 		end,
 	},
 	wipeData = {
@@ -248,7 +200,7 @@ local Commands: { [string]: Command } = {
 				(data :: any)[key] = value
 			end
 			PlayerData.sendSnapshot(player)
-			return { ok = true, text = "Profile reset to defaults" }
+			return { ok = true, text = "Profile reset to defaults (rejoin for a fresh onboarding run)" }
 		end,
 	},
 }

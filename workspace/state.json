@@ -8,7 +8,7 @@
   "counters": {
     "escalation": 1,
     "gate": 4,
-    "task": 20
+    "task": 24
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {
@@ -554,6 +554,36 @@
       "at": "2026-10-26T15:48:43Z",
       "by": "human",
       "message": "resolved E-0001: Disclosed by a harbour NPC; restricted players fish under calls without the +25%"
+    },
+    {
+      "at": "2026-10-26T16:35:28Z",
+      "by": "engineer",
+      "message": "submitted T-0020 for review"
+    },
+    {
+      "at": "2026-10-26T16:37:05Z",
+      "by": "director",
+      "message": "T-0020 -> done: Reviewed: re-ran the studio check (PASSED build dfaaa3f055a1, record games/stormcatch/checks/20261026T163554Z-dfaaa3f055a1.json) and Lune tests (93 passed, 0 failed); remote handlers spot-checked (server clock judges taps, Cast validates id, zone, busy, cooldown and range; per-remote rate limits in Config/Remotes); PlayerData change removes two unsaved session fields only. 11 Studio-pending criteria move to T-0021."
+    },
+    {
+      "at": "2026-10-26T16:37:05Z",
+      "by": "director",
+      "message": "added T-0021 'Verify the prototype in Roblox Studio' for qa-tester (queued)"
+    },
+    {
+      "at": "2026-10-26T16:37:05Z",
+      "by": "director",
+      "message": "added T-0022 'Newcomer playtest of the prototype' for newcomer (queued)"
+    },
+    {
+      "at": "2026-10-26T16:37:05Z",
+      "by": "director",
+      "message": "added T-0023 'Loop tests, twist tests and the fun verdict' for designer (queued)"
+    },
+    {
+      "at": "2026-10-26T16:37:05Z",
+      "by": "director",
+      "message": "added T-0024 'Run the prototype gate' for gatekeeper (queued)"
     }
   ],
   "tasks": {
@@ -1125,15 +1155,103 @@
       "gates": [
         "PROTO-01"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0020.md",
       "id": "T-0020",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T16:37:05Z",
+          "by": "director",
+          "text": "Reviewed: re-ran the studio check (PASSED build dfaaa3f055a1, record games/stormcatch/checks/20261026T163554Z-dfaaa3f055a1.json) and Lune tests (93 passed, 0 failed); remote handlers spot-checked (server clock judges taps, Cast validates id, zone, busy, cooldown and range; per-remote rate limits in Config/Remotes); PlayerData change removes two unsaved session fields only. 11 Studio-pending criteria move to T-0021."
+        }
+      ],
       "owner": "engineer",
       "stage": "prototype",
       "started": "2026-10-26T11:30:01Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T16:35:28Z",
       "title": "Build the prototype code (no Studio)",
-      "updated": "2026-10-26T11:30:01Z"
+      "updated": "2026-10-26T16:37:05Z"
+    },
+    "T-0021": {
+      "brief": "games/stormcatch/tasks/T-0021.md",
+      "created": "2026-10-26T16:37:05Z",
+      "deps": [
+        "T-0020"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "PROTO-01"
+      ],
+      "handoff": null,
+      "id": "T-0021",
+      "notes": [],
+      "owner": "qa-tester",
+      "stage": "prototype",
+      "status": "queued",
+      "title": "Verify the prototype in Roblox Studio",
+      "updated": "2026-10-26T16:37:05Z"
+    },
+    "T-0022": {
+      "brief": "games/stormcatch/tasks/T-0022.md",
+      "created": "2026-10-26T16:37:05Z",
+      "deps": [
+        "T-0021"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "PROTO-03"
+      ],
+      "handoff": null,
+      "id": "T-0022",
+      "notes": [],
+      "owner": "newcomer",
+      "stage": "prototype",
+      "status": "queued",
+      "title": "Newcomer playtest of the prototype",
+      "updated": "2026-10-26T16:37:05Z"
+    },
+    "T-0023": {
+      "brief": "games/stormcatch/tasks/T-0023.md",
+      "created": "2026-10-26T16:37:05Z",
+      "deps": [
+        "T-0021",
+        "T-0022"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "PROTO-02",
+        "PROTO-04"
+      ],
+      "handoff": null,
+      "id": "T-0023",
+      "notes": [],
+      "owner": "designer",
+      "stage": "prototype",
+      "status": "queued",
+      "title": "Loop tests, twist tests and the fun verdict",
+      "updated": "2026-10-26T16:37:05Z"
+    },
+    "T-0024": {
+      "brief": "games/stormcatch/tasks/T-0024.md",
+      "created": "2026-10-26T16:37:05Z",
+      "deps": [
+        "T-0023"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "PROTO-01",
+        "PROTO-02",
+        "PROTO-03",
+        "PROTO-04"
+      ],
+      "handoff": null,
+      "id": "T-0024",
+      "notes": [],
+      "owner": "gatekeeper",
+      "stage": "prototype",
+      "status": "queued",
+      "title": "Run the prototype gate",
+      "updated": "2026-10-26T16:37:05Z"
     }
   },
   "version": 1
