@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Reel the Storm (game id `stormcatch`): economy and drop-table model.
 
-Task T-0008, Economist, design stage, 2026-10-25.
+Task T-0008, Economist, design stage, 2026-10-25. Updated by T-0015 (2026-10-26): the paying model buys only what
+the accepted catalog (games/stormcatch/docs/catalog.md) sells, every minutes-of-income grant uses one permanent
+basis (no timed boosts, friends or paid coin pass), and section N answers the catalog's three questions.
 
 Run from the repository root:
 
@@ -298,10 +300,38 @@ MODELS = {
     "paying": dict(label="Paying", sessionMin=30, sessionsPerDay=3, sameDayGapHours=4,
                    reel=0.92, idle=0.12, travel=0.10, front=0.45, rainbow=0.05, stormAttend=0.9,
                    friends=2, helpers=3, helps=2, bootsCap=10, hatch={"driftwood_nest": 3, "reef_nest": 3,
-                   "bluff_nest": 3, "thunder_nest": 3}, x2coins=True, paidLuck=0.25, extraSlots=3),
+                   "bluff_nest": 3, "thunder_nest": 3}, x2coins=False, paidLuck=0.0, extraSlots=0,
+                   catalog=dict(x2Coins=True, luckyBobber=True, starterPack=True, dailyPacks=["coinCrate"],
+                                tidePot3=True, palPouchPlus=True, autoReel=True, skyCalls=True)),
 }
-# The paying model's purchases are placeholders from the template catalog (2x Coins pass, a paid luck
-# item at the paid-luck cap, +1 companion slot) until the Monetization Designer's catalog (T-0009) lands.
+# T-0015: the paying model buys only what the accepted catalog sells (games/stormcatch/docs/catalog.md, T-0009):
+# 2x Coins (active from the first bridge), Lucky Bobber, the Starter Pack and one Coin Crate a day from onboarding
+# step 12, Third Tide Pot, Big Pal Pouch, Auto Reel and Sky Bell calls. No extra equip slots are sold.
+# Variants for the fairness check (section B): a heavy spender (also one Coin Chest a day), passes only, and the
+# T-0008 placeholder payer (template passes from second 0, +3 equip slots) for comparison.
+PAYING_VARIANTS = {
+    "heavy": dict(MODELS["paying"], label="Heavy spender (Crate and Chest every day)",
+                  catalog=dict(MODELS["paying"]["catalog"], dailyPacks=["coinCrate", "coinChest"])),
+    "passes_only": dict(MODELS["paying"], label="Passes only (no coin products)",
+                        catalog=dict(MODELS["paying"]["catalog"], starterPack=False, dailyPacks=[])),
+    "t0008": dict(MODELS["paying"], label="T-0008 placeholder payer (template passes from 0:00, +3 slots)",
+                  x2coins=True, paidLuck=0.25, extraSlots=3, catalog=None),
+}
+
+# Catalog effects (games/stormcatch/docs/catalog.md section 3; prices are the catalog's and are not modelled)
+CATALOG = {
+    "x2Coins": dict(coinBoost=1.0, activeFromIsland=2),  # from the bridge to Lantern Reef; additive, cap x3
+    "luckyBobber": dict(paidLuck=0.25),  # inside the +25% paid cap; 0 in Sea Fog (Sky cap)
+    "starterPack": dict(coinsMinutes=30, boost="coins2x", boostSeconds=900),
+    "packs": {"coinPouch": 15, "coinCrate": 60, "coinChest": 180},  # minutes of income
+    "tidePot3": dict(extraSlots=1),
+    "palPouchPlus": dict(capacity=50),  # no income effect
+    "autoReel": dict(landed=0.70, reelFactor=2.0, weathers=("clear", "rainbow")),  # never used in active play
+    "skyCallShare": 0.25,  # one call a cycle: 180 of 720 non-storm seconds, harbour only
+}
+STEP12_SECONDS = 600  # onboarding step 12 "Played 10 Minutes"; steps advance in order, so never before step 11
+# "Minutes of income" basis for every grant (coin products, calendar, gifts, pots): permanent multipliers only.
+MINUTES_BASIS = {"timedBoosts": False, "paidCoinPass": False}
 
 GOAL_TARGETS = {  # casual free player, cumulative active minutes (brief T-0008; loop sketch 5.1-5.5, 12)
     "first_rod": (0.0, 1.25),
@@ -474,6 +504,11 @@ class Player:
     def __init__(self, model: dict, phase_min: int, called_front_share: float = 0.0,
                  include_rewards: bool = True, track_species: bool = True, continuous: bool = True):
         self.m = dict(model)
+        self.day_len = model["sessionMin"] * model["sessionsPerDay"] * 60  # play seconds per play-day
+        self.cat = self.m.get("catalog")
+        self.step12_t: int | None = None
+        self.last_pack_day = -1
+        self.robux_coins = 0.0
         # continuous=True: one long first session (template simulatePacing); return sources (later daily
         # rewards, Tide Pots) are left out because they depend on when the player comes back, not on play time.
         self.continuous = continuous
@@ -481,6 +516,7 @@ class Player:
             self.m["sessionMin"] = 10 ** 6
         self.phase = phase_min * 60
         self.cf_share = called_front_share  # share of non-storm time a D6 Called Front is active
+        self.cf_share_base = called_front_share
         self.rewards = include_rewards
         self.track = track_species
         self.t = 0
@@ -523,21 +559,49 @@ class Player:
         best = sorted(self.companions, reverse=True)[: self.slots()]
         return min(COIN["companionCap"], sum(best))
 
-    def coin_mult(self) -> float:
+    def pass_boost(self) -> float:
+        if self.m["x2coins"]:
+            return 1.0
+        if self.cat and self.cat.get("x2Coins") and self.islands >= CATALOG["x2Coins"]["activeFromIsland"]:
+            return CATALOG["x2Coins"]["coinBoost"]
+        return 0.0
+
+    def paid_luck(self) -> float:
+        if self.cat and self.cat.get("luckyBobber") and self.step12_t is not None:
+            return CATALOG["luckyBobber"]["paidLuck"]
+        return self.m["paidLuck"]
+
+    def coin_mult(self, permanent: bool = False) -> float:
         rod = UPGRADES["rod"]["effect"] ** self.lv["rod"]
         journal = COIN["journalSetBonus"] * len(self.sets_done)
         day = self.session // self.m["sessionsPerDay"] + 1
         streak = min(STREAK_CAP, STREAK_PER_DAY * (day - 1)) if self.rewards else 0.0
         bonus = min(COIN["bonusCap"], journal + streak)
-        boost = (1.0 if self.m["x2coins"] else 0.0) + (1.0 if self.boost_until["coins2x"] > self.t else 0.0)
-        boost = min(COIN["boostCap"], boost)
+        timed = 1.0 if self.boost_until["coins2x"] > self.t else 0.0
+        pass_b = self.pass_boost()
+        if permanent:
+            timed = timed if MINUTES_BASIS["timedBoosts"] else 0.0
+            pass_b = pass_b if MINUTES_BASIS["paidCoinPass"] else 0.0
+        boost = min(COIN["boostCap"], pass_b + timed)
         return rod * (1 + self.companion_coin()) * (1 + bonus) * (1 + boost) * new_tide_multiplier(self.tides)
 
-    def luck(self, weather: str, called: bool) -> float:
+    def luck(self, weather: str, called: bool, permanent: bool = False) -> float:
         natural = WEATHER[weather]["sky_luck"]
-        paid = self.m["paidLuck"] + (LUCK["calledFront"] if called else 0.0)
+        paid = self.paid_luck() + (LUCK["calledFront"] if called else 0.0)
         timed = LUCK["luckyTide"] if self.boost_until["luckyTide"] > self.t else 0.0
-        return luck_total(self.lv["lure"], 0.0, self.m["friends"], natural, paid, timed)[0]
+        friends = self.m["friends"]
+        if permanent:  # the minutes-of-income basis: Lure and owned luck passes, never friends or timed luck
+            timed, friends = 0.0, 0
+        return luck_total(self.lv["lure"], 0.0, friends, natural, paid, timed)[0]
+
+    def minutes_basis(self) -> float:
+        """Coins in one 'minute of income' for every grant: best island, Clear, permanent multipliers only
+        (Rod, companions, bonus, New Tide, Lure and owned luck passes); no timed boosts, no friends, and the
+        2x Coins pass only if MINUTES_BASIS['paidCoinPass'] (T-0015 answer to catalog question 1)."""
+        isl = self.island()
+        _, ev = self.table(isl["id"], "clear", self.luck("clear", False, permanent=True))
+        return (self.catch_value(isl["mult"], "clear", ev) * self.coin_mult(permanent=True)
+                * ECONOMY["assumedCatchesPerMinute"])
 
     def table(self, island_id: str, weather: str, luck: float):
         key = (island_id, weather, round(luck, 4))
@@ -691,9 +755,11 @@ class Player:
                     hours = TIDE_POTS["fillCapHours"] if new_day else min(TIDE_POTS["fillCapHours"],
                                                                            self.m["sameDayGapHours"])
                     slots = TIDE_POTS["baseSlots"] + (1 if self.islands >= 2 else 0)
+                    if self.cat and self.cat.get("tidePot3") and self.islands >= 2:
+                        slots += CATALOG["tidePot3"]["extraSlots"]
                     fish = hours * slots + self.pot_bait * TIDE_POTS["baitExtraFish"]
                     self.pot_bait = 0
-                    v = fish * TIDE_POTS["coinsMinutesPerHour"] * self.income_per_minute_clear()
+                    v = fish * TIDE_POTS["coinsMinutesPerHour"] * self.minutes_basis()
                     self.gain(v)
                     self.passive_coins += v
         if self.rewards:
@@ -704,10 +770,37 @@ class Player:
         # day-1 reward on the very first second
         if self.rewards and self.t == 0:
             self.reward(DAILY[0])
+        self.catalog_tick()
+
+    def catalog_tick(self) -> None:
+        """Catalog purchases (T-0015). Everything is listed from onboarding step 12, which follows step 11
+        (the first bridge), so no product can move a first bridge."""
+        if not self.cat:
+            return
+        if self.step12_t is None and self.islands >= 2 and self.t >= STEP12_SECONDS:
+            self.step12_t = self.t
+            self.events.setdefault("step12", self.t)
+            if self.cat.get("skyCalls"):
+                self.cf_share = max(self.cf_share_base, CATALOG["skyCallShare"])
+            if self.rewards and self.cat.get("starterPack"):
+                sp = CATALOG["starterPack"]
+                v = sp["coinsMinutes"] * self.minutes_basis()
+                self.gain(v)
+                self.robux_coins += v
+                self.boost_until[sp["boost"]] = max(self.boost_until[sp["boost"]], self.t) + sp["boostSeconds"]
+        if self.step12_t is not None and self.rewards and self.cat.get("dailyPacks"):
+            day = self.t // self.day_len
+            if day > self.last_pack_day:
+                self.last_pack_day = day
+                for pack in self.cat["dailyPacks"]:
+                    v = CATALOG["packs"][pack] * self.minutes_basis()
+                    self.gain(v)
+                    self.robux_coins += v
+                    self.events.setdefault(f"pack_day{day}_{pack}", self.t)
 
     def reward(self, r: dict) -> None:
         if r.get("coinsMinutes"):
-            v = r["coinsMinutes"] * self.income_per_minute_clear()
+            v = r["coinsMinutes"] * self.minutes_basis()
             self.gain(v)
             self.reward_coins += v
         if r.get("boost"):
@@ -1083,7 +1176,10 @@ def main() -> None:
         pv = stat("paying", key)[0]
         if c and pv:
             ratios.append(c / pv)
-    checks.append(("Paying player faster but within 2-4x of casual on goals 2, 3 and 5", all(1.0 < r <= 4.0 for r in ratios),
+    in_band = all(2.0 <= r <= 4.0 for r in ratios[1:]) and 1.0 <= ratios[0] <= 4.0
+    checks.append(("Paying faster than casual, within 2-4x on goals 2, 3 and 5 (goal 2 runs at free pace by "
+                   "catalog design: nothing is sold before onboarding step 12, which follows the first bridge)",
+                   ("PASS (goal 2 below 2x by design)" if ratios[0] < 2.0 else "PASS") if in_band else "CHECK",
                    ", ".join(f"{r:.2f}x" for r in ratios)))
     # max purchase gap in first hour, typical
     gaps = []
@@ -1115,6 +1211,56 @@ def main() -> None:
                     "length instead (section D)") if reg else "not reached"))
     rows = [[c, ok if isinstance(ok, str) else ("PASS" if ok else "CHECK"), note] for c, ok, note in checks]
     table(["Check", "Result", "Model value"], rows)
+
+    # T-0015: paying variants against the catalog
+    out("### Paying variants (T-0015): catalog purchases, continuous view, same join minutes")
+    out()
+    out("Paying = typical skill plus the catalog: 2x Coins from the first bridge; Lucky Bobber, the Starter Pack "
+        "(30 min of income and a 15-minute coins2x) and one Coin Crate (60 min) a day from onboarding step 12; "
+        "Third Tide Pot; Big Pal Pouch and Auto Reel owned (no income effect: Auto Reel is slower than reeling "
+        "yourself, section N); a Sky Bell call every cycle (harbour only, so no effect once past Pebble Cove). "
+        "Coin grants use the minutes-of-income basis " + ("with" if MINUTES_BASIS["paidCoinPass"] else "without")
+        + " the 2x Coins pass and never timed boosts.")
+    out()
+    var_rows = []
+
+    def variant_row(label: str, model: dict) -> None:
+        ps = []
+        for ph in PHASES_MIN:
+            pl = Player(model, ph)
+            end = SIM_MINUTES * 60
+            while pl.t < end and "new_tide_1" not in pl.events:
+                pl.session_tick()
+                pl.step()
+                pl.buy()
+                if pl.t % 10 == 0:
+                    pl.check_sets()
+            ps.append(pl)
+        cells = [label]
+        rs = []
+        for key, _ in (GOALS[1], GOALS[2], GOALS[4]):
+            vals = [pl.events.get(key) for pl in ps]
+            if any(v is None for v in vals):
+                cells.append("-")
+                continue
+            mean = sum(vals) / len(vals) / 60
+            c = stat("casual", key)[0]
+            tv = stat("typical", key)[0]
+            rs.append(c / mean)
+            cells.append(f"{mean:.1f} [{min(vals) / 60:.1f}-{max(vals) / 60:.1f}] = {c / mean:.2f}x casual, "
+                         f"{tv / mean:.2f}x typical")
+        var_rows.append(cells)
+
+    variant_row("Paying (catalog), the five-goal row", MODELS["paying"])
+    for key in ("heavy", "passes_only", "t0008"):
+        variant_row(PAYING_VARIANTS[key]["label"], PAYING_VARIANTS[key])
+    keep = MINUTES_BASIS["paidCoinPass"]
+    MINUTES_BASIS["paidCoinPass"] = not keep
+    variant_row(f"Heavy spender, basis {'with' if not keep else 'without'} the 2x Coins pass (alternative)",
+                PAYING_VARIANTS["heavy"])
+    MINUTES_BASIS["paidCoinPass"] = keep
+    table(["Payer", "Bridge to Lantern Reef (goal 2)", "Bridge to Gustwhistle (goal 3)", "New Tide 1 (goal 5)"],
+          var_rows)
 
     # catch-only conservative run (Economy.spec analogue: no rewards, no pots)
     out("### Conservative run: catch income only (no daily, playtime, pot or journal-set rewards)")
@@ -1163,10 +1309,11 @@ def main() -> None:
         st = sum(p.storm_coins for p in ps)
         pas = sum(p.passive_coins for p in ps)
         rew = sum(p.reward_coins for p in ps)
-        rows.append([MODELS[name]["label"], f"{(tot - st - pas - rew) / tot:.1%}", f"{st / tot:.1%}",
-                     f"{pas / tot:.1%}", f"{rew / tot:.1%}"])
+        rob = sum(p.robux_coins for p in ps)
+        rows.append([MODELS[name]["label"], f"{(tot - st - pas - rew - rob) / tot:.1%}", f"{st / tot:.1%}",
+                     f"{pas / tot:.1%}", f"{rew / tot:.1%}", f"{rob / tot:.1%}"])
     table(["Model", "Catches outside storms", "Great Storm (eye catches, Stormborn, helper shares)", "Tide Pots",
-           "Calendar, playtime gifts, scripted first catch"], rows)
+           "Calendar, playtime gifts, scripted first catch", "Robux coin products (Starter Pack, packs)"], rows)
     out("### Where the coins go (return view, first 240 play minutes, share of coins spent)")
     out()
     cats = ["rod", "lure", "boots", "pal_pouch", "nests", "bridges", "new_tide"]
@@ -1546,6 +1693,7 @@ def main() -> None:
     out()
 
     prototype_report()
+    catalog_report()
 
     # ---------------------------------------------------------------- pots and passive share
     out("## L. Tide Pots and passive share (Config/TidePots.luau)")
@@ -1741,6 +1889,97 @@ def prototype_report() -> None:
     out(f"Storm (typical at the eye all storm): {n:.1f} eye bites; P(hooks a Rumblefin) = {p_hook:.0%} per storm; "
         f"with 4 anglers at the eye, expected pulls per storm = {4 * p_hook:.1f}. Rod max level 30 costs "
         f"{short(math.floor(15 * 1.28 ** 29 + 0.5))} for the last level.")
+    out()
+
+
+# =====================================================================================================
+# 9. CATALOG CHECKS (T-0015): the catalog's three questions to the Economist (catalog section 11)
+# =====================================================================================================
+
+
+def auto_landed_seconds(weather: str) -> float:
+    w = WEATHER[weather]
+    a = CATALOG["autoReel"]
+    bite = (w["bite"][0] + w["bite"][1]) / 2
+    reel = w["reel"] * a["reelFactor"]
+    t_ok = w["cast"] + bite + reel + w["reveal"]
+    t_fail = w["cast"] + bite + reel + FAILED_REEL_RECOVER_S
+    return (a["landed"] * t_ok + (1 - a["landed"]) * t_fail) / a["landed"]
+
+
+def catalog_report() -> None:
+    out("## N. Catalog checks (T-0015, catalog section 11)")
+    out()
+    out("### N1. Auto Reel: 70% landed, reel x2, Clear-ring water only, never Charged")
+    out()
+    auto = 60 / auto_landed_seconds("clear")
+    rows = []
+    for name in ("casual", "typical"):
+        m = MODELS[name]
+        clear = 60 / landed_seconds("clear", m["reel"])
+        showers = 60 / landed_seconds("showers", m["reel"])
+        # whole fishing mix at Lantern Reef, Lure 0: Auto Reel in Clear and Rainbow, active in fronts
+        mix = FRONT_MIX["fog"]
+        f, r = m["front"], m["rainbow"]
+        parts = [("clear", 1 - f - r), ("rainbow", r)] + [(w, f * sh) for w, sh in mix.items()]
+        active = auto_mix = 0.0
+        for w, frac in parts:
+            lk = luck_total(0, 0, 0, WEATHER[w]["sky_luck"], 0, 0)[0]
+            ev = ev_tier_value(effective(table_entries("lantern_reef", w), lk)) * WEATHER[w]["size"] * \
+                WEATHER[w]["value"] * mark_factor(w)
+            a_rate = 60 / landed_seconds(w, m["reel"])
+            active += frac * a_rate * ev
+            if w in CATALOG["autoReel"]["weathers"]:
+                auto_mix += frac * (60 / auto_landed_seconds(w)) * ev
+            else:
+                auto_mix += frac * a_rate * ev
+        rows.append([m["label"], f"{clear:.2f}", f"{auto:.2f} ({auto / clear:.0%})", f"{showers:.2f} ({auto / showers:.0%})",
+                     f"{auto_mix / active:.0%}"])
+    table(["Model", "Active Clear catches/min", "Auto Reel Clear (share of active)", "Active Showers (Auto as share)",
+           "Coins/min with Auto Reel on in all Clear and Rainbow time, against reeling yourself"], rows)
+    ev_c = ev_tier_value(effective(table_entries("lantern_reef", "clear"), 1.0))
+    typ_active = 0.0
+    m = MODELS["typical"]
+    for w, frac in [("clear", 1 - m["front"] - m["rainbow"]), ("rainbow", m["rainbow"])] + \
+            [(w, m["front"] * sh) for w, sh in FRONT_MIX["fog"].items()]:
+        lk = luck_total(0, 0, 0, WEATHER[w]["sky_luck"], 0, 0)[0]
+        typ_active += frac * 60 / landed_seconds(w, m["reel"]) * ev_tier_value(effective(table_entries("lantern_reef", w), lk)) \
+            * WEATHER[w]["size"] * WEATHER[w]["value"] * mark_factor(w)
+    afk_share = auto * ev_c / typ_active
+    out(f"Auto Reel can only lower a player's income: it is slower than reeling yourself in Clear and pauses in every "
+        f"front and the storm. Exposure if a macro taps Cast with Auto Reel on, unattended in Clear water: "
+        f"{afk_share:.0%} of a typical player's active coins per minute, so one unattended hour is worth about "
+        f"{afk_share * 60:.0f} minutes of active income, against {TIDE_POTS['coinsMinutesPerHour']} minute for a "
+        f"Tide Pot hour.")
+    out()
+    out("### N2. Lucky Bobber in Sea Fog: current rule (Sky cap) against a separate paid category")
+    out()
+    rows = []
+    for label, lure in (("New player", 0), ("Casual, Lure 7", 7), ("Typical, Lure 12", 12)):
+        for rule in ("current", "separate"):
+            if rule == "current":
+                lk = luck_total(lure, 0, 0, 1.0, CATALOG["luckyBobber"]["paidLuck"], 0)[0]
+            else:
+                lk = min(LUCK["totalCap"], luck_total(lure, 0, 0, 1.0, 0, 0)[0] * (1 + CATALOG["luckyBobber"]["paidLuck"]))
+            base = luck_total(lure, 0, 0, 1.0, 0, 0)[0]
+            p0 = effective(table_entries("lantern_reef", "fog"), base)
+            p1 = effective(table_entries("lantern_reef", "fog"), lk)
+            r0 = sum(p for _, t_, p in p0 if t_ in LUCK_APPLIES)
+            r1 = sum(p for _, t_, p in p1 if t_ in LUCK_APPLIES)
+            l0 = sum(p for _, t_, p in p0 if t_ in ("Legendary", "Mythic", "Secret"))
+            l1 = sum(p for _, t_, p in p1 if t_ in ("Legendary", "Mythic", "Secret"))
+            rows.append([label, "Sky cap (current)" if rule == "current" else "own category x1.25",
+                         f"x{base:.2f} -> x{lk:.2f}", f"{pct(r0)} -> {pct(r1)}", f"{pct(l0)} -> {pct(l1)}",
+                         f"+{ev_tier_value(p1) / ev_tier_value(p0) - 1:.1%}"])
+    table(["Player (Lantern Reef, natural Sea Fog)", "Rule for the bobber", "Luck", "Rare-or-better",
+           "Legendary-or-better", "Coin value per catch"], rows)
+    out("### N3. Coin products: what one 'minute of income' counts")
+    out()
+    out("Basis for every minutes-of-income grant (coin packs, Starter Pack, calendar, gifts, Tide Pots): coins per "
+        "catch at the best island in Clear water with permanent multipliers (Rod, companions, bonus category, New "
+        "Tide, Lure and owned luck passes) x 5 catches a minute. Never timed boosts or friends. 2x Coins pass in the "
+        f"basis: {'yes' if MINUTES_BASIS['paidCoinPass'] else 'no'}. Section B's variant table shows both bases for "
+        "the heavy spender.")
     out()
 
 

@@ -8,7 +8,7 @@
   "counters": {
     "escalation": 1,
     "gate": 2,
-    "task": 15
+    "task": 16
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {
@@ -382,6 +382,21 @@
       "at": "2026-10-26T05:51:29Z",
       "by": "economist",
       "message": "started T-0015"
+    },
+    {
+      "at": "2026-10-26T06:01:53Z",
+      "by": "designer",
+      "message": "submitted T-0014 for review"
+    },
+    {
+      "at": "2026-10-26T06:02:36Z",
+      "by": "director",
+      "message": "T-0014 -> done: Reviewed: cove_visits_check.py run (all checks pass: rain wait 260 s, 0/672 cycles without the Sky Bell window, 0/168 hours missing a visit, Rainbow unchanged), W1/W2 resolved by hourly natural visits, four catalog rules added, prototype brief unchanged (md5 4c04c92...) and valid, GDD v3."
+    },
+    {
+      "at": "2026-10-26T06:02:36Z",
+      "by": "director",
+      "message": "added T-0016 'Add harbour weather visits and WindYaw to the world plan' for worldbuilder (queued)"
     }
   ],
   "tasks": {
@@ -772,15 +787,22 @@
         "DESIGN-07",
         "DESIGN-09"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0014.md",
       "id": "T-0014",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T06:02:36Z",
+          "by": "director",
+          "text": "Reviewed: cove_visits_check.py run (all checks pass: rain wait 260 s, 0/672 cycles without the Sky Bell window, 0/168 hours missing a visit, Rainbow unchanged), W1/W2 resolved by hourly natural visits, four catalog rules added, prototype brief unchanged (md5 4c04c92...) and valid, GDD v3."
+        }
+      ],
       "owner": "designer",
       "stage": "design",
       "started": "2026-10-26T05:51:26Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T06:01:53Z",
       "title": "Close the catalog watch items in the GDD",
-      "updated": "2026-10-26T05:51:26Z"
+      "updated": "2026-10-26T06:02:36Z"
     },
     "T-0015": {
       "brief": "games/stormcatch/tasks/T-0015.md",
@@ -803,6 +825,27 @@
       "status": "working",
       "title": "Re-run the paying-player model against the catalog",
       "updated": "2026-10-26T05:51:29Z"
+    },
+    "T-0016": {
+      "brief": "games/stormcatch/tasks/T-0016.md",
+      "created": "2026-10-26T06:02:36Z",
+      "deps": [
+        "T-0011",
+        "T-0014"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-09",
+        "DESIGN-10"
+      ],
+      "handoff": null,
+      "id": "T-0016",
+      "notes": [],
+      "owner": "worldbuilder",
+      "stage": "design",
+      "status": "queued",
+      "title": "Add harbour weather visits and WindYaw to the world plan",
+      "updated": "2026-10-26T06:02:36Z"
     }
   },
   "version": 1

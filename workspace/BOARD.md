@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-26T05:51:29Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T06:02:36Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,21 +14,21 @@ Updated 2026-10-26T05:51:29Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Tasks
 
-### Working (2)
+### Working (1)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
-| T-0014 | designer | stormcatch | Close the catalog watch items in the GDD | - |
 | T-0015 | economist | stormcatch | Re-run the paying-player model against the catalog | - |
 
 ### Needs review (0)
 
 
-### Queued (1)
+### Queued (2)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0012 | gatekeeper | stormcatch | Run the design gate | - |
+| T-0016 | worldbuilder | stormcatch | Add harbour weather visits and WindYaw to the world plan | - |
 
 ### Draft (needs a brief) (0)
 
@@ -39,6 +39,9 @@ Updated 2026-10-26T05:51:29Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T06:02:36Z director: added T-0016 'Add harbour weather visits and WindYaw to the world plan' for worldbuilder (queued)
+- 2026-10-26T06:02:36Z director: T-0014 -> done: Reviewed: cove_visits_check.py run (all checks pass: rain wait 260 s, 0/672 cycles without the Sky Bell window, 0/168 hours missing a visit, Rainbow unchanged), W1/W2 resolved by hourly natural visits, four catalog rules added, prototype brief unchanged (md5 4c04c92...) and valid, GDD v3.
+- 2026-10-26T06:01:53Z designer: submitted T-0014 for review
 - 2026-10-26T05:51:29Z economist: started T-0015
 - 2026-10-26T05:51:26Z designer: started T-0014
 - 2026-10-26T05:51:10Z director: added T-0015 'Re-run the paying-player model against the catalog' for economist (queued)
@@ -51,6 +54,3 @@ Updated 2026-10-26T05:51:29Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-25T18:00:07Z designer: started T-0013
 - 2026-10-25T18:00:06Z monetization-designer: started T-0009
 - 2026-10-25T17:59:44Z director: added T-0013 'Sync the GDD with the economy sheet and world plan' for designer (queued)
-- 2026-10-25T17:59:44Z director: T-0008 -> done: Reviewed: output md5 matches the handoff (4a40955...), check record passed, five goals per player type present (casual bridge 1 at 10.8 min, New Tide 1 at 62.2), luck stacking rule with caps including the D6 +25% shared Sky luck, deviations argued. GDD sync queued as T-0013; the gate re-runs the model.
-- 2026-10-25T17:58:51Z economist: submitted T-0008 for review
-- 2026-10-25T17:16:37Z director: T-0011 -> done: Reviewed: re-ran models/world_layout.py (All checks pass; output matches the stored file apart from the SVG-written line), base walk 16 studs/s confirmed in Util/Stats.luau, 11 adjacent pairs under 15 s, fronts avoid cove_dock, Callable spots marked, prototype subset marked, SVG has no external references. GDD deltas (ferry skips Gustwhistle Bluffs, dock pool moved) listed for the gate.
