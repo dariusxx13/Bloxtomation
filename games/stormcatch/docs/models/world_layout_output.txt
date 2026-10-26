@@ -1,4 +1,6 @@
-# World layout model output (T-0011)
+SVG written to games/stormcatch/docs/world-map.svg
+
+# World layout model output, layout v2 (T-0016, 2026-10-26)
 
 Base walk speed 16 studs/s (Stats.luau:103). 15 s = 240 studs; target 12.5 s = 200 studs; 60 s warning = 960 studs; 45 s = 720 studs.
 
@@ -114,15 +116,49 @@ Front coverage with 1/2/3 fronts on 10 cells: 10% / 20% / 30% (loop sketch: abou
 | Showers (Harbour Showers) | reef_steps > cove_shallows > pier_head > squall_rocks | 135, 66, 129 | 330 |
 | Sea Fog (Reef Fog) | reef_outer > reef_lagoon > reef_steps > anvil_reach | 76, 79, 202 | 358 |
 | Gusts (Bluff Gusts) | whistle_point > kite_ledge > squall_rocks > anvil_reach | 89, 91, 110 | 290 |
+| Sea Fog (Cove Fog, hourly) | COVE_FOG_ENTRY > pier_head | 65 | 65 |
+| Gusts (Cove Gusts, hourly) | COVE_GUSTS_ENTRY > pier_head | 120 | 120 |
 | Showers (prototype) | pier_head > cove_shallows | 66 | 66 |
 | Sea Fog (prototype) | FOG_ENTRY > cove_shallows > pier_head | 78, 66 | 143 |
+| Sea Fog (Cove Fog variant to cove_shallows, not in the pool) | COVE_FOG_ENTRY > cove_shallows | 113 | 113 |
 | Great Storm roll-in | StormHome (Thunder Spire) > StormEye (Open Pier) | 154 | 154 |
 
 ## Sheltered spot (GDD 4.1: no front, call or Rainbow ever covers it)
 
+Paths checked: natural route pool, the hourly harbour visits (GDD 4.2 rule 8) and the prototype routes.
+
 | Sheltered cell | On any front path | Closest drift leg to its centre (studs) | Rule |
 |---|---|---|---|
 | cove_dock | no | 52 | pass (> 36, outside its cell) |
+
+## Harbour visits: Cove Fog and Cove Gusts (GDD 4.2 rule 8)
+
+| Visit | Entry (x, z) | Ends on | Leg (studs) | Closest approach to the Dock Ripple cell centre | Over water | Rule |
+|---|---|---|---|---|---|---|
+| Sea Fog (Cove Fog, hourly) | (5, -160) | pier_head | 65 | 93 (> 36) | yes | pass |
+| Gusts (Cove Gusts, hourly) | (140, -100) | pier_head | 120 | 93 (> 36) | yes | pass |
+| Sea Fog (Cove Fog variant to cove_shallows, not in the pool) | (5, -160) | cove_shallows | 113 | 52 (> 36) | yes | pass |
+
+## WindYaw (the wind arrow) on every cell Gusts can cover
+
+WindYaw is the compass direction the wind blows toward (0 = north = -Z, 90 = east = +X); the wind arrow points that way and the client sets GlobalWind = (sin, 0, -cos) x strength.
+
+| Cell | Why it needs WindYaw | WindYaw | GlobalWind direction (x, z) | Far spot: bearing from stand, off the arrow | Wind-carried cast |
+|---|---|---|---|---|---|
+| anvil_reach | Bluff Gusts route | 345 | (-0.26, -0.97) | none | never (no far spot); the line bows downwind |
+| cove_shallows | called Gusts (Callable) | 270 | (-1.00, +0.00) | none | never (no far spot); the line bows downwind |
+| kite_ledge | Bluff Gusts route | 0 | (+0.00, -1.00) | kite_far 3 deg, 3 deg off | yes from the stand (within 45 deg) |
+| pier_head | Cove Gusts visit, called Gusts (Callable) | 270 | (-1.00, +0.00) | none | never (no far spot); the line bows downwind |
+| squall_rocks | Bluff Gusts route | 320 | (-0.64, -0.77) | none | never (no far spot); the line bows downwind |
+| whistle_point | Bluff Gusts route | 75 | (+0.97, -0.26) | whistle_far 76 deg, 1 deg off | yes from the stand (within 45 deg) |
+
+Cells without a far ripple: the Gusts cloud and the wind arrow agree (within 45 deg).
+
+| Gusts path | Arrives in | Drift bearing | WindYaw | Apart | Rule |
+|---|---|---|---|---|---|
+| Gusts (Bluff Gusts) | squall_rocks | 322 | 320 | 2 | pass |
+| Gusts (Bluff Gusts) | anvil_reach | 345 | 345 | 0 | pass |
+| Gusts (Cove Gusts, hourly) | pier_head | 268 | 270 | 2 | pass |
 
 ## Callable harbour spots (GDD 4.10, paid Sky Bell calls)
 
@@ -179,10 +215,6 @@ Walkable and fishable extent: X -235..300, Z -289..6 (535 x 295 studs). Farthest
 ResourceNode counts per island: pebble_cove: pool 2, regular 3; lantern_reef: lantern 3, regular 3; gustwhistle_bluffs: far 2, regular 2; thunderhead_point: lantern 1, pool 1, regular 2. Total 19 (10 regular).
 Prototype ResourceNodes: cove_dock, cove_shallows, pier_head.
 
-## Result
-
-All checks pass.
-
 ## ASCII map (1 char = 9 studs east-west, 18 studs north-south; north is up)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,4 +243,6 @@ All checks pass.
 
 Key: S spawn (faces north), 1-0 regular spots (1 cove_dock, 2 cove_shallows, 3 pier_head, 4 reef_steps, 5 reef_lagoon, 6 reef_outer, 7 kite_ledge, 8 whistle_point, 9 squall_rocks, 0 anvil_reach), o weather-only spot, # ZoneGate, = bridge, - Net Walk, | Open Pier, ^ landmark, : ferry loop, . land, ~ water.
 
-SVG written to games/stormcatch/docs/world-map.svg
+## Result, layout v2 (T-0016, 2026-10-26)
+
+All checks pass.

@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-26T06:02:50Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T06:09:51Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,12 +14,11 @@ Updated 2026-10-26T06:02:50Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Tasks
 
-### Working (2)
+### Working (1)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0015 | economist | stormcatch | Re-run the paying-player model against the catalog | - |
-| T-0016 | worldbuilder | stormcatch | Add harbour weather visits and WindYaw to the world plan | - |
 
 ### Needs review (0)
 
@@ -39,6 +38,8 @@ Updated 2026-10-26T06:02:50Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T06:09:51Z director: T-0016 -> done: Reviewed: re-ran world_layout.py (exit 0, layout v2, All checks pass), both harbour visit paths avoid cove_dock, WindYaw defined per Gusts cell including two cells v1 missed, handoff validates.
+- 2026-10-26T06:09:32Z worldbuilder: submitted T-0016 for review
 - 2026-10-26T06:02:50Z worldbuilder: started T-0016
 - 2026-10-26T06:02:36Z director: added T-0016 'Add harbour weather visits and WindYaw to the world plan' for worldbuilder (queued)
 - 2026-10-26T06:02:36Z director: T-0014 -> done: Reviewed: cove_visits_check.py run (all checks pass: rain wait 260 s, 0/672 cycles without the Sky Bell window, 0/168 hours missing a visit, Rainbow unchanged), W1/W2 resolved by hourly natural visits, four catalog rules added, prototype brief unchanged (md5 4c04c92...) and valid, GDD v3.
@@ -52,5 +53,3 @@ Updated 2026-10-26T06:02:50Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-26T05:50:04Z monetization-designer: submitted T-0009 for review
 - 2026-10-26T05:50:03Z designer: submitted T-0013 for review
 - 2026-10-26T05:49:10Z monetization-designer: escalated E-0001 (policy)
-- 2026-10-25T18:00:07Z designer: started T-0013
-- 2026-10-25T18:00:06Z monetization-designer: started T-0009

@@ -24,6 +24,8 @@ from typing import Dict, List, Optional, Tuple
 
 Vec = Tuple[float, float, float]
 
+LAYOUT_VERSION = "v2 (T-0016, 2026-10-26)"  # v1 T-0011 2026-10-25; v2 adds the GDD v3 harbour visits and harbour WindYaw
+
 # ---------------------------------------------------------------------------------------------
 # Template facts (cited in world-plan.md)
 # ---------------------------------------------------------------------------------------------
@@ -220,7 +222,38 @@ PROTO_FRONT_PATHS = {  # gdd.md 13.2 / specs/prototype.md req 6
     "Showers (prototype)": ["pier_head", "cove_shallows"],
     "Sea Fog (prototype)": ["FOG_ENTRY", "cove_shallows", "pier_head"],
 }
+# GDD v3 4.2 rule 8: hourly natural harbour visits. Each lingers on one harbour front spot (never cove_dock).
+# Both end on pier_head, as in the Designer's illustrative check (docs/specs/cove_visits_check.py).
+HARBOUR_VISIT_PATHS = {
+    "Sea Fog (Cove Fog, hourly)": ["COVE_FOG_ENTRY", "pier_head"],
+    "Gusts (Cove Gusts, hourly)": ["COVE_GUSTS_ENTRY", "pier_head"],
+}
+# A geometric option for the Designer, checked but not in the route pool and not drawn.
+VARIANT_PATHS = {
+    "Sea Fog (Cove Fog variant to cove_shallows, not in the pool)": ["COVE_FOG_ENTRY", "cove_shallows"],
+}
 FOG_ENTRY: Vec = (-80, 0, -110)  # prototype fog bank sits off the Lantern Reef edge stub
+ENTRY_POINTS: Dict[str, Vec] = {
+    "FOG_ENTRY": FOG_ENTRY,
+    "COVE_FOG_ENTRY": (5, 0, -160),  # open sea off the cove mouth, north of the Open Pier
+    "COVE_GUSTS_ENTRY": (140, 0, -100),  # open water between Gull Point and the Bluffs' west shore
+}
+
+# WindYaw (degrees clockwise from north, north = -Z): the direction the wind blows TOWARD, which is where the
+# wind arrow points. Client GlobalWind = (sin(yaw), 0, -cos(yaw)) * the Gusts strength (art-direction.md 6).
+# Rule: a cell with a far ripple points at it, so a cast from the stand is wind-carried (GDD 4.1: arrow within
+# 45 deg). A cell without one follows the direction Gusts drift into it (rounded to 5 deg), so the cloud and the arrow
+# agree. The two harbour cells share one wind blowing off the Bluffs (west), so GlobalWind never flips between them;
+# the harbour has no far spot, so its casts are never wind-carried.
+WIND_YAW: Dict[str, float] = {
+    "kite_ledge": 0.0,  # far ripple kite_far due north
+    "whistle_point": 75.0,  # far ripple whistle_far east-north-east
+    "squall_rocks": 320.0,  # Bluff Gusts arrives from kite_ledge, heading north-west
+    "anvil_reach": 345.0,  # Bluff Gusts arrives from squall_rocks, heading north-north-west
+    "pier_head": 270.0,  # Cove Gusts arrives from the Bluffs side, heading west
+    "cove_shallows": 270.0,  # called Gusts only; same harbour wind as pier_head
+}
+WIND_CAST_ANGLE = 45.0  # GDD 4.1 ring table, Gusts row: arrow within 45 deg of the far spot
 STORM_HOME: Vec = (115, 50, -217)  # anvil cloud base over the Thunder Spire (StormHome)
 STORM_EYE: Vec = (20, 60, -96)  # eye centre over the Open Pier head (StormEye)
 
@@ -351,6 +384,40 @@ def secs(studs: float, speed: float = BASE_WALK_SPEED) -> float:
     return studs / speed
 
 
+def compass_bearing(a: Vec, b: Vec) -> float:
+    """Compass bearing from a to b in degrees (0 = north = -Z, 90 = east = +X)."""
+    return math.degrees(math.atan2(b[0] - a[0], -(b[2] - a[2]))) % 360
+
+
+def angle_between(a: float, b: float) -> float:
+    d = abs(a - b) % 360
+    return min(d, 360 - d)
+
+
+def in_polygon(poly, x: float, z: float) -> bool:
+    hit = False
+    for i in range(len(poly)):
+        (ax, az), (bx, bz) = poly[i], poly[(i + 1) % len(poly)]
+        if (az > z) != (bz > z) and x < ax + (z - az) * (bx - ax) / (bz - az):
+            hit = not hit
+    return hit
+
+
+def on_land(x: float, z: float) -> bool:
+    if any(in_polygon(poly, x, z) for poly in ISLAND_OUTLINES.values()):
+        return True
+    ox, oz, orx, orz = REEF_OUTER
+    ix, iz, irx, irz = REEF_INNER
+    return ((x - ox) / orx) ** 2 + ((z - oz) / orz) ** 2 <= 1 and ((x - ix) / irx) ** 2 + ((z - iz) / irz) ** 2 > 1
+
+
+def path_point(name: str, centres: Dict[str, Vec]) -> Vec:
+    return ENTRY_POINTS[name] if name in ENTRY_POINTS else centres[name]
+
+
+ALL_PATHS = {**FRONT_PATHS, **HARBOUR_VISIT_PATHS, **PROTO_FRONT_PATHS, **VARIANT_PATHS}
+
+
 # ---------------------------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------------------------
@@ -365,7 +432,7 @@ def report() -> int:
     def walk(a_id: str, b_id: str) -> float:
         return trees[spot_by_id[a_id]["stand"]][spot_by_id[b_id]["stand"]][0]
 
-    print("# World layout model output (T-0011)\n")
+    print(f"# World layout model output, layout {LAYOUT_VERSION}\n")
     print(f"Base walk speed {BASE_WALK_SPEED:g} studs/s (Stats.luau:103). 15 s = {ADJACENT_RULE_S * BASE_WALK_SPEED:g} studs;"
           f" target 12.5 s = {ADJACENT_TARGET_S * BASE_WALK_SPEED:g} studs; 60 s warning = {WARNING_S * BASE_WALK_SPEED:g} studs;"
           f" 45 s = {ANY_SPOT_TARGET_S * BASE_WALK_SPEED:g} studs.\n")
@@ -480,8 +547,8 @@ def report() -> int:
     print("\n## Front paths (drift over water between cell centres)\n")
     print("| Front | Cells | Legs (studs) | Total drift (studs) |")
     print("|---|---|---|---|")
-    for label, cells in {**FRONT_PATHS, **PROTO_FRONT_PATHS}.items():
-        pts = [FOG_ENTRY if c == "FOG_ENTRY" else centres[c] for c in cells]
+    for label, cells in ALL_PATHS.items():
+        pts = [path_point(c, centres) for c in cells]
         legs = [hdist(pts[i], pts[i + 1]) for i in range(len(pts) - 1)]
         print(f"| {label} | {' > '.join(cells)} | {', '.join(f'{x:.0f}' for x in legs)} | {sum(legs):.0f} |")
     storm_leg = hdist(STORM_HOME, STORM_EYE)
@@ -494,20 +561,99 @@ def report() -> int:
     # Sheltered cells: never on a front path, and no drift leg passes over them
     sheltered = [s["id"] for s in SPOTS if s.get("sheltered")]
     print("\n## Sheltered spot (GDD 4.1: no front, call or Rainbow ever covers it)\n")
+    print("Paths checked: natural route pool, the hourly harbour visits (GDD 4.2 rule 8) and the prototype routes.\n")
     print("| Sheltered cell | On any front path | Closest drift leg to its centre (studs) | Rule |")
     print("|---|---|---|---|")
     for cid in sheltered:
-        on_path = [label for label, cells in {**FRONT_PATHS, **PROTO_FRONT_PATHS}.items() if cid in cells]
+        on_path = [label for label, cells in ALL_PATHS.items() if cid in cells]
         closest = min(
-            seg_point_distance(centres[cid],
-                               FOG_ENTRY if a == "FOG_ENTRY" else centres[a],
-                               FOG_ENTRY if b == "FOG_ENTRY" else centres[b])
-            for cells in {**FRONT_PATHS, **PROTO_FRONT_PATHS}.values()
+            seg_point_distance(centres[cid], path_point(a, centres), path_point(b, centres))
+            for cells in ALL_PATHS.values()
             for a, b in zip(cells, cells[1:]))
         ok = not on_path and closest > CELL_RADIUS
         if not ok:
             failures.append(f"sheltered {cid} crossed")
         print(f"| {cid} | {', '.join(on_path) if on_path else 'no'} | {closest:.0f} | {'pass' if ok else 'FAIL'} (> {CELL_RADIUS:g}, outside its cell) |")
+
+    # Harbour visits (GDD v3 4.2 rule 8)
+    print("\n## Harbour visits: Cove Fog and Cove Gusts (GDD 4.2 rule 8)\n")
+    print("| Visit | Entry (x, z) | Ends on | Leg (studs) | Closest approach to the Dock Ripple cell centre | Over water | Rule |")
+    print("|---|---|---|---|---|---|---|")
+    for label, cells in {**HARBOUR_VISIT_PATHS, **VARIANT_PATHS}.items():
+        pts = [path_point(c, centres) for c in cells]
+        target = spot_by_id[cells[-1]]
+        dry = 0
+        samples = 0
+        for a, b in zip(pts, pts[1:]):
+            n = int(hdist(a, b))
+            for i in range(n + 1):
+                t = i / max(n, 1)
+                samples += 1
+                if on_land(a[0] + (b[0] - a[0]) * t, a[2] + (b[2] - a[2]) * t):
+                    dry += 1
+        dock = min(seg_point_distance(centres[c], a, b) for c in sheltered for a, b in zip(pts, pts[1:]))
+        ok = (target["zone"] == "pebble_cove" and target["kind"] == "regular" and target.get("callable")
+              and not target.get("sheltered") and dry == 0 and dock > CELL_RADIUS)
+        if not ok:
+            failures.append(f"harbour visit {label}")
+        entry = ENTRY_POINTS[cells[0]]
+        print(f"| {label} | ({entry[0]:.0f}, {entry[2]:.0f}) | {cells[-1]} | {sum(hdist(a, b) for a, b in zip(pts, pts[1:])):.0f} |"
+              f" {dock:.0f} (> {CELL_RADIUS:g}) | {'yes' if dry == 0 else f'NO ({dry}/{samples} samples on land)'} | {'pass' if ok else 'FAIL'} |")
+
+    # WindYaw (GDD 4.1 Gusts row; GDD 4.2 rule 8; GDD 4.10 called Gusts on Callable spots)
+    gust_cells = {c for label, cells in {**FRONT_PATHS, **HARBOUR_VISIT_PATHS}.items() if label.startswith("Gusts")
+                  for c in cells if c in centres}
+    called_cells = {s["cell"] for s in SPOTS if s.get("callable") and s["kind"] == "regular"}
+    print("\n## WindYaw (the wind arrow) on every cell Gusts can cover\n")
+    print("WindYaw is the compass direction the wind blows toward (0 = north = -Z, 90 = east = +X); the wind arrow points"
+          " that way and the client sets GlobalWind = (sin, 0, -cos) x strength.\n")
+    print("| Cell | Why it needs WindYaw | WindYaw | GlobalWind direction (x, z) | Far spot: bearing from stand, off the arrow | Wind-carried cast |")
+    print("|---|---|---|---|---|---|")
+    for cid in sorted(gust_cells | called_cells):
+        reasons = []
+        if any(cid in cells for label, cells in FRONT_PATHS.items() if label.startswith("Gusts")):
+            reasons.append("Bluff Gusts route")
+        if any(cid in cells for label, cells in HARBOUR_VISIT_PATHS.items() if label.startswith("Gusts")):
+            reasons.append("Cove Gusts visit")
+        if cid in called_cells:
+            reasons.append("called Gusts (Callable)")
+        yaw = WIND_YAW.get(cid)
+        if yaw is None:
+            failures.append(f"WindYaw missing on {cid}")
+            print(f"| {cid} | {', '.join(reasons)} | MISSING | | | |")
+            continue
+        wx, wz = math.sin(math.radians(yaw)), -math.cos(math.radians(yaw))
+        fars = [s for s in SPOTS if s["cell"] == cid and s["kind"] == "far"]
+        if fars:
+            parts = []
+            for f in fars:
+                b = compass_bearing(root_at(f["stand"]), f["pos"])
+                off = angle_between(b, yaw)
+                if off > WIND_CAST_ANGLE:
+                    failures.append(f"far spot {f['id']} {off:.0f} deg off the wind")
+                parts.append(f"{f['id']} {b:.0f} deg, {off:.0f} deg off")
+            cast = f"yes from the stand (within {WIND_CAST_ANGLE:g} deg)"
+            far_text = "; ".join(parts)
+        else:
+            far_text = "none"
+            cast = "never (no far spot); the line bows downwind"
+        print(f"| {cid} | {', '.join(reasons)} | {yaw:g} | ({wx:+.2f}, {wz:+.2f}) | {far_text} | {cast} |")
+    print("\nCells without a far ripple: the Gusts cloud and the wind arrow agree (within"
+          f" {WIND_CAST_ANGLE:g} deg).\n")
+    print("| Gusts path | Arrives in | Drift bearing | WindYaw | Apart | Rule |")
+    print("|---|---|---|---|---|---|")
+    for label, cells in {**FRONT_PATHS, **HARBOUR_VISIT_PATHS}.items():
+        if not label.startswith("Gusts"):
+            continue
+        for prev, cid in zip(cells, cells[1:]):
+            if any(sp["cell"] == cid and sp["kind"] == "far" for sp in SPOTS):
+                continue
+            drift = compass_bearing(path_point(prev, centres), path_point(cid, centres))
+            off = angle_between(drift, WIND_YAW[cid])
+            ok = off <= WIND_CAST_ANGLE
+            if not ok:
+                failures.append(f"{label} drift into {cid} disagrees with its WindYaw")
+            print(f"| {label} | {cid} | {drift:.0f} | {WIND_YAW[cid]:g} | {off:.0f} | {'pass' if ok else 'FAIL'} |")
 
     # Callable harbour spots (GDD 4.10): at least 2 incl. the Open Pier, never sheltered, reachable within 60 s
     callable_spots = [s for s in SPOTS if s.get("callable")]
@@ -609,7 +755,12 @@ def report() -> int:
     proto = [s["id"] for s in SPOTS if s["proto"]]
     print(f"Prototype ResourceNodes: {', '.join(proto)}.")
 
-    print("\n## Result\n")
+    print("\n## ASCII map (1 char = 9 studs east-west, 18 studs north-south; north is up)\n")
+    print(ascii_map())
+    print("\nKey: S spawn (faces north), 1-0 regular spots (" + ", ".join(f"{v} {k}" for k, v in SPOT_KEYS.items())
+          + "), o weather-only spot, # ZoneGate, = bridge, - Net Walk, | Open Pier, ^ landmark, : ferry loop, . land, ~ water.")
+
+    print(f"\n## Result, layout {LAYOUT_VERSION}\n")
     if failures:
         print("FAIL: " + "; ".join(failures))
         return 1
@@ -626,7 +777,7 @@ def write_svg(path: str) -> None:
     scale = 1.75
     pad = 20
     width = (x1 - x0) * scale + 2 * pad
-    height = (z1 - z0) * scale + 2 * pad + 146
+    height = (z1 - z0) * scale + 2 * pad + 170
 
     def P(x: float, z: float) -> Tuple[float, float]:
         return ((x - x0) * scale + pad, (z - z0) * scale + pad)
@@ -638,7 +789,7 @@ def write_svg(path: str) -> None:
     add = out.append
     add(f'<svg xmlns="http://www.w3.org/2000/svg" width="{width:.0f}" height="{height:.0f}" '
         f'viewBox="0 0 {width:.0f} {height:.0f}" font-family="Helvetica, Arial, sans-serif">')
-    add("<title>Reel the Storm: top-down world plan (T-0011)</title>")
+    add(f"<title>Reel the Storm: top-down world plan, layout {LAYOUT_VERSION}</title>")
     add('<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">'
         '<path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>')
     add(f'<rect x="0" y="0" width="{width:.0f}" height="{height:.0f}" fill="#3F7F8C"/>')
@@ -683,6 +834,23 @@ def write_svg(path: str) -> None:
         ox, oz = offsets[key]
         line = [(centres[c][0] + ox, centres[c][2] + oz) for c in cells]
         add(f'<polyline points="{pts(line)}" fill="none" stroke="{colours[key]}" stroke-width="3" stroke-opacity="0.95" marker-end="url(#arrow)"/>')
+    # hourly harbour visits (GDD 4.2 rule 8)
+    for label, cells in HARBOUR_VISIT_PATHS.items():
+        key = label.split(" (")[0]
+        line = [(path_point(c, centres)[0], path_point(c, centres)[2]) for c in cells]
+        add(f'<polyline points="{pts(line)}" fill="none" stroke="{colours[key]}" stroke-width="3.5" '
+            f'stroke-dasharray="7,4" marker-end="url(#arrow)"/>')
+        ex, ez = P(line[0][0], line[0][1])
+        add(f'<circle cx="{ex:.1f}" cy="{ez:.1f}" r="5" fill="{colours[key]}" stroke="#18203A" stroke-width="1.5"/>')
+        name = label.split("(")[1].split(",")[0]
+        add(f'<text x="{ex + 8:.1f}" y="{ez + 4:.1f}" font-size="10" font-weight="bold" fill="#FFF8EC">{name} (hourly)</text>')
+    # wind arrows (WindYaw) on every Gusts-capable cell
+    for cid, yaw in WIND_YAW.items():
+        c = centres[cid]
+        tip = (c[0] + 24 * math.sin(math.radians(yaw)), c[2] - 24 * math.cos(math.radians(yaw)))
+        a, b = P(c[0], c[2]), P(*tip)
+        add(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="#FFFFFF" stroke-width="2.5" marker-end="url(#arrow)"/>')
+        add(f'<text x="{a[0] + 4:.1f}" y="{a[1] + 14:.1f}" font-size="9" fill="#FFFFFF">{yaw:g}°</text>')
     sh, se = P(STORM_HOME[0], STORM_HOME[2]), P(STORM_EYE[0], STORM_EYE[2])
     add(f'<line x1="{sh[0]:.1f}" y1="{sh[1]:.1f}" x2="{se[0]:.1f}" y2="{se[1]:.1f}" stroke="#FFC42E" stroke-width="3" stroke-dasharray="2,4" marker-end="url(#arrow)"/>')
     # walkways
@@ -780,8 +948,10 @@ def write_svg(path: str) -> None:
         ("dash", "#FF7A59", "Prototype build area"),
         ("callring", "#FFC42E", "Callable (Sky Bell harbour spot)"),
         ("shelter", "#18203A", "Sheltered cell (never a front)"),
+        ("dash", "#9BE3C3", "Hourly harbour visit (Cove Fog, Cove Gusts)"),
+        ("line", "#FFFFFF", "WindYaw: wind arrow, degrees from north"),
     ]
-    add(f'<rect x="{pad:.0f}" y="{ly - 4:.0f}" width="{width - 2 * pad:.0f}" height="134" fill="#18203A" rx="8"/>')
+    add(f'<rect x="{pad:.0f}" y="{ly - 4:.0f}" width="{width - 2 * pad:.0f}" height="158" fill="#18203A" rx="8"/>')
     cols = 4
     colw = (width - 2 * pad - 20) / cols
     for i, (shape, colour, text) in enumerate(items):
@@ -880,15 +1050,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--svg", help="write the top-down map to this SVG path")
     args = parser.parse_args()
-    status = report()
-    print("\n## ASCII map (1 char = 9 studs east-west, 18 studs north-south; north is up)\n")
-    print(ascii_map())
-    print("\nKey: S spawn (faces north), 1-0 regular spots (" + ", ".join(f"{v} {k}" for k, v in SPOT_KEYS.items())
-          + "), o weather-only spot, # ZoneGate, = bridge, - Net Walk, | Open Pier, ^ landmark, : ferry loop, . land, ~ water.")
     if args.svg:
         write_svg(args.svg)
-        print(f"\nSVG written to {args.svg}")
-    return status
+        print(f"SVG written to {args.svg}\n")
+    return report()
 
 
 if __name__ == "__main__":

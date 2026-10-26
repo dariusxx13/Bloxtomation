@@ -402,6 +402,16 @@
       "at": "2026-10-26T06:02:50Z",
       "by": "worldbuilder",
       "message": "started T-0016"
+    },
+    {
+      "at": "2026-10-26T06:09:32Z",
+      "by": "worldbuilder",
+      "message": "submitted T-0016 for review"
+    },
+    {
+      "at": "2026-10-26T06:09:51Z",
+      "by": "director",
+      "message": "T-0016 -> done: Reviewed: re-ran world_layout.py (exit 0, layout v2, All checks pass), both harbour visit paths avoid cove_dock, WindYaw defined per Gusts cell including two cells v1 missed, handoff validates."
     }
   ],
   "tasks": {
@@ -843,15 +853,22 @@
         "DESIGN-09",
         "DESIGN-10"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0016.md",
       "id": "T-0016",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T06:09:51Z",
+          "by": "director",
+          "text": "Reviewed: re-ran world_layout.py (exit 0, layout v2, All checks pass), both harbour visit paths avoid cove_dock, WindYaw defined per Gusts cell including two cells v1 missed, handoff validates."
+        }
+      ],
       "owner": "worldbuilder",
       "stage": "design",
       "started": "2026-10-26T06:02:50Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T06:09:32Z",
       "title": "Add harbour weather visits and WindYaw to the world plan",
-      "updated": "2026-10-26T06:02:50Z"
+      "updated": "2026-10-26T06:09:51Z"
     }
   },
   "version": 1

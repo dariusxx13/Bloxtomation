@@ -110,6 +110,27 @@ FRONT_MIX = {
     "gusts": {"showers": 0.2, "fog": 0.2, "gusts": 0.6},
     "mixed": {"showers": 1 / 3, "fog": 1 / 3, "gusts": 1 / 3},
 }
+# GDD v3 section 4.2 rule 8 (T-0014; O-EC3): the harbour (Pebble Cove's front spots) gets Showers every cycle, plus one
+# Cove Fog and one Cove Gusts visit an hour (100 s each on one front spot). Illustrative pattern and its coverage:
+# docs/specs/cove_visits_check.py (27.78% of harbour front-spot time without visits, 31.25% with them). Per hour:
+# Showers 1,600 spot-seconds, Sea Fog 100, Gusts 100. Exposure at the harbour scales with coverage.
+# mode "visits" (GDD v3, used for every table), "no_visits" (launch world plan before v3), "v2" (the sheet's v1-v2
+# assumption: Showers 60%, Sea Fog 20%, Gusts 20% of front time, coverage unscaled).
+HARBOUR = {"mode": "visits", "coverageNoVisits": 400 / 1440, "coverageVisits": 450 / 1440,
+           "spotSecondsPerHour": {"showers": 1600, "fog": 100, "gusts": 100}}
+
+
+def harbour_mix() -> dict[str, float]:
+    if HARBOUR["mode"] == "no_visits":
+        return {"showers": 1.0, "fog": 0.0, "gusts": 0.0}
+    tot = sum(HARBOUR["spotSecondsPerHour"].values())
+    return {w: v / tot for w, v in HARBOUR["spotSecondsPerHour"].items()}
+
+
+def harbour_coverage_factor() -> float:
+    return HARBOUR["coverageVisits"] / HARBOUR["coverageNoVisits"] if HARBOUR["mode"] == "visits" else 1.0
+
+
 FRONTS_START_SECONDS = 90  # the first shower reaches the dock at about 1:30 (loop sketch 5.2)
 SCRIPTED_RAIN_RARE_SECONDS = 120  # first catch in rain is a guaranteed rain-only Rare with Drizzled
 
@@ -441,13 +462,89 @@ def ev_tier_value(probs: list[tuple[str, str, float]]) -> float:
     return sum(p * TIER_VALUE[tier] for _, tier, p in probs)
 
 
-def landed_seconds(weather: str, reel_success: float, bite_scale: float = 1.0) -> float:
+def landed_seconds(weather: str, reel_success: float, bite_scale: float = 1.0, reel_scale: float = 1.0,
+                   absolute: bool = False) -> float:
+    """Seconds per landed fish. reel_success is the Clear success plus the weather's change, unless absolute."""
     w = WEATHER[weather]
     bite = (w["bite"][0] + w["bite"][1]) / 2 * bite_scale
-    s = max(0.05, min(PERK_CAPS["reel"], reel_success + w["reel_delta"]))
-    t_ok = w["cast"] + bite + w["reel"] + w["reveal"]
-    t_fail = w["cast"] + bite + w["reel"] + FAILED_REEL_RECOVER_S
+    if absolute:
+        s = max(0.05, min(0.999, reel_success))
+    else:
+        s = max(0.05, min(PERK_CAPS["reel"], reel_success + w["reel_delta"]))
+    reel = w["reel"] * reel_scale
+    t_ok = w["cast"] + bite + reel + w["reveal"]
+    t_fail = w["cast"] + bite + reel + FAILED_REEL_RECOVER_S
     return (s * t_ok + (1 - s) * t_fail) / s
+
+
+# ----- Easier reeling (GDD v3 section 4.12; O-EC4): a first-pass ring micro-model -----
+# Each tap lands on the green arc with probability p = erf(w / (2 sqrt(2) sigma)), where w is the arc's time window
+# (arc / 360 x lap). A fish needs k steps (by tier) and escapes on the (budget + 1)th miss. sigma is calibrated per
+# player model so that Clear matches the sheet's reel success (85% casual, 92% typical); the micro-model is then used
+# only for RATIOS (how much the assist cuts the escape rate in each weather), so the sheet's per-weather values stay.
+RING = {  # GDD 4.1 ring table: (arc degrees, lap seconds, steps by tier C/U/R/E+, miss budget, sway degrees)
+    "clear": (90, 1.6, (1, 2, 3, 3), 3, 0),
+    "rainbow": (90, 1.6, (1, 2, 3, 3), 3, 0),
+    "eye": (90, 1.6, (1, 2, 3, 3), 3, 0),
+    "showers": (150, 1.1, (1, 1, 2, 2), 3, 0),
+    "fog": (90, 1.8, (1, 2, 3, 3), 4, 0),
+    "gusts": (80, 1.4, (1, 2, 3, 3), 3, 40),
+}
+ASSIST = dict(arcFactor=1.5, arcCap=180, lapFactor=1.25, hook=(3.0, 4.5), swayFactor=0.5)  # GDD v3 4.12
+HOOK_REACTION = {"casual": (1.1, 0.5), "typical": (0.85, 0.5)}  # lognormal median s, sigma (first-pass)
+
+
+def _tap_p(arc: float, lap: float, sway: float, sigma: float) -> float:
+    eff_arc = max(5.0, arc - 0.5 * sway)  # a swaying arc acts like a narrower one
+    w = eff_arc / 360 * lap
+    return math.erf(w / (2 * math.sqrt(2) * sigma))
+
+
+def _land_p(p: float, k: int, budget: int) -> float:
+    return sum(math.comb(k - 1 + m, m) * p ** k * (1 - p) ** m for m in range(budget + 1))
+
+
+def ring_success(weather: str, sigma: float, assisted: bool, hook_rt: tuple[float, float]) -> float:
+    arc, lap, steps, budget, sway = RING[weather]
+    if assisted:
+        arc = min(ASSIST["arcCap"], arc * ASSIST["arcFactor"])
+        lap *= ASSIST["lapFactor"]
+        sway *= ASSIST["swayFactor"]
+    p = _tap_p(arc, lap, sway, sigma)
+    lk = 1.0 + WEATHER[weather]["sky_luck"]
+    tiers = {"Common": 0, "Uncommon": 1, "Rare": 2}
+    total = 0.0
+    for _, tier, prob in effective(table_entries("pebble_cove", weather), lk):
+        total += prob * _land_p(p, steps[tiers.get(tier, 3)], budget)
+    if weather == "fog":
+        window = ASSIST["hook"][1] if assisted else ASSIST["hook"][0]
+        med, sg = hook_rt
+        z = (math.log(window) - math.log(med)) / sg
+        total *= 0.5 * (1 + math.erf(z / math.sqrt(2)))
+    return total
+
+
+def calibrate_sigma(target: float) -> float:
+    lo, hi = 0.01, 2.0
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        if ring_success("clear", mid, False, (1.0, 0.5)) > target:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def assisted_success(model_key: str, weather: str) -> float:
+    """Sheet success for this weather, with its escape rate cut by the micro-model's assist ratio."""
+    m = MODELS[model_key]
+    sigma = calibrate_sigma(m["reel"])
+    rt = HOOK_REACTION[model_key]
+    base_micro = ring_success(weather, sigma, False, rt)
+    assist_micro = ring_success(weather, sigma, True, rt)
+    ratio = (1 - assist_micro) / max(1e-9, 1 - base_micro)
+    base = min(PERK_CAPS["reel"], m["reel"] + WEATHER[weather]["reel_delta"])
+    return 1 - (1 - base) * ratio
 
 
 def stormborn_ev_tier_value() -> float:
@@ -509,6 +606,7 @@ class Player:
         self.step12_t: int | None = None
         self.last_pack_day = -1
         self.robux_coins = 0.0
+        self._assist_cache: dict[str, float] = {}
         # continuous=True: one long first session (template simulatePacing); return sources (later daily
         # rewards, Tide Pots) are left out because they depend on when the player comes back, not on play time.
         self.continuous = continuous
@@ -624,12 +722,23 @@ class Player:
         return self.catch_value(isl["mult"], "clear", ev) * self.coin_mult() * ECONOMY["assumedCatchesPerMinute"]
 
     # ----- one second of play -----
+    def landed(self, weather: str) -> float:
+        a = self.m.get("assist")
+        if a:
+            if weather not in self._assist_cache:
+                self._assist_cache[weather] = assisted_success(a, weather)
+            return landed_seconds(weather, self._assist_cache[weather], reel_scale=ASSIST["lapFactor"], absolute=True)
+        return landed_seconds(weather, self.m["reel"])
+
     def weather_mix(self) -> list[tuple[str, float, bool]]:
         """(weather, share of fishing time, under a D6 call). Calls go only into clear harbour time (GDD 4.10)."""
         if self.t < FRONTS_START_SECONDS:
             return [("clear", 1.0, False)]
         f, r = self.m["front"], self.m["rainbow"]
         mix = FRONT_MIX[self.island()["home"]]
+        if self.island()["id"] == "pebble_cove" and HARBOUR["mode"] != "v2":
+            mix = harbour_mix()
+            f = f * harbour_coverage_factor()
         clear = 1 - f - r
         called = min(self.cf_share, clear) if self.island()["id"] == "pebble_cove" else 0.0
         out = [("clear", clear - called, False), ("rainbow", r, False)]
@@ -676,7 +785,7 @@ class Player:
             # the share of the storm not at the eye is light rain on the player's island (treated as clear)
             luck_c = self.luck("clear", False)
             probs_c, ev_c = self.table(isl["id"], "clear", luck_c)
-            rate_c = (1 - attend) * eff / landed_seconds("clear", self.m["reel"])
+            rate_c = (1 - attend) * eff / self.landed("clear")
             income += rate_c * self.catch_value(isl["mult"], "clear", ev_c) * mult
             self.add_species(probs_c, rate_c)
             if storm_sec >= travel:
@@ -685,7 +794,7 @@ class Player:
                 luck_e = self.luck("eye", False)
                 probs_e, ev_e = self.table("pebble_cove", "eye", luck_e)
                 hook = self.effective_hook(travel)
-                t_catch = landed_seconds("eye", self.m["reel"]) + hook * land_seconds(self.m["helpers"])
+                t_catch = self.landed("eye") + hook * land_seconds(self.m["helpers"])
                 rate_e = attend * eye_share * (1 - self.m["idle"]) / t_catch
                 normal = (1 - hook) * self.catch_value(isl["mult"], "eye", ev_e)
                 sb = hook * self.stormborn_value(isl["mult"])
@@ -707,7 +816,7 @@ class Player:
                     continue
                 lk = self.luck(weather, called)
                 probs, ev = self.table(isl["id"], weather, lk)
-                rate = frac * eff / landed_seconds(weather, self.m["reel"])
+                rate = frac * eff / self.landed(weather)
                 income += rate * self.catch_value(isl["mult"], weather, ev) * mult
                 self.add_species(probs, rate)
         self.gain(income)
@@ -718,7 +827,7 @@ class Player:
     def eye_bites_per_storm(self, travel: float) -> float:
         help_time = self.m["helps"] * land_seconds(self.m["helpers"])
         eye_seconds = max(0.0, STORM["durationSeconds"] - travel - help_time) * (1 - self.m["idle"])
-        return eye_seconds / landed_seconds("eye", self.m["reel"])
+        return eye_seconds / self.landed("eye")
 
     def effective_hook(self, travel: float) -> float:
         """Per-bite hook chance after the cap of one Stormborn per player per storm (expected value)."""
@@ -829,7 +938,7 @@ class Player:
             if frac <= 0:
                 continue
             _, ev = self.table(isl["id"], weather, self.luck(weather, called))
-            total += frac * eff / landed_seconds(weather, self.m["reel"]) * self.catch_value(isl["mult"], weather, ev)
+            total += frac * eff / self.landed(weather) * self.catch_value(isl["mult"], weather, ev)
         return total * 60 * mult
 
     def candidates(self) -> list[tuple[float, str]]:
@@ -1694,6 +1803,7 @@ def main() -> None:
 
     prototype_report()
     catalog_report()
+    gdd_v3_report()
 
     # ---------------------------------------------------------------- pots and passive share
     out("## L. Tide Pots and passive share (Config/TidePots.luau)")
@@ -1981,6 +2091,111 @@ def catalog_report() -> None:
         f"basis: {'yes' if MINUTES_BASIS['paidCoinPass'] else 'no'}. Section B's variant table shows both bases for "
         "the heavy spender.")
     out()
+
+
+# =====================================================================================================
+# 10. GDD v3 CHECKS (T-0015): O-EC3 harbour visits, O-EC4 Easier reeling, O-EC5 Auto Reel
+# =====================================================================================================
+
+
+def _goal_runs(model: dict, keys: tuple[str, ...], track: bool) -> dict[str, tuple[float, float, float]]:
+    ps = []
+    for ph in PHASES_MIN:
+        pl = Player(model, ph, track_species=track)
+        end = SIM_MINUTES * 60
+        while pl.t < end and not all(k in pl.events for k in keys):
+            pl.session_tick()
+            pl.step()
+            pl.buy()
+            if pl.t % 10 == 0:
+                pl.check_sets()
+        ps.append(pl)
+    res = {}
+    for k in keys:
+        vals = [pl.events.get(k) for pl in ps]
+        if any(v is None for v in vals):
+            res[k] = (float("nan"),) * 3
+        else:
+            res[k] = (sum(vals) / len(vals) / 60, min(vals) / 60, max(vals) / 60)
+    return res
+
+
+def gdd_v3_report() -> None:
+    out("## O. GDD v3 checks (T-0015: O-EC3, O-EC4, O-EC5)")
+    out()
+    out("### O1. Harbour visits (GDD 4.2 rule 8): Cove Fog and Cove Gusts once an hour each")
+    out()
+    keys = ("bridge:lantern_reef", "bridge:gustwhistle_bluffs", "set:pebble_cove", "new_tide_1")
+    rows = []
+    keep = HARBOUR["mode"]
+    for mode, label in (("v2", "Sheet v1-v2 assumption (Showers 60%, Sea Fog 20%, Gusts 20% of front time)"),
+                        ("no_visits", "Harbour before v3 (Showers only, coverage 27.8%)"),
+                        ("visits", "Harbour with v3 visits (Showers 88.9%, Sea Fog 5.6%, Gusts 5.6%; coverage 31.25%)")):
+        HARBOUR["mode"] = mode
+        for name in ("casual", "typical"):
+            r = _goal_runs(MODELS[name], keys, True)
+            rows.append([label if name == "casual" else "", MODELS[name]["label"]]
+                        + [f"{r[k][0]:.1f} [{r[k][1]:.1f}-{r[k][2]:.1f}]" for k in keys])
+    HARBOUR["mode"] = keep
+    table(["Harbour pattern", "Model", "Bridge to Lantern Reef", "Bridge to Gustwhistle", "Pebble Cove set (median)",
+           "New Tide 1"], rows)
+    out("Every other table in this output uses the v3 pattern.")
+    out()
+    out("Time-to-see for the 16 Pebble Cove Misty and Breezy entries (\"marks seen\") for a player who fishes the "
+        "visited spot for the whole 100 s visit (typical reel, Lure 0; natural Sea Fog carries its Sky +100%):")
+    out()
+    m = MODELS["typical"]
+    rows = []
+    for w, mark in (("fog", "Misty"), ("gusts", "Breezy")):
+        lk = luck_total(0, 0, 0, WEATHER[w]["sky_luck"], 0, 0)[0]
+        probs = {sid: pr for sid, _, pr in effective(table_entries("pebble_cove", w), lk)}
+        per_visit = 100 * (1 - m["idle"]) / landed_seconds(w, m["reel"])
+        chance = WEATHER[w]["mark"][1]
+        for sid in SETS["pebble_cove"]:
+            lam = per_visit * probs[sid] * chance
+            rows.append([f"{sid}:{mark}", f"{per_visit:.1f}", pct(probs[sid] * chance), f"{lam:.3f}",
+                         f"{math.log(2) / lam:.1f} h", f"{math.log(2) / (lam * 1.8):.1f}"])
+    table(["Journal entry", "Catches per visit", "Chance per catch", "Expected per visit",
+           "Median wait (one visit an hour)", "Median calls instead (180 s each)"], rows)
+    out()
+    out("### O2. Easier reeling (GDD 4.12): arcs x1.5 (cap 180), laps x1.25, fog hook 4.5 s, Gusts sway halved")
+    out()
+    out("First-pass ring micro-model: each tap hits the green arc with p = erf(window / (2 sqrt 2 sigma)); a fish needs "
+        "1-3 steps by tier and escapes on the 4th miss (5th in fog). sigma is calibrated so Clear matches the sheet "
+        "(casual 85%, typical 92%); the assist's cut in escapes is then applied to the sheet's per-weather success. "
+        "The slower lap makes every reel 25% longer.")
+    out()
+    rows = []
+    for name in ("casual", "typical"):
+        sig = calibrate_sigma(MODELS[name]["reel"])
+        for w in ("clear", "showers", "fog", "gusts", "eye"):
+            base_s = min(PERK_CAPS["reel"], MODELS[name]["reel"] + WEATHER[w]["reel_delta"])
+            a_s = assisted_success(name, w)
+            b = 60 / landed_seconds(w, MODELS[name]["reel"])
+            a = 60 / landed_seconds(w, a_s, reel_scale=ASSIST["lapFactor"], absolute=True)
+            rows.append([f"{MODELS[name]['label']} (sigma {sig:.2f} s)" if w == "clear" else "", w, f"{base_s:.1%}",
+                         f"{a_s:.1%}", f"{b:.2f} -> {a:.2f} ({a / b - 1:+.0%})"])
+    table(["Model", "Weather", "Reel success", "With Easier reeling", "Catches per minute"], rows)
+    keys = ("bridge:lantern_reef", "bridge:gustwhistle_bluffs", "new_tide_1")
+    rows = []
+    for name in ("casual", "typical"):
+        base = _goal_runs(MODELS[name], keys, False)
+        assisted = _goal_runs(dict(MODELS[name], assist=name), keys, False)
+        rows.append([MODELS[name]["label"]] + [f"{base[k][0]:.1f} -> {assisted[k][0]:.1f} [{assisted[k][1]:.1f}-"
+                                               f"{assisted[k][2]:.1f}]" for k in keys])
+    table(["Easier reeling on from minute 1", "Bridge to Lantern Reef", "Bridge to Gustwhistle", "New Tide 1"], rows)
+    out("### O3. Auto Reel against active play with Easier reeling (O-EC5)")
+    out()
+    auto = 60 / auto_landed_seconds("clear")
+    rows = []
+    for name in ("casual", "typical"):
+        a_s = assisted_success(name, "clear")
+        act = 60 / landed_seconds("clear", a_s, reel_scale=ASSIST["lapFactor"], absolute=True)
+        plain = 60 / landed_seconds("clear", MODELS[name]["reel"])
+        rows.append([MODELS[name]["label"], f"{plain:.2f}", f"{act:.2f}", f"{auto:.2f}",
+                     f"{auto / plain:.0%} / {auto / act:.0%}"])
+    table(["Model", "Active Clear", "Active Clear with Easier reeling", "Auto Reel (70% landed, reel x2)",
+           "Auto Reel as share of active / of assisted"], rows)
 
 
 def print_timeline(name: str, phase: int) -> None:

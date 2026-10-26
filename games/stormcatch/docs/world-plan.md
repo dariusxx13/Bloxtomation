@@ -1,18 +1,25 @@
 # Reel the Storm: world plan
 
-Task T-0011 · Worldbuilder · 2026-10-25 · Stage: design · Outcome served: **stay**. The plan is a compact archipelago where the next goal is always in sight, every front is a short walk away, and the whole map is cheap enough for a low-end phone.
+Task T-0011, updated by T-0016 · Worldbuilder · **Version 2, 2026-10-26** · Stage: design · Outcome served: **stay**. The plan is a compact archipelago where the next goal is always in sight, every front is a short walk away, and the whole map is cheap enough for a low-end phone.
 
-**Inputs.** `gdd.md` (T-0007, accepted): §4.1 spot attributes (`SpotKind`, `StormEye`, `Sheltered`, `Callable`), §4.2 weather rules, §4.5 islands and bridges, §4.10 paid weather calls (D6) and §13 prototype. `specs/prototype.md` (the prototype build brief). `loop-sketch.md` sections 3 (cozy rules), 4.1 (islands, home weathers, fronts), 5 (spawn facing the water, bridge visible from spawn) and 7 (reuse map). `decisions.md` D1-D6. `art-direction.md` (T-0010: palette, materials, lighting presets, VFX budget per weather). Vault: `06-world-and-look/world-and-level-design.md`, `build-budgets.md`, `lobby-and-hub-design.md`, `lighting-and-atmosphere.md`, `art-direction.md`; `08-mobile-and-cross-platform/device-performance.md`; `19-vfx/vfx-performance-budgets.md`, `19-vfx/environment-and-ambient-vfx.md`; `01-first-five-minutes/first-session-blueprint.md`. Template code: `games/stormcatch/project/src/` and `template/README.md`.
+**Changelog**
+
+| Version | Date | Task | Change |
+|---|---|---|---|
+| 1 | 2026-10-25 | T-0011 | First plan: map, cozy distances, sightlines, world contract, budgets and the prototype subset. Aligned with the accepted GDD: Dock Ripple sheltered, `Callable` harbour spots, GDD attribute names. |
+| 2 | 2026-10-26 | T-0016 | GDD v3 §4.2 rule 8: added the hourly **Cove Fog** path (open sea off the cove mouth to `pier_head`, 65 studs) and **Cove Gusts** path (from the Bluffs side to `pier_head`, 120 studs). Both stay over water and pass at least 93 studs from the Dock Ripple's cell centre (§7). Defined `WindYaw` in the world contract (§9) on every cell Gusts can cover: `pier_head` and `cove_shallows` 270° (one harbour wind blowing west off the Bluffs), plus `squall_rocks` 320° and `anvil_reach` 345°, which v1 had missed although Bluff Gusts crosses them. The Bluffs values are unchanged (`kite_ledge` 0°, `whistle_point` 75°). The model gained checks for both, and the map shows the visits and the wind arrows. |
+
+**Inputs.** `gdd.md` v3 (T-0014: §4.2 rule 8 harbour visits; open question O-W3; the feasibility check `specs/cove_visits_check.py`; `handoffs/T-0014.md`). `gdd.md` (T-0007, accepted): §4.1 spot attributes (`SpotKind`, `StormEye`, `Sheltered`, `Callable`), §4.2 weather rules, §4.5 islands and bridges, §4.10 paid weather calls (D6) and §13 prototype. `specs/prototype.md` (the prototype build brief). `loop-sketch.md` sections 3 (cozy rules), 4.1 (islands, home weathers, fronts), 5 (spawn facing the water, bridge visible from spawn) and 7 (reuse map). `decisions.md` D1-D6. `art-direction.md` (T-0010: palette, materials, lighting presets, VFX budget per weather). Vault: `06-world-and-look/world-and-level-design.md`, `build-budgets.md`, `lobby-and-hub-design.md`, `lighting-and-atmosphere.md`, `art-direction.md`; `08-mobile-and-cross-platform/device-performance.md`; `19-vfx/vfx-performance-budgets.md`, `19-vfx/environment-and-ambient-vfx.md`; `01-first-five-minutes/first-session-blueprint.md`. Template code: `games/stormcatch/project/src/` and `template/README.md`.
 
 **Labels.** *Template fact*: read from the project code, with file and line. *Vault budget*: a number or rule from the vault, with its note. *Measured*: computed by the layout model below from this plan's coordinates. *Starting value*: my first pass, to be measured in the prototype and tuned.
 
-**The model.** Every coordinate in this plan lives in one script, [`models/world_layout.py`](models/world_layout.py) (stdlib Python, no dependencies). It computes the shortest walking path between every pair of spots over the walkway graph. It checks the cozy rules, cast ranges, weather cells, the sheltered Dock Ripple, the `Callable` harbour spots, ferry clearance and first-frame sightlines, and it draws the maps. Re-run it with:
+**The model.** Every coordinate in this plan lives in one script, [`models/world_layout.py`](models/world_layout.py) (stdlib Python, no dependencies). It computes the shortest walking path between every pair of spots over the walkway graph. It checks the cozy rules, cast ranges, weather cells, the sheltered Dock Ripple, the hourly harbour visits, `WindYaw` on every cell Gusts can cover, the `Callable` harbour spots, ferry clearance and first-frame sightlines, and it draws the maps. Re-run it with:
 
 ```text
 python3 games/stormcatch/docs/models/world_layout.py --svg games/stormcatch/docs/world-map.svg
 ```
 
-The run on 2026-10-25 ends with "All checks pass" (exit code 0). Its full output is stored in [`models/world_layout_output.txt`](models/world_layout_output.txt). The tables below are copied from it.
+The run on 2026-10-26 (layout v2) ends with "All checks pass" (exit code 0). Its full output is stored in [`models/world_layout_output.txt`](models/world_layout_output.txt). The tables below are copied from it.
 
 This is a plan, not a build: no Studio work, no lease, no assets, and nothing paid.
 
@@ -26,7 +33,7 @@ This is a plan, not a build: no Studio work, no lease, no assets, and nothing pa
 
 ## 2. Top-down map
 
-The SVG map, drawn by the model to scale: [world-map.svg](world-map.svg) (grid 50 studs; 100 studs is 6.25 s of walking). It marks the prototype build area, the sheltered Dock Ripple cell and the `Callable` spots.
+The SVG map, drawn by the model to scale: [world-map.svg](world-map.svg) (layout v2; grid 50 studs; 100 studs is 6.25 s of walking). It marks the prototype build area, the sheltered Dock Ripple cell, the `Callable` spots, the hourly Cove Fog and Cove Gusts visits (dashed, with their entry points), and a wind arrow with its `WindYaw` on every cell Gusts can cover.
 
 ![Reel the Storm world plan, top-down](world-map.svg)
 
@@ -210,6 +217,8 @@ Every island has a landmark, a palette, a home weather and something new (vault 
   - **cove_shallows "Cove Shallows"**: stand on Pebble Point's inner shore at (-37, 5, -52), ripple at (-20, 0, -52). `Callable = true`.
   - **pier_head "Open Pier"**: stand at the head's front rail at (20, 4, -89), ripple at (20, 0, -104). `StormEye = true` and `Callable = true`. Any player on the front half of the head is within 28 studs of it.
   - **Rock pools:** two on Pebble Point, inside the Cove Shallows cell, exist only in Showers and are `Callable` while a called Showers front is there (GDD §4.10). The draft had one pool in the Dock Ripple cell; it moved, because a sheltered cell never gets Showers.
+- **Weather visits (v2, GDD §4.2 rule 8):** Showers is the harbour's home weather, but natural Sea Fog and Gusts each visit once an hour. **Cove Fog** rolls in from the open sea off the cove mouth to the Open Pier. **Cove Gusts** blows over from the Bluffs side to the Open Pier. Both paths are in §7; neither comes near the Dock Ripple.
+- **Harbour wind (v2):** `WindYaw` 270° on both harbour front cells (`pier_head`, `cove_shallows`): one west-blowing wind off the Bluffs, used by Cove Gusts and by a called Gusts front (§7, §9).
 - **`Callable` harbour spots (GDD §4.10):** `pier_head`, `cove_shallows`, `cove_pool_1` and `cove_pool_2`. That is 2 regular spots including the Open Pier, all on the start island everyone has, and never the Dock Ripple. Every walkway point on the map reaches each of them within 29.6 s (measured), well inside the 60 s lead. There is no `far` spot at the harbour, so a called Gusts front there changes the band and the size roll only, as the GDD says.
 - **Gates:** bridge 1 (Lantern Reef) on the Pebble Point tip at (-50, 5, -76); bridge 2 (Gustwhistle Bluffs) on the Gull Point east shore at (100, 5, -55); bridge 3 (Thunderhead Point) on the Gull Point tip at (78, 5, -80).
 - **Also on the hub:**
@@ -231,7 +240,8 @@ Every island has a landmark, a palette, a home weather and something new (vault 
 - **Footprint:** a 140 x 90-stud plateau. Bridge 2 (50 studs) lands at Y 6, a ramp climbs to ledges at Y 12, and the ridge is at Y 18.
 - **Landmark:** **Whistle Rock**, 110 studs, a wind-carved rock with holes and streaming ribbons, at (225, 18, -50). The Bluff Nest is on the ridge.
 - **Spots (2):** **kite_ledge** "Kite Ledge" (north face) and **whistle_point** "Whistle Point" (east tip). Their stands stay **12 studs or less above the water**: the template's range check is 3D, so a 20-stud cliff would leave only about 19 studs of horizontal reach. Measured cast distances are 23.5 and 24.2 studs.
-- **Far water:** each spot has a `far` ripple 40-41 studs out downwind (3D 42.8 and 43.9). That is beyond the normal 28 and reachable only by the wind-carried cast of GDD §4.1 (up to 44 studs; the server adds its 8-stud margin). Each Gusts cell carries a fixed `WindYaw` pointing at its far ripple: kite_ledge 0° (north) and whistle_point 75° (east-north-east). The client turns `GlobalWind` to match, as art direction section 6 asks, and the GDD's "arrow within 45° of the far spot" rule reads the same value.
+- **Far water:** each spot has a `far` ripple 40-41 studs out downwind (3D 42.8 and 43.9). That is beyond the normal 28 and reachable only by the wind-carried cast of GDD §4.1 (up to 44 studs; the server adds its 8-stud margin).
+- **Wind:** each Bluffs cell carries a fixed `WindYaw` pointing at its far ripple: kite_ledge 0° (north; the far ripple is 3° off) and whistle_point 75° (east-north-east; 1° off). The client turns `GlobalWind` to match, as art direction section 6 asks. The GDD's "arrow within 45° of the far spot" rule reads the same value, so a cast from either stand is wind-carried (§7).
 - **New here:** height, far water and the skill weather. **Base mood:** the clearest air of the four islands (Haze about 0.6), because the far ripples must read from the ledges (art direction: "Gusts keeps the clearest air").
 
 ### 6.4 Thunderhead Point: zone `thunderhead_point`, order 4, mixed home weather
@@ -239,6 +249,7 @@ Every island has a landmark, a palette, a home weather and something new (vault 
 - **Footprint:** a rocky headland of 80 x 135 studs. Bridge 3 (71 studs) lands on its south tip at (90, 5, -150). The spire plaza is at Y 8.
 - **Landmark:** the **Thunder Spire**, a rock spire with a copper lightning rod rising to Y 68, into the permanent **Thunderhead anvil cloud** (one cloud mesh, Y 50-150). This is the `StormHome`. The Great Storm cloud rolls out from here over the lagoon to the Open Pier (154 studs) in the last minute of each countdown. The Storm Nest is on the plaza, and the ferry slip is on the west shore.
 - **Spots (2):** **squall_rocks** "Squall Rocks" (east shore, with a rock pool for Showers) and **anvil_reach** "Anvil Reach" (north tip, with one lantern ripple for Sea Fog).
+- **Wind (v2):** Bluff Gusts crosses both cells, so both carry a `WindYaw` that follows the gusts' drift: squall_rocks 320° and anvil_reach 345°. Neither has a far ripple, so casts there are never wind-carried.
 - **New here:** all three fronts visit, and the storm is born here. **Base mood:** Clear, a step cooler in `OutdoorAmbient`, with the anvil's shadow over the plaza. It is never dark enough to break the Artist's readability rule (water at least 64/255 grey on a phone).
 
 ### 6.5 Spot list (the builder's data)
@@ -273,7 +284,7 @@ The total is 19 `ResourceNode`s: 10 regular, 3 rock pools, 4 lantern ripples and
 
 **Weather cells.** A front sits on one cell at a time. There is one cell per regular spot (10 cells), each a circle of radius 36 studs around the midpoint of the spot's stand and ripple. Where two cells overlap, a point belongs to the nearest cell centre. The closest pair is cove_dock and cove_shallows, 52 studs apart. Weather-only spots carry their cell explicitly. The model checks that every spot lies inside its own cell and nearest to its centre (measured: pass). Fronts cover about a quarter of fishable spot-time, as GDD §4.2 rule 3 asks: 1, 2 or 3 fronts on 10 spots give 10%, 20% or 30%. The schedule tunes the share, and the prototype timetable gives 27.8% (GDD §13.2).
 
-**The sheltered Dock Ripple (GDD §4.1).** The cove_dock cell is on **no front path**, natural or prototype. No drift leg passes over it: the closest leg passes 52 studs from its centre, outside its 36-stud radius (measured). Paid calls go only to `Callable` spots, and a Rainbow lands only on a spot a Showers front has just left, so neither can reach it. Only the Great Storm, which covers the whole map, rains on it.
+**The sheltered Dock Ripple (GDD §4.1).** The cove_dock cell is on **no front path**: not the natural route pool, not the hourly harbour visits, not the prototype routes. No drift leg passes over it: the closest leg passes 52 studs from its centre, outside its 36-stud radius (measured). Paid calls go only to `Callable` spots, and a Rainbow lands only on a spot a Showers front has just left, so neither can reach it. Only the Great Storm, which covers the whole map, rains on it.
 
 **Front paths.** These are ordered lists of `CellId`s, the route pool data for `Config/Weather.luau` (GDD §4.2). Fronts drift over water between cell centres.
 
@@ -282,11 +293,50 @@ The total is 19 `ResourceNode`s: 10 regular, 3 rock pools, 4 lantern ripples and
 | Showers, "Harbour Showers" | reef_steps > cove_shallows > pier_head > squall_rocks | 135, 66, 129 | 330 |
 | Sea Fog, "Reef Fog" | reef_outer > reef_lagoon > reef_steps > anvil_reach (across the north lagoon) | 76, 79, 202 | 358 |
 | Gusts, "Bluff Gusts" | whistle_point > kite_ledge > squall_rocks > anvil_reach | 89, 91, 110 | 290 |
+| Sea Fog, "Cove Fog" (v2, hourly, GDD §4.2 rule 8) | open sea off the cove mouth at (5, 0, -160) > pier_head | 65 | 65 |
+| Gusts, "Cove Gusts" (v2, hourly, GDD §4.2 rule 8) | open water west of the Bluffs at (140, 0, -100) > pier_head | 120 | 120 |
 | Great Storm roll-in | `StormHome` (Thunder Spire) > the eye over the Open Pier | 154 | 154 |
 | Prototype Showers (GDD §13.2) | pier_head > cove_shallows | 66 | 66 |
 | Prototype Sea Fog (GDD §13.2) | fog bank off the island edge at (-80, 0, -110) > cove_shallows > pier_head | 78, 66 | 143 |
 
-Home weathers come out of the paths: Pebble Cove's two front spots get Showers, Lantern Reef gets Sea Fog on all three of its spots, Gustwhistle Bluffs only Gusts, and Thunderhead Point all three (Showers at squall_rocks, Sea Fog at anvil_reach, Gusts at both). That is the "mix" of GDD §4.2 rule 1. The schedule must also keep GDD §4.10's clear-harbour window (one 180 s window per cycle with no natural front or Rainbow on any `Callable` spot), so Harbour Showers visits the harbour in short bursts. That is a route-pool and timing choice for the Weather system; the world supplies only the places and the order. The **Rainbow** follows GDD §4.2 rule 5: it lands on the spot a Showers front has just left, for 60 s.
+Home weathers come out of the paths: Pebble Cove's two front spots get Showers, plus an hourly natural Sea Fog and Gusts visit on the Open Pier; Lantern Reef gets Sea Fog on all three of its spots; Gustwhistle Bluffs only Gusts, and Thunderhead Point all three (Showers at squall_rocks, Sea Fog at anvil_reach, Gusts at both). That is the "mix" of GDD §4.2 rule 1. The schedule must also keep GDD §4.10's clear-harbour window (one 180 s window per cycle with no natural front or Rainbow on any `Callable` spot), so Harbour Showers visits the harbour in short bursts. That is a route-pool and timing choice for the Weather system; the world supplies only the places and the order. The **Rainbow** follows GDD §4.2 rule 5: it lands on the spot a Showers front has just left, for 60 s.
+
+### 7.1 Hourly harbour visits: Cove Fog and Cove Gusts (v2, GDD §4.2 rule 8)
+
+GDD v3 adds two short natural routes to the pool, so everything a Sky Bell call can bring to the harbour also comes for free (catalog watch items W1 and W2). The GDD owns the timing: once an hour each, two cycles apart, 90-120 s on one harbour front spot, before that spot's Showers. The world supplies where they come from and where they go.
+
+| Visit | Comes from | Ends on | Leg (studs) | Closest to the Dock Ripple cell centre | Over water | Model check |
+|---|---|---|---|---|---|---|
+| **Cove Fog** (Sea Fog) | A fog bank on the open sea off the cove mouth, (5, 0, -160): north of the Open Pier, in the lagoon | `pier_head` | 65 | 93 studs (cell radius 36) | yes, every stud of the leg | pass |
+| **Cove Gusts** (Gusts) | Open water between Gull Point and the Bluffs' west shore, (140, 0, -100): the wind comes over from the Bluffs | `pier_head` | 120 | 93 studs | yes; it passes 14 studs north of the Gull Point tip and over the bridge-3 deck (a cloud over a bridge, not over land) | pass |
+
+- **Both end on the Open Pier.** That matches the Designer's illustrative pattern, in which both visits sit on `pier_head` just before Showers reaches it (`specs/cove_visits_check.py`, re-run 2026-10-26: "All checks pass"). The Open Pier is `Callable`, never sheltered, and every player can reach it within 29.6 s.
+- **Neither visit can reach the Dock Ripple.** Both legs end at the pier_head cell, 93 studs from the Dock Ripple's cell centre. The model's sheltered-cell check now includes both visits.
+- **Why these entry points.** O-W3 asks for fog "from the open sea at the cove mouth" and gusts "from the Bluffs side", with legs over water. From the spawn camera, Cove Fog comes in behind the Open Pier head, so a new player sees fog roll in at the cove mouth while the Dock Ripple stays clear. Cove Gusts arrives from the east, the same side the Bluffs' Gusts live on, so the wind arrow, the cloud and `GlobalWind` all point the same way (below).
+- **No new spot, tag or attribute** beyond `WindYaw`. The visits use the existing `pier_head` cell. A `cove_shallows` variant is possible if the Designer wants it: a 113-stud fog leg from the same cove-mouth entry to the Cove Shallows cell stays over water, passes west of the pier head and keeps 52 studs from the Dock Ripple's centre. The model checks it and it passes. It is not in the pool and not drawn, because the GDD's evidence uses `pier_head`.
+
+### 7.2 Wind direction: `WindYaw` and how it ties to the wind arrow and the wind-carried cast (v2)
+
+**Definition.** `WindYaw` is a number attribute on a `WeatherCell`: the compass direction the wind blows **toward**, in degrees clockwise from north (0 = north = -Z, 90 = east = +X, 270 = west). While Gusts covers the cell, three things read it:
+
+1. **The wind arrow** (GDD §4.1, Gusts row) points along `WindYaw`, on the HUD and over the spot.
+2. **`Workspace.GlobalWind`** on the client is set to (sin `WindYaw`, 0, -cos `WindYaw`) times the Gusts strength in art direction section 6, so clouds, rain and particles move with the arrow.
+3. **The wind-carried cast** (GDD §4.1 rule 1 and ring table) happens when the arrow points within 45° of the direction from the player to a `far` spot. The cast then reaches up to 44 studs instead of 28. The server checks the same angle from the player's position, the far spot and the cell's `WindYaw`.
+
+**Rule for choosing the value.** A cell with a `far` ripple points at it, so a cast from its stand is always wind-carried. A cell without one follows the direction Gusts drift into it, rounded to 5°, so the cloud and the arrow agree. The two harbour cells share one value, so `GlobalWind` never flips as the camera moves the 66 studs between them.
+
+| Cell | Why Gusts can cover it | `WindYaw` | `GlobalWind` direction (x, z) | Far spot and its angle off the arrow | Wind-carried cast |
+|---|---|---|---|---|---|
+| `pier_head` (Open Pier) | Cove Gusts visit; a called Gusts front (`Callable`) | **270** | (-1.00, 0.00) | none | never; the line bows west, across a north-facing cast, which is easy to see |
+| `cove_shallows` | a called Gusts front (`Callable`) | **270** | (-1.00, 0.00) | none | never; same harbour wind |
+| `kite_ledge` | Bluff Gusts | 0 | (0.00, -1.00) | `kite_far`, 3° off | yes, from the stand |
+| `whistle_point` | Bluff Gusts | 75 | (+0.97, -0.26) | `whistle_far`, 1° off | yes, from the stand |
+| `squall_rocks` | Bluff Gusts | 320 | (-0.64, -0.77) | none | never |
+| `anvil_reach` | Bluff Gusts | 345 | (-0.26, -0.97) | none | never |
+
+Drift agreement (measured): Cove Gusts arrives at `pier_head` heading 268° against `WindYaw` 270°. Bluff Gusts arrives at `squall_rocks` heading 322° against 320°, and at `anvil_reach` heading 345° against 345°. All are within 2°.
+
+**What this means at the harbour.** The harbour has no `far` spot, so a Gusts front there, natural or called, never gives a wind-carried cast. Casts land on the regular ripple within 28 studs, the reel uses the swaying Gusts band, and the size roll and Breezy mark apply (GDD §4.1, §4.10). The wind arrow and the bowing line still show the weather. If a harbour `far` spot is ever added (a design and economy change, not part of this task), it goes **downwind of its stand**, west of the Open Pier or Cove Shallows stand, so the 270° arrow already points at it.
 
 **What the world gives the Weather system:** cells (where), paths (in which order), the storm's home and eye, fog lanterns and the Sky Bell. The client renders only the cell at the camera, at full detail. Other fronts are one cloud-cell mesh each over their cell centre, plus a rain-curtain Beam for Showers, with no weather particles beyond 80 studs (art direction section 11). That is why the cells must always be loaded (section 10, streaming).
 
@@ -316,7 +366,7 @@ Every world element maps to a template tag, attribute or config id. Objects live
 | Fishing spots | 19 / 3 | `ResourceNode` | `NodeId` (= spot id, section 6.5), `ZoneId`. **New:** `SpotKind` (`regular`, `pool`, `lantern`, `far`), `CellId`, `CastPoint` (Vector3, the stand), `Sheltered` (true on cove_dock only), `Callable` (true on the 4 harbour spots), `StormEye` (true on pier_head only) | Ripple ring part; `CanQuery` true (the tap raycast needs it, `Interact.luau:164-167`). `SpotKind` sets the weather a non-regular spot exists in: `pool` = Showers, `lantern` = Sea Fog, `far` = Gusts (wind cast, up to 44 studs) | `World.node`, the new `Fishing` system and `Reel` controller (GDD §4.1); `Weather` shows weather-only spots and skips `Sheltered` cells; the Sky Bell places calls on `Callable` spots |
 | Bridges | 3 gates / 0 (bridge 1 is an untagged stub in the prototype) | `ZoneGate` | `ZoneId` = `lantern_reef`, `gustwhistle_bluffs`, `thunderhead_point` | `UnlockPrompt` on an Attachment under the gate part; SurfaceGui price sign, front and back; one gate per zone | `Gates` controller, `Zones` unlock, `Guide` gate beam |
 | Companion nests | 4 / 0 | `EggStand` | `EggId` = `driftwood_nest`, `reef_nest`, `bluff_nest`, `storm_nest` (proposed); `ZoneId` | `HatchPrompt` as a **direct child**; odds board from the template's `oddsBoard` | `Hatch`, `Hatching`, `Guide` egg beam |
-| Weather cells | 10 / 3 | **new** `WeatherCell` | `CellId` (= the regular spot's `NodeId`), `ZoneId`, `Radius` 36; `WindYaw` on Gusts cells; `Sheltered`, `Callable` and `StormEye` mirrored from the cell's regular spot; optional runtime `Weather` mirrored by the server | Invisible, anchored part; collide, touch and query off; inside the Persistent `WeatherCells` model | new `Weather` system (server and client); the storm eye ring draws at the `StormEye` cell centre, 60 studs up |
+| Weather cells | 10 / 3 | **new** `WeatherCell` | `CellId` (= the regular spot's `NodeId`), `ZoneId`, `Radius` 36; **`WindYaw`** (number, degrees, v2) on every cell Gusts can cover: `pier_head` 270, `cove_shallows` 270, `kite_ledge` 0, `whistle_point` 75, `squall_rocks` 320, `anvil_reach` 345 (definition and rule in §7.2); `Sheltered`, `Callable` and `StormEye` mirrored from the cell's regular spot; optional runtime `Weather` mirrored by the server | Invisible, anchored part; collide, touch and query off; inside the Persistent `WeatherCells` model | new `Weather` system (server and client); the storm eye ring draws at the `StormEye` cell centre, 60 studs up |
 | Great Storm home | 1 / 1 (placeholder block) | **new** `StormHome` | none | Anvil cloud anchor at (115, 50, -217); Persistent | `Weather` client roll-in (154 studs) |
 | Fog lanterns (buoys and posts lighting the way to lantern ripples) | 4 or more / 0 | **new** `FogLantern` | `CellId` | Neon part with a `PointLight` (`Enabled` false, `Shadows` false, `Range` 10) | `Weather` client turns on at most 4 near the camera in fog (art direction section 11) |
 | Sky Bell (D6) | 1 / 0 | **new** `SkyBell` | none | Bell model on the quay at the pier root; SurfaceGui frame showing the call queue | Weather and Sky Bell calls (GDD §4.10) ring it and fill the frame |
@@ -325,7 +375,7 @@ Every world element maps to a template tag, attribute or config id. Objects live
 | Harbour record board | 1 / 0 | **new** `RecordBoard` | `BoardId` = `harbour` | SurfaceGui | the records feature (GDD §4.9) |
 | Bridge repair visuals (optional polish) | 3 / 0 | **new** `BridgeRepair` | `ZoneId` | Planks shown locally when the zone unlocks | `Gates.apply` needs a small change; today it hides only the gate part (`Gates.luau:41-48`) |
 
-**The new tags the Weather system needs: `WeatherCell`, `StormHome` and `FogLantern`, plus `SkyBell` for paid calls.** On `ResourceNode` the new attributes are `SpotKind`, `CellId`, `Sheltered`, `Callable` and `StormEye`. `CastPoint` serves the Fishing controller. `WindYaw` is set on Gusts cells. The draft's separate `StormEye` marker tag is dropped: the GDD's `StormEye` attribute on pier_head and its cell carries the same information. The draft's `OnlyInWeather` attribute is replaced by the GDD's `SpotKind`. `FerrySlip`, `ArrivalPoint`, `RecordBoard` and `BridgeRepair` belong to other features, not to Weather.
+**The new tags the Weather system needs: `WeatherCell`, `StormHome` and `FogLantern`, plus `SkyBell` for paid calls.** On `ResourceNode` the new attributes are `SpotKind`, `CellId`, `Sheltered`, `Callable` and `StormEye`. `CastPoint` serves the Fishing controller. `WindYaw` (v2) is set on the `WeatherCell` of every cell Gusts can cover, natural, hourly visit or called: six cells, values in §7.2. The Weather client (arrow, `GlobalWind`) and the Fishing server (the 45° wind-carried cast test) read it. The draft's separate `StormEye` marker tag is dropped: the GDD's `StormEye` attribute on pier_head and its cell carries the same information. The draft's `OnlyInWeather` attribute is replaced by the GDD's `SpotKind`. `FerrySlip`, `ArrivalPoint`, `RecordBoard` and `BridgeRepair` belong to other features, not to Weather.
 
 **`Config/Zones.luau` rows** (replacing the template's five zones):
 
@@ -389,7 +439,7 @@ The vault gives rules of thumb, not platform limits ("measure your own game; the
 |---|---|---|---|
 | Rain box, 60 x 60 studs, 25 studs above the camera | Camera inside a Showers cell, or anywhere during the Great Storm | 2 emitters, about 110 live particles (Showers) or about 135 at the storm peak | None: it follows the camera (vault environment-and-ambient: "Better rain for big maps") |
 | Fog | Camera inside a Sea Fog cell | Atmosphere only, plus 2 ground-mist emitters (about 30 live); at most 4 `FogLantern` lights | `FogLantern`s placed by lantern ripples |
-| Gusts | Camera inside a Gusts cell | about 22 live; `GlobalWind` turned to the cell's `WindYaw` | `WindYaw` on each Gusts cell |
+| Gusts | Camera inside a Gusts cell, including Cove Gusts or a called Gusts at the harbour | about 22 live; `GlobalWind` turned to the cell's `WindYaw` | `WindYaw` on every cell Gusts can cover (§7.2) |
 | Distant fronts | Always, at most 3 | 1 cloud-cell mesh each, plus 1 rain-curtain Beam for Showers; no particles beyond 80 studs | `WeatherCell` centres always loaded (Persistent) |
 | Great Storm eye | During the storm | 1 eye ring mesh, 1 bolt at a time | `StormEye` cell, `StormHome` |
 | **At once** | | **1 near volume, at most 3 distant cloud cells, 1 eye; full-screen transparent layers at most 1** | Vault budget: full-screen transparent layers 1-2 on low-end phones (`vfx-performance-budgets.md`) |
@@ -458,12 +508,14 @@ The prototype is defined in GDD §13 and `specs/prototype.md`: the moment loop w
 3. **Artist:** confirm the weathervane on the pier lookout mast (moved so it is in the first frame), the harbour canopy over the Dock Ripple, the three hero landmarks (Great Lantern, Whistle Rock, Thunder Spire with the anvil cloud) and the base mood deltas per island in section 6.
 4. **Economist:** bridge prices (`gateCost`) and the Boots curve. The cozy rules pass at base speed, so Boots only speed up the chase.
 5. **Designer and Director:** GDD §4.5 says the ferry links the harbour with every unlocked island. This plan's ferry skips Gustwhistle Bluffs (50-stud bridge, 17 s on foot), and the 60 s reach to the harbour holds on foot everywhere. Is the ferry in launch scope at all (GDD §9.4: new, size S)? It shortens the longest walk from 42.1 s to 9.3 s.
+6. **Designer (v2):** both hourly visits end on `pier_head`, as in the GDD's illustrative check. If rule 8 should also put Cove Fog on `cove_shallows`, the variant leg in §7.1 is checked and ready; only the route pool changes.
+7. **Engineer (v2):** the wind-carried cast test reads the cell's `WindYaw`, not the front's drift. Natural, visiting and called Gusts on the same cell therefore always give the same arrow and the same cast rule (§7.2).
 
 ## Sources
 
 - Template code read on 2026-10-25: `games/stormcatch/project/src/shared/Util/Stats.luau`, `Config/Upgrades.luau`, `Config/Economy.luau`, `Config/Zones.luau`, `Config/Eggs.luau`, `Util/Validate.luau`, `server/Systems/World.luau`, `Nodes.luau`, `Zones.luau`, `Characters.luau`, `client/Controllers/Interact.luau`, `Gates.luau`, `Hatch.luau`, `Guide.luau`; `games/stormcatch/project/default.project.json`; `template/README.md`.
 - Vault (all dated 2026-10-24): `06-world-and-look/world-and-level-design.md`, `build-budgets.md`, `lobby-and-hub-design.md`, `lighting-and-atmosphere.md`, `art-direction.md`; `08-mobile-and-cross-platform/device-performance.md`; `13-building-it-right/performance-optimization.md`; `19-vfx/vfx-performance-budgets.md`, `environment-and-ambient-vfx.md`; `01-first-five-minutes/first-session-blueprint.md`.
-- Game docs: `gdd.md` (T-0007, accepted 2026-10-25) §3.1, §4.1-§4.5, §4.10, §9, §12-§13; `specs/prototype.md`; `loop-sketch.md` (T-0002); `decisions.md`; `art-direction.md` (T-0010).
-- Layout model: `models/world_layout.py`, output `models/world_layout_output.txt`, map `world-map.svg` (all generated 2026-10-25 by this task).
+- Game docs: `gdd.md` (T-0007, accepted 2026-10-25) §3.1, §4.1-§4.5, §4.10, §9, §12-§13; `gdd.md` v3 (T-0014, read 2026-10-26) §4.1 Gusts row, §4.2 rules 3 and 8, §4.10, §12 O-W3; `handoffs/T-0014.md` (O-W3); `specs/cove_visits_check.py` (the Designer's timing check, re-run 2026-10-26: "All checks pass"; longest wait for rain 260 s, 0 of 672 cycles without a clear-harbour window, 0 of 168 hours missing a visit); `specs/prototype.md`; `loop-sketch.md` (T-0002); `decisions.md`; `art-direction.md` (T-0010).
+- Layout model: `models/world_layout.py`, output `models/world_layout_output.txt`, map `world-map.svg` (layout v1 generated 2026-10-25 by T-0011; layout v2 regenerated 2026-10-26 by T-0016).
 
 Related: [GDD](gdd.md) · [Prototype brief](specs/prototype.md) · [Loop sketch](loop-sketch.md) · [Art direction](art-direction.md) · [Decisions](decisions.md) · [World and level design (vault)](../../../vault/06-world-and-look/world-and-level-design.md) · [Build budgets (vault)](../../../vault/06-world-and-look/build-budgets.md)

@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1116" height="895" viewBox="0 0 1116 895" font-family="Helvetica, Arial, sans-serif">
-<title>Reel the Storm: top-down world plan (T-0011)</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1116" height="919" viewBox="0 0 1116 919" font-family="Helvetica, Arial, sans-serif">
+<title>Reel the Storm: top-down world plan, layout v2 (T-0016, 2026-10-26)</title>
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>
-<rect x="0" y="0" width="1116" height="895" fill="#3F7F8C"/>
+<rect x="0" y="0" width="1116" height="919" fill="#3F7F8C"/>
 <line x1="55.0" y1="20.0" x2="55.0" y2="728.8" stroke="#4E8FA3" stroke-width="0.6"/>
 <line x1="142.5" y1="20.0" x2="142.5" y2="728.8" stroke="#4E8FA3" stroke-width="0.6"/>
 <line x1="230.0" y1="20.0" x2="230.0" y2="728.8" stroke="#4E8FA3" stroke-width="0.6"/>
@@ -47,6 +47,24 @@
 <polyline points="347.2,236.1 435.6,455.8 520.5,377.9 704.2,247.5" fill="none" stroke="#6FC3D9" stroke-width="3" stroke-opacity="0.95" marker-end="url(#arrow)"/>
 <polyline points="111.0,240.5 231.8,298.2 361.2,250.1 669.2,76.0" fill="none" stroke="#E6ECEA" stroke-width="3" stroke-opacity="0.95" marker-end="url(#arrow)"/>
 <polyline points="963.2,410.2 809.2,391.0 711.2,265.0 662.2,79.5" fill="none" stroke="#9BE3C3" stroke-width="3" stroke-opacity="0.95" marker-end="url(#arrow)"/>
+<polyline points="501.2,273.8 527.5,384.9" fill="none" stroke="#E6ECEA" stroke-width="3.5" stroke-dasharray="7,4" marker-end="url(#arrow)"/>
+<circle cx="501.2" cy="273.8" r="5" fill="#E6ECEA" stroke="#18203A" stroke-width="1.5"/>
+<text x="509.2" y="277.8" font-size="10" font-weight="bold" fill="#FFF8EC">Cove Fog (hourly)</text>
+<polyline points="737.5,378.8 527.5,384.9" fill="none" stroke="#9BE3C3" stroke-width="3.5" stroke-dasharray="7,4" marker-end="url(#arrow)"/>
+<circle cx="737.5" cy="378.8" r="5" fill="#9BE3C3" stroke="#18203A" stroke-width="1.5"/>
+<text x="745.5" y="382.8" font-size="10" font-weight="bold" fill="#FFF8EC">Cove Gusts (hourly)</text>
+<line x1="809.2" y1="380.5" x2="809.2" y2="338.5" stroke="#FFFFFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="813.2" y="394.5" font-size="9" fill="#FFFFFF">0°</text>
+<line x1="963.2" y1="399.8" x2="1003.8" y2="388.9" stroke="#FFFFFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="967.2" y="413.8" font-size="9" fill="#FFFFFF">75°</text>
+<line x1="711.2" y1="254.5" x2="684.3" y2="222.3" stroke="#FFFFFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="715.2" y="268.5" font-size="9" fill="#FFFFFF">320°</text>
+<line x1="662.2" y1="69.0" x2="651.4" y2="28.4" stroke="#FFFFFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="666.2" y="83.0" font-size="9" fill="#FFFFFF">345°</text>
+<line x1="527.5" y1="384.9" x2="485.5" y2="384.9" stroke="#FFFFFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="531.5" y="398.9" font-size="9" fill="#FFFFFF">270°</text>
+<line x1="442.6" y1="462.8" x2="400.6" y2="462.8" stroke="#FFFFFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="446.6" y="476.8" font-size="9" fill="#FFFFFF">270°</text>
 <line x1="693.8" y1="174.0" x2="527.5" y2="385.8" stroke="#FFC42E" stroke-width="3" stroke-dasharray="2,4" marker-end="url(#arrow)"/>
 <line x1="492.5" y1="553.8" x2="492.5" y2="548.5" stroke="#FFF8EC" stroke-width="2" stroke-linecap="round"/>
 <line x1="492.5" y1="553.8" x2="464.5" y2="564.2" stroke="#FFF8EC" stroke-width="2" stroke-linecap="round"/>
@@ -179,7 +197,7 @@
 <text x="1047.5" y="100.0" font-size="13" fill="#FFF8EC" font-weight="bold">N</text>
 <line x1="55.0" y1="702.5" x2="230.0" y2="702.5" stroke="#FFF8EC" stroke-width="3"/>
 <text x="55.0" y="696.5" font-size="11" fill="#FFF8EC">100 studs = 6.25 s at walk speed 16 (grid 50 studs)</text>
-<rect x="20" y="753" width="1076" height="134" fill="#18203A" rx="8"/>
+<rect x="20" y="753" width="1076" height="158" fill="#18203A" rx="8"/>
 <circle cx="36.0" cy="772.8" r="6" fill="#FFC42E" stroke="#FFF8EC" stroke-width="2"/>
 <text x="52.0" y="776.8" font-size="11" fill="#FFF8EC">Regular spot (ResourceNode)</text>
 <circle cx="300.1" cy="772.8" r="6" fill="#6FC3D9" stroke="#FFF8EC" stroke-width="2"/>
@@ -218,4 +236,8 @@
 <text x="316.1" y="872.8" font-size="11" fill="#FFF8EC">Callable (Sky Bell harbour spot)</text>
 <circle cx="564.1" cy="868.8" r="7" fill="#3E5376" stroke="#FFF8EC" stroke-width="2"/>
 <text x="580.1" y="872.8" font-size="11" fill="#FFF8EC">Sheltered cell (never a front)</text>
+<line x1="819.2" y1="868.8" x2="837.2" y2="868.8" stroke="#9BE3C3" stroke-width="3" stroke-dasharray="5,3"/>
+<text x="844.2" y="872.8" font-size="11" fill="#FFF8EC">Hourly harbour visit (Cove Fog, Cove Gusts)</text>
+<line x1="27.0" y1="892.8" x2="45.0" y2="892.8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="52.0" y="896.8" font-size="11" fill="#FFF8EC">WindYaw: wind arrow, degrees from north</text>
 </svg>
