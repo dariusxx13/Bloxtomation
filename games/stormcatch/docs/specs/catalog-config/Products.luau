@@ -3,6 +3,8 @@
 -- Ids of 0 mean "not created yet": the product is hidden and disabled. The human creates every item in
 -- Creator Hub at the build stage and the ids are pasted here. Prices are never stored here and never
 -- hard-coded in UI: the client reads each player's own price at runtime (MarketplaceService).
+-- Coin grants ("coinsMinutes") use economy sheet v2's one basis (§3.1, §19.2) in Util/Stats coinsForMinutes:
+-- permanent multipliers only, never timed boosts, friends or the 2x Coins pass (catalog v2, T-0018).
 
 export type PassDef = {
 	key: string,
@@ -166,8 +168,8 @@ local Products: { ProductDef } = {
 		key = "starterPack",
 		id = 0,
 		name = "Starter Pack",
-		description = "About 30 minutes of coins, a 15-minute 2x Coins boost and a raincoat colour found "
-			.. "only here. Once per player.",
+		description = "Coins worth about 30 minutes of fishing, a 15-minute 2x Coins boost and a raincoat "
+			.. "colour found only here. Once per player.",
 		oncePerPlayer = true,
 		grant = {
 			kind = "bundle",
@@ -185,7 +187,8 @@ local Products: { ProductDef } = {
 		key = "coinPouch",
 		id = 0,
 		name = "Coin Pouch",
-		description = "About 15 minutes of coins at your current catch rate.",
+		description = "Coins worth about 15 minutes of fishing, sized to your progress. Boosts and 2x Coins "
+			.. "do not change the amount.",
 		oncePerPlayer = false,
 		grant = { kind = "coinsMinutes", minutes = 15 },
 		fundsRandomItems = true,
@@ -196,7 +199,8 @@ local Products: { ProductDef } = {
 		key = "coinCrate",
 		id = 0,
 		name = "Coin Crate",
-		description = "About 60 minutes of coins at your current catch rate.",
+		description = "Coins worth about 60 minutes of fishing, sized to your progress. Boosts and 2x Coins "
+			.. "do not change the amount.",
 		oncePerPlayer = false,
 		grant = { kind = "coinsMinutes", minutes = 60 },
 		fundsRandomItems = true,
@@ -207,7 +211,8 @@ local Products: { ProductDef } = {
 		key = "coinChest",
 		id = 0,
 		name = "Coin Chest",
-		description = "About 3 hours of coins at your current catch rate.",
+		description = "Coins worth about 3 hours of fishing, sized to your progress. Boosts and 2x Coins "
+			.. "do not change the amount.",
 		oncePerPlayer = false,
 		grant = { kind = "coinsMinutes", minutes = 180 },
 		fundsRandomItems = true,

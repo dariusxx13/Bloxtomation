@@ -1,4 +1,4 @@
-Reel the Storm catalog numbers (T-0009). Inputs: economy-sheet.md (T-0008) and catalog.md drafts.
+Reel the Storm catalog numbers (T-0009, v2 T-0018). Inputs: economy-sheet.md v2 (T-0008, T-0015) and catalog.md v2.
 
 [A] Cross-check of the economy sheet's Sky Bell figures (sheet section 13), harbour = Pebble Cove
 Called weather luck before luck after Rare+ before Rare+ after coins/catch
@@ -22,7 +22,7 @@ Paid luck never stacks above +25% (sheet section 10):
   new player      Sea Fog  no paid luck x2.00 | Bobber or Bell x2.00 | Bobber and Bell x2.00
   casual, Lure 7  Clear    no paid luck x1.28 | Bobber or Bell x1.60 | Bobber and Bell x1.60
   casual, Lure 7  Sea Fog  no paid luck x2.56 | Bobber or Bell x2.56 | Bobber and Bell x2.56
-  maxed free      Clear    no paid luck x4.50 | Bobber or Bell x5.62 | Bobber and Bell x5.62
+  maxed free      Clear    no paid luck x4.50 | Bobber or Bell x5.63 | Bobber and Bell x5.63
   maxed free      Sea Fog  no paid luck x6.00 | Bobber or Bell x6.00 | Bobber and Bell x6.00
 
 [C] Auto Reel against reeling yourself (catches per minute; sheet section 3.2 cycle model)
@@ -48,7 +48,7 @@ Third Tide Pot (sheet section 12.3): one more pot = 4 minutes of income and 8 fi
   At  25 R a call would give 0.496 server min/R, 1.62x the Pouch's rate
   At  49 R a call would give 0.253 server min/R, 0.83x the Pouch's rate
   At  99 R a call would give 0.125 server min/R, 0.41x the Pouch's rate
-  Most one server can buy: 2 calls per 15-minute cycle = 8 per hour; one buyer with one call per cycle (catalog request) at most 4 per hour = 196 R per hour
+  Most one server can buy: 2 calls per 15-minute cycle = 8 per hour; one buyer with one call per cycle (GDD v3 section 4.10) at most 4 per hour = 196 R per hour
 
 [F] Ladder and totals at the draft prices
     49 R  Impulse  coinPouch
@@ -69,4 +69,14 @@ Third Tide Pot (sheet section 12.3): one more pot = 4 minutes of income and 8 fi
   Items per tier: Impulse 8, Core 6, Premium 1, High-end 0
   All gameplay passes together: 795 R; all cosmetic passes: 873 R; every pass: 1668 R
   Cheapest item: 49 R; most expensive: 699 R
+
+[G] Coin-product basis (sheet v2 sections 3.1 and 19.2), at an example rate of 100 coins a minute on the permanent basis
+Product       min  v2 grant  v1 draft, pass owner  v2, pass owner  v2, coins2x on  pass owner fishing to earn it
+coinPouch      15     1,500                 3,000           1,500           1,500                       7.5 min
+starterPack    30     3,000                 6,000           3,000           3,000                      15.0 min
+coinCrate      60     6,000                12,000           6,000           6,000                      30.0 min
+coinChest     180    18,000                36,000          18,000          18,000                      90.0 min
+On the v2 basis a grant is the same for every player with the same permanent progress, whatever
+they bought or whatever boost is running. A 2x Coins owner earns it by fishing in half the minutes,
+so the copy says 'about M minutes of fishing', not 'of your fishing' (sheet section 19.2).
 

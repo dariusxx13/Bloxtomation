@@ -1,6 +1,6 @@
 --- a/src/shared/Config/Products.luau
 +++ b/src/shared/Config/Products.luau
-@@ -1,20 +1,27 @@
+@@ -1,20 +1,29 @@
  --!strict
 --- Passes and developer products. Ids of 0 mean "not created yet": the product is hidden and disabled.
 --- Create them in Creator Hub, paste the ids here, and never hard-code prices in UI (prices are fetched at runtime).
@@ -8,6 +8,8 @@
 +-- Ids of 0 mean "not created yet": the product is hidden and disabled. The human creates every item in
 +-- Creator Hub at the build stage and the ids are pasted here. Prices are never stored here and never
 +-- hard-coded in UI: the client reads each player's own price at runtime (MarketplaceService).
++-- Coin grants ("coinsMinutes") use economy sheet v2's one basis (§3.1, §19.2) in Util/Stats coinsForMinutes:
++-- permanent multipliers only, never timed boosts, friends or the 2x Coins pass (catalog v2, T-0018).
  
  export type PassDef = {
  	key: string,
@@ -33,7 +35,7 @@
  	| { kind: "bundle", grants: { ProductGrant } }
  
  export type ProductDef = {
-@@ -24,112 +31,188 @@
+@@ -24,112 +33,191 @@
  	description: string,
  	oncePerPlayer: boolean,
  	grant: ProductGrant,
@@ -191,8 +193,8 @@
  		id = 0,
  		name = "Starter Pack",
 -		description = "10 minutes of coins, 100 gems and a 15-minute 2x coins boost",
-+		description = "About 30 minutes of coins, a 15-minute 2x Coins boost and a raincoat colour found "
-+			.. "only here. Once per player.",
++		description = "Coins worth about 30 minutes of fishing, a 15-minute 2x Coins boost and a raincoat "
++			.. "colour found only here. Once per player.",
  		oncePerPlayer = true,
  		grant = {
  			kind = "bundle",
@@ -214,7 +216,8 @@
  		id = 0,
  		name = "Coin Pouch",
 -		description = "15 minutes of coins at your current rate",
-+		description = "About 15 minutes of coins at your current catch rate.",
++		description = "Coins worth about 15 minutes of fishing, sized to your progress. Boosts and 2x Coins "
++			.. "do not change the amount.",
  		oncePerPlayer = false,
  		grant = { kind = "coinsMinutes", minutes = 15 },
  		fundsRandomItems = true,
@@ -228,7 +231,8 @@
 -		name = "Coin Chest",
 -		description = "2 hours of coins at your current rate",
 +		name = "Coin Crate",
-+		description = "About 60 minutes of coins at your current catch rate.",
++		description = "Coins worth about 60 minutes of fishing, sized to your progress. Boosts and 2x Coins "
++			.. "do not change the amount.",
  		oncePerPlayer = false,
 -		grant = { kind = "coinsMinutes", minutes = 120 },
 +		grant = { kind = "coinsMinutes", minutes = 60 },
@@ -253,7 +257,8 @@
 -		name = "Server Luck",
 -		description = "2x luck for everyone in the server for 10 minutes",
 +		name = "Coin Chest",
-+		description = "About 3 hours of coins at your current catch rate.",
++		description = "Coins worth about 3 hours of fishing, sized to your progress. Boosts and 2x Coins "
++			.. "do not change the amount.",
  		oncePerPlayer = false,
 -		grant = { kind = "serverBoost", boost = "serverLuck", seconds = 600 },
 -		fundsRandomItems = false,
@@ -265,7 +270,7 @@
  	},
  }
  
-@@ -153,16 +236,27 @@
+@@ -153,16 +241,27 @@
  	passByKey = passByKey,
  	productByKey = productByKey,
  	productById = productById,

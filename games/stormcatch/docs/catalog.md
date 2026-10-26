@@ -1,22 +1,47 @@
 ---
 title: "Product catalog: Reel the Storm (id stormcatch)"
-date: 2026-10-25
-version: 1
+date: 2026-10-26
+version: 2
 status: in review
-author: monetization-designer (task T-0009)
+author: monetization-designer (tasks T-0009 and T-0018)
 ---
 
 # Reel the Storm: product catalog (draft)
 
-Task T-0009 · Monetization Designer · 2026-10-25 · Stage: design · Outcome served: **spend**. Players who love the game find things worth buying, free players are never squeezed, and everything stays inside Roblox policy.
+Tasks T-0009 (v1) and T-0018 (v2) · Monetization Designer · 2026-10-26 · Stage: design · Outcome served: **spend**. Players who love the game find things worth buying, free players are never squeezed, and everything stays inside Roblox policy.
+
+**Changelog.**
+- **v2, 2026-10-26 (T-0018).** Revised to economy sheet v2 (T-0015) and GDD v3.1 (T-0014, T-0017), after the design gate failed DESIGN-07 (`games/stormcatch/gates/design-01.json`). No product, price, pack size or effect changed.
+  - **Coin basis:** Coin Pouch, Starter Pack, Coin Crate and Coin Chest now use the sheet's one minutes-of-income basis (sheet v2 §3.1, §19.2). It counts permanent multipliers only: no timed boosts, no friends and no 2x Coins pass. The copy reads "about M minutes of fishing", not "of your fishing" (§1 rule 8, §2, §3.7, §3.8, §8, §9; Appendix A descriptions). The 15 / 30 / 60 / 180-minute sizes and the prices stay, because sheet v2 §19.1 modelled them on this basis inside the 2-4x band.
+  - **Figures re-cited to sheet v2:** paying player 1.31x / 2.34x / 2.87x the casual player on goals 2, 3 and 5, heavy spender 3.01x (§3.2, §4, §5); Lure 7 at minute 23.7 (§3.4, §5); maxed payer luck x5.63, which is 5.625 rounded as the sheet rounds it (§3.4).
+  - **Watch items W1 and W2 closed** by GDD v3 §4.2 rule 8: natural Cove Fog and Cove Gusts visit the harbour every hour. The Sky Bell rows in §5 no longer carry watch notes, and the false sentence "the only natural fronts over Pebble Cove are Showers" is replaced.
+  - **Answers recorded:**
+    - The Economist's answers to the catalog's questions (sheet v2 §19.1-§19.4).
+    - The GDD's adoption of the per-buyer limit, the name switch, the Auto Reel rules with its 10-minute Cast-only pause, and the free Easier reeling setting (GDD v3 §4.10, §4.12).
+    - §3.1, §3.3, §3.4, §10 and §11 are updated to match.
+  - **Model and config:** `models/catalog_numbers.py` prints luck half up, as the sheet does, and gains section [G], the coin basis. Appendix A's proposed descriptions and copy check follow the new basis. The game's config is still unchanged.
+- **v1, 2026-10-25 (T-0009).** First version, 15 items.
 
 **Status of this draft.** The pitch was approved for a prototype only, and **the prototype sells nothing** (GDD §6, §13.1). This catalog is the plan for the build stage. Prices are **Robux drafts for the human's review**: the human creates every item and sets every price in Creator Hub. No product id was created, and the game's `Config/Products.luau` is unchanged. A ready-to-apply config proposal is in Appendix A.
 
 **Binding inputs.**
 - Human decisions D2 and D6: `games/stormcatch/docs/decisions.md`.
-- GDD §4.10 (Sky Bell), §6 (monetization direction) and §12 (O-H1, O-H2): `games/stormcatch/docs/gdd.md` (T-0007; v2 sync T-0013 in progress, read 2026-10-25).
-- Economy sheet §10 (luck rule), §11 (coin caps), §12.3 (Tide Pots) and §13 (Sky Bell bonus): `games/stormcatch/docs/economy-sheet.md` (T-0008, accepted).
-- The Economist's requests in `games/stormcatch/handoffs/T-0008.md`, under "Next".
+- GDD v3.1, `games/stormcatch/docs/gdd.md` (T-0007, T-0013, T-0014, T-0017; read 2026-10-26):
+  - §4.2 rule 8 (harbour visits);
+  - §4.10 (Sky Bell);
+  - §4.12 (Easier reeling and Auto Reel);
+  - §5 (one minutes-of-income basis);
+  - §6 (monetization direction);
+  - §12 (O-H1, O-H2).
+- Economy sheet v2, `games/stormcatch/docs/economy-sheet.md` (T-0008, T-0015, accepted):
+  - §1 (five goals, paying player);
+  - §3.1 (coin basis);
+  - §10 (luck rule);
+  - §11 (coin caps);
+  - §12.3 (Tide Pots);
+  - §13 (Sky Bell bonus);
+  - §19 (answers to this catalog).
+- Change requests in the "Next" sections of `games/stormcatch/handoffs/T-0008.md`, `T-0014.md`, `T-0015.md` and `T-0017.md`. The DESIGN-07 result is in `games/stormcatch/gates/design-01.json`.
 - Template: `project/src/shared/Config/Products.luau`, `src/server/Services/Policy.luau`, `src/server/Systems/Purchases.luau`, `src/shared/Util/Stats.luau` and `src/client/Controllers/Shop.luau`.
 
 **Numbers.** Every computed number in this catalog comes from one script:
@@ -25,11 +50,11 @@ Task T-0009 · Monetization Designer · 2026-10-25 · Stage: design · Outcome s
 python3 games/stormcatch/docs/models/catalog_numbers.py --out games/stormcatch/docs/models/catalog_numbers_output.txt
 ```
 
-It needs the standard library only and is deterministic. Its inputs are copied from the economy sheet, with the section named on each one. Section letters such as [B] point into `models/catalog_numbers_output.txt`. Its section [A] reproduces the economist's Sky Bell figures exactly, as a cross-check.
+It needs the standard library only and is deterministic. Its inputs are copied from economy sheet v2, with the section named on each one; no input changed between sheet v1 and v2. Section letters such as [B] point into `models/catalog_numbers_output.txt`. Its section [A] reproduces the economist's Sky Bell figures exactly, as a cross-check. Figures the catalog does not compute itself, such as the paying-player ratios and Lure 7's minute, are quoted from economy sheet v2, with the section named.
 
 ## Where each requirement is answered
 
-| Requirement (brief T-0009) | Where |
+| Requirement (briefs T-0009 and T-0018) | Where |
 |---|---|
 | DESIGN-07: every product has a motivation, a price tier and a passing fairness row | §2 catalog, §4 ladder, §5 fairness table (15 of 15 pass) |
 | D6 weather summon inside the four D6 constraints | §3.1 |
@@ -38,6 +63,9 @@ It needs the standard library only and is deterministic. Its inputs are copied f
 | D6 disclosure question with options and a recommendation, escalated with `--kind policy` (O-H2 in the same escalation) | §7 |
 | Nothing sells skipping an honest timer, changing the forecast for one player only, or moving the Great Storm | §1 rule 7, §5 column N, §3.10 |
 | Offer briefs, creation list, compliance notes, config | §8, §9, §10, Appendix A |
+| T-0018: coin products on the sheet v2 basis, copy "about M minutes of fishing" | §1 rule 8, §3.7, §3.8, §8, §9, Appendix A |
+| T-0018: figures re-cited to sheet v2 (1.31x / 2.34x / 2.87x, heavy spender 3.01x, Lure 7 at 23.7, x5.63) | §3.2, §3.4, §4, §5 |
+| T-0018: W1 and W2 replaced by GDD v3 §4.2 rule 8 | §3.1, §5 |
 
 ---
 
@@ -57,6 +85,7 @@ It needs the standard library only and is deterministic. Its inputs are copied f
    - Stormborn outside the storm;
    - extra equip slots, VIP multipliers or faster hatching (§3.10);
    - anything a free player cannot reach by playing. Cosmetics are style only.
+8. **One coin basis** (v2; economy sheet v2 §3.1, §19.2; GDD v3.1 §5). Every product that grants "minutes of income" counts permanent multipliers only. It never counts timed boosts, friends or the 2x Coins pass. Its copy says "about M minutes of fishing" (§3.8).
 
 ---
 
@@ -69,17 +98,17 @@ Motivations use the vault's list (`vault/09-monetization/monetization-strategy.m
 | 1 | Sky Bell: Showers (`skyCallShowers`) | Developer product, repeatable | Social, luck | Impulse | 49 | A Showers front over the harbour for 3 minutes, shared by everyone in the server, with +25% luck on Rare and rarer fish | yes | no |
 | 2 | Sky Bell: Sea Fog (`skyCallSeaFog`) | Developer product, repeatable | Social, collect | Impulse | 49 | The same with Sea Fog. Fog already doubles luck, so the bell adds no extra luck | yes | no |
 | 3 | Sky Bell: Gusts (`skyCallGusts`) | Developer product, repeatable | Social, luck | Impulse | 49 | The same with Gusts: swaying ring, bigger fish, +25% luck | yes | no |
-| 4 | Coin Pouch (`coinPouch`) | Developer product, repeatable | Speed | Impulse | 49 | About 15 minutes of coins at the player's current rate | no | yes |
-| 5 | Starter Pack (`starterPack`) | Developer product, once per player | Speed, show off | Impulse | 75 | About 30 minutes of coins, a 15-minute 2x Coins boost and a raincoat colour found only here | no | yes |
+| 4 | Coin Pouch (`coinPouch`) | Developer product, repeatable | Speed | Impulse | 49 | Coins worth about 15 minutes of fishing, on the sheet's permanent basis (§3.8) | no | yes |
+| 5 | Starter Pack (`starterPack`) | Developer product, once per player | Speed, show off | Impulse | 75 | Coins worth about 30 minutes of fishing, a 15-minute 2x Coins boost and a raincoat colour found only here | no | yes |
 | 6 | Bobber Box (`bobberBox`) | Pass | Show off | Impulse | 75 | 6 bobber designs everyone nearby sees | no | no |
 | 7 | Big Pal Pouch (`palPouchPlus`) | Pass | Collect | Impulse | 99 | +50 companion space, on top of the Pal Pouch upgrade line | no | no |
 | 8 | Rain Gear (`rainGear`) | Pass | Show off | Impulse | 99 | 4 raincoat-and-hat colours and 2 umbrellas that open when it rains | no | no |
 | 9 | Auto Reel (`autoReel`) | Pass | Speed (convenience) | Core | 149 | Reels for you in Clear water after you cast, at about two-thirds of your own catch rate | no | no |
 | 10 | Lucky Bobber (`luckyBobber`) | Pass | Luck | Core | 149 | +25% luck on Rare and rarer fish, with odds that update, inside the +25% paid cap, plus a clover bobber look | yes | no |
 | 11 | Third Tide Pot (`tidePot3`) | Pass | Collect, return | Core | 149 | A third pot slot that fills at the same speed (8 h): 4 more minutes of income and 8 more fish per full pot | no | no |
-| 12 | Coin Crate (`coinCrate`) | Developer product, repeatable | Speed | Core | 149 | About 60 minutes of coins | no | yes |
+| 12 | Coin Crate (`coinCrate`) | Developer product, repeatable | Speed | Core | 149 | Coins worth about 60 minutes of fishing | no | yes |
 | 13 | 2x Coins (`x2Coins`) | Pass | Speed | Core | 249 | Double coins from every catch, from the first bridge on; adds to timed boosts, x3 at most | no | no |
-| 14 | Coin Chest (`coinChest`) | Developer product, repeatable | Speed | Core | 399 | About 3 hours of coins | no | yes |
+| 14 | Coin Chest (`coinChest`) | Developer product, repeatable | Speed | Core | 399 | Coins worth about 3 hours of fishing | no | yes |
 | 15 | Lantern Keeper Set (`lanternKeeper`) | Pass | Show off | Premium | 699 | A lantern coat and hat that glow softly in Sea Fog, a lantern bobber and a lantern umbrella | no | no |
 
 15 items: 7 developer products and 8 passes. Every gameplay pass together costs 795 Robux, and every pass together costs 1,668 Robux [F]. All passes are priced 75-699, inside the 50-800 band that Roblox promotes on the Buy Robux page (`vault/99-reference/key-numbers.md`).
@@ -111,12 +140,18 @@ The rules come from GDD §4.10 and are not changed here. This section adds the p
 
 A call gives each player at the harbour up to about 3.1 extra minutes of harbour income, against fishing in Clear water (sheet §13). For anyone past Lantern Reef, it is a collection and social moment rather than income, because the harbour pays Pebble Cove values.
 
+**A call brings things sooner, never only for payers** (v2). Each weather a call can bring also visits the harbour naturally:
+- Showers, the harbour's home weather.
+- Cove Fog and Cove Gusts, which visit the Open Pier once every clock hour (GDD v3 §4.2 rule 8).
+
+So every mark, species and size a call gives at the harbour also comes free. A call only makes it come sooner, for everyone present (GDD v3 §4.10: "a call never gives a mark or a record that natural weather does not give at that spot").
+
 **Price: 49 Robux for each of the three, the same price** [E].
 - **Price parity with the cheapest personal product.** The GDD's success target is a median of 3 or more players besides the buyer fishing under each call. Four players × 3.1 minutes is about 12.4 player-minutes of harbour income per call, or 0.25 minutes per Robux. The 49-Robux Coin Pouch gives one player 15 minutes, or 0.31 minutes per Robux. A bell costs the buyer what a pouch costs, and gives roughly the same value to the server instead of to themselves.
 - **Why not cheaper (25).** At 25 Robux a call would give the server 1.6x the Pouch's value per Robux. Ringing would become the cheapest way to buy income, even for oneself. The supply of 2 calls per 15-minute cycle per server would fill, so the sky would be "busy" more often and natural weather at the harbour would be crowded out. A 25-Robux reflex purchase also sits badly with a 7-13 audience.
 - **Why not dearer (99 or more).** The buyer's own share is 3.1 minutes, or 0.06 minutes per Robux. Even at 49 it is a gift, not a deal. At 99 or more it would be the worst personal value in the catalog, and a server-wide treat should be an easy gift.
 - **Why one price for three weathers.** The weather is a preference, not a power tier. Showers pays the most coins, Sea Fog gives the most rares through fog's own luck (and the bell adds none there), and Gusts gives bigger fish. One price is also easier for a 9-year-old to understand.
-- **Spend ceiling.** With the per-buyer limit asked of the Designer (one call per buyer per storm cycle, §11), one player can spend at most 4 × 49 = 196 Robux an hour on calls. Without it, the GDD's queue allows 8 calls an hour per server.
+- **Spend ceiling.** GDD v3 §4.10 adopted the per-buyer limit: one call per buyer per storm cycle, kept in the profile. So one player can spend at most 4 × 49 = 196 Robux an hour on calls [E]. A server still allows up to 8 calls an hour when several players ring.
 
 **Pre-purchase panel copy** (expanded Sky Dial → "Ring the Sky Bell", or a tap on the bell on the quay). Draft wording; the Interface Designer lays it out.
 
@@ -142,26 +177,40 @@ All paid luck together is capped at +25%. Players with a Lucky Bobber get the we
 ### 3.2 2x Coins (pass, 249)
 
 - **Gets:** coins from every catch doubled, from the moment the bridge to Lantern Reef is fixed. It adds to the timed coins2x boost, capped at x3 (economy sheet §11).
-- **Fair because:**
-  - It is speed only. The Economist's paying model, which owned 2x Coins from second 0 (the worst case), was 2.6-3.7x faster than the casual free player on goals 2, 3 and 5. That is inside the vault's 2-4x band.
-  - Gating it to the first bridge removes the 3.7x first-bridge edge case. A payer reaches Lantern Reef at a free player's pace.
+- **Fair because** (economy sheet v2 §1, §19.1):
+  - **It is speed only.** The paying player buys exactly this catalog, 2x Coins included. On goals 2, 3 and 5 they are **1.31x, 2.34x and 2.87x** faster than the casual free player. A heavy spender, who also buys a Coin Chest every day, is at **3.01x** on goal 5.
+  - **Goals 3 and 5 are inside the vault's 2-4x band.**
+  - **Goal 2 is below the band on purpose.** Nothing is sold before step 12, and step 12 follows the first bridge. A payer therefore reaches Lantern Reef at a free player's pace: 1.02x the typical player, which is the same skill.
+  - **It is left out of every minutes-of-income grant** (sheet v2 §19.2). The pass doubles coins from fishing. It never doubles coin products, the calendar or Tide Pots, so Robux never compounds on Robux. With the pass counted, the heavy spender would reach 3.41x.
 - **Bought outside the game:** the effect still waits for the first bridge, and the description says so.
 
 ### 3.3 Auto Reel (pass, 149)
 
 - **Gets:** after the player taps Cast, Auto Reel plays the reel ring for them. It works only in **Clear-ring water**: Clear, under a Rainbow, and Aurora Night.
 - **Weaker than active play, by construction** [C]:
-  - It lands 70% of bites, a fixed rate that no perk or upgrade raises.
-  - Each reel takes twice as long as the weather's ring.
+  - It lands 70% of bites, a fixed rate that no perk, upgrade or setting raises.
+  - Each reel takes twice the weather's **base** ring time.
   - That is 4.75 catches a minute in Clear: **69%** of a casual player's active rate (6.87) and **64%** of a typical player's (7.40).
   - It is only **42-44%** of what the same player lands by walking into a Showers front.
   - It never makes a Charged catch.
+  - The Economist confirmed these limits (sheet v2 §19.3):
+    - Auto Reel lands 62-63% of what a player lands reeling with Easier reeling on.
+    - Left on for all Clear and Rainbow time, it earns 81-83% of what reeling yourself earns.
+    - Active play always beats it.
 - **Never plays the weather for you** (GDD §6). It pauses under Showers, Sea Fog and Gusts, and during the whole Great Storm. It never taps the fog hook or Pull!.
   - This protects the twist: what the player's hands do still changes with the weather (pillar 1).
   - It pushes the chase: a front pays more than twice what Auto Reel earns in Clear (twist test B).
   - It pushes the social core: Auto Reel stops while the storm is on, so the pier is where things happen.
-- **Not AFK:** the player still taps Cast for every fish. The toggle is off by default and appears after step 12, so a copy bought outside the game changes nothing in onboarding. Catches are tagged `auto = true` in analytics, so twist and economy reports can separate them.
-- **Accessibility:** Auto Reel must never be the only help for players who find the ring hard. The Designer is asked to keep a free ring assist in Settings (§11).
+- **Not AFK.**
+  - The player still taps Cast for every fish.
+  - Auto Reel pauses after 10 minutes in which the only input was Cast, and any other input resumes it (GDD v3.1 §4.12 rule 8, from sheet v2 §19.3). This closes a Cast-macro farm worth about 29 minutes of active income per unattended hour.
+  - The toggle is off by default and appears after step 12, so a copy bought outside the game changes nothing in onboarding.
+  - Catches are tagged `auto = true` in analytics, so twist and economy reports can separate them.
+- **Accessibility.** Auto Reel is never the only help for players who find the ring hard. GDD v3 §4.12 adds **Easier reeling**:
+  - a free setting, available from the first session;
+  - never sold, never part of a pass, and never shown in the shop.
+
+  Easier reeling never applies to Auto Reel.
 
 ### 3.4 Lucky Bobber (pass, 149): the disclosed luck item
 
@@ -177,11 +226,14 @@ All paid luck together is capped at +25%. Players with a Lucky Bobber get the we
 
 - **Stated limits** (economy sheet §10; checked in [B]):
   - Paid luck from all sources is capped at +25% together. Under a Sky Bell call, an owner gets the weather but no extra luck: x1.25 with the bobber, the bell, or both.
-  - In Sea Fog, luck is already at its weather cap, so the bobber adds nothing there.
+  - In Sea Fog, luck is already at its weather cap, so the bobber adds nothing there. The Economist kept it that way (sheet v2 §19.4), for two reasons: Sea Fog stays the free rare weather, and one rule covers all paid luck, the Sky Bell included.
   - It never applies to nests or to Stormborn.
   - The total luck cap is x6.
 - **Why a pass, not a timed potion:** a timed potion would lose minutes whenever a Sky Bell call overlapped it, because paid luck does not stack. That is a quiet loss, and a pass has none. The repeatable luck purchase is the Sky Bell, which is shared.
-- **Fair because:** +25% is below Lure level 7 (+28%), which a casual free player reaches at minute 23.9. It is a quarter of the Gear cap. A maxed free player in Clear has x4.50 luck, and a maxed payer x5.62 [B].
+- **Fair because:**
+  - +25% is below Lure level 7 (+28%), which a casual free player reaches at minute 23.7 (sheet v2 §1).
+  - It is a quarter of the Gear cap.
+  - A maxed free player in Clear has x4.50 luck, and a maxed payer x5.63 (5.625, rounded half up as sheet v2 §10 prints it) [B].
 
 ### 3.5 Big Pal Pouch (pass, 99)
 
@@ -193,26 +245,36 @@ All paid luck together is capped at +25%. Players with a Lucky Bobber get the we
 ### 3.6 Third Tide Pot (pass, 149)
 
 - **Gets:** a third pot slot, usable once the free second slot exists (on reaching Lantern Reef).
-- **Capacity, never a skip:** the pot fills at the same 0.5 minute of income per pot-hour, with the same 8-hour cap and 1 fish per hour (economy sheet §12.3). A full pot adds 4 minutes of income and 8 fish carrying the marks of the natural weather that passed [D].
+- **Capacity, never a skip:** the pot fills at the same 0.5 minute of income per pot-hour, with the same 8-hour cap and 1 fish per hour (economy sheet §12.3). A full pot adds 4 minutes of income, on the same permanent basis as every grant (sheet v2 §3.1), and 8 fish carrying the marks of the natural weather that passed [D].
 - **Nothing is sold that fills, speeds up or tops up a pot.** Day-7 bait stays a free calendar reward.
 
 ### 3.7 Starter Pack (developer product, once per player, 75)
 
 - **Gets:**
-  - about 30 minutes of coins, which at 0.40 minutes per Robux is 31% more than the Pouch [D];
+  - coins worth about 30 minutes of fishing on the sheet's permanent basis (§3.8), which at 0.40 minutes per Robux is 31% more than the Pouch [D];
   - a 15-minute coins2x boost;
   - a raincoat colour found only in the pack. The look is the Artist's, and the colour is not yellow (art direction §8, the horror look-alike note).
 - **One per player,** enforced on the server through the template's `oncePerPlayer` and `oneTimeProducts`.
 - **When:** listed from step 12. At the start of session 2 the Shop button gets a "New" badge, shown once (§8). This follows the vault rule: offer it after the player has had fun, never on spawn.
 - **No value claims:** no "x% off" and no "was" price, because the boost and the colour are not sold separately. The panel lists the contents.
+- **Step 12 with a first Crate** (sheet v2 §19.1):
+  - **What happens.** The pack and a first Coin Crate bought at minute 10 add up to 90 minutes of income. That buys the second bridge at once, so a payer spends about 2 minutes at Lantern Reef instead of 7.6.
+  - **Fairness.** This stays inside the 2-4x band.
+  - **The Economist's offered lever:** list coin products from session 2.
+  - **Not taken in v2.** The lever would move the modelled paying row, which the sheet, the GDD and the gate now share. It changes listing time only, not price, so it waits for the balance pass (POLISH-05). It is taken then if playtests show payers skipping Lantern Reef's fog.
 
 ### 3.8 Coin packs: Pouch 49, Crate 149, Chest 399 (developer products, repeatable)
 
-- **Sized in minutes of income,** as the Economist asked: 15, 60 and 180 minutes. They stay meaningful on every island, despite the x19 income steps.
-- **Coin amount:**
-  - It is the player's Clear catch rate at their best island × `assumedCatchesPerMinute` (5) × minutes.
-  - It counts permanent multipliers (Rod, companions, bonus, 2x Coins pass, New Tide) and **not timed boosts**, so the amount never depends on when a player buys.
-  - The panel shows "about N coins (about M minutes of your fishing)" before purchase.
+- **Sized in minutes of income,** as the Economist asked: 15, 60 and 180 minutes. They stay meaningful on every island, despite the x19 income steps. Sheet v2 §19.1 modelled these sizes on the basis below: no resizing and no price change are needed.
+- **Coin amount: the sheet's one basis** (v2; economy sheet v2 §3.1, §19.2; GDD v3.1 §5). The same basis covers every minutes-of-income grant: coin products, the Starter Pack, calendar, playtime gifts, Tide Pots, codes and the welcome-back gift.
+  - **Formula:** coins per catch at the player's best island in Clear × `assumedCatchesPerMinute` (5) × minutes.
+  - **Counted:** Rod, companions, the bonus category (journal sets, streak, group), New Tide, the Lure and owned luck passes.
+  - **Not counted:**
+    - timed boosts (coins2x, Lucky Tide), so the amount never depends on when a player buys;
+    - friends in the server;
+    - the **2x Coins pass**, so Robux never compounds on Robux.
+  - **Why the pass is out.** The v1 draft counted it, so a pass owner got twice the coins for the same price. On that basis the heavy spender reached 3.41x the casual player instead of 3.01x (sheet v2 §19.1). On this basis two players with the same progress get the same coins, whatever else they bought [G].
+  - **Copy.** The panel shows **"about N coins (about M minutes of fishing)"** before purchase. It does not say "of your fishing", because a 2x Coins owner earns those coins by fishing in half the minutes [G].
 - **Value steps:** 0.31, 0.40 and 0.45 minutes per Robux [D].
   - Any "more per Robux" label is computed at runtime from the prices this player sees, or not shown. Regional pricing and price tests can change the ratios.
   - Nothing is ever labelled "sale", and there is no "was" price.
@@ -269,13 +331,17 @@ All paid luck together is capped at +25%. Players with a Lucky Bobber get the we
 - **Clear steps between prices:** 49, 75, 99, 149, 249, 399, 699 [F].
 - **Rough player cost:** about 1 US cent per Robux (`key-numbers.md`). Every gameplay pass together is about 8 dollars.
 
-**Effect on the paying player.** Against the Economist's paying model, this catalog:
-- delays 2x Coins to the first bridge;
-- removes the equip slots;
-- keeps paid luck at +25%;
-- adds coin packs, the Starter Pack and a third pot.
+**Effect on the paying player.** The Economist re-ran the paying model with exactly this catalog, on the sheet's coin basis (economy sheet v2 §1, §19.1). Times are against the casual free player:
 
-The Economist is asked to re-run the paying model with exactly this catalog and to confirm the 2-4x band (§11).
+| Payer | Goal 2: Lantern Reef | Goal 3: Gustwhistle | Goal 5: New Tide 1 |
+|---|---|---|---|
+| Paying (this catalog) | 1.31x | 2.34x | 2.87x |
+| Heavy spender (a Crate and a Chest every day) | 1.31x | 2.34x | 3.01x |
+| Passes only (no coin products) | 1.31x | 1.79x | 2.23x |
+
+- Goals 3 and 5 are inside the vault's 2-4x band.
+- Goal 2 is below the band by design (§3.2).
+- No pack size, pass effect or price needs to change (sheet v2 §19.1).
 
 ---
 
@@ -294,27 +360,38 @@ Columns U1-U7 are the "Unfair (avoid)" column of the vault's fairness table (`va
 
 | Product | Fair column (vault) | U1 | U2 | U3 | U4 | U5 | U6 | U7 | N | Result |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Sky Bell: Showers | Luck boost with honest odds; social | Natural Showers is free and frequent at the harbour | Step 12+, only in the expanded Sky Dial, never a popup | Odds now and with the bell before purchase; +25% and the cap stated; odds update live (§6.2) | The buyer gets nothing extra; everyone present shares it | No countdown changes; natural weather keeps priority | The arrival time is the real slot; "busy" is a real reason | "Ring the Sky Bell", "Not now" | Storm guard; on everyone's dial; harbour only | **Pass** (watch W1, W2) |
-| Sky Bell: Sea Fog | Same | Same | Same | Same, plus "the bell adds no extra luck in fog" | Same | Same | Same | Same | Same | **Pass** (W1) |
-| Sky Bell: Gusts | Same | Same | Same | Same | Same | Same | Same | Same | Same | **Pass** (W1, W2) |
-| 2x Coins | Speed | Coins come from every catch anyway | Hidden until step 12; works only from the first bridge | Additive, x3 cap stated | Speed only; payers 2-4x faster (sheet §1) | None | No sale labels | Neutral | n/a | **Pass** |
-| Auto Reel | Convenience | The ring is the fun, not a chore; Auto is weaker | Step 12; toggle off by default | "About two-thirds" stated ([C]: 64-69%) | Earns less than active play | None | None | Neutral | Never plays fog hook, storm or Pull! | **Pass** |
-| Lucky Bobber | Luck boost with honest odds | Luck is not a built-in frustration | Step 12 | Odds now and with the bobber; cap and exclusions stated (§3.4) | +25% is below Lure 7 (+28%, free at minute 23.9); capped | None | None | Neutral | No luck on Stormborn or nests | **Pass** |
+| Sky Bell: Showers | Luck boost with honest odds; social | Natural Showers, and hourly Cove Fog and Cove Gusts (GDD v3 §4.2 rule 8), are free at the harbour | Step 12+, only in the expanded Sky Dial, never a popup | Odds now and with the bell before purchase; +25% and the cap stated; odds update live (§6.2) | The buyer gets nothing extra; everyone present shares it; every mark and size it brings also comes naturally each hour (GDD v3 §4.10) | No countdown changes; natural weather keeps priority | The arrival time is the real slot; "busy" is a real reason | "Ring the Sky Bell", "Not now" | Storm guard; on everyone's dial; harbour only | **Pass** |
+| Sky Bell: Sea Fog | Same | Same | Same | Same, plus "the bell adds no extra luck in fog" | Same | Same | Same | Same | Same | **Pass** |
+| Sky Bell: Gusts | Same | Same | Same | Same | Same | Same | Same | Same | Same | **Pass** |
+| 2x Coins | Speed | Coins come from every catch anyway | Hidden until step 12; works only from the first bridge | Additive, x3 cap and "from the first bridge" stated | Speed only: payers 1.31x / 2.34x / 2.87x the casual player, heavy spender 3.01x (sheet v2 §1, §19.1); never doubles a coin grant (§19.2) | None | No sale labels | Neutral | n/a | **Pass** |
+| Auto Reel | Convenience | The ring is the fun, not a chore; free Easier reeling helps anyone who finds it hard (GDD v3 §4.12); Auto is weaker | Step 12; toggle off by default | "About two-thirds" stated ([C]: 64-69%) | Earns less than active play: 81-83% even when left on for all Clear time (sheet v2 §19.3); pauses after 10 min of Cast-only input | None | None | Neutral | Never plays fog hook, storm or Pull! | **Pass** |
+| Lucky Bobber | Luck boost with honest odds | Luck is not a built-in frustration | Step 12 | Odds now and with the bobber; cap and exclusions stated (§3.4) | +25% is below Lure 7 (+28%, free at minute 23.7, sheet v2 §1); capped | None | None | Neutral | No luck on Stormborn or nests | **Pass** |
 | Big Pal Pouch | Convenience (storage) | Free space 60, the Pal Pouch line to 160, free release | Step 12 | "+50 space", exact | Capacity only | None | None | Neutral | n/a | **Pass** |
 | Third Tide Pot | Extra content (slots) | Two free pots; pots are a bonus | Step 12 | Same 8 h fill stated | +4 min of income and 8 fish a day | Fill time unchanged: capacity, not a skip | None | Neutral | Pots ignore calls and never yield Stormborn | **Pass** |
 | Starter Pack | Speed, cosmetic (cheap first purchase) | n/a | Step 12; badge in session 2 | Contents listed; no "% off" | One-time; coins in minutes of income | Boost timer is real | Genuinely once per player; no countdown | Neutral | n/a | **Pass** |
-| Coin Pouch | Speed | No contextual offer when short of a price | Step 12 | "About N coins (M minutes)" before purchase | Buys only what play buys; nest odds unchanged | None | No permanent "sale" | Neutral | n/a | **Pass** |
+| Coin Pouch | Speed | No contextual offer when short of a price | Step 12 | "About N coins (about M minutes of fishing)" before purchase, on the sheet v2 basis | Buys only what play buys; nest odds unchanged; the 2x Coins pass never doubles it (sheet v2 §19.2) | None | No permanent "sale" | Neutral | n/a | **Pass** |
 | Coin Crate | Speed | Same | Same | Same; "more per Robux" only if computed at runtime | Same | None | Same | Neutral | n/a | **Pass** |
 | Coin Chest | Speed | Same | Same | Same, plus the New Tide reset note | Same | None | Same | Neutral | n/a | **Pass** |
 | Rain Gear | Cosmetics | n/a | Step 12 | "Style only" | No effect | None | Not limited | Neutral | n/a | **Pass** |
 | Bobber Box | Cosmetics | n/a | Step 12 | "Style only" | No effect | None | Not limited | Neutral | n/a | **Pass** |
 | Lantern Keeper Set | Cosmetics | n/a | Step 12 | "Style only" | No effect | None | Not limited | Neutral | n/a | **Pass** |
 
-**Result: 15 of 15 products pass.**
+**Result: 15 of 15 products pass.** Re-checked in v2 with the revised cells: the coin basis and copy, the sheet v2 figures and the closed watch items.
 
-**Watch items** found while checking the Sky Bell. Neither fails a vault row, because the Sky Bell grants no power and everyone in the server shares every call. Both touch the GDD's stricter rule "nothing a free player cannot reach by playing", so they go to the Designer (§11):
-- **W1, call-only collectibles.** At launch, the only natural fronts over Pebble Cove are Showers (world plan §7: "Pebble Cove's two front spots get Showers"). So Pebble Cove's 8 species with the Misty or Breezy mark, 16 "marks seen" journal entries, can appear only under a called Sea Fog or Gusts front. No set requires them; the 3 weather sets use the weather-only species, which bite naturally elsewhere.
-- **W2, call-only records.** The Gusts size boost (x1.25) never happens naturally on Pebble Cove. Pebble Cove's daily record on the harbour record board can therefore be beaten only under a called Gusts front.
+**Watch items W1 and W2: closed by GDD v3** (§4.2 rule 8, §4.6, §4.9, §4.10). In v1 the catalog flagged two things a free player could reach only when someone paid for a call:
+- W1: Pebble Cove species with the Misty or Breezy mark.
+- W2: Pebble Cove's daily size record, which needs the Gusts size boost.
+
+V1 also said the only natural fronts over Pebble Cove were Showers. That is no longer true.
+- **Natural visits.** Cove Fog and Cove Gusts now visit the Open Pier once every clock hour, for 90-120 s each, and show on the Sky Dial at least 60 s ahead.
+- **The checks pass.** `docs/specs/cove_visits_check.py` finds:
+  - every hour gets both visits (the gate's re-run: 0 of 168 hours missing one);
+  - all 672 cycles keep the Sky Bell's 180 s clear window;
+  - the longest wait for rain stays at 260 s.
+- **No cost to pacing.** With the visits, the casual first bridge stays at 10.8 min and the Pebble Cove set median at 15.8 min (sheet v2 §19.5).
+- **W1 is closed.** The 16 Misty and Breezy entries are now reachable for free. The rarest takes a median of 17.8 h (Misty) or 22.9 h (Breezy) of visits; a call only brings them sooner (sheet v2 §19.5). No set, title or coin bonus depends on them.
+- **W2 is closed.** Every catch counts for records, called or natural, because natural Gusts now reach the harbour (GDD v3 §4.9). The board adds a bell icon only if, over 2 weeks, more than half of Pebble Cove's daily records are set under calls.
+- **New rule (GDD v3 §4.10):** a call never gives a mark or a record that natural weather does not give at that spot. Any future callable weather or spot must pass the same schedule test before it is sold.
 
 ---
 
@@ -429,15 +506,15 @@ Escalated on 2026-10-26 with `python3 agents/studioctl.py escalate --game stormc
 | Big Pal Pouch | A hatch is blocked because companion space is full | Step 12, session 2+, does not own it | Card inside the nest panel | Global rules | "Release a pal" and the Pal Pouch upgrade (coins) | "Companion space is full. Release a pal, upgrade your Pal Pouch, or see the Big Pal Pouch (+50 space)." |
 | Third Tide Pot | Both pots are placed and the player opens the pot panel | Has 2 slots, does not own it | A locked third slot in the pot panel ("See Third Tide Pot"), always visible; the slot is not a card | Passive slot; no card | n/a (pots are a bonus) | "A third pot. It fills at the same speed: full in 8 hours." |
 | Auto Reel | After the 300th lifetime catch, at the end of a Clear-water reveal | Step 12, session 2+, does not own it | Small card above the Cast button for 6 s, then it fades | **Once ever** | Reeling yourself is the game | "Auto Reel can reel for you in Clear water, at about two-thirds of your speed." [View] [Not now] |
-| Starter Pack | Start of session 2 | Step 12 done, not bought, not restricted | "New" badge on the Shop button; the pack pinned at the top of the Store tab until bought | Badge once | n/a | "Starter Pack: about 30 minutes of coins, a 15-minute 2x Coins boost and a raincoat colour. Once per player." |
+| Starter Pack | Start of session 2 | Step 12 done, not bought, not restricted | "New" badge on the Shop button; the pack pinned at the top of the Store tab until bought | Badge once | n/a | "Starter Pack: coins worth about 30 minutes of fishing, a 15-minute 2x Coins boost and a raincoat colour. Once per player." |
 | Sky Bell | Pull only: "Ring the Sky Bell" in the expanded Sky Dial (GDD §3.2), or a tap on the bell on the quay | Step 12, not restricted | Sky Bell panel (§3.1) | No card, ever | The natural forecast on the same dial | §3.1 |
 | 2x Coins, Lucky Bobber | Shop only | Step 12 (Lucky Bobber: not restricted) | Store tab, with an "Odds" button on the Lucky Bobber | No card | n/a | Descriptions in §9 |
-| Coin packs | Shop only; the "+" next to the coin counter opens the Store at coins | Step 12, not restricted | Store tab | No card | The bridge sign shows "about N minutes of fishing to go" | "About N coins (about M minutes of your fishing)." |
+| Coin packs | Shop only; the "+" next to the coin counter opens the Store at coins | Step 12, not restricted | Store tab | No card | The bridge sign shows "about N minutes of fishing to go" | "About N coins (about M minutes of fishing)." |
 | Cosmetics | Shop only, plus world presence: a coat rack at the harbour with a try-on preview (optional, Worldbuilder) | Step 12 | Store "Style" tab, with earned cosmetics shown as "Earned" | No card | Calendar and referral raincoat colours | Descriptions in §9 |
 
 **Sky Bell banner:**
 - Default: "Mia rang the Sky Bell: Sea Fog at the harbour in 1:00. Everyone can fish it!"
-- When the buyer turns their name off: "Someone rang the Sky Bell: ...". This avoids pressure on known buyers to ring again (a request to the Designer, §11).
+- When the buyer turns their name off: "Someone rang the Sky Bell: ...". This avoids pressure on known buyers to ring again. GDD v3 §4.10 adopted the switch, on by default.
 - The banner shows the display name only, never custom text.
 
 ---
@@ -453,10 +530,10 @@ Each icon is original art by the Artist (house rule 7): a gold or cream core wit
 | 1 | Sky Bell: Showers | Developer product | Calls Showers over the harbour for 3 minutes, on everyone's Sky Dial 1 minute ahead. Everyone in this server shares it, with +25% luck on Rare and rarer fish. | 49 | A gold bell under a small rain cloud with Seafoam streaks | No (PM) |
 | 2 | Sky Bell: Sea Fog | Developer product | Calls Sea Fog over the harbour for 3 minutes, on everyone's Sky Dial 1 minute ahead. Everyone in this server shares it. Fog already doubles luck, so the bell adds none. | 49 | The bell in a soft grey fog band with a lantern glow | No (PM) |
 | 3 | Sky Bell: Gusts | Developer product | Calls Gusts over the harbour for 3 minutes, on everyone's Sky Dial 1 minute ahead. Everyone in this server shares it, with +25% luck on Rare and rarer fish. | 49 | The bell with two curling wind lines | No (PM) |
-| 4 | Coin Pouch | Developer product | About 15 minutes of coins at your current catch rate. | 49 | A small cloth pouch of gold coins | No (FR) |
-| 5 | Starter Pack | Developer product | About 30 minutes of coins, a 15-minute 2x Coins boost and a raincoat colour found only here. Once per player. | 75 | A small sea chest with coins, a "2x" tag and a raincoat sleeve | No (FR) |
-| 6 | Coin Crate | Developer product | About 60 minutes of coins at your current catch rate. | 149 | A wooden crate of coins | No (FR) |
-| 7 | Coin Chest | Developer product | About 3 hours of coins at your current catch rate. | 399 | A brass-bound chest of coins | No (FR) |
+| 4 | Coin Pouch | Developer product | Coins worth about 15 minutes of fishing, sized to your progress. Boosts and 2x Coins do not change the amount. | 49 | A small cloth pouch of gold coins | No (FR) |
+| 5 | Starter Pack | Developer product | Coins worth about 30 minutes of fishing, a 15-minute 2x Coins boost and a raincoat colour found only here. Once per player. | 75 | A small sea chest with coins, a "2x" tag and a raincoat sleeve | No (FR) |
+| 6 | Coin Crate | Developer product | Coins worth about 60 minutes of fishing, sized to your progress. Boosts and 2x Coins do not change the amount. | 149 | A wooden crate of coins | No (FR) |
+| 7 | Coin Chest | Developer product | Coins worth about 3 hours of fishing, sized to your progress. Boosts and 2x Coins do not change the amount. | 399 | A brass-bound chest of coins | No (FR) |
 | 8 | 2x Coins | Pass | Double coins from every catch, starting once you fix the bridge to Lantern Reef. Adds to timed coin boosts (3x at most). | 249 | Two gold coins with "2x" | Yes |
 | 9 | Auto Reel | Pass | Reels for you in Clear water after you cast, landing about two-thirds as many fish as you would. Showers, Sea Fog, Gusts and storms you reel yourself. | 149 | A reel with a circular arrow | Yes |
 | 10 | Lucky Bobber | Pass | +25% luck on Rare and rarer fish (the odds you see update). All paid luck together is capped at +25%. No extra luck in Sea Fog, on nests or on Stormborn. | 149 | A cream-and-coral bobber with a small green four-leaf mark | No (PM) |
@@ -496,55 +573,54 @@ Each icon is original art by the Artist (house rule 7): a gold or cream core wit
 8. **External purchases.** Keep PM and FR items unlisted outside the game (§9). Confirm that a flagged receipt held for a restricted player (`NotProcessedYet`) is acceptable, or define a refund path with the human.
 9. **Analytics:** `called` and `auto` flags on catches; `SkyCallPurchased`, `SkyCallStarted`, `SkyCallEnded`, `SkyCallLost` (GDD §10); offer funnels per §8.
 10. **Code that changes at the build stage** when Appendix A is applied. These are found by search and listed for the Engineer:
-    - `src/shared/Util/Stats.luau`: x2Coins additive and gated by zone; `luck2x`, `serverLuck`, `lucky`, `vip` and `petSlots` removed.
+    - `src/shared/Util/Stats.luau`:
+      - x2Coins additive and gated by zone;
+      - `luck2x`, `serverLuck`, `lucky`, `vip` and `petSlots` removed;
+      - `coinsForMinutes` on the sheet v2 basis: permanent multipliers only, never timed boosts, friends or the 2x Coins pass (§3.8).
     - `src/server/Systems/Purchases.luau`: `serverBoost` and `gems` grants out; `skyCall` and `cosmetic` grants in.
     - `src/server/Systems/Grants.luau` (`luck2x`, `serverLuck`) and `src/client/Controllers/HUD.luau` (boost labels).
     - `src/server/Systems/Hatching.luau` and `src/client/Controllers/Hatch.luau` (`tripleHatch`).
     - `src/client/Controllers/SettingsPanel.luau` (QA pass list).
     - `src/shared/Config/Rewards.luau` (day 7 uses `luck2x` and gems; becomes `luckyTide` per economy sheet §12.2).
     - `scripts/check-config.luau` (grant kinds).
+11. **Auto Reel AFK guard** (v2; GDD v3.1 §4.12 rule 8). Auto Reel pauses after 10 minutes in which the only input was Cast. Without the guard, a Cast macro would earn about 29 minutes of active income per unattended hour (sheet v2 §19.3). How the server sees "other input" belongs to the Engineer and the Security Reviewer: walking it sees itself, while camera and menu activity come through an existing rate-limited remote.
 
 ---
 
 ## 11. Requests to other roles
 
-**Economist:**
-1. Re-run the paying model with this catalog:
-   - 2x Coins from the first bridge;
-   - Lucky Bobber +25% from step 12;
-   - no extra equip slots;
-   - the Starter Pack at step 12;
-   - one Coin Crate a day, plus a heavy-spender case with one Coin Chest a day;
-   - a third Tide Pot.
+**Answered since v1 (closed):**
 
-   Confirm that payers stay within 2-4x of the casual free player on goals 2, 3 and 5, and that no coin product moves the casual first bridge. Resize the packs if they do not.
-2. Confirm the coin-pack basis: permanent multipliers only, never timed boosts (§3.8).
-3. Confirm Auto Reel's limits: 70% landed, reel x2, Clear-ring water only, no Charged. That gives 64-69% of active Clear [C].
-4. The Lucky Bobber adds nothing in Sea Fog under the Sky cap. The catalog discloses this as it stands. If you prefer paid luck to count in fog, it needs its own capped category; that is your decision.
+| v1 request | Answer | Where |
+|---|---|---|
+| Economist 1: re-run the paying model with this catalog | 1.31x / 2.34x / 2.87x the casual player, heavy spender 3.01x; no resizing and no price change | Sheet v2 §1, §19.1 |
+| Economist 2: coin-pack basis | Permanent multipliers only, with the 2x Coins pass left out too; copy "minutes of fishing" | Sheet v2 §3.1, §19.2; adopted here (§1 rule 8, §3.8) |
+| Economist 3: Auto Reel limits | Confirmed, plus a pause after 10 minutes of Cast-only input | Sheet v2 §19.3; GDD v3.1 §4.12 |
+| Economist 4: Lucky Bobber in Sea Fog | Keep 0 under the Sky cap | Sheet v2 §19.4 |
+| Designer 1-2: W1 and W2 | Hourly Cove Fog and Cove Gusts at the harbour; a call never gives what natural weather does not | GDD v3 §4.2 rule 8, §4.6, §4.9, §4.10 |
+| Designer 3: one call per buyer per cycle; name switch | Adopted; the switch is on by default | GDD v3 §4.10 |
+| Designer 4: Auto Reel rules | Adopted | GDD v3 §4.12 |
+| Designer 5: free ring assist | Easier reeling: free, from the first session, never sold | GDD v3 §4.12 |
 
-**Designer** (GDD §4.10 and §4.6 are yours):
-1. **W1:** Pebble Cove species with the Misty or Breezy mark can only be caught under a paid call. Options:
-   - a rare natural Sea Fog or Gusts visit to Pebble Cove, keeping the 180 s clear-harbour window and the onboarding Showers rule;
-   - no "marks seen" entries for those combinations;
-   - another rule of your choice.
-2. **W2:** Pebble Cove's daily record can only be beaten under a called Gusts front. Options:
-   - a bell icon on records set under a call;
-   - count only natural weather for records.
-3. Add to §4.10:
-   - **one call per buyer per storm cycle** (at most 4 an hour; [E]);
-   - a **"show my name" toggle**, so the banner can read "Someone rang the Sky Bell".
-4. Record the Auto Reel rules: Clear-ring water only, pauses in fronts and the storm, Cast tapped by the player, off by default, toggle after step 12.
-5. Keep a **free ring assist** in Settings, such as a wider green arc, so Auto Reel is never the only help for players who find the ring hard.
+**Still open:**
+- **Artist:** the 15 icons and the cosmetic looks in §9. No yellow hooded raincoat (art direction §8).
+- **Interface Designer:**
+  - the Store tab (Upgrades, Companions, Store, Style);
+  - the Sky Bell panel (§3.1);
+  - the Odds lists with the luck breakdown (§6.2);
+  - the offer cards and coin copy (§3.8, §8).
+- **Engineer (build stage):**
+  - apply Appendix A;
+  - `coinsForMinutes` on the sheet v2 basis;
+  - the code changes listed in §10 items 10-11.
 
-**Artist:** the 15 icons and the cosmetic looks in §9. No yellow hooded raincoat (art direction §8).
-
-**Interface Designer:** the Store tab (Upgrades, Companions, Store, Style), the Sky Bell panel (§3.1), the Odds lists with the luck breakdown (§6.2) and the offer cards (§8).
-
-**Engineer** (build stage): apply Appendix A and the code changes listed in §10 item 10. Keep ids at `0` until the human creates the items.
-
-**Director:**
-- Queue the creation-list escalation (`--kind decision`, §9) at the build stage, after the human answers §7 and the prototype verdict is go.
-- Queue the Sky Bell build after that answer.
+  Keep ids at `0` until the human creates the items.
+- **Security Reviewer:** §10, including two open points:
+  - whether a held receipt for a restricted player is acceptable;
+  - input detection for the Auto Reel pause.
+- **Director:** at the build stage, after the human answers E-0001 (§7) and the prototype verdict is go:
+  - queue the creation-list escalation (`--kind decision`, §9);
+  - queue the Sky Bell build.
 
 ---
 
@@ -554,11 +630,11 @@ The game's `project/src/shared/Config/Products.luau` is **unchanged**. This task
 
 | File | What it is |
 |---|---|
-| `games/stormcatch/docs/specs/catalog-config/Products.luau` | The full proposed file: 8 passes and 7 products, all ids `0`, new fields `cosmetic` and `shownFromStep`, new grant kinds `skyCall` and `cosmetic`, gems and `serverBoost` removed, boosts `coins2x` (additive) and `luckyTide` (free only), pass effects (2x Coins from `lantern_reef`, Auto Reel 0.70 and x2, Lucky Bobber 0.25 paid Sky luck, +50 capacity, +1 pot) |
+| `games/stormcatch/docs/specs/catalog-config/Products.luau` | The full proposed file. It holds:<br>- 8 passes and 7 products, all ids `0`;<br>- new fields `cosmetic` and `shownFromStep`;<br>- new grant kinds `skyCall` and `cosmetic`;<br>- gems and `serverBoost` removed;<br>- boosts `coins2x` (additive) and `luckyTide` (free only);<br>- pass effects: 2x Coins from `lantern_reef`, Auto Reel 0.70 and x2, Lucky Bobber 0.25 paid Sky luck, +50 capacity, +1 pot;<br>- v2: coin-product descriptions on the sheet v2 basis ("Coins worth about M minutes of fishing ... Boosts and 2x Coins do not change the amount") |
 | `games/stormcatch/docs/specs/catalog-config/Products.diff` | Unified diff against the game's current file. `git apply --check` passes from `games/stormcatch/project` |
-| `games/stormcatch/docs/specs/catalog-config/check.luau` | The catalog's rules as checks (ids 0, shown from step 12, flags matching grants, no gems or `serverBoost`, paid luck at most 0.25, Auto Reel below 85%, no price in any description) |
+| `games/stormcatch/docs/specs/catalog-config/check.luau` | The catalog's rules as checks: ids 0, shown from step 12, flags matching grants, no gems or `serverBoost`, paid luck at most 0.25, Auto Reel below 85%, no price in any description, and (v2) coin copy reading "of fishing", never "your current" |
 
-Checks run on 2026-10-25, from the repository root with the project's pinned tools:
+Checks re-run for v2 on 2026-10-26, from the repository root with the project's pinned tools:
 
 ```text
 P=games/stormcatch/project
@@ -570,13 +646,14 @@ $P/.tools/bin/luau-lsp analyze --defs=$P/.tools/globalTypes.d.luau games/stormca
 ## Sources
 
 - Human decisions D2 and D6: `games/stormcatch/docs/decisions.md` (2026-10-24).
-- GDD: `games/stormcatch/docs/gdd.md` §1, §3.2-§3.3, §4.4, §4.6, §4.8, §4.10, §5, §6, §12 (T-0007, accepted; v2 sync T-0013 read 2026-10-25).
-- Economy sheet: `games/stormcatch/docs/economy-sheet.md` §1, §4, §6, §9-§13 and the T-0008 handoff "Next".
-- World plan: `games/stormcatch/docs/world-plan.md` §4 and §7 (front paths, `Callable` spots).
+- GDD v3.1: `games/stormcatch/docs/gdd.md` §1, §3.2-§3.3, §4.2 rule 8, §4.4, §4.6, §4.8, §4.9, §4.10, §4.12, §5, §6, §12 (T-0007, T-0013, T-0014, T-0017; read 2026-10-26).
+- Economy sheet v2: `games/stormcatch/docs/economy-sheet.md` §1, §3.1, §4, §6, §9-§13 and §19 (T-0008, T-0015; output md5 64bb6277fdcfaf0da88ac3004e740dee as the sheet records it).
+- Change requests: the "Next" sections of `games/stormcatch/handoffs/T-0008.md`, `T-0014.md`, `T-0015.md` and `T-0017.md`. The gate result is in `games/stormcatch/gates/design-01.json` (DESIGN-07 "evidence" and "needed").
+- World plan v2: `games/stormcatch/docs/world-plan.md` §4, §7 and §7.1-§7.2 (front paths, `Callable` spots, Cove Fog and Cove Gusts paths). Harbour-visit check: `games/stormcatch/docs/specs/cove_visits_check.py`.
 - Art direction: `games/stormcatch/docs/art-direction.md` (palette, two-tone rule, raincoat look-alike note).
 - Market scan: `games/stormcatch/docs/market-scan.md`. Comparable server weather is sold for in-game coins and lasts 10-15 minutes; no Robux weather price was found.
 - Vault (dated 2026-10-24): `09-monetization/` (monetization-strategy, product-catalog, pricing-and-price-ladders, shop-ux-and-contextual-offers, monetization-compliance, platform-payouts, ads-and-rewarded-video); `17-policy-and-business/age-ratings-and-audience.md`; `03-rarity-and-rng/rng-systems-and-pity.md`; `14-genre-playbooks/fishing-and-collection.md` and `grow-and-farm.md`; `99-reference/key-numbers.md`.
-- Template code read 2026-10-25: `Config/Products.luau`, `Services/Policy.luau`, `Systems/Purchases.luau`, `Util/Stats.luau`, `Controllers/Shop.luau`, `scripts/check-config.luau`.
+- Template code read 2026-10-25 (unchanged since): `Config/Products.luau`, `Services/Policy.luau`, `Systems/Purchases.luau`, `Util/Stats.luau`, `Controllers/Shop.luau`, `scripts/check-config.luau`.
 - Numbers: `games/stormcatch/docs/models/catalog_numbers.py` and its output `models/catalog_numbers_output.txt`.
 
 Related: [Decisions](decisions.md) · [GDD](gdd.md) · [Economy sheet](economy-sheet.md) · [World plan](world-plan.md) · [Art direction](art-direction.md) · [Catalog numbers](models/catalog_numbers_output.txt)

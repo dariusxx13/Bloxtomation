@@ -1,5 +1,5 @@
 --!strict
--- Checks the catalog's rules on the proposed Products config (T-0009). Run: lune run check
+-- Checks the catalog's rules on the proposed Products config (T-0009, v2 T-0018). Run: lune run check
 local process = require("@lune/process")
 local Products = require("./Products")
 
@@ -80,6 +80,14 @@ for _, product in Products.Products do
 		string.find(product.description, "%d+ ?R") == nil,
 		`product {product.key}: no price in the description`
 	)
+	if grantsCoins(product.grant) then
+		-- Economy sheet v2 §19.2: one basis, and the copy says "minutes of fishing", never "your" rate.
+		expect(
+			string.find(product.description, "of fishing") ~= nil
+				and string.find(product.description, "your current") == nil,
+			`product {product.key}: coin copy reads "about M minutes of fishing" (sheet v2 §19.2)`
+		)
+	end
 	expect(
 		#product.description <= 200,
 		`product {product.key}: description fits in 200 characters ({#product.description})`

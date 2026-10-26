@@ -1,24 +1,30 @@
 #!/usr/bin/env python3
 """Reel the Storm (game id `stormcatch`): the numbers behind the product catalog.
 
-Task T-0009, Monetization Designer, design stage, 2026-10-25.
+Tasks T-0009 (v1, 2026-10-25) and T-0018 (v2, 2026-10-26), Monetization Designer, design stage.
 
 Run from the repository root:
 
     python3 games/stormcatch/docs/models/catalog_numbers.py --out games/stormcatch/docs/models/catalog_numbers_output.txt
 
 Standard library only, deterministic (no randomness). It reads no files: every input below is copied from
-the accepted economy sheet (games/stormcatch/docs/economy-sheet.md, T-0008, section noted on each block)
-or is a catalog draft value (prices, pack sizes, Auto Reel limits) from games/stormcatch/docs/catalog.md.
-It recomputes the economist's Sky Bell figures as a cross-check, then the catalog's own figures:
-odds before and after each paid luck item, Auto Reel against active play, coin value per Robux, the
-Sky Bell price parity and the cost of the whole catalog. Nothing here edits game code or prices.
+the accepted economy sheet v2 (games/stormcatch/docs/economy-sheet.md, T-0008 and T-0015, section noted on
+each block) or is a catalog draft value (prices, pack sizes, Auto Reel limits) from
+games/stormcatch/docs/catalog.md. It recomputes the economist's Sky Bell figures as a cross-check, then the
+catalog's own figures: odds before and after each paid luck item, Auto Reel against active play, coin value
+per Robux, the Sky Bell price parity, the cost of the whole catalog and (v2) the coin-product basis.
+Nothing here edits game code or prices.
+
+v2 (T-0018): luck multipliers print rounded half up, as the sheet rounds them (5.625 -> x5.63; Python's
+default would print x5.62), and section [G] shows the sheet v2 section 19.2 coin basis, which leaves the
+2x Coins pass out of every minutes-of-income grant. No economy input changed between sheet v1 and v2.
 """
 
 from __future__ import annotations
 
 import argparse
 import sys
+from decimal import ROUND_HALF_UP, Decimal
 
 # --- Economy sheet inputs -----------------------------------------------------------------------------
 
@@ -105,11 +111,24 @@ COSMETIC_PASSES = ["rainGear", "bobberBox", "lanternKeeper"]
 # Minutes of income per coin product (catalog 3.7 and 3.8).
 COIN_MINUTES = {"coinPouch": 15, "starterPack": 30, "coinCrate": 60, "coinChest": 180}
 
+# Sheet v2 sections 3.1 and 19.2: one minutes-of-income basis for every grant. It counts permanent
+# multipliers only (best island in Clear, Rod, companions, bonus category, New Tide, Lure, owned luck passes)
+# and never timed boosts, friends or the 2x Coins pass. Section [G] uses an example rate of 100 coins a
+# minute on that basis; the ratios, not the 100, are the point.
+EXAMPLE_RATE = 100
+X2_PASS_FACTOR = 2  # the 2x Coins pass doubles what a pass owner earns by fishing (sheet section 11)
+TIMED_BOOST_FACTOR = 2  # a timed coins2x while active (additive with the pass, cap x3)
+
 # Vault 09-monetization/pricing-and-price-ladders.md: tier bands in Robux.
 TIERS = [("Impulse", 15, 99), ("Core", 100, 499), ("Premium", 500, 1499), ("High-end", 1500, 10**9)]
 
 
 # --- Helpers -------------------------------------------------------------------------------------------
+
+
+def half_up(value: float) -> str:
+    """Two decimals, rounded half up as the economy sheet prints luck (5.625 -> 5.63)."""
+    return str(Decimal(repr(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
 
 
 def sky_luck(weather: str, paid: float, free: float = 0.0) -> float:
@@ -173,7 +192,7 @@ def section_a(out: list[str]) -> None:
         rare_after = sum(v for t, v in tier_odds(weather, after).items() if t in LUCK_TIERS)
         coins = coin_value(weather, after) / coin_value(weather, before) - 1
         out.append(
-            f"{weather:<14} {before:>11.2f} {after:>10.2f} {rare_before:>12.2%} {rare_after:>11.2%} {coins:>+11.1%}"
+            f"{weather:<14} {half_up(before):>11} {half_up(after):>10} {rare_before:>12.2%} {rare_after:>11.2%} {coins:>+11.1%}"
         )
     out.append("Sheet values: Showers 14.98% -> 18.05%, +6.0%; Sea Fog 29.91% -> 29.91%, 0; Gusts 23.73% -> 28.00%, +8.8%.")
     out.append("")
@@ -197,7 +216,7 @@ def section_b(out: list[str]) -> None:
         tb = tier_odds(weather, before)
         ta = tier_odds(weather, after)
         cells = " ".join(f"{tb[t]:>7.2%} -> {ta[t]:>6.2%}" for t in TIER_ORDER)
-        out.append(f"{label:<36} {before:>4.2f}->{after:<5.2f} {cells}")
+        out.append(f"{label:<36} {half_up(before):>4}->{half_up(after):<5} {cells}")
         assert abs(sum(ta.values()) - 1.0) < 1e-12 and abs(sum(tb.values()) - 1.0) < 1e-12
     out.append("Every row sums to exactly 100% before and after (asserted).")
     out.append("")
@@ -208,7 +227,7 @@ def section_b(out: list[str]) -> None:
                 luck_multiplier(weather, paid, gear, comp, friends) for paid in (0.0, 0.25, 0.50)
             ]
             out.append(
-                f"  {label:<15} {weather:<8} no paid luck x{values[0]:.2f} | Bobber or Bell x{values[1]:.2f} | Bobber and Bell x{values[2]:.2f}"
+                f"  {label:<15} {weather:<8} no paid luck x{half_up(values[0])} | Bobber or Bell x{half_up(values[1])} | Bobber and Bell x{half_up(values[2])}"
             )
     out.append("")
 
@@ -264,7 +283,7 @@ def section_e(out: list[str]) -> None:
     calls_per_hour = CALLS_PER_CYCLE * 4
     out.append(
         f"  Most one server can buy: {CALLS_PER_CYCLE} calls per 15-minute cycle = {calls_per_hour} per hour; "
-        f"one buyer with one call per cycle (catalog request) at most 4 per hour = {4 * price} R per hour"
+        f"one buyer with one call per cycle (GDD v3 section 4.10) at most 4 per hour = {4 * price} R per hour"
     )
     out.append("")
 
@@ -284,12 +303,37 @@ def section_f(out: list[str]) -> None:
     out.append("")
 
 
+def section_g(out: list[str]) -> None:
+    out.append("[G] Coin-product basis (sheet v2 sections 3.1 and 19.2), at an example rate of "
+               f"{EXAMPLE_RATE} coins a minute on the permanent basis")
+    out.append(f"{'Product':<12} {'min':>4} {'v2 grant':>9} {'v1 draft, pass owner':>21} {'v2, pass owner':>15} "
+               f"{'v2, coins2x on':>15} {'pass owner fishing to earn it':>30}")
+    for key, minutes in COIN_MINUTES.items():
+        v2 = minutes * EXAMPLE_RATE
+        v1_pass_owner = v2 * X2_PASS_FACTOR  # the v1 catalog draft counted the pass in the basis
+        v2_pass_owner = v2  # the pass is left out
+        v2_boosted = v2  # timed boosts never count
+        own_minutes = v2 / (EXAMPLE_RATE * X2_PASS_FACTOR)
+        out.append(
+            f"{key:<12} {minutes:>4} {v2:>9,} {v1_pass_owner:>21,} {v2_pass_owner:>15,} {v2_boosted:>15,} "
+            f"{own_minutes:>25.1f} min"
+        )
+        assert v2_pass_owner == v2 and v2_boosted == v2
+    out.append("On the v2 basis a grant is the same for every player with the same permanent progress, whatever")
+    out.append("they bought or whatever boost is running. A 2x Coins owner earns it by fishing in half the minutes,")
+    out.append("so the copy says 'about M minutes of fishing', not 'of your fishing' (sheet section 19.2).")
+    out.append("")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[1])
     parser.add_argument("--out", help="also write the output to this file")
     args = parser.parse_args()
-    out: list[str] = ["Reel the Storm catalog numbers (T-0009). Inputs: economy-sheet.md (T-0008) and catalog.md drafts.", ""]
-    for section in (section_a, section_b, section_c, section_d, section_e, section_f):
+    out: list[str] = [
+        "Reel the Storm catalog numbers (T-0009, v2 T-0018). Inputs: economy-sheet.md v2 (T-0008, T-0015) and catalog.md v2.",
+        "",
+    ]
+    for section in (section_a, section_b, section_c, section_d, section_e, section_f, section_g):
         section(out)
     text = "\n".join(out)
     print(text)
