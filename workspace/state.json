@@ -372,6 +372,16 @@
       "at": "2026-10-26T05:51:10Z",
       "by": "director",
       "message": "added T-0015 'Re-run the paying-player model against the catalog' for economist (queued)"
+    },
+    {
+      "at": "2026-10-26T05:51:26Z",
+      "by": "designer",
+      "message": "started T-0014"
+    },
+    {
+      "at": "2026-10-26T05:51:29Z",
+      "by": "economist",
+      "message": "started T-0015"
     }
   ],
   "tasks": {
@@ -767,9 +777,10 @@
       "notes": [],
       "owner": "designer",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-26T05:51:26Z",
+      "status": "working",
       "title": "Close the catalog watch items in the GDD",
-      "updated": "2026-10-26T05:51:10Z"
+      "updated": "2026-10-26T05:51:26Z"
     },
     "T-0015": {
       "brief": "games/stormcatch/tasks/T-0015.md",
@@ -788,9 +799,10 @@
       "notes": [],
       "owner": "economist",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-26T05:51:29Z",
+      "status": "working",
       "title": "Re-run the paying-player model against the catalog",
-      "updated": "2026-10-26T05:51:10Z"
+      "updated": "2026-10-26T05:51:29Z"
     }
   },
   "version": 1
