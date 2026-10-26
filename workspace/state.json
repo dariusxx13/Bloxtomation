@@ -8,7 +8,7 @@
   "counters": {
     "escalation": 1,
     "gate": 2,
-    "task": 16
+    "task": 17
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {
@@ -412,6 +412,21 @@
       "at": "2026-10-26T06:09:51Z",
       "by": "director",
       "message": "T-0016 -> done: Reviewed: re-ran world_layout.py (exit 0, layout v2, All checks pass), both harbour visit paths avoid cove_dock, WindYaw defined per Gusts cell including two cells v1 missed, handoff validates."
+    },
+    {
+      "at": "2026-10-26T10:51:59Z",
+      "by": "economist",
+      "message": "submitted T-0015 for review"
+    },
+    {
+      "at": "2026-10-26T10:52:40Z",
+      "by": "director",
+      "message": "T-0015 -> done: Reviewed: output md5 64bb627... matches, handoff validates, paying player buys catalog products only; ratios 1.31x (by design, nothing sold before the first bridge), 2.34x, 2.87x; catalog questions and O-EC3/4/5 answered in sheet section 19. GDD mirror numbers sync queued as T-0017."
+    },
+    {
+      "at": "2026-10-26T10:52:40Z",
+      "by": "director",
+      "message": "added T-0017 'Sync the GDD with economy sheet v2' for designer (queued)"
     }
   ],
   "tasks": {
@@ -831,15 +846,22 @@
         "DESIGN-03",
         "DESIGN-07"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0015.md",
       "id": "T-0015",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T10:52:40Z",
+          "by": "director",
+          "text": "Reviewed: output md5 64bb627... matches, handoff validates, paying player buys catalog products only; ratios 1.31x (by design, nothing sold before the first bridge), 2.34x, 2.87x; catalog questions and O-EC3/4/5 answered in sheet section 19. GDD mirror numbers sync queued as T-0017."
+        }
+      ],
       "owner": "economist",
       "stage": "design",
       "started": "2026-10-26T05:51:29Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T10:51:59Z",
       "title": "Re-run the paying-player model against the catalog",
-      "updated": "2026-10-26T05:51:29Z"
+      "updated": "2026-10-26T10:52:40Z"
     },
     "T-0016": {
       "brief": "games/stormcatch/tasks/T-0016.md",
@@ -869,6 +891,27 @@
       "submitted": "2026-10-26T06:09:32Z",
       "title": "Add harbour weather visits and WindYaw to the world plan",
       "updated": "2026-10-26T06:09:51Z"
+    },
+    "T-0017": {
+      "brief": "games/stormcatch/tasks/T-0017.md",
+      "created": "2026-10-26T10:52:40Z",
+      "deps": [
+        "T-0014",
+        "T-0015"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-03",
+        "DESIGN-09"
+      ],
+      "handoff": null,
+      "id": "T-0017",
+      "notes": [],
+      "owner": "designer",
+      "stage": "design",
+      "status": "queued",
+      "title": "Sync the GDD with economy sheet v2",
+      "updated": "2026-10-26T10:52:40Z"
     }
   },
   "version": 1

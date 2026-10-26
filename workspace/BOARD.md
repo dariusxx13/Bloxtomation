@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-26T10:44:04Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T10:52:40Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,20 +14,18 @@ Updated 2026-10-26T10:44:04Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Tasks
 
-### Working (1)
+### Working (0)
 
-| Task | Owner | Game | Title | Waiting on |
-|---|---|---|---|---|
-| T-0015 | economist | stormcatch | Re-run the paying-player model against the catalog | - |
 
 ### Needs review (0)
 
 
-### Queued (1)
+### Queued (2)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0012 | gatekeeper | stormcatch | Run the design gate | - |
+| T-0017 | designer | stormcatch | Sync the GDD with economy sheet v2 | - |
 
 ### Draft (needs a brief) (0)
 
@@ -38,6 +36,9 @@ Updated 2026-10-26T10:44:04Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T10:52:40Z director: added T-0017 'Sync the GDD with economy sheet v2' for designer (queued)
+- 2026-10-26T10:52:40Z director: T-0015 -> done: Reviewed: output md5 64bb627... matches, handoff validates, paying player buys catalog products only; ratios 1.31x (by design, nothing sold before the first bridge), 2.34x, 2.87x; catalog questions and O-EC3/4/5 answered in sheet section 19. GDD mirror numbers sync queued as T-0017.
+- 2026-10-26T10:51:59Z economist: submitted T-0015 for review
 - 2026-10-26T06:09:51Z director: T-0016 -> done: Reviewed: re-ran world_layout.py (exit 0, layout v2, All checks pass), both harbour visit paths avoid cove_dock, WindYaw defined per Gusts cell including two cells v1 missed, handoff validates.
 - 2026-10-26T06:09:32Z worldbuilder: submitted T-0016 for review
 - 2026-10-26T06:02:50Z worldbuilder: started T-0016
@@ -50,6 +51,3 @@ Updated 2026-10-26T10:44:04Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-26T05:51:10Z director: added T-0014 'Close the catalog watch items in the GDD' for designer (queued)
 - 2026-10-26T05:51:10Z director: T-0009 -> done: Reviewed: catalog_numbers output md5 reproduced (58aa713...), Products.diff applies cleanly, check record passed, fairness 15/15, E-0001 escalated with options. W1/W2 and the paying-model mismatch queued as T-0014 and T-0015 before the gate.
 - 2026-10-26T05:50:24Z director: T-0013 -> done: Reviewed: 0 'economy sheet (T-0008)' placeholders in gdd.md and specs/prototype.md, prototype brief and handoff validate, GDD version 2 with changelog, catalog-requested rules (catalog section 11) left for a follow-up.
-- 2026-10-26T05:50:04Z monetization-designer: submitted T-0009 for review
-- 2026-10-26T05:50:03Z designer: submitted T-0013 for review
-- 2026-10-26T05:49:10Z monetization-designer: escalated E-0001 (policy)

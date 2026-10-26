@@ -10,19 +10,28 @@ author: economist (tasks T-0008 and T-0015)
 
 Tasks T-0008 and T-0015 · Economist · 2026-10-26 · Stage: design · Outcome served: **stay**. The casual free player reaches the first bridge in 10-12 minutes, and the next goal is always 1-3 minutes away. Odds are fair, shown and capped.
 
+**Changelog.**
+- **v2, 2026-10-26 (T-0015).**
+  - The paying player buys only what the accepted catalog sells (`catalog.md`, T-0009).
+  - One minutes-of-income basis for every grant: permanent multipliers only, with no timed boosts, friends or the 2x Coins pass.
+  - The harbour uses GDD v3's Cove Fog and Cove Gusts visits (§4.2 rule 8) in place of the v1 assumption.
+  - §19 answers the catalog's three questions and O-EC3, O-EC4 and O-EC5.
+  - Casual rows move by 1.4 min or less (first bridge unchanged at 10.8). Typical New Tide 1 moves 44.2 → 43.2, and the paying row is new (§1).
+- **v1, 2026-10-25 (T-0008).** First version.
+
 **How to reproduce every number here.** From the repository root:
 
 ```text
 python3 games/stormcatch/docs/models/economy_model.py --out games/stormcatch/docs/models/economy_model_output.txt
 ```
 
-The model needs the standard library only. Its pacing part is a deterministic expected-value simulation in 1-second steps over 240 minutes of play, run for each of the 15 possible join minutes of the 15-minute Great Storm clock. Its odds checks are a Monte Carlo with a fixed seed, `random.Random(20261025)`. A full run takes about 4.5 minutes and writes `games/stormcatch/docs/models/economy_model_output.txt` (509 lines, letter-coded sections A-N, md5 afd22212157985e60dec9157f5111bfd). Section letters below (for example "[B]") point into that file.
+The model needs the standard library only. Its pacing part is a deterministic expected-value simulation in 1-second steps over 240 minutes of play, run for each of the 15 possible join minutes of the 15-minute Great Storm clock. Its odds checks are a Monte Carlo with a fixed seed, `random.Random(20261025)`. A full run takes about 6.5 minutes and writes `games/stormcatch/docs/models/economy_model_output.txt` (575 lines, letter-coded sections A-O, md5 64bb6277fdcfaf0da88ac3004e740dee; two runs gave the same md5). Section letters below (for example "[B]") point into that file.
 
 **Why a Python model.** `which lune` printed nothing when the task started. The studio check later installed the pinned tools, but `lune run scripts/economy-sheet` reads only the game's `Config/`, which still holds the template's values (this task edits no code). Its baseline is the "before" column in §14: casual zone 2 at 13.7 min and first rebirth at 44 min. Once the Engineer moves these tables into `Config/`, the Lune sheet and `tests/Economy.spec.luau` take over (§13).
 
 **Labels.** *Modelled*: produced by the model above. *Target (source)*: a goal from the GDD or the vault. *Design value*: a timing the Designer owns (GDD), used as an input. Every table names the Config file it becomes.
 
-**Inputs.** The GDD, `games/stormcatch/docs/gdd.md` (T-0007, accepted), wins on timing. The prototype brief is `games/stormcatch/docs/specs/prototype.md`. Decisions D2 and D6 are in `games/stormcatch/docs/decisions.md`. The template config is `games/stormcatch/project/src/shared/Config/`, and the template tests are `games/stormcatch/project/tests/Economy.spec.luau` and `Odds.spec.luau`. Vault: `04-progression-and-economy/` (economy-math, economy-design, progression-architecture, rebirth-and-prestige, idle-and-offline-progression, worked-economy-example), `03-rarity-and-rng/` (rarity-tiers-and-odds, rng-systems-and-pity, collection-and-variants), `18-templates-and-checklists/economy-sheet-template.md` and `99-reference/key-numbers.md`.
+**Inputs.** The GDD, `games/stormcatch/docs/gdd.md` (v3, tasks T-0007, T-0013 and T-0014, accepted), wins on timing. The catalog is `games/stormcatch/docs/catalog.md` (T-0009, accepted); the harbour-visit check is `games/stormcatch/docs/specs/cove_visits_check.py`. The prototype brief is `games/stormcatch/docs/specs/prototype.md`. Decisions D2 and D6 are in `games/stormcatch/docs/decisions.md`. The template config is `games/stormcatch/project/src/shared/Config/`, and the template tests are `games/stormcatch/project/tests/Economy.spec.luau` and `Odds.spec.luau`. Vault: `04-progression-and-economy/` (economy-math, economy-design, progression-architecture, rebirth-and-prestige, idle-and-offline-progression, worked-economy-example), `03-rarity-and-rng/` (rarity-tiers-and-odds, rng-systems-and-pity, collection-and-variants), `18-templates-and-checklists/economy-sheet-template.md` and `99-reference/key-numbers.md`.
 
 ---
 
@@ -33,30 +42,30 @@ All times are cumulative minutes of active play. Each cell gives the mean, then 
 | Goal | Casual free | Typical | Paying | Target (source) | Result |
 |---|---|---|---|---|---|
 | 1. First Rod upgrade (Rod 2, 15 coins) | 45 s | 45 s | 45 s | about 60 s (blueprint phase 3; GDD §3.1 "45 s - 3 min") | Pass |
-| 2. Bridge to Lantern Reef (620) | **10.8** [10.3-11.1] (s2, d2) | 8.7 [6.6-9.6] (s1, d1) | 8.5 [6.5-9.7] (s1, d1) | 10-12 min, inside 10-15 (brief; GDD §5) | Pass |
-| 3. Bridge to Gustwhistle Bluffs (19,000) | **23.6** [23.1-24.3] (s3, d3) | 16.4 [15.3-17.9] (s1, d1) | 10.0 [10.0-10.0] (s1, d1) | 20-30 min (GDD §5; the Economist decides between the vault's 15-25 and the template's 30-45) | Pass |
-| 4. First island set complete (Pebble Cove 8/8, median) | **17.2** [11.7-24.3] (s2, d2) | 12.4 [8.2-20.7] (s1, d1) | 10.5 [7.7-20.0] (s1, d1) | inside the first 30 min (GDD §5) | Pass |
-| 5. New Tide 1 (130M) | **62.2** [60.9-67.9] (s7, d7) | 44.1 [40.5-49.4] (s3, d2) | 21.8 [21.3-22.3] (s1, d1) | 20-90 min (Economy.spec); typical 30-60 (key numbers) | Pass |
+| 2. Bridge to Lantern Reef (620) | **10.8** [10.3-11.9] (s2, d2) | 8.3 [6.5-9.3] (s1, d1) | 8.2 [6.3-9.2] (s1, d1) | 10-12 min, inside 10-15 (brief; GDD §5) | Pass |
+| 3. Bridge to Gustwhistle Bluffs (19,000) | **23.5** [22.7-24.5] (s3, d3) | 15.9 [15.2-17.7] (s1, d1) | 10.0 [10.0-10.0] (s1, d1) | 20-30 min (GDD §5; the Economist decides between the vault's 15-25 and the template's 30-45) | Pass |
+| 4. First island set complete (Pebble Cove 8/8, median) | **15.8** [10.8-23.0] (s2, d2) | 12.2 [7.8-20.7] (s1, d1) | 10.3 [7.3-19.8] (s1, d1) | inside the first 30 min (GDD §5) | Pass |
+| 5. New Tide 1 (130M) | **62.3** [60.8-67.8] (s7, d7) | 43.2 [40.5-48.1] (s3, d2) | 21.7 [21.2-22.3] (s1, d1) | 20-90 min (Economy.spec); typical 30-60 (key numbers) | Pass |
 
 Notes:
 - **Rod 2.** The shop opens at 45 s, after onboarding steps 4-5. The Rod is affordable from the second catch, so the guided purchase happens at 45-60 s.
 - **Casual sessions.** The casual model plays 10 minutes a day, so its 10.8-minute bridge falls on day 2. A first session that runs past minute 11 reaches it on day 1, which is the blueprint's assumption.
-- **Paying against casual** (goals 2, 3 and 5): **1.27x, 2.36x and 2.85x** faster (v1, with template passes from second 0: 3.72x, 2.95x, 2.55x).
+- **Paying against casual** (goals 2, 3 and 5): **1.31x, 2.34x and 2.87x** faster (v1, with template passes from second 0: 3.72x, 2.95x, 2.55x).
   - Goal 2 is below the vault's 2-4x on purpose. The catalog sells nothing before onboarding step 12, which follows step 11, the first bridge. The paying player therefore crosses at a free player's pace (1.02x the typical player, the same skill).
-  - Goals 3 and 5 are inside the band. The heavy spender (a Coin Chest every day as well) is at 2.99x on goal 5 (§19).
-- **The step-12 jump.** The Starter Pack (30 min of income) and the first daily Coin Crate (60 min) arrive together at step 12 (minute 10). That buys the second bridge at once, so the paying player crosses to Gustwhistle at exactly 10.0 min in every join minute and spends about 1.5 minutes at Lantern Reef. It is inside the band; §19 lists the option of listing coin products later.
+  - Goals 3 and 5 are inside the band. The heavy spender (a Coin Chest every day as well) is at 3.01x on goal 5 (§19.1).
+- **The step-12 jump.** The Starter Pack (30 min of income) and the first daily Coin Crate (60 min) arrive together at step 12 (minute 10). That buys the second bridge at once, so the paying player crosses to Gustwhistle at exactly 10.0 min in every join minute and spends about 2 minutes at Lantern Reef. It is inside the band; §19.1 lists the option of listing coin products later.
 - **Set completion.** Money cannot buy set completion, so the paying-speed check leaves goal 4 out.
 
 **Other milestones** [B]:
 
 | Milestone | Casual free | Typical | Paying |
 |---|---|---|---|
-| Second upgrade line (Lure or Boots) | 4.2 | 4.2 | 4.1 |
+| Second upgrade line (Lure or Boots) | 4.1 | 4.1 | 4.0 |
 | First nest (Driftwood) | 5.0 | 5.0 | 5.0 |
-| Lure level 7 (+28% luck, more than the Sky Bell's +25%) | 23.9 | 16.9 | 10.1 |
-| Bridge to Thunderhead Point (1.6M) | 38.8 | 28.9 | 14.3 |
-| New Tide 2 | 92.3 | 59.2 | 26.0 |
-| Rain set 3/3 (median) | 81.1 | 42.7 | 31.7 |
+| Lure level 7 (+28% luck, more than the Sky Bell's +25%) | 23.7 | 16.4 | 10.0 |
+| Bridge to Thunderhead Point (1.6M) | 38.5 | 28.6 | 14.2 |
+| New Tide 2 | 91.7 | 58.7 | 25.9 |
+| Rain set 3/3 (median) | 72.7 | 37.8 | 26.2 |
 | Lantern Reef set 8/8 (median) | > 240 (a multi-day set) | > 240 | > 240 |
 
 **Checks** [B]:
@@ -64,14 +73,14 @@ Notes:
 | Check (vault or GDD) | Result | Model value |
 |---|---|---|
 | First upgrade under 1 minute, every model | Pass | 45 s |
-| No gap above about 3 min in the first hour (typical) | Near | Worst 3.48 min, in 2 of 15 join minutes, and only in the final save for New Tide 1 with the tide bar visible. Mean worst gap 2.73 min |
-| Next purchase 1-3 min away in the first 30 min (casual; GDD test 5) | Pass | Worst gap 2.22 min |
-| Paying player faster but within 2-4x (goals 2, 3, 5) | Pass (goal 2 below 2x by design) | 1.27x, 2.36x, 2.85x |
+| No gap above about 3 min in the first hour (typical) | Pass (v1: near) | Worst 2.98 min, mean worst 2.56 min. In v1 a 3.47-minute gap appeared in the final save for New Tide 1; the v3 harbour fronts close it |
+| Next purchase 1-3 min away in the first 30 min (casual; GDD test 5) | Pass | Worst gap 2.00 min |
+| Paying player faster but within 2-4x (goals 2, 3, 5) | Pass (goal 2 below 2x by design) | 1.31x, 2.34x, 2.87x |
 | Regain pre-tide income in 1/4-1/3 of the first cycle | Argued deviation | 0.14. The vault band assumes zones reset; here islands stay (GDD §4.7), so a tide's cost shows up in cycle length instead (§7) |
 
-**Conservative view** (catch income only: no calendar, playtime gifts, pots or journal bonuses; the analogue of `Economy.spec`) [B]: the casual player reaches Lantern Reef at 14.8 [14.0-15.1], Gustwhistle at 29.3 and New Tide 1 at 93.6. The typical player reaches them at 10.1, 20.8 and 61.0, and the paying player (passes only, no coin products in this view) at 10.0, 15.3 and 32.9. Even without a single reward the casual first bridge stays inside the template's 8-16 minute test band.
+**Conservative view** (catch income only: no calendar, playtime gifts, pots or journal bonuses; the analogue of `Economy.spec`) [B]: the casual player reaches Lantern Reef at 14.3 [13.9-14.6], Gustwhistle at 28.8 and New Tide 1 at 93.1. The typical player reaches them at 9.7, 20.4 and 60.6, and the paying player (passes only, no coin products in this view) at 9.6, 14.9 and 32.5. Even without a single reward the casual first bridge stays inside the template's 8-16 minute test band.
 
-**Return view** (sessions, later daily rewards and Tide Pots included) [B]: the casual player reaches Lantern Reef at 10.0 (the first second of session 2, day 2), Gustwhistle at 20.0 (day 3), Thunderhead at 30.0 (day 4) and New Tide 1 at 40.0 (day 5). The typical player reaches New Tide 1 at 40.1 (day 2). Return sources land at the start of a session, so goals near a session end snap to the next session. The five-goal table is the commitment; the return view is the upside.
+**Return view** (sessions, later daily rewards and Tide Pots included) [B]: the casual player reaches Lantern Reef at 10.0 (the first second of session 2, day 2), Gustwhistle at 20.0 (day 3), Thunderhead at 30.0 (day 4) and New Tide 1 at 40.0 (day 5). The typical player reaches New Tide 1 at 40.0 (day 2), and the paying player at 21.7 (day 1). Return sources land at the start of a session, so goals near a session end snap to the next session. The five-goal table is the commitment; the return view is the upside.
 
 ## 2. Player models (Config/Economy.luau `playerModels`)
 
@@ -156,7 +165,7 @@ Formula (template `EconomyMath.upgradeCost`): `cost(L) = round(baseCost × costG
 
 Reasoning per curve:
 - **Rod.** The template values are kept. r = 1.28 and g = 1.14 give r/g = 1.123, inside the vault's 1.03-1.15 band for early lines: each level takes about 12% longer than the last, which pushes the player to the next bridge. maxLevel is cut from 400 to 150, because a cap of 1.14^150 (about x343M) is still never reached in the model and "no multiplier without a cap" needs a real bound. A visual Rod tier changes every 3 levels (GDD §4.4).
-- **Lure.** Growth is steepened from the template's 1.6 to 2.0 and the effect cut from +5% to +4% (cap +100% at level 25). Lure survives New Tide, and every island jump multiplies income (§5). At 1.5 the line maxed inside the first 45 minutes. At 2.0 the typical player reaches level 25 after about 3 hours of play (day 4-5) and the casual player in about week 3. The casual player first passes the Sky Bell's +25% at Lure 7, at minute 23.9.
+- **Lure.** Growth is steepened from the template's 1.6 to 2.0 and the effect cut from +5% to +4% (cap +100% at level 25). Lure survives New Tide, and every island jump multiplies income (§5). At 1.5 the line maxed inside the first 45 minutes. At 2.0 the typical player reaches level 25 after about 3 hours of play (day 4-5) and the casual player in about week 3. The casual player first passes the Sky Bell's +25% at Lure 7, at minute 23.7.
 - **Boots.** The template's 1.55 growth is kept, with base 120 so that Lure and Boots are a real choice at minutes 4-6 (GDD §3.1). Walk speed only shortens travel, so the return-based buyer stops at 4-10 levels.
 - **Pal Pouch.** This is capacity only (GDD §4.4: equip slots stay at the template's 3). It adds no income and is a collection sink. Growth 3.0 replaces the template's 1.8 so that later levels stay meaningful at later islands.
 
@@ -164,16 +173,16 @@ Reasoning per curve:
 
 | Island (order) | gateCost | valueMultiplier | Home weather | Nest | Casual / typical arrival |
 |---|---|---|---|---|---|
-| Pebble Cove (1) | 0 | x1 | Showers | Driftwood Nest | start |
-| Lantern Reef (2) | **620** | x4 | Sea Fog | Reef Nest | 10.8 / 8.7 min |
-| Gustwhistle Bluffs (3) | **19,000** | x16 | Gusts | Bluff Nest | 23.6 / 16.4 min |
-| Thunderhead Point (4) | **1,600,000** | x64 | mixed | Thunder Nest | 38.8 / 28.9 min |
+| Pebble Cove (1) | 0 | x1 | Showers, plus hourly Cove Fog and Cove Gusts (GDD v3 §4.2 rule 8) | Driftwood Nest | start |
+| Lantern Reef (2) | **620** | x4 | Sea Fog | Reef Nest | 10.8 / 8.3 min |
+| Gustwhistle Bluffs (3) | **19,000** | x16 | Gusts | Bluff Nest | 23.5 / 15.9 min |
+| Thunderhead Point (4) | **1,600,000** | x64 | mixed | Thunder Nest | 38.5 / 28.6 min |
 
 **Formula and reasoning.** I priced each gate with `gate = income at arrival × target minutes` (economy-math §3), then tuned each price by bisection in the model: Lantern Reef for casual at 11.0, Gustwhistle for casual at 24, Thunderhead for typical at 29. Prices are rounded to two significant figures.
 
 The steps are large (x31, then x84) because Rod catch-up amplifies every island multiplier. After a jump of M, the player buys Rod levels until the cost-to-income ratio is back where it was. That adds ΔL = ln M / ln(r/g) levels, so income grows by `M × g^ΔL = M^(1 + ln g / ln(r/g)) = M^2.13`, about **x19 for each x4 island**.
 
-I kept the template's x4 island multiplier and sized the gates to that amplification. Thunderhead needs no New Tide: the GDD lists the four islands in order with no requirement (§4.5). It also means every New Tide happens with all four islands open, so a single geometric tide cost works (§7). The casual player reaches zone 4 at 38.8 minutes, inside the vault's 35-60 minute band (progression-architecture).
+I kept the template's x4 island multiplier and sized the gates to that amplification. Thunderhead needs no New Tide: the GDD lists the four islands in order with no requirement (§4.5). It also means every New Tide happens with all four islands open, so a single geometric tide cost works (§7). The casual player reaches zone 4 at 38.5 minutes, inside the vault's 35-60 minute band (progression-architecture).
 
 ## 6. Nests and companions (Config/Eggs.luau, Config/Pets.luau)
 
@@ -203,7 +212,7 @@ Perk caps: bite wait at most -30%; reel success at most 98%; a mark chance at mo
 
 | Key | Template | Reel the Storm | Reason |
 |---|---|---|---|
-| `rebirthBaseCost` → `newTideBaseCost` | 250,000 | **130,000,000** | Tuned to typical New Tide 1 at 45 min (modelled 44.1); casual 62.2 |
+| `rebirthBaseCost` → `newTideBaseCost` | 250,000 | **130,000,000** | Tuned to typical New Tide 1 at 45 min (modelled 43.2); casual 62.3 |
 | `rebirthCostGrowth` → `newTideCostGrowth` | 3 | **1.9** | Keeps tides 2-13 within 90 min each (below) |
 | `rebirthMultiplierPerRebirth` | 0.5 | 0.5 | Kept: x1.5 after tide 1, which roughly doubles early speed once the Rod catches up (rebirth-and-prestige) |
 | `maxNewTides` (new cap) | none | **30** (x16) | "No multiplier without a cap" |
@@ -216,8 +225,8 @@ Costs: tide 1 is 130M, 2 is 247M, 3 is 469M, 5 is 1.69B and 10 is 42B [D].
 
 | New Tide # | 1 | 2 | 3 | 5 | 8 | 10 | 11 | 12 | 15 | 20 | 25 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Minutes since the previous tide | 59.8 | 16.4 | 16.5 | 19.3 | 29.6 | 43.0 | 52.0 | 66.1 | 134.8 | 462.9 | 1,684.6 |
-| Cumulative hours | 1.0 | 1.3 | 1.5 | 2.1 | 3.4 | 4.7 | 5.6 | 6.7 | 12.1 | 36.7 | 124.9 |
+| Minutes since the previous tide | 58.7 | 15.9 | 17.0 | 19.3 | 29.6 | 43.6 | 52.0 | 66.1 | 134.8 | 462.9 | 1,684.6 |
+| Cumulative hours | 1.0 | 1.2 | 1.5 | 2.1 | 3.4 | 4.7 | 5.6 | 6.7 | 12.1 | 36.7 | 124.9 |
 
 **Formula.** With greedy Rod buying, a cycle's length grows like `T_n^α / I_n`, where α = ln(r/g) / ln r = 0.47 and I_n is the tide multiplier. Each tide's cost is x1.9, so time grows x1.35, and the multiplier rises by (1 + 0.5(n+1)) / (1 + 0.5n). The cycle therefore grows slowly at first, then faster.
 
@@ -241,7 +250,7 @@ Costs: tide 1 is 130M, 2 is 247M, 3 is 469M, 5 is 1.69B and 10 is 42B [D].
 | Charged on Stormborn | 25% + 5% per friend among helpers, cap 50%, x3 | Kept (GDD §4.3) |
 | Helper share | **10%** of the giant's value (at the helper's own multipliers), at most **3** paid helps per player per storm | Prototype fallback 25% → 10%: at 25%, a new player's first storm paid more than 3 minutes of fishing in helper shares alone |
 
-Storm share of all coins [B]: casual 5.4%, typical 11.2%, paying 12.9%. During its 3 minutes the eye pays 1.61x Clear coins per minute before Stormborn [M].
+Storm share of all coins [B]: casual 5.5%, typical 11.5%, paying 12.6%. During its 3 minutes the eye pays 1.61x Clear coins per minute before Stormborn [M].
 
 ## 9. Drop tables (DESIGN-04; Config/Species.luau, Config/Pets.luau `Rarities`)
 
@@ -252,11 +261,11 @@ Tiers and colours are the template's `Config/Pets.luau` `Rarities` (Common to Se
 | Tier | Designed median (casual free) | Casual free | Typical | Paying |
 |---|---|---|---|---|
 | Common | first catch (scripted at 0:18) | 0.3 | 0.3 | 0.3 |
-| Uncommon | 1.5 min or less | 1.0 (p90 2.4) | 0.8 | 0.8 |
-| Rare | 3 min or less (scripted Pitterpike at about 2:00) | 2.0 (p90 2.2) | 1.6 | 1.3 |
-| Epic | 5-15 min | 6.5 (p90 17.5) | 4.6 | 3.7 |
-| Legendary | 20-45 min | 23.8 (p90 52.4) | 15.9 | 11.5 |
-| Mythic | typical: in the first week (280 min or less); casual: weeks | 116.5 (about day 12) | 83.1 (day 3) | 63.8 |
+| Uncommon | 1.5 min or less | 1.0 (p90 2.3) | 0.8 | 0.8 |
+| Rare | 3 min or less (scripted Pitterpike at about 2:00) | 2.0 (p90 2.2) | 1.6 | 1.5 |
+| Epic | 5-15 min | 6.4 (p90 17.3) | 4.5 | 4.2 |
+| Legendary | 20-45 min | 24.1 (p90 52.5) | 16.2 | 14.3 |
+| Mythic | typical: in the first week (280 min or less); casual: weeks | 116.3 (about day 12) | 82.9 (day 3) | 63.7 |
 | Secret | no promise (30 h or more) | about 4,800 min | about 2,800 min (about day 70) | about 2,700 min |
 
 The design follows the vault ladder (Rare in the first minute or two, Epic by about minute 5, Legendary by about minute 20, Mythic in the first week), slowed for a 10-minute-a-day casual player.
@@ -317,7 +326,7 @@ Under a front, the weather-only rows read: Showers 12.20 / 5.28 / 1.22%; Sea Fog
 
 **Aurora Night** (weekly event table): aurora_rare 70%, aurora_epic 25%, aurora_legendary 5%. Auroral mark 10%, x3.
 
-**Sky Journal sets** (12): each island set needs its rarest member, which locks it: the Pebble Cove Epic at 2.0% (set median 17.2 casual), the Lantern Reef and Gustwhistle Legendary at 0.4% (multi-day sets), the Thunderhead Mythic at 0.1%. Each completed set adds **+5% coins** in the bonus category (§11) and a title.
+**Sky Journal sets** (12): each island set needs its rarest member, which locks it: the Pebble Cove Epic at 2.0% (set median 15.8 casual), the Lantern Reef and Gustwhistle Legendary at 0.4% (multi-day sets), the Thunderhead Mythic at 0.1%. Each completed set adds **+5% coins** in the bonus category (§11) and a title.
 
 ### 9.3 Size roll (Config/Species.luau `sizeRoll`)
 
@@ -399,20 +408,20 @@ Product of the capped categories other than Rod and island (equal for both): fre
 
 | Source | Casual free | Typical | Paying |
 |---|---|---|---|
-| Catches outside storms | 41.0% | 61.9% | 67.9% |
-| Great Storm (eye catches, Stormborn, helper shares) | 5.4% | 11.2% | 12.9% |
-| Tide Pots | 31.2% | 11.5% | 5.3% |
-| Calendar, playtime gifts, scripted first catch | 22.4% | 15.4% | 3.5% |
-| Robux coin products (Starter Pack, daily Coin Crate) | 0 | 0 | 10.4% |
+| Catches outside storms | 42.1% | 61.8% | 67.6% |
+| Great Storm (eye catches, Stormborn, helper shares) | 5.5% | 11.5% | 12.6% |
+| Tide Pots | 30.4% | 11.5% | 5.4% |
+| Calendar, playtime gifts, scripted first catch | 22.1% | 15.2% | 3.5% |
+| Robux coin products (Starter Pack, daily Coin Crate) | 0 | 0 | 10.9% |
 
 | Sink (share of coins spent) | Casual | Typical | Paying |
 |---|---|---|---|
-| Rod | 63.6% | 74.2% | 63.5% |
-| New Tide | 35.8% | 25.2% | 36.4% |
+| Rod | 65.2% | 74.0% | 63.7% |
+| New Tide | 34.3% | 25.3% | 36.3% |
 | Lure, Boots, Pal Pouch, nests, bridges | under 1% together (cheap against the late exponential prices) | under 1% | under 0.1% |
-| Unspent at 240 min (share of earned) | 4.2% | 15.1% | 6.4% |
+| Unspent at 240 min (share of earned) | 3.2% | 15.6% | 7.2% |
 
-Every source has a sink. Nests are the endless sink (D2), and New Tide resets coins, Rod and Boots. Every source and sink logs `AnalyticsService:LogEconomyEvent` with its transaction type (template `Analytics`); Tide Pots log as `TimedReward`. Passive income (Tide Pots) is below half for every model, including active players (vault rule). The casual player's coins come mostly from return sources (54%), which is by design for a 10-minute-a-day player (the return outcome).
+Every source has a sink. Nests are the endless sink (D2), and New Tide resets coins, Rod and Boots. Every source and sink logs `AnalyticsService:LogEconomyEvent` with its transaction type (template `Analytics`); Tide Pots log as `TimedReward`. Passive income (Tide Pots) is below half for every model, including active players (vault rule). The casual player's coins come mostly from return sources (53%), which is by design for a 10-minute-a-day player (the return outcome).
 
 ### 12.2 Rewards (Config/Rewards.luau; coins only, GDD §5)
 
@@ -449,7 +458,7 @@ Why not 20-30% [L]: with an 8-hour cap and two slots, 25% makes a full pot worth
 | Model | Passive share (formula) | Passive share (measured) |
 |---|---|---|
 | Typical | 26% | 11.5% |
-| Casual | 44% | 31.2% |
+| Casual | 44% | 30.4% |
 
 The pot stays a strong return hook: the casual player's 8 minutes of income each morning is close to a whole day's play.
 
@@ -464,7 +473,7 @@ The GDD's timing is used as given: 180 s, a storm guard from 60 s before to 30 s
 | Gusts | x1.00 → x1.25 | 23.73% → 28.00% | +8.8% |
 
 **Caps that keep it below active play with upgrades:**
-1. The bonus sits in the Sky category with every other paid luck. Paid luck combined is capped at **+25%**. That is below Lure 7 (+28%, which the casual player reaches by minute 23.9), a quarter of the Gear cap (+100%), and well under Gear × Companions at cap (x3.0).
+1. The bonus sits in the Sky category with every other paid luck. Paid luck combined is capped at **+25%**. That is below Lure 7 (+28%, which the casual player reaches by minute 23.7), a quarter of the Gear cap (+100%), and well under Gear × Companions at cap (x3.0).
 2. The Sky category is capped at +100%. A called Sea Fog is therefore never luckier than a natural one: the most a call can give anyone is free weather plus +25%.
 3. Total luck is capped at x6.
 4. The harbour pays Pebble Cove values (x1). A called Showers pays +105% per minute against Clear at the harbour; 93 points of that is what a natural Showers pays, so the bonus adds 12 points, about 3.1 extra minutes of harbour income per call per player. A player at Gustwhistle earns 8x more per minute at home, so for anyone past Lantern Reef a call is a collection and social moment, not income.
@@ -474,8 +483,8 @@ The GDD's timing is used as given: 180 s, a storm guard from 60 s before to 30 s
 
 | Model | Bridge to Lantern Reef | Bridge to Gustwhistle | New Tide 1 |
 |---|---|---|---|
-| Casual | 10.8 → 9.9 (-8.6%) | 23.6 → 21.8 (-7.7%) | 62.2 → 61.3 (-1.4%) |
-| Typical | 8.7 → 7.1 (-17.6%) | 16.4 → 15.1 (-7.9%) | 44.1 → 40.3 (-8.5%) |
+| Casual | 10.8 → 9.7 (-9.5%) | 23.5 → 21.1 (-10.0%) | 62.3 → 60.7 (-2.6%) |
+| Typical | 8.3 → 7.0 (-15.5%) | 15.9 → 15.1 (-4.8%) | 43.2 → 40.3 (-6.7%) |
 
 The Monetization Designer prices the three products (T-0009). How a paid, server-wide luck change is disclosed is the human's question (D6 open item, GDD O-H1); the restricted-player case is O-H2. The Engineer: all Robux-linked luck goes through the paid sub-cap in `Util/Stats.luau`. The catalog (T-0009) keeps every paid luck item inside it: the Lucky Bobber (+25%) replaces the template's Lucky, and the Luck Potion (x2) and Server Luck (x2) are dropped.
 
@@ -565,7 +574,7 @@ Every changed number, from the template config to Reel the Storm, with the reaso
 | 19 | Rewards `daily` | 3, 5, 6, 8, 10, 12, 20 min plus gems and boosts | 2, 3, 4, 5, 6, 8, 12 min plus raincoat, coins2x, Lucky Tide, bait; no gems | 10-minute casual sessions; coins only |
 | 20 | Rewards `playtime` | 2 min, gems, 4 min, coins2x, gems, 15 min + gems | 1, 1, 2 min, coins2x, 3, 5 min | Gifts were +75% of a 10-minute session |
 | 21 | Rewards `assumedHitsPerMinute` | 90 | `assumedCatchesPerMinute` 5 | §3.1 |
-| 22 | Species (new) Pebble Cove Epic weight | 1.5 (model run 1) | 2.0 | Pebble Cove set inside 30 min (median 17.2 casual) |
+| 22 | Species (new) Pebble Cove Epic weight | 1.5 (model run 1) | 2.0 | Pebble Cove set inside 30 min (median 15.8 casual, v2) |
 | 23 | Species Pitterpike / rain Epic | 8 / 2 (run 1) | 6.5 / 1.5 | Showers ≤ 2.0x Clear |
 | 24 | Species Hushgill / Lanternfin / fog Legendary | 12 / 4.5 / 1 (run 1) | 6 / 2.2 / 0.5 | Sea Fog ≤ 1.5x Clear |
 | 25 | Weather (new) Stormborn hook | 2.5% (run 1, as quoted by the GDD) | 4.0% plus pity 60 | §8 |
@@ -592,15 +601,131 @@ Every changed number, from the template config to Reel the Storm, with the reaso
 | §12.3 Tide Pots | `Config/TidePots.luau` (new) | new |
 | §13 Sky Bell bonus | `Config/Economy.luau` `luck.calledFront`, `Config/Weather.luau` `calledFront` | new |
 | §14 prototype | `Config/Species.luau`, `Config/Fishing.luau`, `Config/Upgrades.luau` | prototype build |
+| §19 minutes-of-income basis; catalog effects; Easier reeling and Auto Reel limits | `Util/Stats.luau` `coinsForMinutes`, `Config/Products.luau` (catalog Appendix A), `Config/Fishing.luau` ring and assist factors | code and retune |
 | Pacing tests | `tests/Economy.spec.luau` → catches per minute: Lantern Reef at 8-16 min (catch only, casual; modelled 14.8), first upgrade under 60 s, New Tide 1 at 20-90 min; `tests/Odds.spec.luau` for every species table and luck state plus the 2.4x nest pity | re-express |
 
 ## 18. Balance risks and the balance pass
 
 1. **Compounding** (biggest risk). Rod catch-up turns each x4 island into about x19 income. New Tide cycles run 16-17 minutes for tides 2-4 and pass 90 minutes from tide 13. A second layer is needed before tide 12 (about day 10 for a typical player), and each new island must be priced with the x19 rule. A content week priced without it would be skipped in minutes.
-2. **The storm clock.** The first bridge's spread across join minutes is 10.3-11.1 for casual and 6.6-9.6 for typical. It is driven by whether a storm lands in the first minutes. If playtests show bigger spreads, lower the eye value first, not the hook rate.
-3. **Return income for the casual player.** Pots and calendar make 54% of a 10-minute player's coins. That is fine for return, but if casual retention depends on it, the active loop is carrying less than intended.
+2. **The storm clock.** The first bridge's spread across join minutes is 10.3-11.9 for casual and 6.5-9.3 for typical. It is driven by whether a storm lands in the first minutes. If playtests show bigger spreads, lower the eye value first, not the hook rate.
+3. **Return income for the casual player.** Pots and calendar make 53% of a 10-minute player's coins. That is fine for return, but if casual retention depends on it, the active loop is carrying less than intended.
 4. **Model assumptions the prototype must measure:** reel success (85% / 92%), the share of time under fronts (30% / 45%), the 25% flash-tap rate, eye bites per storm (about 17) and the 7.5 s Clear cycle.
 
 **Balance pass (POLISH-05).** Compare QA playtest times for goals 1-5, catches per minute per weather, and twist B line share with this sheet. Change Config, or update the sheet, and say which.
+
+## 19. Catalog and GDD v3 answers (T-0015)
+
+### 19.1 The paying player against the accepted catalog [B]
+
+The paying model is typical skill plus exactly what `catalog.md` (T-0009) sells:
+- **2x Coins**, active from the first bridge.
+- **From onboarding step 12:** the Lucky Bobber (+25% paid luck), the Starter Pack (30 min of income and a 15-minute coins2x) and one Coin Crate (60 min) a day.
+- **Third Tide Pot.**
+- **Big Pal Pouch and Auto Reel**, owned with no income effect: Auto Reel only slows a player who reels (§19.3).
+- **A Sky Bell call every cycle.** It is harbour only, so it has no effect once the player has left Pebble Cove.
+
+No extra equip slots are sold.
+
+| Payer | Goal 2: Lantern Reef | Goal 3: Gustwhistle | Goal 5: New Tide 1 |
+|---|---|---|---|
+| **Paying (catalog), the §1 row** | 8.2 = **1.31x** casual, 1.02x typical | 10.0 = **2.34x** casual, 1.58x typical | 21.7 = **2.87x** casual, 1.99x typical |
+| Heavy spender (Crate and Chest every day) | 8.2 = 1.31x | 10.0 = 2.34x | 20.7 = **3.01x** casual, 2.09x typical |
+| Passes only (no coin products) | 8.2 = 1.31x | 13.1 = 1.79x | 27.9 = 2.23x |
+| T-0008 placeholder (template passes from 0:00, +3 equip slots) | 3.1 = 3.45x | 8.8 = 2.68x | 25.2 = 2.48x |
+| Heavy spender, pack basis **with** the 2x Coins pass (catalog draft) | 8.2 = 1.31x | 10.0 = 2.34x | 18.3 = 3.41x |
+
+**Against the 2-4x band.**
+- Goals 3 and 5 are inside it, including the heavy spender (3.01x).
+- Goal 2 is 1.31x, below the band **by design**. The catalog lists everything from step 12, and step 12 can only follow step 11 (the first bridge). No product, coin or pass, can move anyone's first bridge, so the paying player crosses at a free player's pace (1.02x typical); the 0.31 above 1 is skill, not money.
+- No resizing of packs or pass effects is needed, and no price moves.
+
+**The step-12 jump.** The Starter Pack and the first Crate together are 90 minutes of income at minute 10. They buy the second bridge on the spot, so the paying player spends about 2 minutes at Lantern Reef instead of 7.6. That is inside the band, so it is not a fairness problem. If the Monetization Designer wants payers to meet Lantern Reef's fog first, the lever is when coin products are listed (for example from session 2, as the Starter Pack's "New" badge already is), not their price.
+
+### 19.2 Catalog question 1: do coin packs count permanent multipliers only? Yes, and the 2x Coins pass is left out too
+
+**One basis for every minutes-of-income grant:** coin packs, the Starter Pack, calendar, playtime gifts, Tide Pots, codes and the welcome-back gift.
+- **Counted:** the best island in Clear water, Rod, companions, the bonus category (journal sets, streak, group), New Tide, the Lure and owned luck passes.
+- **Not counted:**
+  - timed boosts (coins2x, Lucky Tide), so the amount never depends on when the player buys or claims;
+  - friends in the server;
+  - the 2x Coins pass.
+- **Why the pass is left out:**
+  - With the pass in the basis, every coin product a pass owner buys is doubled. Robux would compound on Robux, which the vault warns against for 2x passes ("count it as a category multiplier of 2, not a multiplier on top of all others").
+  - In the model it lifts the heavy spender from 3.01x to 3.41x of the casual player on goal 5.
+- **Copy change for the catalog** (§3.8). Show "about N coins". Describe M as "minutes of fishing", not "minutes of *your* fishing", because a pass owner earns those minutes in half the time.
+- **Effect on the rest of the sheet.** Leaving friends out of the reward basis moves the typical player by under a minute. Casual is unchanged. `Util/Stats.luau` `coinsForMinutes` must use this basis, not the template's current `coinsPerHit`.
+
+### 19.3 Catalog question 2 and O-EC5: are the Auto Reel limits right? Yes, confirmed against §3.2
+
+Confirmed limits: 70% landed (no perk, upgrade or setting raises it); each reel takes 2x the weather's **base** ring time (Easier reeling never applies to Auto Reel); Clear, Rainbow and Aurora only; never the fog hook, Charged or Pull! [N1, O3].
+
+| Model | Active Clear | Active Clear with Easier reeling | Auto Reel | Auto Reel as a share |
+|---|---|---|---|---|
+| Casual | 6.87 a min | 7.55 | 4.75 | 69% of active, 63% of assisted, 44% of active Showers |
+| Typical | 7.40 | 7.61 | 4.75 | 64% of active, 62% of assisted, 42% of active Showers |
+
+Turned on for all Clear and Rainbow time, Auto Reel earns 81% (casual) and 83% (typical) of what reeling yourself earns. So it can only slow a player down, and active play with Easier reeling always beats it.
+
+**One gap to close (Designer, Security Reviewer).** A macro that taps Cast with Auto Reel on keeps fishing Clear water unattended. That earns 49% of a typical player's active coins per minute: about 29 minutes of active income per unattended hour, against 0.5 minute for a Tide Pot hour. It never beats active play, but it is an AFK farm. Proposed guard: Auto Reel pauses after 10 minutes in which the only input was Cast, and any other tap (camera, walk, a menu) resumes it at no cost.
+
+### 19.4 Catalog question 3: should the Lucky Bobber count in Sea Fog? No, keep it at 0 under the Sky cap [N2]
+
+| Player in natural Sea Fog (Lantern Reef) | Today (Sky cap) | If paid luck had its own x1.25 category |
+|---|---|---|
+| New player | x2.00, Rare-or-better 31.99% | x2.50, 37.03%, coins per catch +8.9% |
+| Casual, Lure 7 | x2.56, 37.59% | x3.20, 42.95%, +8.6% |
+| Typical, Lure 12 | x2.96, 41.05% | x3.70, 46.53%, +8.4% |
+
+Reasons to keep 0:
+1. **Sea Fog is the free rare weather.** It is pillar 2's reward for walking to the front. A separate category would make a paying player's fog rares 13-16% more frequent than any free player's, exactly where the twist pays.
+2. **One rule for all paid luck.** The Sky Bell already adds 0 in Sea Fog for the same reason. A second paid category would make the stacking rule harder to show on the odds panel.
+3. **The bobber still works everywhere else:** Clear, Showers, Gusts, Rainbow and the eye's Pebble Cove table. It is disclosed as it stands (catalog §3.4).
+4. **At max luck nothing changes either way,** because the x6 total cap binds in fog.
+
+### 19.5 O-EC3: the harbour's hourly Cove Fog and Cove Gusts visits (GDD v3 §4.2 rule 8) [O1]
+
+Modelled from `docs/specs/cove_visits_check.py`. Per hour, harbour front-spot time is Showers 1,600 s, Sea Fog 100 s and Gusts 100 s, which is 88.9%, 5.6% and 5.6% of front time. Coverage rises from 27.8% to 31.25%, so harbour front exposure scales x1.125. Every table in this sheet now uses it.
+
+| Harbour pattern | Casual first bridge | Casual Pebble Cove set (median) | Casual New Tide 1 | Typical first bridge |
+|---|---|---|---|---|
+| v1 assumption (Showers 60%, Sea Fog 20%, Gusts 20%) | 10.8 [10.3-11.1] | 17.2 | 62.2 | 8.7 |
+| Before v3 (Showers only) | 10.8 [10.3-12.0] | 15.5 | 62.7 | 8.4 |
+| **With v3 visits** | **10.8 [10.3-11.9]** | **15.8** | **62.3** | **8.3** |
+
+**Both checks pass with the visits:** the casual first bridge stays at 10-12 min, and the Pebble Cove set stays inside 30 min.
+
+**Time-to-see for the 16 newly reachable Pebble Cove "marks seen" entries.** These are for a player who fishes the visited spot for the whole 100 s (typical reel, Lure 0). One visit of each kind comes per hour, and a Sky Bell call (180 s) counts as 1.8 visits.
+
+| Entry | Median wait | With calls instead |
+|---|---|---|
+| The common species, Misty | 2.7-4.0 h | 1.5-2.2 calls |
+| The common species, Breezy | 1.8-2.5 h | 1.0-1.4 calls |
+| Uncommon, Misty / Breezy | 5.5-6.5 h / 3.5-4.2 h | |
+| Rare, Misty / Breezy | 7.6-9.4 h / 9.8-12.1 h | |
+| pc_epic_1, Misty / Breezy (the longest) | **17.8 h / 22.9 h** | 9.9 / 12.7 calls |
+
+**No change to the visit frequency is proposed.** These entries are long-tail "marks seen" pages: no set, title or coin bonus depends on them. Once an hour keeps the harbour Showers-led for onboarding, leaves the Sky Bell's 180 s clear window intact (the check passes all 672 cycles), and costs the casual first bridge nothing. A call still brings them sooner, which is speed, not reach (GDD §4.10).
+
+### 19.6 O-EC4: Easier reeling (GDD v3 §4.12) [O2]
+
+**Method.** A first-pass ring micro-model: tap hits on the green arc, 1-3 steps by tier, and an escape on the 4th miss. It is calibrated so that Clear gives the sheet's 85% and 92%. It is then used for the ratio of escapes with and without the assist, which is applied to the sheet's success per weather. The v3 factors are used: arcs x1.5 (cap 180°), laps x1.25, fog hook 4.5 s, Gusts sway halved.
+
+| Weather | Casual: success | Casual: catches/min | Typical: success | Typical: catches/min |
+|---|---|---|---|---|
+| Clear | 85.0% → 99.1% | +10% | 92.0% → 99.9% | +3% |
+| Showers | 93.0% → 99.0% | +1% | 98.0% → 99.9% | -3% (slower lap) |
+| Sea Fog | 81.0% → 99.3% | +16% | 88.0% → 99.9% | +8% |
+| Gusts | 73.0% → 95.3% | +21% | 80.0% → 98.3% | +14% |
+
+| With Easier reeling on from minute 1 | First bridge | Gustwhistle | New Tide 1 |
+|---|---|---|---|
+| Casual | 10.8 → **10.6** [10.2-10.8] | 23.5 → 21.7 | 62.3 → 60.0 |
+| Typical | 8.3 → 8.4 | 15.9 → 15.8 | 43.2 → 40.6 |
+
+**Answer.**
+- **Assisted success rises well above 98%,** to 99.1-99.9% in Clear.
+- **The 98% stays a cap on perk bonuses only (§6).** It is a model check that stops companions stacking past what skill allows, not a server rule. The assist is ring geometry, and its 25% slower lap prices it in: catches per minute rise only 1-10% outside fog and Gusts. The casual first bridge with the assist stays at 10.6, inside 10-12. No economy cap is needed.
+- **For the build, state the limits as ring geometry** (arc at most 180°, lap never faster than base), not as a success percentage.
+- **One design note for the Designer.** The assist gains most in Sea Fog (+8-16%) and Gusts (+14-21%) because it removes their built-in difficulty, the hook and the sway. A skilled player gains +14% in Gusts by turning it on, so Gusts stops being "the skill weather" for anyone who flips the switch. If that matters, keep more of the sway, for example ±30° instead of ±20°. That is the Designer's call; the economy is fine either way.
 
 Related: [GDD](gdd.md) · [Prototype brief](specs/prototype.md) · [Decisions](decisions.md) · [Loop sketch](loop-sketch.md) · [Model](models/economy_model.py) · [Model output](models/economy_model_output.txt)
