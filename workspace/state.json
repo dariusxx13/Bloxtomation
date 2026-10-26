@@ -397,6 +397,11 @@
       "at": "2026-10-26T06:02:36Z",
       "by": "director",
       "message": "added T-0016 'Add harbour weather visits and WindYaw to the world plan' for worldbuilder (queued)"
+    },
+    {
+      "at": "2026-10-26T06:02:50Z",
+      "by": "worldbuilder",
+      "message": "started T-0016"
     }
   ],
   "tasks": {
@@ -843,9 +848,10 @@
       "notes": [],
       "owner": "worldbuilder",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-26T06:02:50Z",
+      "status": "working",
       "title": "Add harbour weather visits and WindYaw to the world plan",
-      "updated": "2026-10-26T06:02:36Z"
+      "updated": "2026-10-26T06:02:50Z"
     }
   },
   "version": 1
