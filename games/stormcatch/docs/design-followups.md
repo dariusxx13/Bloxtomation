@@ -13,7 +13,10 @@ Non-blocking mismatches found by the first design gate (`gates/design-01.json`, 
 | 12 | World plan vs layout model | Thunderhead nest id `storm_nest` (plan) vs `thunder_nest` (model); tied to open question O-W1 | worldbuilder | open |
 | 13 | Art direction vs world plan | Weathervane on a roof (art) vs on the pier mast (world plan) | artist | open |
 
-Items 1-5 from the same gate were in the catalog and are fixed by task T-0018.
+| 14 | GDD v3.1 §5 and §4.8 | The coin-basis list leaves out the Lure and owned luck passes; the sheet and catalog include both (the GDD cites the sheet, and the sheet wins). Found at the design re-gate (`gates/design-02.json`) | designer | open |
+| 15 | Catalog §3.8 and `models/catalog_numbers.py` | "Same coins whatever else they bought" holds for the 2x Coins pass but not strictly for the Lucky Bobber: owned luck passes are in the sheet's basis, worth 5.3-7.7% more per grant. Not a fairness fail. The Economist decides whether owned luck passes stay in the basis, and the wording follows | economist, monetization-designer | open |
+
+Items 1-5 from the first gate were in the catalog and are fixed by task T-0018.
 
 Process note: change requests in a handoff's **Next** section become Director-queued tasks before a gate is called. Missing that step caused the first design gate's only failure (DESIGN-07).
 

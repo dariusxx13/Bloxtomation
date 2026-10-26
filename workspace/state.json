@@ -7,7 +7,7 @@
   },
   "counters": {
     "escalation": 1,
-    "gate": 3,
+    "gate": 4,
     "task": 19
   },
   "created": "2026-10-24T19:22:17Z",
@@ -35,10 +35,14 @@
         {
           "at": "2026-10-24T20:27:45Z",
           "stage": "design"
+        },
+        {
+          "at": "2026-10-26T11:26:59Z",
+          "stage": "prototype"
         }
       ],
       "id": "stormcatch",
-      "stage": "design",
+      "stage": "prototype",
       "status": "active",
       "title": "Stormcatch (working title)"
     }
@@ -82,6 +86,18 @@
       "path": "games/stormcatch/gates/design-01.json",
       "stage": "design",
       "verdict": "fail",
+      "waived": []
+    },
+    {
+      "at": "2026-10-26T11:26:59Z",
+      "build": "",
+      "by": "gatekeeper",
+      "failed": [],
+      "game": "stormcatch",
+      "id": "G-0004",
+      "path": "games/stormcatch/gates/design-02.json",
+      "stage": "design",
+      "verdict": "pass",
       "waived": []
     }
   ],
@@ -506,6 +522,21 @@
       "at": "2026-10-26T11:22:32Z",
       "by": "gatekeeper",
       "message": "started T-0019"
+    },
+    {
+      "at": "2026-10-26T11:26:59Z",
+      "by": "gatekeeper",
+      "message": "gate design for stormcatch: pass"
+    },
+    {
+      "at": "2026-10-26T11:27:53Z",
+      "by": "gatekeeper",
+      "message": "submitted T-0019 for review"
+    },
+    {
+      "at": "2026-10-26T11:28:31Z",
+      "by": "director",
+      "message": "T-0019 -> done: Re-gate accepted: 10/10 pass, record games/stormcatch/gates/design-02.json; stormcatch advanced to prototype. Follow-ups 14-15 added to docs/design-followups.md."
     }
   ],
   "tasks": {
@@ -1052,15 +1083,22 @@
         "DESIGN-09",
         "DESIGN-10"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0019.md",
       "id": "T-0019",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T11:28:31Z",
+          "by": "director",
+          "text": "Re-gate accepted: 10/10 pass, record games/stormcatch/gates/design-02.json; stormcatch advanced to prototype. Follow-ups 14-15 added to docs/design-followups.md."
+        }
+      ],
       "owner": "gatekeeper",
       "stage": "design",
       "started": "2026-10-26T11:22:32Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T11:27:53Z",
       "title": "Re-run the design gate after the catalog revision",
-      "updated": "2026-10-26T11:22:32Z"
+      "updated": "2026-10-26T11:28:31Z"
     }
   },
   "version": 1
