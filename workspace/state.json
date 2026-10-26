@@ -486,6 +486,11 @@
       "at": "2026-10-26T11:14:08Z",
       "by": "director",
       "message": "added T-0019 'Re-run the design gate after the catalog revision' for gatekeeper (queued)"
+    },
+    {
+      "at": "2026-10-26T11:14:23Z",
+      "by": "monetization-designer",
+      "message": "started T-0018"
     }
   ],
   "tasks": {
@@ -1001,9 +1006,10 @@
       "notes": [],
       "owner": "monetization-designer",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-26T11:14:23Z",
+      "status": "working",
       "title": "Revise the catalog to economy sheet v2 and GDD v3.1",
-      "updated": "2026-10-26T11:14:08Z"
+      "updated": "2026-10-26T11:14:23Z"
     },
     "T-0019": {
       "brief": "games/stormcatch/tasks/T-0019.md",
