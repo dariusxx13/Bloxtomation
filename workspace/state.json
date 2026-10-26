@@ -542,6 +542,11 @@
       "at": "2026-10-26T11:29:42Z",
       "by": "director",
       "message": "added T-0020 'Build the prototype code (no Studio)' for engineer (queued)"
+    },
+    {
+      "at": "2026-10-26T11:30:01Z",
+      "by": "engineer",
+      "message": "started T-0020"
     }
   ],
   "tasks": {
@@ -1118,9 +1123,10 @@
       "notes": [],
       "owner": "engineer",
       "stage": "prototype",
-      "status": "queued",
+      "started": "2026-10-26T11:30:01Z",
+      "status": "working",
       "title": "Build the prototype code (no Studio)",
-      "updated": "2026-10-26T11:29:42Z"
+      "updated": "2026-10-26T11:30:01Z"
     }
   },
   "version": 1

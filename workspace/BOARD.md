@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-26T11:29:42Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T11:30:01Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,17 +14,17 @@ Updated 2026-10-26T11:29:42Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Tasks
 
-### Working (0)
-
-
-### Needs review (0)
-
-
-### Queued (1)
+### Working (1)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0020 | engineer | stormcatch | Build the prototype code (no Studio) | - |
+
+### Needs review (0)
+
+
+### Queued (0)
+
 
 ### Draft (needs a brief) (0)
 
@@ -35,6 +35,7 @@ Updated 2026-10-26T11:29:42Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T11:30:01Z engineer: started T-0020
 - 2026-10-26T11:29:42Z director: added T-0020 'Build the prototype code (no Studio)' for engineer (queued)
 - 2026-10-26T11:28:31Z director: T-0019 -> done: Re-gate accepted: 10/10 pass, record games/stormcatch/gates/design-02.json; stormcatch advanced to prototype. Follow-ups 14-15 added to docs/design-followups.md.
 - 2026-10-26T11:27:53Z gatekeeper: submitted T-0019 for review
@@ -49,4 +50,3 @@ Updated 2026-10-26T11:29:42Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-26T11:12:53Z gatekeeper: submitted T-0012 for review
 - 2026-10-26T11:11:37Z gatekeeper: gate design for stormcatch: fail
 - 2026-10-26T10:58:59Z gatekeeper: started T-0012
-- 2026-10-26T10:58:38Z director: T-0017 -> done: Reviewed: grep finds no v1 pacing values in gdd.md, v2 values present, GDD v3.1, prototype brief and handoff validate; Auto Reel pause and Gusts assist decided.

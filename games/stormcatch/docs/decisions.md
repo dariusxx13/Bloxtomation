@@ -27,4 +27,15 @@ The human's follow-up in chat: "Wait, summoning weather shall be at a robux cost
 
 The parked co-op Sky Bell (summoning a front for free, together) is a design option the Designer may combine with D6 or drop.
 
+## 2026-10-26: prototype testing and the E-0001 policy answers
+
+The human's reply in chat, answering the Director's four questions (Studio on their PC, testers, how testers reach the build, escalation E-0001): "1. Its open 2. Me and my brother whose younger. 3. Private Place 4. By a NPC ; yeah they can."
+
+| # | Question | Decision | What it means for the work |
+|---|---|---|---|
+| D7 | Who plays the prototype (GDD O-H3) | **The human and their younger brother** | The brother is the fresh player for the newcomer test (PROTO-03) and both play the friend and storm tests. If the brother is under 13, a parent or guardian consents before he plays. Agents never contact testers. |
+| D8 | How testers reach the build (GDD O-H4) | **A private place** | Agents prepare the build file and steps; the human uploads and publishes the private place themselves (house rule 1: agents never publish). |
+| D9 | E-0001 part 1: how the Sky Bell's paid, server-wide luck change is disclosed | **By an NPC** | The Sky Bell is sold by a harbour NPC (the bell keeper) who explains the call's weather, duration, the shared +25% luck and that everyone in the server shares it, before the purchase prompt opens. The catalog and GDD adopt this at the build stage; odds for nests stay shown as decided in D2. The human records the resolution with `human resolve E-0001`. |
+| D10 | E-0001 part 2 (GDD O-H2): may players whose `ArePaidRandomItemsRestricted` is true fish under a call another player bought? | **Yes, they can** | Restricted players fish under a bought call. The Director reads this as the catalog's recommended option (a): same weather and way of fishing, without the paid +25% luck bonus. The human can correct this reading here. |
+
 Related: [Pitch](pitch.md) · [Loop sketch](loop-sketch.md) · [Market scan](market-scan.md)
