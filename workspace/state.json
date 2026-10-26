@@ -6,12 +6,22 @@
     ]
   },
   "counters": {
-    "escalation": 0,
+    "escalation": 1,
     "gate": 2,
-    "task": 13
+    "task": 15
   },
   "created": "2026-10-24T19:22:17Z",
-  "escalations": {},
+  "escalations": {
+    "E-0001": {
+      "by": "monetization-designer",
+      "created": "2026-10-26T05:49:10Z",
+      "game": "stormcatch",
+      "id": "E-0001",
+      "kind": "policy",
+      "note": "D6 disclosure (GDD O-H1) plus O-H2: (1) How should a paid, server-wide Sky Bell luck/odds change be shown to buyers and to players who paid nothing, and does it change the questionnaire answers (including the catalog's paid-random-item classification in section 6.1)? (2) May players whose ArePaidRandomItemsRestricted is true fish under a call another player bought? Options and recommendations in games/stormcatch/docs/catalog.md section 7 (7.2 options A/B/C, 7.3 options a/b/c).",
+      "status": "open"
+    }
+  },
   "games": {
     "stormcatch": {
       "awaitingHuman": null,
@@ -327,6 +337,41 @@
       "at": "2026-10-25T18:00:07Z",
       "by": "designer",
       "message": "started T-0013"
+    },
+    {
+      "at": "2026-10-26T05:49:10Z",
+      "by": "monetization-designer",
+      "message": "escalated E-0001 (policy)"
+    },
+    {
+      "at": "2026-10-26T05:50:03Z",
+      "by": "designer",
+      "message": "submitted T-0013 for review"
+    },
+    {
+      "at": "2026-10-26T05:50:04Z",
+      "by": "monetization-designer",
+      "message": "submitted T-0009 for review"
+    },
+    {
+      "at": "2026-10-26T05:50:24Z",
+      "by": "director",
+      "message": "T-0013 -> done: Reviewed: 0 'economy sheet (T-0008)' placeholders in gdd.md and specs/prototype.md, prototype brief and handoff validate, GDD version 2 with changelog, catalog-requested rules (catalog section 11) left for a follow-up."
+    },
+    {
+      "at": "2026-10-26T05:51:10Z",
+      "by": "director",
+      "message": "T-0009 -> done: Reviewed: catalog_numbers output md5 reproduced (58aa713...), Products.diff applies cleanly, check record passed, fairness 15/15, E-0001 escalated with options. W1/W2 and the paying-model mismatch queued as T-0014 and T-0015 before the gate."
+    },
+    {
+      "at": "2026-10-26T05:51:10Z",
+      "by": "director",
+      "message": "added T-0014 'Close the catalog watch items in the GDD' for designer (queued)"
+    },
+    {
+      "at": "2026-10-26T05:51:10Z",
+      "by": "director",
+      "message": "added T-0015 'Re-run the paying-player model against the catalog' for economist (queued)"
     }
   ],
   "tasks": {
@@ -575,15 +620,22 @@
       "gates": [
         "DESIGN-07"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0009.md",
       "id": "T-0009",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T05:51:10Z",
+          "by": "director",
+          "text": "Reviewed: catalog_numbers output md5 reproduced (58aa713...), Products.diff applies cleanly, check record passed, fairness 15/15, E-0001 escalated with options. W1/W2 and the paying-model mismatch queued as T-0014 and T-0015 before the gate."
+        }
+      ],
       "owner": "monetization-designer",
       "stage": "design",
       "started": "2026-10-25T18:00:06Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T05:50:04Z",
       "title": "Draft the product catalog",
-      "updated": "2026-10-25T18:00:06Z"
+      "updated": "2026-10-26T05:51:10Z"
     },
     "T-0010": {
       "brief": "games/stormcatch/tasks/T-0010.md",
@@ -681,15 +733,64 @@
         "DESIGN-03",
         "DESIGN-09"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0013.md",
       "id": "T-0013",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T05:50:24Z",
+          "by": "director",
+          "text": "Reviewed: 0 'economy sheet (T-0008)' placeholders in gdd.md and specs/prototype.md, prototype brief and handoff validate, GDD version 2 with changelog, catalog-requested rules (catalog section 11) left for a follow-up."
+        }
+      ],
       "owner": "designer",
       "stage": "design",
       "started": "2026-10-25T18:00:07Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T05:50:03Z",
       "title": "Sync the GDD with the economy sheet and world plan",
-      "updated": "2026-10-25T18:00:07Z"
+      "updated": "2026-10-26T05:50:24Z"
+    },
+    "T-0014": {
+      "brief": "games/stormcatch/tasks/T-0014.md",
+      "created": "2026-10-26T05:51:10Z",
+      "deps": [
+        "T-0009",
+        "T-0013"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-07",
+        "DESIGN-09"
+      ],
+      "handoff": null,
+      "id": "T-0014",
+      "notes": [],
+      "owner": "designer",
+      "stage": "design",
+      "status": "queued",
+      "title": "Close the catalog watch items in the GDD",
+      "updated": "2026-10-26T05:51:10Z"
+    },
+    "T-0015": {
+      "brief": "games/stormcatch/tasks/T-0015.md",
+      "created": "2026-10-26T05:51:10Z",
+      "deps": [
+        "T-0008",
+        "T-0009"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-03",
+        "DESIGN-07"
+      ],
+      "handoff": null,
+      "id": "T-0015",
+      "notes": [],
+      "owner": "economist",
+      "stage": "design",
+      "status": "queued",
+      "title": "Re-run the paying-player model against the catalog",
+      "updated": "2026-10-26T05:51:10Z"
     }
   },
   "version": 1

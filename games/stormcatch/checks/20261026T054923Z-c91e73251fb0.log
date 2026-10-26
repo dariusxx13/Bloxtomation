@@ -1,0 +1,96 @@
+
+== Format (StyLua)
+
+== Lint (Selene)
+ERROR: There was an error generating a new Roblox standard library: error when getting API dump
+Using the cached one instead.
+Results:
+0 errors
+0 warnings
+0 parse errors
+
+== Sourcemap (Rojo)
+Created sourcemap at sourcemap.json
+
+== Types (luau-lsp, strict)
+[INFO] Loading definitions file: @roblox - .tools/globalTypes.d.luau
+[WARN] client does not allow didChangeWatchedFiles registration - automatic updating on sourcemap changes disabled
+[INFO] Loading Luau configuration from /home/user/Bloxtomation/games/stormcatch/project/.luaurc
+
+== Unit tests (Lune)
+
+Config.spec.luau
+  ok    every egg references existing pets and zones with positive weights
+  ok    zones are ordered with increasing gate costs and multipliers
+  ok    pet kinds are unique and rarities exist
+  ok    products and passes have unique keys; non-zero ids are unique
+  ok    daily calendar has 7 days and the last is the best
+  ok    onboarding steps are numbered 1..n without gaps
+  ok    client-to-server remotes all declare rate limits
+  ok    codes are uppercase-unique and within length
+
+Daily.spec.luau
+  ok    day number is UTC midnight-based
+  ok    first claim gives day 1 with no streak bonus
+  ok    only one claim per day
+  ok    consecutive days build the streak and its bonus
+  ok    a missed day resets the streak but not the calendar
+  ok    the calendar wraps after the last day
+  ok    streak bonus is capped
+  ok    a corrupted calendar position is clamped
+
+Data.spec.luau
+  ok    new profiles are independent deep copies
+  ok    reconcile fills missing fields of old saves
+  ok    migration steps run in order and bump the version
+  ok    missing migration step and newer versions are refused
+  ok    schema check catches corrupted numbers
+  ok    derived stats: pets, rebirths and passes multiply coins; caps hold
+  ok    restricted players get no paid luck
+
+Economy.spec.luau
+  ok    first upgrade under one minute
+  ok    zone 2 reached at 10-15 minutes by a casual free player (no pets)
+  ok    zone 3 within 25-50 minutes for a casual player
+  ok    each zone takes longer than the previous one
+  ok    first rebirth affordable between 20 and 90 minutes
+  ok    upgrade costs grow faster than their effect (natural slowdown)
+  ok    all upgrade costs are positive and increasing
+
+Format.spec.luau
+  ok    short formats small numbers without suffix
+  ok    short uses suffixes with three significant digits
+  ok    short never prints 1000K
+  ok    short handles negatives and NaN
+  ok    commas
+  ok    duration
+  ok    percent and oneIn
+
+Odds.spec.luau
+  ok    displayed probabilities sum to 1 for every egg and luck level
+  ok    luck raises rare odds and lowers common odds
+  ok    one million rolls match designed odds (server pick function)
+  ok    pickAtLeast only returns the pity rarity or better
+  ok    tries for chance matches the closed form
+  ok    hard pity is 2-3x the expected rolls for the pity tier
+
+Validate.spec.luau
+  ok    integerInRange rejects NaN, infinity, fractions, wrong types
+  ok    identifier accepts ids and rejects junk
+  ok    identifierList rejects sparse, oversized and duplicate lists
+  ok    rate limiter allows a burst then blocks, then refills
+
+47 passed, 0 failed
+
+== Config gate
+note     code WELCOME never expires
+note     code LAUNCH never expires
+note     no community group configured (Config/Game.groupId = 0)
+
+0 errors, 0 release blockers, 3 notes: OK
+
+== Build (Rojo)
+Building project 'StarterSimulator'
+Built project to build.rbxl
+
+All checks passed.

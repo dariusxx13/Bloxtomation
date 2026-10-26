@@ -407,7 +407,7 @@ Players whose `ArePaidRandomItemsRestricted` is true never see the Sky Bell prod
 
 ### 7.4 Escalation
 
-Escalated on 2026-10-25 with `python3 agents/studioctl.py escalate --game stormcatch --kind policy --by monetization-designer`. **Escalation id: see the T-0009 handoff** (`games/stormcatch/handoffs/T-0009.md`, Evidence). Agents do not answer it. The Sky Bell is built only after the human answers, at the build stage.
+Escalated on 2026-10-26 with `python3 agents/studioctl.py escalate --game stormcatch --kind policy --by monetization-designer`. **Escalation id: E-0001.** Both questions, D6 disclosure (O-H1) and O-H2, are in this one escalation. Agents do not answer it. The Sky Bell is built only after the human answers, at the build stage.
 
 ---
 
