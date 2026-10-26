@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-26T10:58:38Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T10:58:59Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,17 +14,17 @@ Updated 2026-10-26T10:58:38Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Tasks
 
-### Working (0)
-
-
-### Needs review (0)
-
-
-### Queued (1)
+### Working (1)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0012 | gatekeeper | stormcatch | Run the design gate | - |
+
+### Needs review (0)
+
+
+### Queued (0)
+
 
 ### Draft (needs a brief) (0)
 
@@ -35,6 +35,7 @@ Updated 2026-10-26T10:58:38Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T10:58:59Z gatekeeper: started T-0012
 - 2026-10-26T10:58:38Z director: T-0017 -> done: Reviewed: grep finds no v1 pacing values in gdd.md, v2 values present, GDD v3.1, prototype brief and handoff validate; Auto Reel pause and Gusts assist decided.
 - 2026-10-26T10:58:21Z designer: submitted T-0017 for review
 - 2026-10-26T10:52:53Z designer: started T-0017
@@ -49,4 +50,3 @@ Updated 2026-10-26T10:58:38Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-26T06:01:53Z designer: submitted T-0014 for review
 - 2026-10-26T05:51:29Z economist: started T-0015
 - 2026-10-26T05:51:26Z designer: started T-0014
-- 2026-10-26T05:51:10Z director: added T-0015 'Re-run the paying-player model against the catalog' for economist (queued)

@@ -442,6 +442,11 @@
       "at": "2026-10-26T10:58:38Z",
       "by": "director",
       "message": "T-0017 -> done: Reviewed: grep finds no v1 pacing values in gdd.md, v2 values present, GDD v3.1, prototype brief and handoff validate; Auto Reel pause and Gusts assist decided."
+    },
+    {
+      "at": "2026-10-26T10:58:59Z",
+      "by": "gatekeeper",
+      "message": "started T-0012"
     }
   ],
   "tasks": {
@@ -786,9 +791,10 @@
       "notes": [],
       "owner": "gatekeeper",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-26T10:58:59Z",
+      "status": "working",
       "title": "Run the design gate",
-      "updated": "2026-10-24T20:35:05Z"
+      "updated": "2026-10-26T10:58:59Z"
     },
     "T-0013": {
       "brief": "games/stormcatch/tasks/T-0013.md",
