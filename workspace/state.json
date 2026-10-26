@@ -8,7 +8,7 @@
   "counters": {
     "escalation": 1,
     "gate": 4,
-    "task": 19
+    "task": 20
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {
@@ -537,6 +537,11 @@
       "at": "2026-10-26T11:28:31Z",
       "by": "director",
       "message": "T-0019 -> done: Re-gate accepted: 10/10 pass, record games/stormcatch/gates/design-02.json; stormcatch advanced to prototype. Follow-ups 14-15 added to docs/design-followups.md."
+    },
+    {
+      "at": "2026-10-26T11:29:42Z",
+      "by": "director",
+      "message": "added T-0020 'Build the prototype code (no Studio)' for engineer (queued)"
     }
   ],
   "tasks": {
@@ -1099,6 +1104,23 @@
       "submitted": "2026-10-26T11:27:53Z",
       "title": "Re-run the design gate after the catalog revision",
       "updated": "2026-10-26T11:28:31Z"
+    },
+    "T-0020": {
+      "brief": "games/stormcatch/tasks/T-0020.md",
+      "created": "2026-10-26T11:29:42Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "PROTO-01"
+      ],
+      "handoff": null,
+      "id": "T-0020",
+      "notes": [],
+      "owner": "engineer",
+      "stage": "prototype",
+      "status": "queued",
+      "title": "Build the prototype code (no Studio)",
+      "updated": "2026-10-26T11:29:42Z"
     }
   },
   "version": 1
