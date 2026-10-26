@@ -427,6 +427,11 @@
       "at": "2026-10-26T10:52:40Z",
       "by": "director",
       "message": "added T-0017 'Sync the GDD with economy sheet v2' for designer (queued)"
+    },
+    {
+      "at": "2026-10-26T10:52:53Z",
+      "by": "designer",
+      "message": "started T-0017"
     }
   ],
   "tasks": {
@@ -909,9 +914,10 @@
       "notes": [],
       "owner": "designer",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-26T10:52:53Z",
+      "status": "working",
       "title": "Sync the GDD with economy sheet v2",
-      "updated": "2026-10-26T10:52:40Z"
+      "updated": "2026-10-26T10:52:53Z"
     }
   },
   "version": 1
