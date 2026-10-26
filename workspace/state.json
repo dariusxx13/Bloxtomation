@@ -7,8 +7,8 @@
   },
   "counters": {
     "escalation": 1,
-    "gate": 2,
-    "task": 17
+    "gate": 3,
+    "task": 19
   },
   "created": "2026-10-24T19:22:17Z",
   "escalations": {
@@ -68,6 +68,20 @@
       "path": "games/stormcatch/gates/pitch-02.json",
       "stage": "pitch",
       "verdict": "pass",
+      "waived": []
+    },
+    {
+      "at": "2026-10-26T11:11:37Z",
+      "build": "",
+      "by": "gatekeeper",
+      "failed": [
+        "DESIGN-07"
+      ],
+      "game": "stormcatch",
+      "id": "G-0003",
+      "path": "games/stormcatch/gates/design-01.json",
+      "stage": "design",
+      "verdict": "fail",
       "waived": []
     }
   ],
@@ -447,6 +461,31 @@
       "at": "2026-10-26T10:58:59Z",
       "by": "gatekeeper",
       "message": "started T-0012"
+    },
+    {
+      "at": "2026-10-26T11:11:37Z",
+      "by": "gatekeeper",
+      "message": "gate design for stormcatch: fail"
+    },
+    {
+      "at": "2026-10-26T11:12:53Z",
+      "by": "gatekeeper",
+      "message": "submitted T-0012 for review"
+    },
+    {
+      "at": "2026-10-26T11:14:08Z",
+      "by": "director",
+      "message": "T-0012 -> done: Gate review accepted: 9/10 pass, DESIGN-07 fail confirmed (catalog never revised to sheet v2 / GDD v3.1; Director did not queue the catalog change requests). Rework T-0018, re-gate T-0019; non-blocking items 6-13 tracked in docs/design-followups.md."
+    },
+    {
+      "at": "2026-10-26T11:14:08Z",
+      "by": "director",
+      "message": "added T-0018 'Revise the catalog to economy sheet v2 and GDD v3.1' for monetization-designer (queued)"
+    },
+    {
+      "at": "2026-10-26T11:14:08Z",
+      "by": "director",
+      "message": "added T-0019 'Re-run the design gate after the catalog revision' for gatekeeper (queued)"
     }
   ],
   "tasks": {
@@ -786,15 +825,22 @@
         "DESIGN-09",
         "DESIGN-10"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0012.md",
       "id": "T-0012",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T11:14:08Z",
+          "by": "director",
+          "text": "Gate review accepted: 9/10 pass, DESIGN-07 fail confirmed (catalog never revised to sheet v2 / GDD v3.1; Director did not queue the catalog change requests). Rework T-0018, re-gate T-0019; non-blocking items 6-13 tracked in docs/design-followups.md."
+        }
+      ],
       "owner": "gatekeeper",
       "stage": "design",
       "started": "2026-10-26T10:58:59Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T11:12:53Z",
       "title": "Run the design gate",
-      "updated": "2026-10-26T10:58:59Z"
+      "updated": "2026-10-26T11:14:08Z"
     },
     "T-0013": {
       "brief": "games/stormcatch/tasks/T-0013.md",
@@ -941,6 +987,51 @@
       "submitted": "2026-10-26T10:58:21Z",
       "title": "Sync the GDD with economy sheet v2",
       "updated": "2026-10-26T10:58:38Z"
+    },
+    "T-0018": {
+      "brief": "games/stormcatch/tasks/T-0018.md",
+      "created": "2026-10-26T11:14:08Z",
+      "deps": [],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-07"
+      ],
+      "handoff": null,
+      "id": "T-0018",
+      "notes": [],
+      "owner": "monetization-designer",
+      "stage": "design",
+      "status": "queued",
+      "title": "Revise the catalog to economy sheet v2 and GDD v3.1",
+      "updated": "2026-10-26T11:14:08Z"
+    },
+    "T-0019": {
+      "brief": "games/stormcatch/tasks/T-0019.md",
+      "created": "2026-10-26T11:14:08Z",
+      "deps": [
+        "T-0018"
+      ],
+      "game": "stormcatch",
+      "gates": [
+        "DESIGN-01",
+        "DESIGN-02",
+        "DESIGN-03",
+        "DESIGN-04",
+        "DESIGN-05",
+        "DESIGN-06",
+        "DESIGN-07",
+        "DESIGN-08",
+        "DESIGN-09",
+        "DESIGN-10"
+      ],
+      "handoff": null,
+      "id": "T-0019",
+      "notes": [],
+      "owner": "gatekeeper",
+      "stage": "design",
+      "status": "queued",
+      "title": "Re-run the design gate after the catalog revision",
+      "updated": "2026-10-26T11:14:08Z"
     }
   },
   "version": 1

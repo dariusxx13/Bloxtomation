@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-26T10:58:59Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T11:14:08Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -10,21 +10,22 @@ Updated 2026-10-26T10:58:59Z by studioctl. Do not edit: run `python3 agents/stud
 
 | Game | Title | Stage | Status | Last gate |
 |---|---|---|---|---|
-| stormcatch | Stormcatch (working title) | design | active | pitch pass |
+| stormcatch | Stormcatch (working title) | design | active | design fail |
 
 ## Tasks
 
-### Working (1)
+### Working (0)
 
-| Task | Owner | Game | Title | Waiting on |
-|---|---|---|---|---|
-| T-0012 | gatekeeper | stormcatch | Run the design gate | - |
 
 ### Needs review (0)
 
 
-### Queued (0)
+### Queued (2)
 
+| Task | Owner | Game | Title | Waiting on |
+|---|---|---|---|---|
+| T-0018 | monetization-designer | stormcatch | Revise the catalog to economy sheet v2 and GDD v3.1 | - |
+| T-0019 | gatekeeper | stormcatch | Re-run the design gate after the catalog revision | T-0018 |
 
 ### Draft (needs a brief) (0)
 
@@ -35,6 +36,11 @@ Updated 2026-10-26T10:58:59Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T11:14:08Z director: added T-0019 'Re-run the design gate after the catalog revision' for gatekeeper (queued)
+- 2026-10-26T11:14:08Z director: added T-0018 'Revise the catalog to economy sheet v2 and GDD v3.1' for monetization-designer (queued)
+- 2026-10-26T11:14:08Z director: T-0012 -> done: Gate review accepted: 9/10 pass, DESIGN-07 fail confirmed (catalog never revised to sheet v2 / GDD v3.1; Director did not queue the catalog change requests). Rework T-0018, re-gate T-0019; non-blocking items 6-13 tracked in docs/design-followups.md.
+- 2026-10-26T11:12:53Z gatekeeper: submitted T-0012 for review
+- 2026-10-26T11:11:37Z gatekeeper: gate design for stormcatch: fail
 - 2026-10-26T10:58:59Z gatekeeper: started T-0012
 - 2026-10-26T10:58:38Z director: T-0017 -> done: Reviewed: grep finds no v1 pacing values in gdd.md, v2 values present, GDD v3.1, prototype brief and handoff validate; Auto Reel pause and Gusts assist decided.
 - 2026-10-26T10:58:21Z designer: submitted T-0017 for review
@@ -45,8 +51,3 @@ Updated 2026-10-26T10:58:59Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-26T06:09:51Z director: T-0016 -> done: Reviewed: re-ran world_layout.py (exit 0, layout v2, All checks pass), both harbour visit paths avoid cove_dock, WindYaw defined per Gusts cell including two cells v1 missed, handoff validates.
 - 2026-10-26T06:09:32Z worldbuilder: submitted T-0016 for review
 - 2026-10-26T06:02:50Z worldbuilder: started T-0016
-- 2026-10-26T06:02:36Z director: added T-0016 'Add harbour weather visits and WindYaw to the world plan' for worldbuilder (queued)
-- 2026-10-26T06:02:36Z director: T-0014 -> done: Reviewed: cove_visits_check.py run (all checks pass: rain wait 260 s, 0/672 cycles without the Sky Bell window, 0/168 hours missing a visit, Rainbow unchanged), W1/W2 resolved by hourly natural visits, four catalog rules added, prototype brief unchanged (md5 4c04c92...) and valid, GDD v3.
-- 2026-10-26T06:01:53Z designer: submitted T-0014 for review
-- 2026-10-26T05:51:29Z economist: started T-0015
-- 2026-10-26T05:51:26Z designer: started T-0014
