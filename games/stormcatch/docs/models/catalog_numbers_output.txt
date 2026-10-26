@@ -1,0 +1,72 @@
+Reel the Storm catalog numbers (T-0009). Inputs: economy-sheet.md (T-0008) and catalog.md drafts.
+
+[A] Cross-check of the economy sheet's Sky Bell figures (sheet section 13), harbour = Pebble Cove
+Called weather luck before luck after Rare+ before Rare+ after coins/catch
+Showers               1.00       1.25       14.98%      18.05%       +6.0%
+Sea Fog               2.00       2.00       29.91%      29.91%       +0.0%
+Gusts                 1.00       1.25       23.73%      28.00%       +8.8%
+Sheet values: Showers 14.98% -> 18.05%, +6.0%; Sea Fog 29.91% -> 29.91%, 0; Gusts 23.73% -> 28.00%, +8.8%.
+
+[B] Tier odds shown before purchase (new player at the harbour: no Lure, companions or friends)
+Case                                        luck            Common          Uncommon              Rare              Epic         Legendary
+Lucky Bobber, Clear                  1.00->1.25   65.67% -> 64.00%  23.88% -> 23.27%   8.46% -> 10.30%   1.99% ->  2.42%   0.00% ->  0.00%
+Lucky Bobber, Sea Fog (Sky cap)      2.00->2.00   51.40% -> 51.40%  18.69% -> 18.69%  22.59% -> 22.59%   6.54% ->  6.54%   0.78% ->  0.78%
+Sky Bell: Showers                    1.00->1.25   53.44% -> 51.51%  31.58% -> 30.44%  12.15% -> 14.63%   2.83% ->  3.41%   0.00% ->  0.00%
+Sky Bell: Sea Fog (Sky cap)          2.00->2.00   51.40% -> 51.40%  18.69% -> 18.69%  22.59% -> 22.59%   6.54% ->  6.54%   0.78% ->  0.78%
+Sky Bell: Gusts                      1.00->1.25   55.93% -> 52.80%  20.34% -> 19.20%  17.37% -> 20.50%   5.51% ->  6.50%   0.85% ->  1.00%
+Bobber owner under a Showers call    1.25->1.25   51.51% -> 51.51%  30.44% -> 30.44%  14.63% -> 14.63%   3.41% ->  3.41%   0.00% ->  0.00%
+Every row sums to exactly 100% before and after (asserted).
+
+Paid luck never stacks above +25% (sheet section 10):
+  new player      Clear    no paid luck x1.00 | Bobber or Bell x1.25 | Bobber and Bell x1.25
+  new player      Sea Fog  no paid luck x2.00 | Bobber or Bell x2.00 | Bobber and Bell x2.00
+  casual, Lure 7  Clear    no paid luck x1.28 | Bobber or Bell x1.60 | Bobber and Bell x1.60
+  casual, Lure 7  Sea Fog  no paid luck x2.56 | Bobber or Bell x2.56 | Bobber and Bell x2.56
+  maxed free      Clear    no paid luck x4.50 | Bobber or Bell x5.62 | Bobber and Bell x5.62
+  maxed free      Sea Fog  no paid luck x6.00 | Bobber or Bell x6.00 | Bobber and Bell x6.00
+
+[C] Auto Reel against reeling yourself (catches per minute; sheet section 3.2 cycle model)
+Auto Reel in Clear water: 4.75 per minute (lands 70%, reel x2)
+  casual   active Clear 6.87 (Auto = 69%); active Showers 10.70 (Auto = 44%)
+  typical  active Clear 7.40 (Auto = 64%); active Showers 11.22 (Auto = 42%)
+Coins per catch are the same, so the coin ratio equals the catch ratio. Auto Reel pauses under
+Showers, Sea Fog, Gusts and the Great Storm, so it can only ever earn the Clear-water rate.
+
+[D] Coin products: minutes of income per Robux at the draft prices
+  coinPouch      15 min for   49 R = 0.306 min/R (+0% against the Pouch)
+  starterPack    30 min for   75 R = 0.400 min/R (+31% against the Pouch)
+  coinCrate      60 min for  149 R = 0.403 min/R (+32% against the Pouch)
+  coinChest     180 min for  399 R = 0.451 min/R (+47% against the Pouch)
+The Starter Pack also carries a 15-minute coins2x boost and a raincoat colour (not counted above).
+
+Third Tide Pot (sheet section 12.3): one more pot = 4 minutes of income and 8 fish per full 8-hour fill.
+
+[E] Sky Bell price parity
+  One call at 49 R: 4 players (buyer + 3, GDD target) x 3.1 min = 12.4 player-minutes of harbour income = 0.253 min/R
+  Coin Pouch at 49 R: 15 minutes for one player = 0.306 min/R
+  The buyer's own share: 3.1 min = 0.063 min/R (a gift, not a deal)
+  At  25 R a call would give 0.496 server min/R, 1.62x the Pouch's rate
+  At  49 R a call would give 0.253 server min/R, 0.83x the Pouch's rate
+  At  99 R a call would give 0.125 server min/R, 0.41x the Pouch's rate
+  Most one server can buy: 2 calls per 15-minute cycle = 8 per hour; one buyer with one call per cycle (catalog request) at most 4 per hour = 196 R per hour
+
+[F] Ladder and totals at the draft prices
+    49 R  Impulse  coinPouch
+    49 R  Impulse  skyCallGusts
+    49 R  Impulse  skyCallSeaFog
+    49 R  Impulse  skyCallShowers
+    75 R  Impulse  bobberBox
+    75 R  Impulse  starterPack
+    99 R  Impulse  palPouchPlus
+    99 R  Impulse  rainGear
+   149 R  Core     autoReel
+   149 R  Core     coinCrate
+   149 R  Core     luckyBobber
+   149 R  Core     tidePot3
+   249 R  Core     x2Coins
+   399 R  Core     coinChest
+   699 R  Premium  lanternKeeper
+  Items per tier: Impulse 8, Core 6, Premium 1, High-end 0
+  All gameplay passes together: 795 R; all cosmetic passes: 873 R; every pass: 1668 R
+  Cheapest item: 49 R; most expensive: 699 R
+
