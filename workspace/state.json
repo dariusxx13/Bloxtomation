@@ -501,6 +501,11 @@
       "at": "2026-10-26T11:22:26Z",
       "by": "director",
       "message": "T-0018 -> done: Reviewed: catalog_numbers output md5 b719ac2... reproduced, no stale figures (2.6-3.7x, 23.9, 'your fishing' outside the changelog, W1/W2 watch notes), sheet v2 ratios present, fairness 15/15, handoff validates, no price change."
+    },
+    {
+      "at": "2026-10-26T11:22:32Z",
+      "by": "gatekeeper",
+      "message": "started T-0019"
     }
   ],
   "tasks": {
@@ -1052,9 +1057,10 @@
       "notes": [],
       "owner": "gatekeeper",
       "stage": "design",
-      "status": "queued",
+      "started": "2026-10-26T11:22:32Z",
+      "status": "working",
       "title": "Re-run the design gate after the catalog revision",
-      "updated": "2026-10-26T11:14:08Z"
+      "updated": "2026-10-26T11:22:32Z"
     }
   },
   "version": 1

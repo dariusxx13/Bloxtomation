@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-26T11:22:26Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T11:22:32Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,17 +14,17 @@ Updated 2026-10-26T11:22:26Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Tasks
 
-### Working (0)
-
-
-### Needs review (0)
-
-
-### Queued (1)
+### Working (1)
 
 | Task | Owner | Game | Title | Waiting on |
 |---|---|---|---|---|
 | T-0019 | gatekeeper | stormcatch | Re-run the design gate after the catalog revision | - |
+
+### Needs review (0)
+
+
+### Queued (0)
+
 
 ### Draft (needs a brief) (0)
 
@@ -35,6 +35,7 @@ Updated 2026-10-26T11:22:26Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T11:22:32Z gatekeeper: started T-0019
 - 2026-10-26T11:22:26Z director: T-0018 -> done: Reviewed: catalog_numbers output md5 b719ac2... reproduced, no stale figures (2.6-3.7x, 23.9, 'your fishing' outside the changelog, W1/W2 watch notes), sheet v2 ratios present, fairness 15/15, handoff validates, no price change.
 - 2026-10-26T11:21:58Z monetization-designer: submitted T-0018 for review
 - 2026-10-26T11:14:23Z monetization-designer: started T-0018
@@ -49,4 +50,3 @@ Updated 2026-10-26T11:22:26Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-26T10:52:53Z designer: started T-0017
 - 2026-10-26T10:52:40Z director: added T-0017 'Sync the GDD with economy sheet v2' for designer (queued)
 - 2026-10-26T10:52:40Z director: T-0015 -> done: Reviewed: output md5 64bb627... matches, handoff validates, paying player buys catalog products only; ratios 1.31x (by design, nothing sold before the first bridge), 2.34x, 2.87x; catalog questions and O-EC3/4/5 answered in sheet section 19. GDD mirror numbers sync queued as T-0017.
-- 2026-10-26T10:51:59Z economist: submitted T-0015 for review
