@@ -2179,8 +2179,8 @@ def gdd_v3_report() -> None:
     keys = ("bridge:lantern_reef", "bridge:gustwhistle_bluffs", "new_tide_1")
     rows = []
     for name in ("casual", "typical"):
-        base = _goal_runs(MODELS[name], keys, False)
-        assisted = _goal_runs(dict(MODELS[name], assist=name), keys, False)
+        base = _goal_runs(MODELS[name], keys, True)
+        assisted = _goal_runs(dict(MODELS[name], assist=name), keys, True)
         rows.append([MODELS[name]["label"]] + [f"{base[k][0]:.1f} -> {assisted[k][0]:.1f} [{assisted[k][1]:.1f}-"
                                                f"{assisted[k][2]:.1f}]" for k in keys])
     table(["Easier reeling on from minute 1", "Bridge to Lantern Reef", "Bridge to Gustwhistle", "New Tide 1"], rows)

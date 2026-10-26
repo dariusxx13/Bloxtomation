@@ -30,36 +30,36 @@ Mean size factor (clear) 1.0001; Stormborn 1.0007. Failed reel costs the cast, t
 | Goal | Casual free | Typical | Paying | Target (casual free) |
 | --- | --- | --- | --- | --- |
 | 1. First rod upgrade (Rod 2) | 45 s [45-45] (s1) | 45 s [45-45] (s1) | 45 s [45-45] (s1) | 0-1.25 min |
-| 2. Bridge to Lantern Reef | 10.8 [10.3-11.1] (s2, d2) | 8.7 [6.6-9.6] (s1, d1) | 8.5 [6.5-9.7] (s1, d1) | 10-12 min |
-| 3. Bridge to Gustwhistle Bluffs | 23.6 [23.1-24.3] (s3, d3) | 16.4 [15.3-17.9] (s1, d1) | 10.0 [10.0-10.0] (s1, d1) | 20-30 min |
-| 4. First island set complete (Pebble Cove 8/8, median) | 17.2 [11.7-24.3] (s2, d2) | 12.4 [8.2-20.7] (s1, d1) | 10.5 [7.7-20.0] (s1, d1) | 20-40 min |
-| 5. New Tide (first rebirth) | 62.2 [60.9-67.9] (s7, d7) | 44.1 [40.5-49.4] (s3, d2) | 21.8 [21.3-22.3] (s1, d1) | 20-90 min |
+| 2. Bridge to Lantern Reef | 10.8 [10.3-11.9] (s2, d2) | 8.3 [6.5-9.3] (s1, d1) | 8.2 [6.3-9.2] (s1, d1) | 10-12 min |
+| 3. Bridge to Gustwhistle Bluffs | 23.5 [22.7-24.5] (s3, d3) | 15.9 [15.2-17.7] (s1, d1) | 10.0 [10.0-10.0] (s1, d1) | 20-30 min |
+| 4. First island set complete (Pebble Cove 8/8, median) | 15.8 [10.8-23.0] (s2, d2) | 12.2 [7.8-20.7] (s1, d1) | 10.3 [7.3-19.8] (s1, d1) | 20-40 min |
+| 5. New Tide (first rebirth) | 62.3 [60.8-67.8] (s7, d7) | 43.2 [40.5-48.1] (s3, d2) | 21.7 [21.2-22.3] (s1, d1) | 20-90 min |
 
 Cells: mean minutes [fastest-slowest join minute] (session index, day index). Session and day use the
 model's session length and sessions per day (casual 10x1, typical 20x2, paying 30x3).
 
 | Other milestones | Casual free | Typical | Paying |
 | --- | --- | --- | --- |
-| Second upgrade line (first Lure or Boots) | 4.2 [4.0-4.6] (s1, d1) | 4.2 [4.0-4.3] (s1, d1) | 4.1 [4.0-4.2] (s1, d1) |
+| Second upgrade line (first Lure or Boots) | 4.1 [4.0-4.5] (s1, d1) | 4.1 [4.0-4.2] (s1, d1) | 4.0 [4.0-4.1] (s1, d1) |
 | First nest (Driftwood) | 5.0 [5.0-5.0] (s1, d1) | 5.0 [5.0-5.0] (s1, d1) | 5.0 [5.0-5.0] (s1, d1) |
-| Lure level 7 (+28% luck, above the D6 +25%) | 23.9 [23.3-24.5] (s3, d3) | 16.9 [15.9-18.1] (s1, d1) | 10.1 [10.0-10.5] (s1, d1) |
-| Rain set 3/3 (median) | 81.1 [79.2-83.5] (s9, d9) | 42.7 [38.7-45.8] (s3, d2) | 31.7 [26.8-36.5] (s2, d1) |
+| Lure level 7 (+28% luck, above the D6 +25%) | 23.7 [23.0-24.7] (s3, d3) | 16.4 [15.8-17.8] (s1, d1) | 10.0 [10.0-10.0] (s1, d1) |
+| Rain set 3/3 (median) | 72.7 [67.0-76.0] (s8, d8) | 37.8 [32.7-44.3] (s2, d1) | 26.2 [21.2-32.2] (s1, d1) |
 | Lantern Reef set 8/8 (median) | > 240 | > 240 | > 240 |
-| Bridge to Thunderhead Point | 38.8 [38.1-39.7] (s4, d4) | 28.9 [27.9-29.6] (s2, d1) | 14.3 [13.9-14.7] (s1, d1) |
-| New Tide 2 | 92.3 [91.7-92.9] (s10, d10) | 59.2 [57.0-60.0] (s3, d2) | 26.0 [25.7-26.4] (s1, d1) |
+| Bridge to Thunderhead Point | 38.5 [37.0-39.5] (s4, d4) | 28.6 [27.9-29.6] (s2, d1) | 14.2 [13.9-14.5] (s1, d1) |
+| New Tide 2 | 91.7 [90.9-92.3] (s10, d10) | 58.7 [56.5-60.0] (s3, d2) | 25.9 [25.3-26.4] (s1, d1) |
 
 ### Target checks (casual free unless named)
 
 | Check | Result | Model value |
 | --- | --- | --- |
 | First rod upgrade about 60 s (under 75 s), every model | PASS | casual 45 s, max 45 s |
-| Bridge to Lantern Reef at 10-12 min (brief target), inside 10-15 (DESIGN-03) | PASS | mean 10.8, range 10.3-11.1 |
-| Bridge to Gustwhistle Bluffs at 20-30 min | PASS | mean 23.6, range 23.1-24.3 |
-| New Tide 1 within 20-90 min (template Economy.spec) | PASS | mean 62.2, range 60.9-67.9 |
-| Typical New Tide 1 within 30-60 min (vault key numbers) | PASS | mean 44.1, range 40.5-49.4 |
-| Paying faster than casual, within 2-4x on goals 2, 3 and 5 (goal 2 runs at free pace by catalog design: nothing is sold before onboarding step 12, which follows the first bridge) | PASS (goal 2 below 2x by design) | 1.27x, 2.36x, 2.85x |
-| No gap above about 3 min between purchases in the first hour (typical) | NEAR (final save for New Tide 1 only) | worst gap 3.48 min; over 3.2 min in 2 of 15 join minutes; mean worst 2.73 min |
-| Next purchase 1-3 min away in the first 30 min (casual) | PASS | worst gap 2.22 min |
+| Bridge to Lantern Reef at 10-12 min (brief target), inside 10-15 (DESIGN-03) | PASS | mean 10.8, range 10.3-11.9 |
+| Bridge to Gustwhistle Bluffs at 20-30 min | PASS | mean 23.5, range 22.7-24.5 |
+| New Tide 1 within 20-90 min (template Economy.spec) | PASS | mean 62.3, range 60.8-67.8 |
+| Typical New Tide 1 within 30-60 min (vault key numbers) | PASS | mean 43.2, range 40.5-48.1 |
+| Paying faster than casual, within 2-4x on goals 2, 3 and 5 (goal 2 runs at free pace by catalog design: nothing is sold before onboarding step 12, which follows the first bridge) | PASS (goal 2 below 2x by design) | 1.31x, 2.34x, 2.87x |
+| No gap above about 3 min between purchases in the first hour (typical) | PASS | worst gap 2.98 min; over 3.2 min in 0 of 15 join minutes; mean worst 2.56 min |
+| Next purchase 1-3 min away in the first 30 min (casual) | PASS | worst gap 2.00 min |
 | After New Tide 1, regain the pre-tide income in 1/4-1/3 of the original time (typical; vault band assumes zones reset, islands stay here) | ARGUED DEVIATION | 0.14 of the original time; the tide's cost is carried by the cycle length instead (section D) |
 
 ### Paying variants (T-0015): catalog purchases, continuous view, same join minutes
@@ -68,28 +68,28 @@ Paying = typical skill plus the catalog: 2x Coins from the first bridge; Lucky B
 
 | Payer | Bridge to Lantern Reef (goal 2) | Bridge to Gustwhistle (goal 3) | New Tide 1 (goal 5) |
 | --- | --- | --- | --- |
-| Paying (catalog), the five-goal row | 8.5 [6.5-9.7] = 1.27x casual, 1.02x typical | 10.0 [10.0-10.0] = 2.36x casual, 1.64x typical | 21.8 [21.3-22.3] = 2.85x casual, 2.02x typical |
-| Heavy spender (Crate and Chest every day) | 8.5 [6.5-9.7] = 1.27x casual, 1.02x typical | 10.0 [10.0-10.0] = 2.36x casual, 1.64x typical | 20.8 [19.8-21.4] = 2.99x casual, 2.12x typical |
-| Passes only (no coin products) | 8.5 [6.5-9.7] = 1.27x casual, 1.02x typical | 13.4 [12.1-14.4] = 1.77x casual, 1.23x typical | 28.2 [27.4-29.1] = 2.21x casual, 1.56x typical |
-| T-0008 placeholder payer (template passes from 0:00, +3 slots) | 3.2 [2.0-3.5] = 3.42x casual, 2.74x typical | 8.9 [7.2-9.9] = 2.66x casual, 1.86x typical | 25.2 [24.1-26.0] = 2.47x casual, 1.75x typical |
-| Heavy spender, basis with the 2x Coins pass (alternative) | 8.5 [6.5-9.7] = 1.27x casual, 1.02x typical | 10.0 [10.0-10.0] = 2.36x casual, 1.64x typical | 18.5 [17.4-20.4] = 3.37x casual, 2.39x typical |
+| Paying (catalog), the five-goal row | 8.2 [6.3-9.2] = 1.31x casual, 1.02x typical | 10.0 [10.0-10.0] = 2.34x casual, 1.58x typical | 21.7 [21.2-22.3] = 2.87x casual, 1.99x typical |
+| Heavy spender (Crate and Chest every day) | 8.2 [6.3-9.2] = 1.31x casual, 1.02x typical | 10.0 [10.0-10.0] = 2.34x casual, 1.58x typical | 20.7 [20.2-21.4] = 3.01x casual, 2.09x typical |
+| Passes only (no coin products) | 8.2 [6.3-9.2] = 1.31x casual, 1.02x typical | 13.1 [12.0-14.0] = 1.79x casual, 1.21x typical | 27.9 [27.3-28.5] = 2.23x casual, 1.55x typical |
+| T-0008 placeholder payer (template passes from 0:00, +3 slots) | 3.1 [2.0-3.5] = 3.45x casual, 2.68x typical | 8.8 [7.2-9.8] = 2.68x casual, 1.81x typical | 25.2 [24.1-25.9] = 2.48x casual, 1.72x typical |
+| Heavy spender, basis with the 2x Coins pass (alternative) | 8.2 [6.3-9.2] = 1.31x casual, 1.02x typical | 10.0 [10.0-10.0] = 2.34x casual, 1.58x typical | 18.3 [17.4-19.9] = 3.41x casual, 2.37x typical |
 
 ### Conservative run: catch income only (no daily, playtime, pot or journal-set rewards)
 
 | Model | Bridge to Lantern Reef | Bridge to Gustwhistle | New Tide 1 |
 | --- | --- | --- | --- |
-| Casual free | 14.8 [14.0-15.1] | 29.3 [28.7-29.7] | 93.6 [93.3-94.2] |
-| Typical | 10.1 [8.6-11.4] | 20.8 [19.4-21.8] | 61.0 [59.6-62.3] |
-| Paying | 10.0 [8.7-11.3] | 15.3 [14.4-16.0] | 32.9 [32.0-34.0] |
+| Casual free | 14.3 [13.9-14.6] | 28.8 [28.3-29.1] | 93.1 [92.8-93.5] |
+| Typical | 9.7 [8.4-10.7] | 20.4 [19.4-21.3] | 60.6 [58.7-61.8] |
+| Paying | 9.6 [8.2-10.7] | 14.9 [14.1-15.4] | 32.5 [31.3-33.4] |
 
 ### Return view: the same goals with sessions, daily rewards and Tide Pots (play minutes, session, day)
 
 | Goal | Casual free | Typical | Paying |
 | --- | --- | --- | --- |
-| 2. Bridge to Lantern Reef | 10.0 [10.0-10.0] (s2, d2) | 8.7 [6.6-9.6] (s1, d1) | 8.5 [6.5-9.7] (s1, d1) |
-| 3. Bridge to Gustwhistle Bluffs | 20.0 [20.0-20.0] (s3, d3) | 16.4 [15.3-17.9] (s1, d1) | 10.0 [10.0-10.0] (s1, d1) |
-| 5. New Tide (first rebirth) | 40.0 [40.0-40.0] (s5, d5) | 40.1 [40.0-40.6] (s3, d2) | 21.8 [21.3-22.3] (s1, d1) |
-| Bridge to Thunderhead Point | 30.0 [30.0-30.0] (s4, d4) | 29.4 [27.7-30.1] (s2, d1) | 14.3 [13.9-14.7] (s1, d1) |
+| 2. Bridge to Lantern Reef | 10.0 [10.0-10.0] (s2, d2) | 8.3 [6.5-9.3] (s1, d1) | 8.2 [6.3-9.2] (s1, d1) |
+| 3. Bridge to Gustwhistle Bluffs | 20.0 [20.0-20.0] (s3, d3) | 15.9 [15.2-17.7] (s1, d1) | 10.0 [10.0-10.0] (s1, d1) |
+| 5. New Tide (first rebirth) | 40.0 [40.0-40.0] (s5, d5) | 40.0 [40.0-40.5] (s3, d2) | 21.7 [21.2-22.3] (s1, d1) |
+| Bridge to Thunderhead Point | 30.0 [30.0-30.0] (s4, d4) | 28.7 [27.6-30.0] (s2, d1) | 14.2 [13.9-14.5] (s1, d1) |
 
 Return sources arrive at the start of each session, so a goal close to a session end lands at the next
 session's first second. The five-goal table above is the design commitment; this view is the upside.
@@ -98,17 +98,17 @@ session's first second. The five-goal table above is the design commitment; this
 
 | Model | Catches outside storms | Great Storm (eye catches, Stormborn, helper shares) | Tide Pots | Calendar, playtime gifts, scripted first catch | Robux coin products (Starter Pack, packs) |
 | --- | --- | --- | --- | --- | --- |
-| Casual free | 41.0% | 5.4% | 31.2% | 22.4% | 0.0% |
-| Typical | 61.9% | 11.2% | 11.5% | 15.4% | 0.0% |
-| Paying | 67.9% | 12.9% | 5.3% | 3.5% | 10.4% |
+| Casual free | 42.1% | 5.5% | 30.4% | 22.1% | 0.0% |
+| Typical | 61.8% | 11.5% | 11.5% | 15.2% | 0.0% |
+| Paying | 67.6% | 12.6% | 5.4% | 3.5% | 10.9% |
 
 ### Where the coins go (return view, first 240 play minutes, share of coins spent)
 
 | Model | Rod | Lure | Boots | Pal Pouch | Nests | Bridges | New Tide | Unspent at 240 min (share of earned) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Casual free | 63.6% | 0.6% | 0.0% | 0.0% | 0.0% | 0.0% | 35.8% | 4.2% |
-| Typical | 74.2% | 0.7% | 0.0% | 0.0% | 0.0% | 0.0% | 25.2% | 15.1% |
-| Paying | 63.5% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 36.4% | 6.4% |
+| Casual free | 65.2% | 0.5% | 0.0% | 0.0% | 0.0% | 0.0% | 34.3% | 3.2% |
+| Typical | 74.0% | 0.7% | 0.0% | 0.0% | 0.0% | 0.0% | 25.3% | 15.6% |
+| Paying | 63.7% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 36.3% | 7.2% |
 
 New Tide also resets the Rod and Boots, so their coins are sunk twice over a tide.
 
@@ -153,12 +153,12 @@ Pal Pouch +10 companion capacity per level (60 -> 160); equip slots stay at 3 (G
 
 | New Tide # | Minutes since previous tide | Cumulative active hours |
 | --- | --- | --- |
-| 1 | 59.8 | 1.0 |
-| 2 | 16.4 | 1.3 |
-| 3 | 16.5 | 1.5 |
+| 1 | 58.7 | 1.0 |
+| 2 | 15.9 | 1.2 |
+| 3 | 17.0 | 1.5 |
 | 5 | 19.3 | 2.1 |
 | 8 | 29.6 | 3.4 |
-| 10 | 43.0 | 4.7 |
+| 10 | 43.6 | 4.7 |
 | 11 | 52.0 | 5.6 |
 | 12 | 66.1 | 6.7 |
 | 15 | 134.8 | 12.1 |
@@ -303,11 +303,11 @@ no Lure, companions or friends sees. Natural Sea Fog carries Sky luck +100% (Rar
 | Tier | Designed median | Casual free | Typical | Paying |
 | --- | --- | --- | --- | --- |
 | Common | first catch (scripted, 0:18) | 0.3 (p90 0.3) | 0.3 (p90 0.3) | 0.3 (p90 0.3) |
-| Uncommon | <= 1.5 min | 1.0 (p90 2.4) | 0.8 (p90 2.0) | 0.8 (p90 2.0) |
+| Uncommon | <= 1.5 min | 1.0 (p90 2.3) | 0.8 (p90 1.9) | 0.8 (p90 1.9) |
 | Rare | <= 3 min (scripted rain Rare at 2:00) | 2.0 (p90 2.2) | 1.6 (p90 2.2) | 1.5 (p90 2.2) |
-| Epic | 5-15 min | 6.5 (p90 17.5) | 4.6 (p90 12.1) | 4.3 (p90 11.1) |
-| Legendary | 20-45 min | 23.8 (p90 52.4) | 15.9 (p90 36.2) | 14.1 (p90 27.5) |
-| Mythic | typical: first week (<= 280 min); casual: weeks | 116.5 (p90 > 240) | 83.1 (p90 221.8) | 63.8 (p90 183.4) |
+| Epic | 5-15 min | 6.4 (p90 17.3) | 4.5 (p90 11.9) | 4.2 (p90 11.0) |
+| Legendary | 20-45 min | 24.1 (p90 52.5) | 16.2 (p90 36.2) | 14.3 (p90 27.6) |
+| Mythic | typical: first week (<= 280 min); casual: weeks | 116.3 (p90 > 240) | 82.9 (p90 221.5) | 63.7 (p90 183.3) |
 | Secret | no promise (>= 30 h) | ~4771 (extrapolated, 477.1 play days) | ~2775 (extrapolated, 69.4 play days) | ~2724 (extrapolated, 30.3 play days) |
 
 Median = time when the expected number of catches of that tier reaches ln 2 (Poisson, exact for the
@@ -368,12 +368,12 @@ Compared with play: Lure 7 alone gives x1.28; Lure 25 (Gear cap) x2.00; Gear x C
 
 | Model | Goal | No calls | Worst case: Showers calls on 50% of non-storm time, player always under them | Time saved |
 | --- | --- | --- | --- | --- |
-| Casual free | 2. Bridge to Lantern Reef | 10.8 | 9.9 | 8.6% |
-| Casual free | 3. Bridge to Gustwhistle Bluffs | 23.6 | 21.8 | 7.7% |
-| Casual free | 5. New Tide (first rebirth) | 62.2 | 61.3 | 1.4% |
-| Typical | 2. Bridge to Lantern Reef | 8.7 | 7.1 | 17.6% |
-| Typical | 3. Bridge to Gustwhistle Bluffs | 16.4 | 15.1 | 7.9% |
-| Typical | 5. New Tide (first rebirth) | 44.1 | 40.3 | 8.5% |
+| Casual free | 2. Bridge to Lantern Reef | 10.8 | 9.7 | 9.5% |
+| Casual free | 3. Bridge to Gustwhistle Bluffs | 23.5 | 21.1 | 10.0% |
+| Casual free | 5. New Tide (first rebirth) | 62.3 | 60.7 | 2.6% |
+| Typical | 2. Bridge to Lantern Reef | 8.3 | 7.0 | 15.5% |
+| Typical | 3. Bridge to Gustwhistle Bluffs | 15.9 | 15.1 | 4.8% |
+| Typical | 5. New Tide (first rebirth) | 43.2 | 40.3 | 6.7% |
 
 ## I. Coin multiplier categories and the maxed player
 
@@ -495,6 +495,72 @@ Auto Reel can only lower a player's income: it is slower than reeling yourself i
 ### N3. Coin products: what one 'minute of income' counts
 
 Basis for every minutes-of-income grant (coin packs, Starter Pack, calendar, gifts, Tide Pots): coins per catch at the best island in Clear water with permanent multipliers (Rod, companions, bonus category, New Tide, Lure and owned luck passes) x 5 catches a minute. Never timed boosts or friends. 2x Coins pass in the basis: no. Section B's variant table shows both bases for the heavy spender.
+
+## O. GDD v3 checks (T-0015: O-EC3, O-EC4, O-EC5)
+
+### O1. Harbour visits (GDD 4.2 rule 8): Cove Fog and Cove Gusts once an hour each
+
+| Harbour pattern | Model | Bridge to Lantern Reef | Bridge to Gustwhistle | Pebble Cove set (median) | New Tide 1 |
+| --- | --- | --- | --- | --- | --- |
+| Sheet v1-v2 assumption (Showers 60%, Sea Fog 20%, Gusts 20% of front time) | Casual free | 10.8 [10.3-11.1] | 23.6 [23.1-24.3] | 17.2 [11.7-24.3] | 62.2 [60.9-67.9] |
+|  | Typical | 8.7 [6.6-9.6] | 16.4 [15.3-17.9] | 12.4 [8.2-20.7] | 44.1 [40.5-49.4] |
+| Harbour before v3 (Showers only, coverage 27.8%) | Casual free | 10.8 [10.3-12.0] | 23.5 [22.8-24.5] | 15.5 [10.8-22.8] | 62.7 [60.8-67.8] |
+|  | Typical | 8.4 [6.5-9.4] | 16.3 [15.2-17.7] | 12.2 [7.8-20.5] | 42.7 [40.5-48.1] |
+| Harbour with v3 visits (Showers 88.9%, Sea Fog 5.6%, Gusts 5.6%; coverage 31.25%) | Casual free | 10.8 [10.3-11.9] | 23.5 [22.7-24.5] | 15.8 [10.8-23.0] | 62.3 [60.8-67.8] |
+|  | Typical | 8.3 [6.5-9.3] | 15.9 [15.2-17.7] | 12.2 [7.8-20.7] | 43.2 [40.5-48.1] |
+
+Every other table in this output uses the v3 pattern.
+
+Time-to-see for the 16 Pebble Cove Misty and Breezy entries ("marks seen") for a player who fishes the visited spot for the whole 100 s visit (typical reel, Lure 0; natural Sea Fog carries its Sky +100%):
+
+| Journal entry | Catches per visit | Chance per catch | Expected per visit | Median wait (one visit an hour) | Median calls instead (180 s each) |
+| --- | --- | --- | --- | --- | --- |
+| pebble_minnow:Misty | 8.3 | 3.04% | 0.253 | 2.7 h | 1.5 |
+| bobblefin:Misty | 8.3 | 2.57% | 0.214 | 3.2 h | 1.8 |
+| sandskipper:Misty | 8.3 | 2.10% | 0.175 | 4.0 h | 2.2 |
+| tidetail:Misty | 8.3 | 1.52% | 0.127 | 5.5 h | 3.0 |
+| kelpnibbler:Misty | 8.3 | 1.29% | 0.107 | 6.5 h | 3.6 |
+| copperscale:Misty | 8.3 | 1.10% | 0.092 | 7.6 h | 4.2 |
+| pc_rare_2:Misty | 8.3 | 0.888% | 0.074 | 9.4 h | 5.2 |
+| pc_epic_1:Misty | 8.3 | 0.467% | 0.039 | 17.8 h | 9.9 |
+| pebble_minnow:Breezy | 8.9 | 4.41% | 0.393 | 1.8 h | 1.0 |
+| bobblefin:Breezy | 8.9 | 3.73% | 0.332 | 2.1 h | 1.2 |
+| sandskipper:Breezy | 8.9 | 3.05% | 0.272 | 2.5 h | 1.4 |
+| tidetail:Breezy | 8.9 | 2.20% | 0.196 | 3.5 h | 2.0 |
+| kelpnibbler:Breezy | 8.9 | 1.86% | 0.166 | 4.2 h | 2.3 |
+| copperscale:Breezy | 8.9 | 0.797% | 0.071 | 9.8 h | 5.4 |
+| pc_rare_2:Breezy | 8.9 | 0.644% | 0.057 | 12.1 h | 6.7 |
+| pc_epic_1:Breezy | 8.9 | 0.339% | 0.030 | 22.9 h | 12.7 |
+
+
+### O2. Easier reeling (GDD 4.12): arcs x1.5 (cap 180), laps x1.25, fog hook 4.5 s, Gusts sway halved
+
+First-pass ring micro-model: each tap hits the green arc with p = erf(window / (2 sqrt 2 sigma)); a fish needs 1-3 steps by tier and escapes on the 4th miss (5th in fog). sigma is calibrated so Clear matches the sheet (casual 85%, typical 92%); the assist's cut in escapes is then applied to the sheet's per-weather success. The slower lap makes every reel 25% longer.
+
+| Model | Weather | Reel success | With Easier reeling | Catches per minute |
+| --- | --- | --- | --- | --- |
+| Casual free (sigma 0.32 s) | clear | 85.0% | 99.1% | 6.87 -> 7.55 (+10%) |
+|  | showers | 93.0% | 99.0% | 10.70 -> 10.81 (+1%) |
+|  | fog | 81.0% | 99.3% | 5.28 -> 6.10 (+16%) |
+|  | gusts | 73.0% | 95.3% | 5.57 -> 6.75 (+21%) |
+|  | eye | 85.0% | 99.1% | 7.36 -> 8.07 (+10%) |
+| Typical (sigma 0.26 s) | clear | 92.0% | 99.9% | 7.40 -> 7.61 (+3%) |
+|  | showers | 98.0% | 99.9% | 11.22 -> 10.90 (-3%) |
+|  | fog | 88.0% | 99.9% | 5.69 -> 6.13 (+8%) |
+|  | gusts | 80.0% | 98.3% | 6.08 -> 6.95 (+14%) |
+|  | eye | 92.0% | 99.9% | 7.93 -> 8.12 (+2%) |
+
+| Easier reeling on from minute 1 | Bridge to Lantern Reef | Bridge to Gustwhistle | New Tide 1 |
+| --- | --- | --- | --- |
+| Casual free | 10.8 -> 10.6 [10.2-10.8] | 23.5 -> 21.7 [21.2-22.4] | 62.3 -> 60.0 [60.0-60.2] |
+| Typical | 8.3 -> 8.4 [7.4-9.3] | 15.9 -> 15.8 [15.2-17.1] | 43.2 -> 40.6 [40.0-41.2] |
+
+### O3. Auto Reel against active play with Easier reeling (O-EC5)
+
+| Model | Active Clear | Active Clear with Easier reeling | Auto Reel (70% landed, reel x2) | Auto Reel as share of active / of assisted |
+| --- | --- | --- | --- | --- |
+| Casual free | 6.87 | 7.55 | 4.75 | 69% / 63% |
+| Typical | 7.40 | 7.61 | 4.75 | 64% / 62% |
 
 ## L. Tide Pots and passive share (Config/TidePots.luau)
 
