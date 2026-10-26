@@ -1,6 +1,6 @@
 # Studio board
 
-Updated 2026-10-26T10:52:53Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
+Updated 2026-10-26T10:58:38Z by studioctl. Do not edit: run `python3 agents/studioctl.py board`.
 
 ## Needs you
 
@@ -14,11 +14,8 @@ Updated 2026-10-26T10:52:53Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Tasks
 
-### Working (1)
+### Working (0)
 
-| Task | Owner | Game | Title | Waiting on |
-|---|---|---|---|---|
-| T-0017 | designer | stormcatch | Sync the GDD with economy sheet v2 | - |
 
 ### Needs review (0)
 
@@ -38,6 +35,8 @@ Updated 2026-10-26T10:52:53Z by studioctl. Do not edit: run `python3 agents/stud
 
 ## Recent activity
 
+- 2026-10-26T10:58:38Z director: T-0017 -> done: Reviewed: grep finds no v1 pacing values in gdd.md, v2 values present, GDD v3.1, prototype brief and handoff validate; Auto Reel pause and Gusts assist decided.
+- 2026-10-26T10:58:21Z designer: submitted T-0017 for review
 - 2026-10-26T10:52:53Z designer: started T-0017
 - 2026-10-26T10:52:40Z director: added T-0017 'Sync the GDD with economy sheet v2' for designer (queued)
 - 2026-10-26T10:52:40Z director: T-0015 -> done: Reviewed: output md5 64bb627... matches, handoff validates, paying player buys catalog products only; ratios 1.31x (by design, nothing sold before the first bridge), 2.34x, 2.87x; catalog questions and O-EC3/4/5 answered in sheet section 19. GDD mirror numbers sync queued as T-0017.
@@ -51,5 +50,3 @@ Updated 2026-10-26T10:52:53Z by studioctl. Do not edit: run `python3 agents/stud
 - 2026-10-26T05:51:29Z economist: started T-0015
 - 2026-10-26T05:51:26Z designer: started T-0014
 - 2026-10-26T05:51:10Z director: added T-0015 'Re-run the paying-player model against the catalog' for economist (queued)
-- 2026-10-26T05:51:10Z director: added T-0014 'Close the catalog watch items in the GDD' for designer (queued)
-- 2026-10-26T05:51:10Z director: T-0009 -> done: Reviewed: catalog_numbers output md5 reproduced (58aa713...), Products.diff applies cleanly, check record passed, fairness 15/15, E-0001 escalated with options. W1/W2 and the paying-model mismatch queued as T-0014 and T-0015 before the gate.

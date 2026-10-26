@@ -432,6 +432,16 @@
       "at": "2026-10-26T10:52:53Z",
       "by": "designer",
       "message": "started T-0017"
+    },
+    {
+      "at": "2026-10-26T10:58:21Z",
+      "by": "designer",
+      "message": "submitted T-0017 for review"
+    },
+    {
+      "at": "2026-10-26T10:58:38Z",
+      "by": "director",
+      "message": "T-0017 -> done: Reviewed: grep finds no v1 pacing values in gdd.md, v2 values present, GDD v3.1, prototype brief and handoff validate; Auto Reel pause and Gusts assist decided."
     }
   ],
   "tasks": {
@@ -909,15 +919,22 @@
         "DESIGN-03",
         "DESIGN-09"
       ],
-      "handoff": null,
+      "handoff": "games/stormcatch/handoffs/T-0017.md",
       "id": "T-0017",
-      "notes": [],
+      "notes": [
+        {
+          "at": "2026-10-26T10:58:38Z",
+          "by": "director",
+          "text": "Reviewed: grep finds no v1 pacing values in gdd.md, v2 values present, GDD v3.1, prototype brief and handoff validate; Auto Reel pause and Gusts assist decided."
+        }
+      ],
       "owner": "designer",
       "stage": "design",
       "started": "2026-10-26T10:52:53Z",
-      "status": "working",
+      "status": "done",
+      "submitted": "2026-10-26T10:58:21Z",
       "title": "Sync the GDD with economy sheet v2",
-      "updated": "2026-10-26T10:52:53Z"
+      "updated": "2026-10-26T10:58:38Z"
     }
   },
   "version": 1
